@@ -1,4 +1,4 @@
-package com.example.shopshop.Item.domain;
+package com.example.shopshop.orders.domain;
 
 import com.example.shopshop.etc.BaseEntity;
 import com.example.shopshop.member.domain.Member;
@@ -12,23 +12,18 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Getter
 @ToString
-public class Item extends BaseEntity {
+public class Orders extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String itemName;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    private OrderItem orderItem;
 
-    private Integer price;
-
-    private Integer quantity;
-
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "memberId")
-    private Member provider;
+    private Member buyer;
 
-    private int reviewCnt;
-    //    private ItemImage itemImage;
 
 
 }

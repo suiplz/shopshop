@@ -1,0 +1,31 @@
+package com.example.shopshop.likes.domain;
+
+import com.example.shopshop.Item.domain.Item;
+import com.example.shopshop.etc.BaseEntity;
+import com.example.shopshop.member.domain.Member;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+import javax.persistence.*;
+
+@Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+public class Likes extends BaseEntity {
+
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "item_id")
+    private Item item;
+
+}
