@@ -10,6 +10,7 @@ import java.util.List;
 
 public interface OrdersRepository extends JpaRepository<Orders, Long>  {
 
+
     @EntityGraph(attributePaths = {"buyer"}, type = EntityGraph.EntityGraphType.FETCH)
     @Query("SELECT o FROM Orders o " +
             "INNER JOIN Member m ON o.buyer.id = m.id " +

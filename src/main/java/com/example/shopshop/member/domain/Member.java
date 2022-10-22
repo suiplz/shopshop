@@ -3,10 +3,7 @@ package com.example.shopshop.member.domain;
 import com.example.shopshop.etc.BaseEntity;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -27,6 +24,9 @@ public class Member extends BaseEntity {
     private String name;
 
     private String address;
+
+    @Enumerated(EnumType.STRING)
+    private MemberRole memberRole;
 
 
     public void changePassword(String password) {

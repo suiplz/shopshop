@@ -14,7 +14,7 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+@ToString(exclude = {"member", "item"})
 public class Likes extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,6 +1,6 @@
 package com.example.shopshop.delivery.domain;
 
-public enum DeliveryStates {
+public enum DeliveryStatus {
 
     READY, DELIVERY, COMPLETE
 }

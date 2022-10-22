@@ -5,6 +5,8 @@ import com.example.shopshop.member.domain.Member;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Builder
@@ -23,12 +25,21 @@ public class Item extends BaseEntity {
 
     private Integer quantity;
 
+//    private List<String> imageUrl = new ArrayList<>();
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "memberId")
     private Member provider;
 
     private int reviewCnt;
     //    private ItemImage itemImage;
+
+    public void changeItem(String itemName, Integer price, Integer quantity) {
+        this.itemName = itemName;
+        this.price = price;
+        this.quantity = quantity;
+    }
+
 
 
 }

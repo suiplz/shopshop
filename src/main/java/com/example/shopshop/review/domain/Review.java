@@ -3,10 +3,7 @@ package com.example.shopshop.review.domain;
 import com.example.shopshop.Item.domain.Item;
 import com.example.shopshop.etc.BaseEntity;
 import com.example.shopshop.member.domain.Member;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -15,6 +12,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@ToString(exclude = {"item", "member"})
 public class Review extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
