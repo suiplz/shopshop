@@ -22,7 +22,8 @@ public class Orders extends BaseEntity {
     private Long id;
 
     @OneToMany(mappedBy = "orders", cascade = CascadeType.ALL)
-    private List<OrdersItem> ordersItem;
+    @Builder.Default
+    private List<OrdersItem> ordersItem = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
@@ -33,6 +34,7 @@ public class Orders extends BaseEntity {
 
     public void addOrdersItem(OrdersItem ordersItem) {
         this.ordersItem.add(ordersItem);
+        ordersItem.setOrders(this);
     }
 
 
