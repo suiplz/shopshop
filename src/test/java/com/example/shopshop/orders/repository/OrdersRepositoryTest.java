@@ -4,13 +4,14 @@ import com.example.shopshop.Item.domain.Item;
 import com.example.shopshop.Item.repository.ItemRepository;
 import com.example.shopshop.member.domain.Member;
 import com.example.shopshop.orders.domain.Orders;
-import com.example.shopshop.ordersItem.domain.OrdersItem;
+import com.example.shopshop.orders.domain.OrdersItem;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
@@ -61,11 +62,18 @@ class OrdersRepositoryTest {
     @Transactional
     void getOrderItemsByMember() {
 
-        List<OrdersItem> result = ordersRepository.getOrdersItemByMemberId(3L);
+//        List<OrdersItem> result = ordersRepository.getOrdersItemByMemberId(3L);
+//
+//        for (OrdersItem ordersItem : result) {
+//            log.info("OrdersItem = " + ordersItem);
+//        }
 
-        for (OrdersItem ordersItem : result) {
-            log.info("ordersItem = " + ordersItem);
+        List<Object[]> ordersItemByMemberId = ordersRepository.getOrdersItemByMemberId(3L);
+        System.out.println("ordersItemByMemberId = " + ordersItemByMemberId);
+        for (Object[] objects : ordersItemByMemberId) {
+            System.out.println("toString = " + Arrays.toString(objects));
         }
+
     }
 
 }

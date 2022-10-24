@@ -1,12 +1,10 @@
-package com.example.shopshop.ordersItem.domain;
+package com.example.shopshop.orders.domain;
 
 import com.example.shopshop.Item.domain.Item;
 import com.example.shopshop.etc.BaseEntity;
-import com.example.shopshop.orders.domain.Orders;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Builder

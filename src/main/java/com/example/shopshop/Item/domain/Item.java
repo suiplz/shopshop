@@ -1,12 +1,11 @@
 package com.example.shopshop.Item.domain;
 
+import com.example.shopshop.category.domain.Category;
 import com.example.shopshop.etc.BaseEntity;
 import com.example.shopshop.member.domain.Member;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Builder
@@ -30,6 +29,10 @@ public class Item extends BaseEntity {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "memberId")
     private Member provider;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private Category category;
 
     private int reviewCnt;
     //    private ItemImage itemImage;

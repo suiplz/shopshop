@@ -1,7 +1,9 @@
 package com.example.shopshop.orders.service;
 
 import com.example.shopshop.orders.domain.Orders;
+import com.example.shopshop.orders.domain.OrdersItem;
 import com.example.shopshop.orders.dto.OrdersDTO;
+import com.example.shopshop.orders.dto.OrdersItemDTO;
 import com.example.shopshop.orders.repository.OrdersRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,16 +17,18 @@ public class OrdersServiceImpl implements OrdersService{
     private final OrdersRepository ordersRepository;
 
     @Override
-    public Long register(OrdersDTO dto) {
-        Orders orders = dtoToEntity(dto);
+    public Long register(OrdersDTO ordersDTO, OrdersItemDTO ordersItemDTO) {
+        Orders orders = dtoToOrders(ordersDTO);
+        OrdersItem ordersItem = dtoToOrdersItem(ordersItemDTO);
+        orders.addOrdersItem(ordersItem);
         ordersRepository.save(orders);
-        return dto.getId();
+        return orders.getId();
     }
 
     @Override
-    public List<Orders> getListByMember(Long id) {
-        List<Orders> getOrders = ordersRepository.getOrdersByMemberId(id);
-        return getOrders;
+    public List<Object[]> getListByMember(Long id) {
+        List<Object[]> result = ordersRepository.getOrdersItemByMemberId(id);
+        return result;
     }
 
     @Override

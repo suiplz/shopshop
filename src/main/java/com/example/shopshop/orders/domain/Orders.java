@@ -1,9 +1,9 @@
 package com.example.shopshop.orders.domain;
 
+import com.example.shopshop.Item.domain.Item;
 import com.example.shopshop.delivery.domain.Delivery;
 import com.example.shopshop.etc.BaseEntity;
 import com.example.shopshop.member.domain.Member;
-import com.example.shopshop.ordersItem.domain.OrdersItem;
 import lombok.*;
 
 import javax.persistence.*;
@@ -36,7 +36,5 @@ public class Orders extends BaseEntity {
         this.ordersItem.add(ordersItem);
         ordersItem.setOrders(this);
     }
-
-
 
 }
