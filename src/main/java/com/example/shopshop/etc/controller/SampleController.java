@@ -1,4 +1,4 @@
-package com.example.shopshop.etc;
+package com.example.shopshop.etc.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

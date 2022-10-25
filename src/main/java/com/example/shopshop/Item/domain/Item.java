@@ -34,7 +34,7 @@ public class Item extends BaseEntity {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    private int reviewCnt;
+//    private int reviewCnt;
     //    private ItemImage itemImage;
 
     public void changeItem(String itemName, Integer price, Integer quantity) {

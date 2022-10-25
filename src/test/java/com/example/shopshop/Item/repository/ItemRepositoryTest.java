@@ -7,7 +7,11 @@ import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
@@ -35,11 +39,27 @@ class ItemRepositoryTest {
                     .price(10 * i)
                     .quantity(10 * i)
                     .provider(member)
-                    .reviewCnt(30)
                     .build();
             itemRepository.save(item);
 
         });
+    }
+
+    @Test
+    void testListPage() {
+
+        PageRequest pageRequest = PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC, "id"));
+
+        Page<Object[]> result = itemRepository.getListPage(pageRequest);
+        for (Object[] objects : result.getContent()) {
+            System.out.println(Arrays.toString(objects));
+        }
+
+//        List<Object[]> listPage = itemRepository.getListPage2();
+//        for (Object[] objects : listPage) {
+//            System.out.println(Arrays.toString(objects));
+//        }
+
     }
 
     @Test
@@ -53,7 +73,6 @@ class ItemRepositoryTest {
                     .price(10 * i)
                     .quantity(10 * i)
                     .provider(member)
-                    .reviewCnt(30)
                     .build();
             itemRepository.save(item);
 
