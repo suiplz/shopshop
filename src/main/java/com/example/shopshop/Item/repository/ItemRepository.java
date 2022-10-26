@@ -13,7 +13,8 @@ import java.util.List;
 public interface ItemRepository extends JpaRepository<Item, Long> {
 
     @EntityGraph(attributePaths = {"provider"}, type = EntityGraph.EntityGraphType.FETCH)
-    @Query("SELECT i FROM Item i")
+    @Query("SELECT i, ii FROM Item i " +
+            "left outer join ItemImage ii on ii.item = i")
     Page<Object[]> getListPage(Pageable pageable);
 
     @EntityGraph(attributePaths = {"provider"}, type = EntityGraph.EntityGraphType.FETCH)

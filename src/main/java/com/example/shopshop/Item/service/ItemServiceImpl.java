@@ -49,13 +49,15 @@ public class ItemServiceImpl implements ItemService{
     @Override
     public PageResultDTO<ItemDTO, Object[]> getList(PageRequestDTO requestDTO) {
 
-        Pageable pageable = requestDTO.getPageable(Sort.by("mno").descending());
+        Pageable pageable = requestDTO.getPageable(Sort.by("id").descending());
 
         Page<Object[]> result = itemRepository.getListPage(pageable);
 
+
         Function<Object[], ItemDTO> fn = (arr -> entitiesToDTO(
-                (Item) arr[0],
-                (List<ItemImage>) (Arrays.asList((ItemImage) arr[1]))));
+                (Item)arr[0],
+                (List<ItemImage>)(Arrays.asList((ItemImage)arr[1]))));
+
 
         return new PageResultDTO<>(result, fn);
 

@@ -1,6 +1,7 @@
-package com.example.shopshop.Item.service;
+package com.example.shopshop.Item.controller;
 
 import com.example.shopshop.Item.dto.ItemDTO;
+import com.example.shopshop.Item.service.ItemService;
 import com.example.shopshop.page.dto.PageRequestDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -35,13 +36,21 @@ public class ItemController {
 
         redirectAttributes.addFlashAttribute("itemDTO", itemId);
 
-//        return "redirect:/item/list";
-        return "/register";
+        return "redirect:/item/list";
+
     }
 
     @GetMapping("/list")
-    public void itemList(PageRequestDTO pageRequestDTO, Model model) {
+    public void list(PageRequestDTO pageRequestDTO, Model model) {
+
+        model.addAttribute("result", itemService.getList(pageRequestDTO));
+        log.info("result : " + itemService.getList(pageRequestDTO));
+    }
+
+    @GetMapping("/test")
+    public void test(PageRequestDTO pageRequestDTO, Model model) {
 
         model.addAttribute("result", itemService.getList(pageRequestDTO));
     }
+
 }

@@ -3,12 +3,14 @@ package com.example.shopshop.Item.repository;
 import com.example.shopshop.Item.domain.Item;
 import com.example.shopshop.member.domain.Member;
 import com.example.shopshop.member.repository.MemberRepository;
+import com.example.shopshop.page.dto.PageRequestDTO;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import java.util.Arrays;
@@ -49,8 +51,11 @@ class ItemRepositoryTest {
     void testListPage() {
 
         PageRequest pageRequest = PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC, "id"));
+        PageRequestDTO requestDTO = new PageRequestDTO();
+        Pageable pageable = requestDTO.getPageable(Sort.by("id").descending());
 
-        Page<Object[]> result = itemRepository.getListPage(pageRequest);
+
+        Page<Object[]> result = itemRepository.getListPage(pageable);
         for (Object[] objects : result.getContent()) {
             System.out.println(Arrays.toString(objects));
         }

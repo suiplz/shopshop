@@ -30,9 +30,9 @@ public class Item extends BaseEntity {
     @JoinColumn(name = "memberId")
     private Member provider;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
-    private Category category;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "category_id")
+//    private Category category;
 
 //    private int reviewCnt;
     //    private ItemImage itemImage;

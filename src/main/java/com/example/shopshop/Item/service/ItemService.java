@@ -64,6 +64,8 @@ public interface ItemService {
                 .price(item.getPrice())
                 .quantity(item.getQuantity())
                 .provider(item.getProvider())
+                .regDate(item.getRegDate())
+                .modDate(item.getModDate())
                 .build();
 
         List<ItemImageDTO> itemImageDTOList = itemImages.stream().map(itemImage -> {

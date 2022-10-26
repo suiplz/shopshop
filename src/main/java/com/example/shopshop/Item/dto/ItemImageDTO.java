@@ -6,14 +6,11 @@ import lombok.*;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
+@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
 public class ItemImageDTO {
-
-    private Long id;
 
     private String uuid;
 

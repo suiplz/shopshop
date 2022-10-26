@@ -14,8 +14,8 @@ import java.util.UUID;
 @ToString(exclude = "item")
 public class ItemImage extends BaseEntity {
 
-    @Id @GeneratedValue
-    private String id;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String uuid;
 

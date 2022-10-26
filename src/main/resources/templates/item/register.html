@@ -4,7 +4,6 @@
 <th:block th:replace="~{/layout/basic.html :: setContent(~{this::content} )}">
   <th:block th:fragment="content">
 
-    <h1 class="mt-4">Movie Register Page</h1>
 
     <form th:action="@{/item/register}" th:method="post">
     <div class="form-group">
@@ -211,3 +210,4 @@
 </script>
   </th:block>
 </th:block>
+</html>
