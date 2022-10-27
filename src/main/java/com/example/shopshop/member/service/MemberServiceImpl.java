@@ -2,6 +2,7 @@ package com.example.shopshop.member.service;
 
 import com.example.shopshop.member.domain.Member;
 import com.example.shopshop.member.dto.MemberDTO;
+import com.example.shopshop.member.dto.SignupDTO;
 import com.example.shopshop.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymleaf.org">
-<th:block th:replace="~{/layout/basic.html :: setContent(~{this::content} )}">
+<th:block th:replace="~{/layout/listLayout.html :: setContent(~{this::content} )}">
     <th:block th:fragment="content">
 
         <section class="py-5">
@@ -17,11 +17,16 @@
                                         <h5 class="fw-bolder"><td th:text="${dto.getItemName}"></td></h5>
                                         <!-- Product price-->
                                         <td th:text="${dto.getPrice}"></td>
+
                                     </div>
+<!--                                    <div class="btn btn-outline-dark mt-auto" href="#">View options</div>-->
                                 </div>
                                 <!-- Product actions-->
                                 <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                    <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">View options</a></div>
+                                    <div class="text-center">
+                                        <button type="button" class="btn btn-outline-dark" th:onclick="|location.href='@{/item/read(id = ${dto.id})}'|">
+                                            View options</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>

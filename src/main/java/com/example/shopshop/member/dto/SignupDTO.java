@@ -2,14 +2,11 @@ package com.example.shopshop.member.dto;
 
 import lombok.*;
 
-@Getter
-@Setter
+@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MemberDTO {
-
-    private Long id;
+public class SignupDTO {
 
     private String email;
 
@@ -20,5 +17,6 @@ public class MemberDTO {
     private String phone;
 
     private String address;
+
 
 }

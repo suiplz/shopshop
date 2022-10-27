@@ -23,7 +23,10 @@ public class Member extends BaseEntity {
 
     private String name;
 
+    private String phone;
+
     private String address;
+
 
     @Enumerated(EnumType.STRING)
     private MemberRole memberRole;

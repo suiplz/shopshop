@@ -1,6 +1,9 @@
 ###쇼핑몰 구현하기 프로젝트
 ### - SPRING BOOT, SPRING DATA JPA, MYSQL
 
+## TO DO
+### userService,Security, item by category, order Implement, review Implement, cart CRUD, Validation, Paging
+
 
 # CRUD / Test
 

@@ -16,10 +16,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Function;
 
 @Service
@@ -60,6 +57,25 @@ public class ItemServiceImpl implements ItemService{
 
 
         return new PageResultDTO<>(result, fn);
+
+
+    }
+
+    @Override
+    public ItemDTO getItem(Long id) {
+
+        List<Object[]> result = itemRepository.getItemDetail(id);
+
+        Item item = (Item) result.get(0)[0];
+
+        List<ItemImage> itemImageList = new ArrayList<>();
+
+        result.forEach(arr -> {
+            ItemImage itemImage = (ItemImage) arr[1];
+            itemImageList.add(itemImage);
+        });
+
+        return entitiesToDTO(item, itemImageList);
 
 
     }

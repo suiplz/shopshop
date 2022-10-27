@@ -20,6 +20,8 @@ public interface ItemService {
 
     PageResultDTO<ItemDTO, Object[]> getList(PageRequestDTO requestDTO);
 
+    ItemDTO getItem(Long id);
+
     void modify(ItemModifyDTO dto);
 
     void remove(Long id);

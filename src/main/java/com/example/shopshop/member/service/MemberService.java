@@ -2,10 +2,11 @@ package com.example.shopshop.member.service;
 
 import com.example.shopshop.member.domain.Member;
 import com.example.shopshop.member.dto.MemberDTO;
+import com.example.shopshop.member.dto.SignupDTO;
 
 public interface MemberService {
 
-    Long register(MemberDTO memberDTO);
+    Long register(MemberDTO signupDTO);
 
     Member get(Long id);
 
@@ -20,6 +21,7 @@ public interface MemberService {
                 .email(dto.getEmail())
                 .password(dto.getPassword())
                 .name(dto.getName())
+                .phone(dto.getPhone())
                 .address(dto.getAddress())
                 .build();
 
@@ -33,8 +35,10 @@ public interface MemberService {
                 .email(member.getEmail())
                 .password(member.getPassword())
                 .name(member.getName())
+                .phone(member.getPhone())
                 .address(member.getAddress())
                 .build();
+
         return dto;
     }
 }

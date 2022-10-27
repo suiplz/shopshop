@@ -18,8 +18,10 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
     Page<Object[]> getListPage(Pageable pageable);
 
     @EntityGraph(attributePaths = {"provider"}, type = EntityGraph.EntityGraphType.FETCH)
-    @Query("SELECT i FROM Item i")
-    List<Object[]> getListPage2();
+    @Query("SELECT i, ii FROM Item i " +
+            "left outer join ItemImage ii on ii.item = i " +
+            "WHERE i.id = :id")
+    List<Object[]> getItemDetail(@Param("id") Long id);
 
 
     @EntityGraph(attributePaths = {"provider"}, type = EntityGraph.EntityGraphType.FETCH)

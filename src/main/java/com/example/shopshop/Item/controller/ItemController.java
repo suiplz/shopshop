@@ -1,5 +1,6 @@
 package com.example.shopshop.Item.controller;
 
+import com.example.shopshop.Item.domain.Item;
 import com.example.shopshop.Item.dto.ItemDTO;
 import com.example.shopshop.Item.service.ItemService;
 import com.example.shopshop.page.dto.PageRequestDTO;
@@ -9,9 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
@@ -47,10 +46,11 @@ public class ItemController {
         log.info("result : " + itemService.getList(pageRequestDTO));
     }
 
-    @GetMapping("/test")
-    public void test(PageRequestDTO pageRequestDTO, Model model) {
+    @GetMapping("/read")
+    public void read(Long id, Model model) {
 
-        model.addAttribute("result", itemService.getList(pageRequestDTO));
+        ItemDTO itemDTO = itemService.getItem(id);
+        model.addAttribute("dto", itemDTO);
     }
 
 }
