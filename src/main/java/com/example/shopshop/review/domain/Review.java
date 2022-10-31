@@ -6,6 +6,7 @@ import com.example.shopshop.member.domain.Member;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Builder
@@ -18,8 +19,10 @@ public class Review extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
     private String title;
 
+    @NotBlank
     private String text;
 
     private Integer rate;

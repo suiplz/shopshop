@@ -6,6 +6,8 @@ import com.example.shopshop.member.domain.Member;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Builder
@@ -18,14 +20,18 @@ public class Item extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "상품명을 입력해주세요")
     private String itemName;
 
+    @NotNull
     private Integer price;
 
+    @NotNull
     private Integer quantity;
 
 //    private List<String> imageUrl = new ArrayList<>();
 
+    @NotNull
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member provider;

@@ -7,6 +7,7 @@ import com.example.shopshop.member.domain.Member;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +26,7 @@ public class Orders extends BaseEntity {
     @Builder.Default
     private List<OrdersItem> ordersItem = new ArrayList<>();
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member buyer;

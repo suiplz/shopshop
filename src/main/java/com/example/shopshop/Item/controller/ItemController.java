@@ -53,4 +53,12 @@ public class ItemController {
         model.addAttribute("dto", itemDTO);
     }
 
+    @GetMapping("/test")
+    public void test(ItemDTO itemDTO, Model model){
+
+        model.addAttribute("result", itemDTO);
+
+
+    }
+
 }
