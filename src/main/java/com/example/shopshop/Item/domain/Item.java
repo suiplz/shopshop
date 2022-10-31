@@ -27,7 +27,7 @@ public class Item extends BaseEntity {
 //    private List<String> imageUrl = new ArrayList<>();
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "memberId")
+    @JoinColumn(name = "member_id")
     private Member provider;
 
 //    @ManyToOne(fetch = FetchType.LAZY)
