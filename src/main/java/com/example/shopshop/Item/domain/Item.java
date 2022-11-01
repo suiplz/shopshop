@@ -20,7 +20,7 @@ public class Item extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "상품명을 입력해주세요")
+    @NotBlank
     private String itemName;
 
     @NotNull
@@ -31,7 +31,6 @@ public class Item extends BaseEntity {
 
 //    private List<String> imageUrl = new ArrayList<>();
 
-    @NotNull
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member provider;

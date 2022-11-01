@@ -1,11 +1,74 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <style>
+        .field-error {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+
+        .uploadResult {
+            width: 100%;
+            background-color: gray;
+            margin-top: 10px;
+        }
+
+        .uploadResult ul {
+            display: flex;
+            flex-flow: row;
+            justify-content: center;
+            align-items: center;
+            vertical-align: top;
+            overflow: auto;
+        }
+
+        .uploadResult ul li {
+            list-style: none;
+            padding: 10px;
+            margin-left: 2em;
+        }
+
+        .uploadResult ul li img {
+            width: 100px;
+        }
+    </style>
 </head>
-<body>
-<div th:text="#{label.item}"></div>
-<div th:text="#{hello}"></div>
-</body>
-</html>
+<th:block th:replace="~{/layout/registerLayout.html :: setContent(~{this::content} )}">
+    <th:block th:fragment="content">
+
+
+        <form  th:action="@{/item/test}" th:object="${itemDTO}" th:method="post">
+            <div th:if="${#fields.hasGlobalErrors()}">
+                <p class="field-error" th:each="err : ${#fields.globalErrors()}"
+                   th:text="${err}">글로벌 오류 메시지</p>
+            </div>
+            <div class="form-group">
+                <label for="itemName" th:text="#{label.item.itemName}">Item Name</label>
+                <input type="text" id="itemName" th:field="*{itemName}"
+                       th:errorclass="field-error" class="form-control"
+                       placeholder="이름을 입력하세요">
+                <div class="field-error" th:errors="*{itemName}">
+                    상품명 오류
+                </div>
+                <!--        <input type="text" class="form-control" name="itemName" placeholder="Enter Name">-->
+            </div>
+            <div class="form-group">
+                <label th:text="#{label.item.price}">Item Price</label>
+                <input type="text" class="form-control" name="price" placeholder="Enter Price">
+            </div>
+            <div class="form-group">
+                <label th:text="#{label.item.quantity}">Item Quantity</label>
+                <input type="text" class="form-control" name="quantity" placeholder="Enter Quantity">
+            </div>
+
+            <div class="box">
+
+            </div>
+
+            <div class="uploadResult">
+                <ul>
+
+                </ul>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>

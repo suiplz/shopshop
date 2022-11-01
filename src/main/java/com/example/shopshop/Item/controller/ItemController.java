@@ -10,8 +10,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.validation.Valid;
 
 
 @Controller
@@ -23,17 +27,28 @@ public class ItemController {
     private final ItemService itemService;
 
     @GetMapping("/register")
-    public void register() {
+    public void register(Model model) {
+
+        model.addAttribute("itemDTO", new ItemDTO());
 
     }
 
     @PostMapping("/register")
-    public String register(ItemDTO itemDTO, RedirectAttributes redirectAttributes) {
+    public String register(@Validated @ModelAttribute ItemDTO itemDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
         log.info("itemDTO : " + itemDTO);
         Long itemId = itemService.register(itemDTO);
 
-        redirectAttributes.addFlashAttribute("itemDTO", itemId);
+
+        //검증에 실패하면 다시 입력 폼으로
+        if (bindingResult.hasErrors()) {
+            log.info("errors = {} ", bindingResult);
+            return "item/list";
+        }
+
+//        redirectAttributes.addFlashAttribute("itemDTO", itemId);
+        redirectAttributes.addAttribute("itemId", itemId);
+        redirectAttributes.addAttribute("status", true);
 
         return "redirect:/item/list";
 
@@ -54,10 +69,15 @@ public class ItemController {
     }
 
     @GetMapping("/test")
-    public void test(ItemDTO itemDTO, Model model){
+    public void test(Model model) {
+        model.addAttribute("itemDTO", new ItemDTO());
+    }
 
-        model.addAttribute("result", itemDTO);
+    @PostMapping("/test")
+    public void test(@Validated  @ModelAttribute("itemDTO") ItemDTO itemDTO, RedirectAttributes redirectAttributes){
 
+        redirectAttributes.addAttribute("itemId", itemService.register(itemDTO));
+        redirectAttributes.addAttribute("status", true);
 
     }
 

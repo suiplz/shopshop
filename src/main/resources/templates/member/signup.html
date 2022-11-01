@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <th:block th:replace="~{/layout/listLayout.html :: setContent(~{this::content} )}">
@@ -130,13 +130,12 @@
 
 </style>
 <script>
-// <!--    $(document).ready(function (e) {-->
-// <!--        $(".btn-primary").on("click", function (e) {-->
-// <!--            e.preventDefault();-->
-// <!--            $("form").submit();-->
-// <!--        });-->
-//
-// <!--    });-->
+$(document).ready(function (e) {
+    $(".btn-primary").on("click", function (e) {
+        e.preventDefault();
+        $("form").submit();
+    });
+});
 
 </script>
 
