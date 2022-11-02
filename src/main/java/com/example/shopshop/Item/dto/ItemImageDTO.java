@@ -16,11 +16,11 @@ public class ItemImageDTO {
 
     private String imgName;
 
-    private String imgPath;
+    private String path;
 
     public String getImageURL() {
         try {
-            return URLEncoder.encode(imgPath + "/" + uuid + "_" + imgName, "UTF-8");
+            return URLEncoder.encode(path + "/" + uuid + "_" + imgName, "UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -29,7 +29,7 @@ public class ItemImageDTO {
 
     public String getThumbnailURL() {
         try {
-            return URLEncoder.encode(imgPath + "/s_" + uuid + "_" + imgName, "UTF-8");
+            return URLEncoder.encode(path + "/s_" + uuid + "_" + imgName, "UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }

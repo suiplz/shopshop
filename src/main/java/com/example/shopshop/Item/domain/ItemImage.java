@@ -21,7 +21,7 @@ public class ItemImage extends BaseEntity {
 
     private String imgName;
 
-    private String imgPath;
+    private String path;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id")

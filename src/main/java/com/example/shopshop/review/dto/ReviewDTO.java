@@ -4,6 +4,8 @@ import com.example.shopshop.Item.domain.Item;
 import com.example.shopshop.member.domain.Member;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,4 +24,6 @@ public class ReviewDTO {
     private Item item;
 
     private Member member;
+
+    private LocalDateTime regDate, modDate;
 }

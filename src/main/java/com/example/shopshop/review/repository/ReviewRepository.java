@@ -2,6 +2,7 @@ package com.example.shopshop.review.repository;
 
 import com.example.shopshop.Item.domain.Item;
 import com.example.shopshop.review.domain.Review;
+import com.example.shopshop.review.dto.ReviewDTO;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -11,11 +12,13 @@ import java.util.List;
 
 public interface ReviewRepository extends JpaRepository<Review, Long> {
 
-    @EntityGraph(attributePaths = {"item"}, type = EntityGraph.EntityGraphType.FETCH)
-    @Query("SELECT r FROM Review r " +
-            "INNER JOIN Item i ON i.id = r.item.id " +
-            "WHERE i.id = :id")
-    List<Review> getReviewByItemId(@Param("id") Long id);
+//    @EntityGraph(attributePaths = {"item"}, type = EntityGraph.EntityGraphType.FETCH)
+//    @Query("SELECT r FROM Review r " +
+//            "INNER JOIN Item i ON i.id = r.item.id " +
+//            "WHERE i.id = :id")
+//    List<Review> getReviewByItemId(@Param("id") Long id);
+
+    List<Review> findByItem(Item item);
 
     @EntityGraph(attributePaths = {"member"}, type = EntityGraph.EntityGraphType.FETCH)
     @Query("SELECT r FROM Review r " +

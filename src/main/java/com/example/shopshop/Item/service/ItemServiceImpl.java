@@ -38,6 +38,7 @@ public class ItemServiceImpl implements ItemService{
         itemRepository.save(item);
 
         itemImageList.forEach(itemImage -> {
+            log.info("itemImage : " + itemImage);
             itemImageRepository.save(itemImage);
         });
         return item.getId();

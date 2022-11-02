@@ -45,7 +45,7 @@ public interface ItemService {
 
                 ItemImage itemImage = ItemImage.builder()
                         .imgName(itemImageDTO.getImgName())
-                        .imgPath(itemImageDTO.getImgPath())
+                        .path(itemImageDTO.getPath())
                         .uuid(itemImageDTO.getUuid())
                         .item(item)
                         .build();
@@ -73,7 +73,7 @@ public interface ItemService {
         List<ItemImageDTO> itemImageDTOList = itemImages.stream().map(itemImage -> {
             return ItemImageDTO.builder()
                     .imgName(itemImage.getImgName())
-                    .imgPath(itemImage.getImgPath())
+                    .path(itemImage.getPath())
                     .uuid(itemImage.getUuid())
                     .build();
         }).collect(Collectors.toList());

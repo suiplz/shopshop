@@ -699,12 +699,12 @@ progress {
 
 .row-cols-2 > * {
   flex: 0 0 auto;
-  width: 50%;
+  width: auto;
 }
 
 .row-cols-3 > * {
   flex: 0 0 auto;
-  width: 33.3333333333%;
+  width: auto;
 }
 
 .row-cols-4 > * {
@@ -1126,7 +1126,7 @@ progress {
 
   .row-cols-md-3 > * {
     flex: 0 0 auto;
-    width: 33.3333333333%;
+    width: auto;
   }
 
   .row-cols-md-4 > * {
@@ -1542,22 +1542,23 @@ progress {
 
   .row-cols-xl-1 > * {
     flex: 0 0 auto;
-    width: 100%;
+    width: auto;
   }
 
   .row-cols-xl-2 > * {
     flex: 0 0 auto;
-    width: 50%;
+    width: auto;
   }
 
   .row-cols-xl-3 > * {
     flex: 0 0 auto;
-    width: 33.3333333333%;
+    width: auto;
   }
 
   .row-cols-xl-4 > * {
     flex: 0 0 auto;
-    width: 25%;
+    width: auto;
+    margin-top: 15px;
   }
 
   .row-cols-xl-5 > * {
@@ -4512,6 +4513,8 @@ textarea.form-control-lg {
   display: flex;
   flex-direction: column;
   min-width: 0;
+  width : 300px;
+  height : 100px;
   word-wrap: break-word;
   background-color: #fff;
   background-clip: border-box;
@@ -4604,8 +4607,14 @@ textarea.form-control-lg {
   border-radius: calc(0.25rem - 1px);
 }
 
+.card-img-top{
+  width:100%;
+  min-height:100px;
+  max-height:250px;
+
+}
+
 .card-img,
-.card-img-top,
 .card-img-bottom {
   width: 100%;
 }

@@ -6,10 +6,18 @@
         <section class="py-5">
             <div class="container px-4 px-lg-5 mt-5">
                 <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-                        <div class="col mb-5" th:each="dto : ${result.dtoList}">
+                        <div class="col mb-6" th:each="dto : ${result.dtoList}">
                             <div class="card h-100">
                                 <!-- Product image-->
-                                <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
+<!--                                <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />-->
+<!--                                <img class="card-img-top"  th:if="${dto.itemImageDTO.path != null}" th:src="|/display?fileName=${movieImage.getThumbnailURL()}|">-->
+
+<!--                                    <ul >-->
+                                        <div th:each="itemImage: ${dto.imageDTOList}" th:data-file="${itemImage.getThumbnailURL()}">
+                                            <img class="card-img-top"  th:if="${itemImage.path != null}" th:src="|/display?fileName=${itemImage.getThumbnailURL()}|">
+                                        </div>
+<!--                                    </ul>-->
+
                                 <!-- Product details-->
                                 <div class="card-body p-4">
                                     <div class="text-center">
