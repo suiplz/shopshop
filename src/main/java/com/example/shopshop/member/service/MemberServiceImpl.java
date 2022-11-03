@@ -1,6 +1,7 @@
 package com.example.shopshop.member.service;
 
 import com.example.shopshop.member.domain.Member;
+import com.example.shopshop.member.domain.MemberRole;
 import com.example.shopshop.member.dto.MemberDTO;
 import com.example.shopshop.member.dto.SignupDTO;
 import com.example.shopshop.member.repository.MemberRepository;
@@ -16,10 +17,16 @@ public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
 
     @Override
-    public Long register(MemberDTO memberDTO) {
-        Member member = dtoToEntity(memberDTO);
-        memberRepository.save(member);
-        return member.getId();
+    public Long register(SignupDTO signupDTO) {
+        if (signupDTO.getPassword().equals(signupDTO.getPasswordCheck())) {
+
+            MemberDTO memberDTO = signupDTO.toEntity();
+            Member member = dtoToEntity(memberDTO);
+            member.setMemberRole(MemberRole.MEMBER);
+            memberRepository.save(member);
+            return member.getId();
+        }
+        return null;
     }
 
     @Override

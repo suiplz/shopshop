@@ -18,7 +18,6 @@ public interface ReviewService {
 
     default Review dtoToEntity(ReviewDTO reviewDTO){
         Review review = Review.builder()
-                .id(reviewDTO.getId())
                 .title(reviewDTO.getTitle())
                 .text(reviewDTO.getText())
                 .rate(reviewDTO.getRate())

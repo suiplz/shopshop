@@ -3,10 +3,7 @@ package com.example.shopshop.cart.domain;
 import com.example.shopshop.Item.domain.Item;
 import com.example.shopshop.etc.BaseEntity;
 import com.example.shopshop.member.domain.Member;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -15,6 +12,7 @@ import java.util.List;
 
 @Entity
 @Builder
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(exclude = "buyer")

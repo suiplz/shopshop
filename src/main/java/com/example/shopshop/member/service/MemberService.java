@@ -6,7 +6,7 @@ import com.example.shopshop.member.dto.SignupDTO;
 
 public interface MemberService {
 
-    Long register(MemberDTO signupDTO);
+    Long register(SignupDTO signupDTO);
 
     Member get(Long id);
 

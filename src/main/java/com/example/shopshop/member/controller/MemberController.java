@@ -1,6 +1,7 @@
 package com.example.shopshop.member.controller;
 
 import com.example.shopshop.member.dto.MemberDTO;
+import com.example.shopshop.member.dto.SignupDTO;
 import com.example.shopshop.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -24,11 +25,17 @@ public class MemberController {
     }
 
     @PostMapping("/signup")
-    public String signup(@ModelAttribute("memberDTO") MemberDTO memberDTO, RedirectAttributes redirectAttributes) {
+    public String signup(@ModelAttribute("signupDTO") SignupDTO signupDTO, RedirectAttributes redirectAttributes) {
 
-        Long register = memberService.register(memberDTO);
-//        redirectAttributes.addFlashAttribute("memberDTO", register);
+        Long register = memberService.register(signupDTO);
+        redirectAttributes.addFlashAttribute("signupDTO", register);
 
-        return "/item/list";
+
+        return "redirect:/item/list";
+    }
+
+    @GetMapping("/login")
+    public void login() {
+
     }
 }

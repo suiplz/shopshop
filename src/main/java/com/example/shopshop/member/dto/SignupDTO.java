@@ -12,11 +12,25 @@ public class SignupDTO {
 
     private String password;
 
+    private String passwordCheck;
+
     private String name;
 
     private String phone;
 
     private String address;
+
+    public MemberDTO toEntity() {
+
+        MemberDTO memberDTO = MemberDTO.builder()
+                .email(this.email)
+                .password(this.password)
+                .name(this.name)
+                .phone(this.phone)
+                .address(this.address)
+                .build();
+        return memberDTO;
+    }
 
 
 }

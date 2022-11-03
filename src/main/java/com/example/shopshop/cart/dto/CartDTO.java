@@ -18,6 +18,6 @@ public class CartDTO {
 
     private List<CartItem> cartItems;
 
-    private Member member;
+    private Member buyer;
 
 }
