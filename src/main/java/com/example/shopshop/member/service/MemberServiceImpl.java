@@ -6,6 +6,8 @@ import com.example.shopshop.member.dto.MemberDTO;
 import com.example.shopshop.member.dto.SignupDTO;
 import com.example.shopshop.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -15,14 +17,20 @@ import java.util.Optional;
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public Long register(SignupDTO signupDTO) {
         if (signupDTO.getPassword().equals(signupDTO.getPasswordCheck())) {
 
+            String rawPassword = signupDTO.getPassword();
+            String encPassword = passwordEncoder.encode(rawPassword);
+            signupDTO.setPassword(encPassword);
+
             MemberDTO memberDTO = signupDTO.toEntity();
             Member member = dtoToEntity(memberDTO);
-            member.setMemberRole(MemberRole.MEMBER);
+//            member.setMemberRole(MemberRole.MEMBER);
+            member.addMemberRole(MemberRole.MEMBER);
             memberRepository.save(member);
             return member.getId();
         }
@@ -56,3 +64,4 @@ public class MemberServiceImpl implements MemberService {
         memberRepository.deleteById(id);
     }
 }
+

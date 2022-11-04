@@ -6,6 +6,8 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Builder
@@ -37,6 +39,9 @@ public class Member extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private MemberRole memberRole;
 
+    @ElementCollection(fetch = FetchType.LAZY)
+    private Set<MemberRole> roleSet;
+
 
     public void changePassword(String password) {
         this.password = password;
@@ -48,5 +53,9 @@ public class Member extends BaseEntity {
 
     public void setMemberRole(MemberRole memberRole) {
         this.memberRole = memberRole;
+    }
+
+    public void addMemberRole(MemberRole memberRole) {
+        roleSet.add(memberRole);
     }
 }
