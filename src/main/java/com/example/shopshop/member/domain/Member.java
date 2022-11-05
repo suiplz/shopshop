@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -49,10 +50,6 @@ public class Member extends BaseEntity {
 
     public void changeAddress(String address) {
         this.address = address;
-    }
-
-    public void setMemberRole(MemberRole memberRole) {
-        this.memberRole = memberRole;
     }
 
     public void addMemberRole(MemberRole memberRole) {

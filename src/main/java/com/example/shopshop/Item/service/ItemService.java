@@ -33,7 +33,10 @@ public interface ItemService {
         Item item = Item.builder()
                 .itemName(itemDTO.getItemName())
                 .price(itemDTO.getPrice())
-                .quantity(itemDTO.getQuantity())
+                .sizeS(itemDTO.getSizeS())
+                .sizeM(itemDTO.getSizeM())
+                .sizeL(itemDTO.getSizeL())
+                .saleRate(itemDTO.getSaleRate())
                 .provider(itemDTO.getProvider())
                 .build();
         entityMap.put("item", item);
@@ -64,7 +67,10 @@ public interface ItemService {
                 .id(item.getId())
                 .itemName(item.getItemName())
                 .price(item.getPrice())
-                .quantity(item.getQuantity())
+                .sizeS(item.getSizeS())
+                .sizeM(item.getSizeM())
+                .sizeL(item.getSizeL())
+                .saleRate(item.getSaleRate())
                 .provider(item.getProvider())
                 .regDate(item.getRegDate())
                 .modDate(item.getModDate())

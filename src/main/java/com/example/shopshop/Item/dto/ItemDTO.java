@@ -22,7 +22,13 @@ public class ItemDTO {
 
     private Integer price;
 
-    private Integer quantity;
+    private Integer sizeS;
+
+    private Integer sizeM;
+
+    private Integer sizeL;
+
+    private Integer saleRate;
 
     private Member provider;
 

@@ -86,7 +86,7 @@ public class ItemServiceImpl implements ItemService{
         Optional<Item> result = itemRepository.findById(dto.getId());
         if (result.isPresent()) {
             Item item = result.get();
-            item.changeItem(dto.getItemName(), dto.getPrice(), dto.getQuantity());
+            item.changeItem(dto.getItemName(), dto.getPrice(), dto.getSizeS(), dto.getSizeM(), dto.getSizeL(), dto.getSaleRate());
         }
 
     }

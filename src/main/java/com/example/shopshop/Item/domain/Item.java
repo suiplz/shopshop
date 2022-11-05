@@ -8,6 +8,7 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Builder
@@ -27,7 +28,16 @@ public class Item extends BaseEntity {
     private Integer price;
 
     @NotNull
-    private Integer quantity;
+    private Integer sizeS;
+
+    @NotNull
+    private Integer sizeM;
+
+    @NotNull
+    private Integer sizeL;
+
+    @Size(min = 0, max = 99)
+    private Integer saleRate;
 
 //    private List<String> imageUrl = new ArrayList<>();
 
@@ -42,10 +52,13 @@ public class Item extends BaseEntity {
 //    private int reviewCnt;
     //    private ItemImage itemImage;
 
-    public void changeItem(String itemName, Integer price, Integer quantity) {
+    public void changeItem(String itemName, Integer price, Integer sizeS, Integer sizeM, Integer sizeL, Integer saleRate) {
         this.itemName = itemName;
         this.price = price;
-        this.quantity = quantity;
+        this.sizeS = sizeS;
+        this.sizeM = sizeM;
+        this.sizeL = sizeL;
+        this.saleRate = saleRate;
     }
 
 

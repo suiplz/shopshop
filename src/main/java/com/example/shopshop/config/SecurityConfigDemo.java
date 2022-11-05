@@ -12,36 +12,36 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-@Configuration
-@EnableWebSecurity
-public class SecurityConfigDemo {
-
-    @Bean
-    PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
-        http.authorizeRequests((requests) -> requests
-//                .antMatchers("/", "/home", "/css/**", "/script/**", "/scripts/**", "/item/list", "/member/signup").permitAll()
-                .antMatchers("/**").permitAll()
-                .anyRequest().authenticated())
-                .formLogin((form) -> form
-                        .loginPage("/member/login")
-                        .usernameParameter("email")
-                        .loginProcessingUrl("/login")
-                        .permitAll()
-                )
-                .csrf().disable()
-                .logout((logout) -> logout.permitAll());
-
-
-        return http.build();
-
-    }
+//@Configuration
+//@EnableWebSecurity
+//public class SecurityConfigDemo {
+//
+//    @Bean
+//    PasswordEncoder passwordEncoder() {
+//        return new BCryptPasswordEncoder();
+//    }
+//
+//
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//
+//        http.authorizeRequests((requests) -> requests
+////                .antMatchers("/", "/home", "/css/**", "/script/**", "/scripts/**", "/item/list", "/member/signup").permitAll()
+//                .antMatchers("/**").permitAll()
+//                .anyRequest().authenticated())
+//                .formLogin((form) -> form
+//                        .loginPage("/member/login")
+//                        .usernameParameter("email")
+//                        .loginProcessingUrl("/login")
+//                        .permitAll()
+//                )
+//                .csrf().disable()
+//                .logout((logout) -> logout.permitAll());
+//
+//
+//        return http.build();
+//
+//    }
 
 //    @Bean
 //    public UserDetailsService userDetailsService() {
@@ -50,4 +50,4 @@ public class SecurityConfigDemo {
 //                User.withDefaultPasswordEncoder()
 //    }
 
-}
+//}
