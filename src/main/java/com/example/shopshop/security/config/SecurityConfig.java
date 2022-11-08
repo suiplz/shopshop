@@ -1,13 +1,14 @@
-package com.example.shopshop.config;
+package com.example.shopshop.security.config;
 
-import com.example.shopshop.member.repository.MemberRepository;
+import com.example.shopshop.member.repository.MemberRepository;;
+import com.example.shopshop.security.jwt.JwtAuthenticationFilter;
+import com.example.shopshop.security.jwt.JwtAuthorizationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -25,14 +26,9 @@ public class SecurityConfig {
     @Autowired
     private CorsConfig corsConfig;
 
-    @Bean
-    PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.addFilterBefore(new Filter1(), BasicAuthenticationFilter.class);
 
         return http
                 .csrf().disable()
@@ -41,7 +37,7 @@ public class SecurityConfig {
 //                .formLogin().loginPage("/member/login")
 //                .permitAll()
 //                .and()
-                .formLogin().disable()
+                .formLogin().usernameParameter("email").disable()
                 .httpBasic().disable()
                 .apply(new MyCustomDsl())
                 .and()
@@ -60,9 +56,11 @@ public class SecurityConfig {
 
         @Override
         public void configure(HttpSecurity http) throws Exception {
-            http.getSharedObject(AuthenticationManager.class);
+            AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
             http
-                    .addFilter(corsConfig.corsFilter());
+                    .addFilter(corsConfig.corsFilter())
+                    .addFilter(new JwtAuthenticationFilter(authenticationManager))
+                    .addFilter(new JwtAuthorizationFilter(authenticationManager, memberRepository));
 
         }
     }

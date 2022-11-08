@@ -40,8 +40,9 @@ public class Member extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private MemberRole memberRole;
 
-    @ElementCollection(fetch = FetchType.LAZY)
-    private Set<MemberRole> roleSet;
+    @ElementCollection(fetch = FetchType.EAGER)
+    @Builder.Default
+    private Set<MemberRole> roleSet = new HashSet<>();
 
 
     public void changePassword(String password) {

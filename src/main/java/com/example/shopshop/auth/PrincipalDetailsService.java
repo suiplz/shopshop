@@ -28,17 +28,11 @@ public class PrincipalDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("Check Email or Password");
         }
 
+
         Member member = result.get();
+        log.info("Principal Load : " + member);
 
-        MemberAuthDTO memberAuthDTO = new MemberAuthDTO(
-                member.getEmail(),
-                member.getPassword(),
-                member.getRoleSet().stream()
-                        .map(role -> new SimpleGrantedAuthority("ROLE_" + role.name()))
-                        .collect(Collectors.toSet()));
+        return new PrincipalDetails(member);
 
-        memberAuthDTO.setName(member.getName());
-
-        return memberAuthDTO;
     }
 }

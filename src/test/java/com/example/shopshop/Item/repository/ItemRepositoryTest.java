@@ -39,7 +39,7 @@ class ItemRepositoryTest {
             Item item = Item.builder()
                     .itemName("itemName" + i)
                     .price(10 * i)
-                    .quantity(10 * i)
+                    .sizeM(10 * i)
                     .provider(member)
                     .build();
             itemRepository.save(item);
@@ -86,7 +86,7 @@ class ItemRepositoryTest {
             Item item = Item.builder()
                     .itemName("itemName" + i)
                     .price(10 * i)
-                    .quantity(10 * i)
+                    .sizeM(10 * i)
                     .provider(member)
                     .build();
             itemRepository.save(item);

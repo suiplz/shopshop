@@ -13,18 +13,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping("/member")
 @RequiredArgsConstructor
 public class MemberController {
 
     private final MemberService memberService;
 
-    @GetMapping("/signup")
+    @GetMapping("/member/signup")
     public void signup() {
 
     }
 
-    @PostMapping("/signup")
+    @PostMapping("/member/signup")
     public String signup(@ModelAttribute("signupDTO") SignupDTO signupDTO, RedirectAttributes redirectAttributes) {
 
         Long register = memberService.register(signupDTO);

@@ -1,4 +1,4 @@
-package com.example.shopshop.config;
+package com.example.shopshop.security.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

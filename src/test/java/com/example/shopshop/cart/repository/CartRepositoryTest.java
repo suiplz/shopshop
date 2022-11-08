@@ -75,7 +75,7 @@ class CartRepositoryTest {
                 Item item = Item.builder()
                         .itemName("itemName.." + i)
                         .price(10 * i)
-                        .quantity(3 * i)
+                        .sizeM(3 * i)
                         .provider(provider)
                         .build();
                 itemRepository.save(item);
