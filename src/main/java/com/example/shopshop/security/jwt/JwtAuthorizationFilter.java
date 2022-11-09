@@ -33,13 +33,14 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-        super.doFilterInternal(request, response, chain);
+//        super.doFilterInternal(request, response, chain);
         log.info("인증 권한 주소 요청");
 
-        String jwtHeader = request.getHeader("Authorization");
+//        String jwtHeader = request.getHeader("Authorization");
+        String jwtHeader = request.getHeader(JwtProperties.HEADER_STRING);
         log.info("jwtHeader : " + jwtHeader);
 
-        if(jwtHeader == null || !jwtHeader.startsWith("Bearer")) {
+        if(jwtHeader == null || !jwtHeader.startsWith(JwtProperties.TOKEN_PREFIX)) {
             chain.doFilter(request, response);
             return;
         }
@@ -54,12 +55,15 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
             PrincipalDetails principalDetails = new PrincipalDetails(member);
             Authentication authentication =
-                    new UsernamePasswordAuthenticationToken(principalDetails, null);
+                    new UsernamePasswordAuthenticationToken(
+                            principalDetails,
+                            null,
+                            principalDetails.getAuthorities());
 
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            chain.doFilter(request, response);
         }
+        chain.doFilter(request, response);
     }
 }

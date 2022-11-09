@@ -43,7 +43,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
             PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
 
-            log.info("principalDetails Email : ", principalDetails.getMember().getEmail());
+            log.info("principalDetails Email : " + principalDetails.getMember().getEmail());
 
             return authentication;
         } catch (IOException e) {

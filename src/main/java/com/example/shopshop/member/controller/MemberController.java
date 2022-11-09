@@ -37,4 +37,9 @@ public class MemberController {
     public void login() {
 
     }
+
+//    @PostMapping("/login")
+//    public String login(RedirectAttributes redirectAttributes) {
+//        return "redirect:/item/list";
+//    }
 }

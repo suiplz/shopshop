@@ -17,8 +17,8 @@
     <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
     <div class="form-floating">
-      <input type="email" name="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-      <label for="floatingInput">Email address</label>
+      <input type="email" name="email" class="form-control" id="floatingEmail" placeholder="name@example.com">
+      <label for="floatingEmail">Email address</label>
     </div>
     <div class="form-floating">
       <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password">
@@ -30,7 +30,7 @@
         <input type="checkbox" value="remember-me"> Remember me
       </label>
     </div>
-    <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+    <button class="w-100 btn btn-lg btn-primary" id="btn_login" type="submit">Sign in</button>
 <!--    <p class="mt-5 mb-3 text-muted">&copy; 2017–2022</p>-->
   </form>
     <a href="/member/signup">회원가입을 아직 하지 않으셨나요?</a>
@@ -113,17 +113,40 @@
 
 </style>
 
+
+
     <script>
-        $.ajax({
-            url: "/login",
-            type: "POST",
-            data: JSON.stringify({
-                email: email,
-                password: password;
-            }),
-            contentType: "application/json",
-            dataType: "json",
-        });
+        let index = {
+            init : function() {
+                $("#btn_login").on("click", () => {
+                    this.login();
+                });
+            },
+            login: function() {
+                let data = {
+                    email: $("#floatingEmail").val(),
+                    password: $("#floatingPassword").val()
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: "/login",
+                    data: JSON.stringify({
+                        data
+                    }),
+                    contentType: "application/json",
+                    dataType: "json",
+                }).done(function (resp) {
+                    alert("로그인 성공");
+                    location.href = "/";
+                });
+                fail(function (error) {
+                    alert("로그인 실패");
+                    alert(JSON.stringify(error));
+                });
+            }};
+        index.init();
+
     </script>
   </body>
   </th:block>

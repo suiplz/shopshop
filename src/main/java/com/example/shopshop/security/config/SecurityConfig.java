@@ -3,7 +3,7 @@ package com.example.shopshop.security.config;
 import com.example.shopshop.member.repository.MemberRepository;;
 import com.example.shopshop.security.jwt.JwtAuthenticationFilter;
 import com.example.shopshop.security.jwt.JwtAuthorizationFilter;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,13 +18,14 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
 
-    @Autowired
-    private MemberRepository memberRepository;
 
-    @Autowired
-    private CorsConfig corsConfig;
+    private final MemberRepository memberRepository;
+
+    private final CorsConfig corsConfig;
+
 
 
     @Bean
@@ -37,7 +38,7 @@ public class SecurityConfig {
 //                .formLogin().loginPage("/member/login")
 //                .permitAll()
 //                .and()
-                .formLogin().usernameParameter("email").disable()
+                .formLogin().disable()
                 .httpBasic().disable()
                 .apply(new MyCustomDsl())
                 .and()
