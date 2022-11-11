@@ -4,6 +4,8 @@ import com.example.shopshop.member.dto.MemberDTO;
 import com.example.shopshop.member.dto.SignupDTO;
 import com.example.shopshop.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequiredArgsConstructor
+@Log4j2
 public class MemberController {
 
     private final MemberService memberService;
@@ -38,8 +41,8 @@ public class MemberController {
 
     }
 
-//    @PostMapping("/login")
-//    public String login(RedirectAttributes redirectAttributes) {
-//        return "redirect:/item/list";
-//    }
+    @PostMapping("/login")
+    public String login(RedirectAttributes redirectAttributes) {
+        return "redirect:/item/list";
+    }
 }
