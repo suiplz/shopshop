@@ -52,7 +52,7 @@ class MemberRepositoryTest {
                 .name("asd")
                 .email("asd@asd")
                 .password("123")
-                .memberRole(MemberRole.MEMBER)
+                .memberRole(MemberRole.ROLE_MEMBER)
                 .address("gqwe")
                 .phone("125")
                 .build();
@@ -61,7 +61,7 @@ class MemberRepositoryTest {
         Optional<Member> result = memberRepository.findById(1L);
         Member member1 = result.get();
 
-        member1.addMemberRole(MemberRole.MEMBER);
+        member1.addMemberRole(MemberRole.ROLE_MEMBER);
 
         Set<MemberRole> roleSet = member1.getRoleSet();
         for (MemberRole memberRole : roleSet) {

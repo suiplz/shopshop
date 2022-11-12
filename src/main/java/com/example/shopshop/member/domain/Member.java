@@ -54,7 +54,11 @@ public class Member extends BaseEntity {
         this.address = address;
     }
 
-    public void addMemberRole(MemberRole memberRole) {
-        roleSet.add(memberRole);
+    public MemberRole setMemberRole(MemberRole memberRole) {
+        this.memberRole = memberRole;
+        return this.memberRole;
     }
+//    public void addMemberRole(MemberRole memberRole) {
+//        roleSet.add(memberRole);
+//    }
 }

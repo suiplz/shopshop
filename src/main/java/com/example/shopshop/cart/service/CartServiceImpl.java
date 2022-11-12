@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Log4j2
@@ -19,5 +21,11 @@ public class CartServiceImpl implements CartService{
         Cart cart = dtoToEntity(dto);
         cartRepository.save(cart);
         return cart.getId();
+    }
+
+    @Override
+    public List<Object[]> getCartByMember(Long id) {
+        List<Object[]> carts = cartRepository.getCartByMemberId(id);
+        return carts;
     }
 }

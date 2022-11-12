@@ -20,10 +20,9 @@ public class PrincipalDetails implements UserDetails {
         this.member = member;
     }
 
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return member.getRoleSet().stream().map(r -> new SimpleGrantedAuthority("ROLE_" + r.name()))
+        return member.getRoleSet().stream().map(r -> new SimpleGrantedAuthority(r.name()))
                 .collect(Collectors.toSet());
 
     }

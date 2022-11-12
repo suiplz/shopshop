@@ -15,18 +15,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
+@RequestMapping("/member")
 @RequiredArgsConstructor
 @Log4j2
 public class MemberController {
 
     private final MemberService memberService;
 
-    @GetMapping("/member/signup")
+    @GetMapping("/signup")
     public void signup() {
 
     }
 
-    @PostMapping("/member/signup")
+    @PostMapping("/signup")
     public String signup(@ModelAttribute("signupDTO") SignupDTO signupDTO, RedirectAttributes redirectAttributes) {
 
         Long register = memberService.register(signupDTO);
@@ -41,8 +42,8 @@ public class MemberController {
 
     }
 
-    @PostMapping("/login")
-    public String login(RedirectAttributes redirectAttributes) {
-        return "redirect:/item/list";
-    }
+//    @PostMapping("/login")
+//    public String login(RedirectAttributes redirectAttributes) {
+//        return "redirect:/item/list";
+//    }
 }

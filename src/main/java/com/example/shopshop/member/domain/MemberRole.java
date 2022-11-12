@@ -1,5 +1,18 @@
 package com.example.shopshop.member.domain;
 
 public enum MemberRole {
-    MEMBER, PROVIDER, MANAGER, ADMIN
+    ROLE_MEMBER("ROLE_MEMBER"),
+    ROLE_PROVIDER("ROLE_PROVIDER"),
+    ROLE_MANAGER("ROLE_MANAGER"),
+    ROLE_ADMIN("ROLE_ADMIN");
+
+    String role;
+
+    MemberRole(String role) {
+        this.role = role;
+    }
+
+    public String value() {
+        return role;
+    }
 }

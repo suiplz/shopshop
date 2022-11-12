@@ -36,7 +36,7 @@ public class Item extends BaseEntity {
     @NotNull
     private Integer sizeL;
 
-    @Size(min = 0, max = 99)
+    @NotNull
     private Integer saleRate;
 
 //    private List<String> imageUrl = new ArrayList<>();

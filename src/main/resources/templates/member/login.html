@@ -12,7 +12,7 @@
     <body class="text-center">
 
 <div class="form-signin w-100 m-auto">
-  <form action="/login" method="POST">
+  <form action="/member/login" method="POST">
 <!--    <img class="mb-4" src="../assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">-->
     <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
@@ -112,42 +112,6 @@
   }
 
 </style>
-
-
-
-<!--    <script>-->
-<!--        let index = {-->
-<!--            init : function() {-->
-<!--                $("#btn_login").on("click", () => {-->
-<!--                    this.login();-->
-<!--                });-->
-<!--            },-->
-<!--            login: function() {-->
-<!--                let data = {-->
-<!--                    email: $("#email").val(),-->
-<!--                    password: $("#password").val()-->
-<!--                };-->
-
-<!--                $.ajax({-->
-<!--                    type: "POST",-->
-<!--                    url: "/login",-->
-<!--                    data: JSON.stringify({-->
-<!--                        data-->
-<!--                    }),-->
-<!--                    contentType: "application/json",-->
-<!--                    dataType: "json",-->
-<!--                }).done(function (resp) {-->
-<!--                    alert("로그인 성공");-->
-<!--                    location.href = "/";-->
-<!--                });-->
-<!--                fail(function (error) {-->
-<!--                    alert("로그인 실패");-->
-<!--                    alert(JSON.stringify(error));-->
-<!--                });-->
-<!--            }};-->
-<!--        index.init();-->
-
-<!--    </script>-->
   </body>
   </th:block>
 </th:block>

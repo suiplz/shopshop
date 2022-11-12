@@ -37,7 +37,7 @@ public class DataInsert {
     @Test
     void insertDummy() {
 
-        Member provider = Member.builder().memberRole(MemberRole.PROVIDER).name("pvd").password("1234").email("pvd@asd").build();
+        Member provider = Member.builder().memberRole(MemberRole.ROLE_PROVIDER).name("pvd").password("1234").email("pvd@asd").build();
         memberRepository.save(provider);
     }
 
