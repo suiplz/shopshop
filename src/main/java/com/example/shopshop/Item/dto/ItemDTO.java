@@ -1,8 +1,13 @@
 package com.example.shopshop.Item.dto;
 
+import com.example.shopshop.Item.domain.ClothType;
+import com.example.shopshop.Item.domain.Gender;
+import com.example.shopshop.Item.domain.Season;
 import com.example.shopshop.member.domain.Member;
 import lombok.*;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
@@ -27,6 +32,12 @@ public class ItemDTO {
     private Integer sizeM;
 
     private Integer sizeL;
+
+    private ClothType clothType;
+
+    private Season season;
+
+    private Gender gender;
 
     private Integer saleRate;
 

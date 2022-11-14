@@ -1,10 +1,8 @@
 package com.example.shopshop.Item.domain;
 
-import com.example.shopshop.category.domain.Category;
 import com.example.shopshop.etc.BaseEntity;
 import com.example.shopshop.member.domain.Member;
 import lombok.*;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -36,6 +34,15 @@ public class Item extends BaseEntity {
     @NotNull
     private Integer sizeL;
 
+    @Enumerated(EnumType.STRING)
+    private ClothType clothType;
+
+    @Enumerated(EnumType.STRING)
+    private Season season;
+
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
+
     @NotNull
     private Integer saleRate;
 
@@ -45,9 +52,7 @@ public class Item extends BaseEntity {
     @JoinColumn(name = "member_id")
     private Member provider;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "category_id")
-//    private Category category;
+
 
 //    private int reviewCnt;
     //    private ItemImage itemImage;

@@ -17,6 +17,7 @@ public class PrincipalDetails implements UserDetails {
     private Member member;
 
     public PrincipalDetails(Member member) {
+        super();
         this.member = member;
     }
 

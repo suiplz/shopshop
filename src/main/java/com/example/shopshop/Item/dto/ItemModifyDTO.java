@@ -1,7 +1,13 @@
 package com.example.shopshop.Item.dto;
 
+import com.example.shopshop.Item.domain.ClothType;
+import com.example.shopshop.Item.domain.Gender;
+import com.example.shopshop.Item.domain.Season;
 import com.example.shopshop.member.domain.Member;
 import lombok.*;
+
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
 @Builder
 @NoArgsConstructor
@@ -23,4 +29,11 @@ public class ItemModifyDTO {
     private Integer sizeL;
 
     private Integer saleRate;
+
+    private ClothType clothType;
+
+    private Season season;
+
+    private Gender gender;
+
 }

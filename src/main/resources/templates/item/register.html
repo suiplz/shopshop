@@ -55,10 +55,6 @@
         <input type="text" class="form-control" name="price" placeholder="Enter Price">
       </div>
       <div class="form-group">
-        <label th:text="#{label.item.price}">Item Price</label>
-        <input type="text" class="form-control" name="price" placeholder="Enter Price">
-      </div>
-      <div class="form-group">
         <label th:text="#{label.item.sizeS}">Item SizeS</label>
         <input type="text" class="form-control" name="sizeS" placeholder="Enter Quantity">
       </div>
@@ -69,6 +65,14 @@
       <div class="form-group">
         <label th:text="#{label.item.sizeL}">Item SizeL</label>
         <input type="text" class="form-control" name="sizeL" placeholder="Enter Quantity">
+      </div>
+      <div>
+        <div>상품 종류</div>
+        <div th:each="clothType : ${clothTypes}" class="form-check form-check-inline">
+          <input type="radio" th:field="*{clothType}" th:value="${clothType.name()}" class="form-check-input">
+          <label th:for="${#ids.prev('clothType')}" th:text="${"clothType"}>
+          clothType</label>
+        </div>
       </div>
       <div class="form-group">
         <label th:text="#{label.item.saleRate}">Item saleRate</label>

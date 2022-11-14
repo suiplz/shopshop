@@ -1,6 +1,9 @@
 package com.example.shopshop.Item.repository;
 
+import com.example.shopshop.Item.domain.ClothType;
+import com.example.shopshop.Item.domain.Gender;
 import com.example.shopshop.Item.domain.Item;
+import com.example.shopshop.Item.domain.Season;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
@@ -31,5 +34,8 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
             "WHERE m.id = :id")
     List<Item> getItemByMemberId(@Param("id") Long id);
 
+    @Query("SELECT i from Item i " +
+            "WHERE i.clothType =:c AND i.season =:s AND i.gender =:g")
+    List<Item> getItemByComponents(@Param("c") ClothType c, @Param("s") Season s, @Param("g")Gender g);
 
 }

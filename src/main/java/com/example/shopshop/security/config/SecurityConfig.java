@@ -27,11 +27,10 @@ public class SecurityConfig {
 
         return http
                 .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
                 .formLogin().loginPage("/member/login").loginProcessingUrl("/member/login")
-                .usernameParameter("email")
-                .permitAll()
+                .usernameParameter("email").defaultSuccessUrl("/")
+                .and()
+                .logout().logoutUrl("/logout").logoutSuccessUrl("/")
                 .and()
 //                .formLogin().disable()
                 .httpBasic().disable()
@@ -39,12 +38,7 @@ public class SecurityConfig {
                         .hasAnyRole("MEMBER")
                         .anyRequest()
                         .permitAll())
-//                .authorizeRequests(authorize -> authorize.antMatchers("/item/register")
-//                        .access("hasRole('ROLE_PROVIDER') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
-//                        .antMatchers("/item/list")
-//                        .access("hasRole('ROLE_MEMBER')")
-//                        .anyRequest()
-//                        .permitAll())
+
                 .build();
 
 

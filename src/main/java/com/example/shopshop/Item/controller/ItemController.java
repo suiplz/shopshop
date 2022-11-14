@@ -1,5 +1,6 @@
 package com.example.shopshop.Item.controller;
 
+import com.example.shopshop.Item.domain.ClothType;
 import com.example.shopshop.Item.domain.Item;
 import com.example.shopshop.Item.dto.ItemDTO;
 import com.example.shopshop.Item.service.ItemService;
@@ -26,6 +27,8 @@ public class ItemController {
 
     private final ItemService itemService;
 
+    private final ClothType clothType;
+
     @GetMapping("/register")
     public void register(Model model) {
 
@@ -34,8 +37,8 @@ public class ItemController {
     }
 
     @PostMapping("/register")
-    public String register(@Validated @ModelAttribute ItemDTO itemDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-
+    public String register(@Validated @ModelAttribute ItemDTO itemDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
+        ClothType[] values = clothType.values();
         log.info("itemDTO : " + itemDTO);
         Long itemId = itemService.register(itemDTO);
 
@@ -45,7 +48,7 @@ public class ItemController {
             log.info("errors = {} ", bindingResult);
             return "item/list";
         }
-
+        model.addAttribute("clothTypes", values);
 //        redirectAttributes.addFlashAttribute("itemDTO", itemId);
         redirectAttributes.addAttribute("itemId", itemId);
         redirectAttributes.addAttribute("status", true);
