@@ -70,7 +70,7 @@
         <div>상품 종류</div>
         <div th:each="clothType : ${clothTypes}" class="form-check form-check-inline">
           <input type="radio" th:field="*{clothType}" th:value="${clothType.name()}" class="form-check-input">
-          <label th:for="${#ids.prev('clothType')}" th:text="${"clothType"}>
+          <label th:for="${#ids.prev('clothType')}" th:text="${clothType}">
           clothType</label>
         </div>
       </div>

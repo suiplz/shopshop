@@ -2,11 +2,15 @@ package com.example.shopshop.security.config;
 
 import com.example.shopshop.member.repository.MemberRepository;;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -17,29 +21,44 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
+
     @Bean
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> {
+            web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
+            web.ignoring().antMatchers("/favicon.ico", "/resources/**", "/error");
+        };
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfiguration) throws Exception {
+        return authConfiguration.getAuthenticationManager();
+    }
+
+    @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        return http
-                .csrf().disable()
-                .formLogin().loginPage("/member/login").loginProcessingUrl("/member/login")
-                .usernameParameter("email").defaultSuccessUrl("/")
-                .and()
-                .logout().logoutUrl("/logout").logoutSuccessUrl("/")
-                .and()
-//                .formLogin().disable()
-                .httpBasic().disable()
-                .authorizeRequests(authorize -> authorize.antMatchers("/item/test")
-                        .hasAnyRole("MEMBER")
-                        .anyRequest()
-                        .permitAll())
+        http
+            .csrf().disable()
+            .httpBasic().disable()
+            .authorizeRequests(authorize -> authorize.antMatchers("/item/test")
+                    .hasAnyRole("ROLE_MEMBER")
+                    .anyRequest()
+                    .permitAll());
 
-                .build();
+        http.formLogin().loginPage("/member/login").loginProcessingUrl("/member/login")
+            .usernameParameter("email").defaultSuccessUrl("/")
+            .and()
+            .logout().logoutUrl("/logout").logoutSuccessUrl("/");
+
+
+
+        return http.build();
 
 
 

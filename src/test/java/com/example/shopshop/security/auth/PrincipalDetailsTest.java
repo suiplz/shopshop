@@ -1,4 +1,4 @@
-package com.example.shopshop.auth;
+package com.example.shopshop.security.auth;
 
 import com.example.shopshop.member.domain.Member;
 import com.example.shopshop.member.domain.MemberRole;
@@ -8,13 +8,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.parameters.P;
 
 import java.util.Collection;
 import java.util.Optional;
 import java.util.Set;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Log4j2

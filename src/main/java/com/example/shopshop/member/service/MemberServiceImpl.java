@@ -29,7 +29,7 @@ public class MemberServiceImpl implements MemberService {
 
             MemberDTO memberDTO = signupDTO.toEntity();
             Member member = dtoToEntity(memberDTO);
-            member.setMemberRole(MemberRole.ROLE_MEMBER);
+            member.setMemberRole(MemberRole.MEMBER);
 //            member.addMemberRole(MemberRole.ROLE_MEMBER);
             memberRepository.save(member);
             return member.getId();

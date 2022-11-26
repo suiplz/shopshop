@@ -1,7 +1,7 @@
 package com.example.shopshop.member.domain;
 
 public enum MemberRole {
-    ROLE_MEMBER("ROLE_MEMBER"),
+    MEMBER("MEMBER"),
     ROLE_PROVIDER("ROLE_PROVIDER"),
     ROLE_MANAGER("ROLE_MANAGER"),
     ROLE_ADMIN("ROLE_ADMIN");

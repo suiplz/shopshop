@@ -7,6 +7,7 @@ import com.example.shopshop.Item.service.ItemService;
 import com.example.shopshop.page.dto.PageRequestDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -27,7 +28,6 @@ public class ItemController {
 
     private final ItemService itemService;
 
-    private final ClothType clothType;
 
     @GetMapping("/register")
     public void register(Model model) {
@@ -38,7 +38,6 @@ public class ItemController {
 
     @PostMapping("/register")
     public String register(@Validated @ModelAttribute ItemDTO itemDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
-        ClothType[] values = clothType.values();
         log.info("itemDTO : " + itemDTO);
         Long itemId = itemService.register(itemDTO);
 
@@ -48,7 +47,7 @@ public class ItemController {
             log.info("errors = {} ", bindingResult);
             return "item/list";
         }
-        model.addAttribute("clothTypes", values);
+        model.addAttribute("clothTypes", ClothType.values());
 //        redirectAttributes.addFlashAttribute("itemDTO", itemId);
         redirectAttributes.addAttribute("itemId", itemId);
         redirectAttributes.addAttribute("status", true);

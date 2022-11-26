@@ -7,6 +7,7 @@ import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.Optional;
 import java.util.Set;
@@ -46,27 +47,11 @@ class MemberRepositoryTest {
     }
 
     @Test
-    void roleSetTest() {
+    void findMemberByEmailTest(){
 
-        Member member = Member.builder()
-                .name("asd")
-                .email("asd@asd")
-                .password("123")
-                .memberRole(MemberRole.ROLE_MEMBER)
-                .address("gqwe")
-                .phone("125")
-                .build();
-        memberRepository.save(member);
+        Member member = memberRepository.findByEmail("fwe@fea").orElseThrow(() -> new UsernameNotFoundException("Check Your Email"));
 
-        Optional<Member> result = memberRepository.findById(1L);
-        Member member1 = result.get();
-
-//        member1.addMemberRole(MemberRole.ROLE_MEMBER);
-
-        Set<MemberRole> roleSet = member1.getRoleSet();
-        for (MemberRole memberRole : roleSet) {
-            log.info("memberRole" + memberRole);
-        }
+        System.out.println("member = " + member);
 
     }
 

@@ -1,13 +1,11 @@
-package com.example.shopshop.auth;
+package com.example.shopshop.security.auth;
 
 import com.example.shopshop.member.domain.Member;
-import com.example.shopshop.member.domain.MemberRole;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
