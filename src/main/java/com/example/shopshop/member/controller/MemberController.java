@@ -1,18 +1,18 @@
 package com.example.shopshop.member.controller;
 
+import com.example.shopshop.member.domain.Member;
 import com.example.shopshop.member.dto.MemberDTO;
 import com.example.shopshop.member.dto.SignupDTO;
 import com.example.shopshop.member.service.MemberService;
+import com.example.shopshop.security.auth.PrincipalDetails;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpRequest;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -43,6 +43,39 @@ public class MemberController {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         log.info("principal = " + principal);
     }
+
+    @GetMapping("/info/{id}")
+    public String info(@PathVariable Long id, @AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
+        if (id == principalDetails.getMember().getId()) {
+            MemberDTO memberDTO = memberService.get(id);
+            model.addAttribute("dto", memberDTO);
+            return "/member/info";
+        }
+        return null;
+
+    }
+
+    @GetMapping("/modify/{id}")
+    public String modify(@PathVariable Long id, @AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
+        if (id == principalDetails.getMember().getId()) {
+            MemberDTO memberDTO = memberService.get(id);
+            log.info("memberDTO.getId() : " + memberDTO.getId());
+            model.addAttribute("dto", memberDTO);
+            return "/member/modify";
+        }
+        return null;
+    }
+
+    @PostMapping("/modify")
+    public String modify(MemberDTO memberDTO) {
+
+        memberService.modify(memberDTO);
+        Long id = memberDTO.getId();
+
+        return "redirect:/member/info/" + id;
+
+    }
+
 
 //    @PostMapping("/login")
 //    public String login(RedirectAttributes redirectAttributes) {

@@ -1,4 +1,4 @@
-package com.example.shopshop.cart;
+package com.example.shopshop.cart.controller;
 
 import com.example.shopshop.Item.domain.Item;
 import com.example.shopshop.cart.dto.CartDTO;
@@ -20,7 +20,7 @@ public class CartApiController {
 
     @PostMapping("/register")
     public ResponseEntity<Long> register(@ModelAttribute CartDTO cartDTO) {
-        Long register = cartService.Register(cartDTO);
+        Long register = cartService.register(cartDTO);
 
         return new ResponseEntity<Long>(register, HttpStatus.OK);
     }

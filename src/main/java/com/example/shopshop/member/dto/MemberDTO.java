@@ -15,6 +15,8 @@ public class MemberDTO {
 
     private String password;
 
+    private String passwordCheck; // for modify
+
     private String name;
 
     private String phone;

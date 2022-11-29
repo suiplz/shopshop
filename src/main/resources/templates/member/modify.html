@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:replace="~{/layout/listLayout.html :: setContent(~{this::content} )}">
+  <th:block th:fragment="content">
+
+    <title>Signin Template · Bootstrap v5.2</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/sign-in/">
+
+    
+    <!-- Custom styles for this template -->
+    <body class="text-center">
+    
+<div class="form-signin w-100 m-auto">
+<!--    <img class="mb-4" src="../assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">-->
+    <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+
+      <form th:action="@{/member/modify}" th:method="post">
+
+          <div class="form-floating">
+              <input type="hidden" class="form-control"  name="id" th:value="${dto.id}" placeholder="id">
+              <label for="floatingPassword">Password</label>
+          </div>
+
+          <div class="form-floating">
+              <input type="password" class="form-control" id="floatingPassword" name="password" th:value="${dto.password}">
+              <label for="floatingPassword">Password</label>
+          </div>
+
+          <div class="form-floating">
+              <input type="password" class="form-control" id="floatingPasswordCheck" name="passwordCheck" th:value="${dto.passwordCheck}">
+              <label for="floatingPasswordCheck">PasswordCheck</label>
+          </div>
+
+          <div class="form-floating">
+              <input type="text" class="form-control" id="floatingPhone" name="phone" th:value="${dto.phone}" placeholder="Phone">
+              <label for="floatingPhone">Phone</label>
+          </div>
+          <div class="form-floating">
+              <input type="text" class="form-control" id="floatingAddress" name="address"  th:value="${dto.address}"placeholder="Address">
+              <label for="floatingAddress">Address</label>
+          </div>
+          <div class="form-group m-0">
+              <button class="btn btn-primary" type="button">Check</button>
+          </div>
+      </form>
+
+</div>
+
+
+<style>
+
+
+  .nav-scroller .nav {
+    display: flex;
+    flex-wrap: nowrap;
+    padding-bottom: 1rem;
+    margin-top: -1px;
+    overflow-x: auto;
+    text-align: center;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+  }
+
+
+  .form-signin {
+    max-width: 330px;
+    padding: 15px;
+  }
+
+  .form-signin .form-floating:focus-within {
+    z-index: 2;
+  }
+
+  .form-signin input[type="email"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  .form-signin input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+</style>
+<script>
+$(document).ready(function (e) {
+    $(".btn-primary").on("click", function (e) {
+        e.preventDefault();
+        $("form").submit();
+    });
+});
+
+</script>
+
+  </body>
+  </th:block>
+</th:block>
+</html>

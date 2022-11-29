@@ -38,23 +38,27 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Member get(Long id) {
+    public MemberDTO get(Long id) {
         Optional<Member> result = memberRepository.findById(id);
-        if(result.isPresent()){
-            Member member = result.get();
-            return member;
-        }
-        return null;
+        Member member = result.get();
+        MemberDTO memberDTO = entityToDTO(member);
+        return memberDTO;
     }
 
     @Override
     public void modify(MemberDTO memberDTO) {
-        Optional<Member> result = memberRepository.findById(memberDTO.getId());
-        Member member = result.get();
-        member.changePassword(memberDTO.getPassword());
-        member.changeAddress(memberDTO.getAddress());
+        if (memberDTO.getPassword().equals(memberDTO.getPasswordCheck())) {
 
-        memberRepository.save(member);
+            Optional<Member> result = memberRepository.findById(memberDTO.getId());
+            Member member = result.get();
+            String rawPassword = memberDTO.getPassword();
+            String encPassword = passwordEncoder.encode(rawPassword);
+            member.changePassword(encPassword);
+            member.changeAddress(memberDTO.getAddress());
+            member.changePhone(memberDTO.getPhone());
+
+            memberRepository.save(member);
+        }
 
     }
 

@@ -19,7 +19,10 @@ public class CartItemDTO {
 
     private Item item;
 
-    private Integer totalPrice;
+    private String size;
 
-    private Integer totalCount;
+    private Integer amount;
+
+    private Integer price;
+
 }

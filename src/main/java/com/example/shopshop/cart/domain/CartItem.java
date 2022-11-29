@@ -28,9 +28,12 @@ public class CartItem extends BaseEntity {
     @JoinColumn(name = "item_id")
     private Item item;
 
-    private Integer totalPrice;
+    private String size;
 
-    private Integer totalCount;
+    private Integer amount;
+
+    private Integer price;
+
 
     public void setCart(Cart cart) {
         this.cart = cart;

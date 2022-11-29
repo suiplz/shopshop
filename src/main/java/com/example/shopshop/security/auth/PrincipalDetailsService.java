@@ -36,10 +36,16 @@ public class PrincipalDetailsService implements UserDetailsService {
 
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Check your email"));
 
-        List<GrantedAuthority> roles = new ArrayList<>();
-        roles.add(new SimpleGrantedAuthority(member.getRole()));
+//        List<GrantedAuthority> roles = new ArrayList<>();
+//        roles.add(new SimpleGrantedAuthority(member.getRole()));
+//
+//        MemberContext memberContext = new MemberContext(member, roles);
+//        return memberContext;
 
-        MemberContext memberContext = new MemberContext(member, roles);
-        return memberContext;
+        PrincipalDetails principalDetails = PrincipalDetails.builder()
+                .member(member)
+                .role(member.getRole().getValue())
+                .build();
+        return principalDetails;
     }
 }

@@ -21,17 +21,18 @@ public class Cart extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
-    @Builder.Default
-    private List<CartItem> cartItems = new ArrayList<>();
+//    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
+//    @Builder.Default
+//    private List<CartItem> cartItems = new ArrayList<>();
+
 
     @NotNull
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member buyer;
 
-    public void setCartItems(CartItem cartItem) {
-        this.cartItems.add(cartItem);
-        cartItem.setCart(this);
-    }
+//    public void setCartItems(CartItem cartItem) {
+//        this.cartItems.add(cartItem);
+//        cartItem.setCart(this);
+//    }
 }

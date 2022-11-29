@@ -8,7 +8,7 @@ public interface MemberService {
 
     Long register(SignupDTO signupDTO);
 
-    Member get(Long id);
+    MemberDTO get(Long id);
 
     void modify(MemberDTO memberDTO);
 
