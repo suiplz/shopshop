@@ -30,6 +30,7 @@ public class ItemServiceImpl implements ItemService{
     @Transactional
     @Override
     public Long register(ItemDTO dto) {
+
         Map<String, Object> entityMap = dtoToEntity(dto);
         Item item = (Item) entityMap.get("item");
         log.info("entityMapItem = " + item);

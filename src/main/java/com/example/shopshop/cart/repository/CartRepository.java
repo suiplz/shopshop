@@ -19,4 +19,19 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
     List<Object[]> getCartByMemberId(@Param("id") Long id);
 
 
+    // query error - consider to use querydsl
+//    @EntityGraph(attributePaths = {"buyer"}, type = EntityGraph.EntityGraphType.FETCH)
+//    @Query("SELECT COUNT(c.id) > 0 " +
+//            "FROM Cart c " +
+//            "INNER JOIN CartItem ci ON ci.cart = c " +
+//            "WHERE c.buyer.id = :buyerId AND ci.item.id = :itemId ")
+//    Boolean isAlreadyInCart(@Param("buyerId") Long buyerId, @Param("itemId") Long itemId);
+
+
+
+    @Query("SELECT sum(ci.price) FROM CartItem ci " +
+            "INNER JOIN Cart c ON ci.cart = c " +
+            "WHERE c.buyer.id = :id")
+    Integer getTotalPriceByMemberId(@Param("id") Long id);
+
 }

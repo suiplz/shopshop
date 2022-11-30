@@ -31,8 +31,18 @@ public class Cart extends BaseEntity {
     @JoinColumn(name = "member_id")
     private Member buyer;
 
+    private Integer totalPrice;
+
 //    public void setCartItems(CartItem cartItem) {
 //        this.cartItems.add(cartItem);
 //        cartItem.setCart(this);
 //    }
+
+    public void setTotalPrice(Integer totalPrice) {
+        if ( this.totalPrice == null) {
+            this.totalPrice = 0;
+        }
+        this.totalPrice = totalPrice;
+    }
+
 }

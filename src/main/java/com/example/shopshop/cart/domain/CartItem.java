@@ -3,15 +3,13 @@ package com.example.shopshop.cart.domain;
 import com.example.shopshop.Item.domain.Item;
 import com.example.shopshop.etc.BaseEntity;
 import com.example.shopshop.orders.domain.Orders;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @Builder
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(exclude = {"cart", "item"})
@@ -39,5 +37,12 @@ public class CartItem extends BaseEntity {
         this.cart = cart;
     }
 
+    public void changeSize(String size) {
+        this.size = size;
+    }
+
+    public void changeAmount(Integer amount) {
+        this.amount = amount;
+    }
 
 }

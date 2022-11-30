@@ -4,6 +4,7 @@ import com.example.shopshop.cart.domain.Cart;
 import com.example.shopshop.cart.domain.CartItem;
 import com.example.shopshop.cart.dto.CartDTO;
 import com.example.shopshop.cart.dto.CartItemDTO;
+import com.example.shopshop.cart.dto.CartItemModifyDTO;
 
 import java.util.HashMap;
 import java.util.List;
@@ -15,6 +16,8 @@ public interface CartService {
     Long register(CartDTO dto);
 
     List<Object[]> getCartByMember(Long id);
+
+    void modify(CartItemModifyDTO cartModifyDTO);
 
 
     default Map<String, Object> dtoToEntity(CartDTO cartDTO) {
