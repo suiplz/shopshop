@@ -83,6 +83,11 @@ public class ItemServiceImpl implements ItemService{
     }
 
     @Override
+    public Item findItemById(Long id) {
+        return itemRepository.findById(id).get();
+    }
+
+    @Override
     public void modify(ItemModifyDTO dto) {
         Optional<Item> result = itemRepository.findById(dto.getId());
         if (result.isPresent()) {

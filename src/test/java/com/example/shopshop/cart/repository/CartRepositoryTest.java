@@ -22,6 +22,14 @@ class CartRepositoryTest {
     @Autowired
     private CartRepository cartRepository;
 
+
+    @Test
+    void getCartByMemberId() {
+
+        Cart cart = cartRepository.findByBuyerId(1L);
+        System.out.println("cart = " + cart);
+    }
+
     @Test
     void findCartItemByMemberId() {
         List<Object[]> cartByMemberId = cartRepository.getCartByMemberId(1L);

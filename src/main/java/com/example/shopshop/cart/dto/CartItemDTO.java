@@ -23,6 +23,4 @@ public class CartItemDTO {
 
     private Integer amount;
 
-    private Integer price;
-
 }

@@ -82,4 +82,8 @@ public class PrincipalDetails implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    public boolean isAuthenticated(Long id) {
+        return id == this.member.getId();
+    }
 }

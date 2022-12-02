@@ -46,7 +46,7 @@ public class MemberController {
 
     @GetMapping("/info/{id}")
     public String info(@PathVariable Long id, @AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
-        if (id == principalDetails.getMember().getId()) {
+        if (principalDetails.isAuthenticated(id)) {
             MemberDTO memberDTO = memberService.get(id);
             model.addAttribute("dto", memberDTO);
             return "/member/info";
@@ -57,7 +57,7 @@ public class MemberController {
 
     @GetMapping("/modify/{id}")
     public String modify(@PathVariable Long id, @AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
-        if (id == principalDetails.getMember().getId()) {
+        if (principalDetails.isAuthenticated(id)) {
             MemberDTO memberDTO = memberService.get(id);
             log.info("memberDTO.getId() : " + memberDTO.getId());
             model.addAttribute("dto", memberDTO);

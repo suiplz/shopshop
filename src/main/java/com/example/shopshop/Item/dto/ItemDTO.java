@@ -49,4 +49,6 @@ public class ItemDTO {
     private LocalDateTime regDate;
 
     private LocalDateTime modDate;
+
+
 }

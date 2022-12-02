@@ -18,6 +18,7 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
             "WHERE c.buyer.id = :id")
     List<Object[]> getCartByMemberId(@Param("id") Long id);
 
+    Cart findByBuyerId(Long id);
 
     // query error - consider to use querydsl
 //    @EntityGraph(attributePaths = {"buyer"}, type = EntityGraph.EntityGraphType.FETCH)
@@ -29,7 +30,7 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
 
 
 
-    @Query("SELECT sum(ci.price) FROM CartItem ci " +
+    @Query("SELECT sum(ci.item.price * ci.amount) FROM CartItem ci " +
             "INNER JOIN Cart c ON ci.cart = c " +
             "WHERE c.buyer.id = :id")
     Integer getTotalPriceByMemberId(@Param("id") Long id);

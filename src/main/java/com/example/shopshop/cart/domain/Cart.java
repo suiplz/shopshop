@@ -26,7 +26,6 @@ public class Cart extends BaseEntity {
 //    private List<CartItem> cartItems = new ArrayList<>();
 
 
-    @NotNull
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member buyer;

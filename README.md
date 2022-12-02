@@ -6,10 +6,9 @@
 
 
 #TODO 
-기본 Entity DTO 이외 기능 DTO 각자 구현 후 dtoToEntity 안되는 DTO는 각 클래스에 toEntity 구현
-QueryDsl 적용 고려
-ApiController 매핑 양식 맞추기
-@AuthenticationPrincipal controller가 아닌 service단에서 구현 고려
+cart 구현 성공 order 감안하여 로직 보강
+cart 링크, 페이지 구현
+
 
 
 # CRUD / Test

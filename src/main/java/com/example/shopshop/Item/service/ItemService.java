@@ -22,6 +22,8 @@ public interface ItemService {
 
     ItemDTO getItem(Long id);
 
+    Item findItemById(Long id);
+
     void modify(ItemModifyDTO dto);
 
     void remove(Long id);

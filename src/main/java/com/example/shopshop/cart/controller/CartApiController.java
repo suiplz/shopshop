@@ -1,9 +1,12 @@
 package com.example.shopshop.cart.controller;
 
 import com.example.shopshop.Item.domain.Item;
+import com.example.shopshop.Item.dto.ItemDTO;
 import com.example.shopshop.Item.service.ItemService;
 import com.example.shopshop.cart.dto.CartDTO;
+import com.example.shopshop.cart.dto.CartItemDTO;
 import com.example.shopshop.cart.service.CartService;
+import com.example.shopshop.member.domain.Member;
 import com.example.shopshop.security.auth.PrincipalDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,12 +23,16 @@ public class CartApiController {
     private final ItemService itemService;
 
     @PostMapping("/register/{itemId}")
-    public ResponseEntity<Long> register(@PathVariable Long itemId, @ModelAttribute CartDTO cartDTO, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+    public ResponseEntity register(@PathVariable Long itemId, @ModelAttribute CartItemDTO cartItemDTO, @AuthenticationPrincipal PrincipalDetails principalDetails) throws Exception {
 
-        itemService.getItem(itemId);
-        cartDTO.setBuyer(principalDetails.getMember());
-        Long register = cartService.register(cartDTO);
+        Item item = itemService.findItemById(itemId);
+        Member member = principalDetails.getMember();
 
-        return new ResponseEntity<Long>(register, HttpStatus.OK);
+        if (principalDetails.isAuthenticated(member.getId())) {
+            cartService.register(member, item, "S", 1);
+
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
 }

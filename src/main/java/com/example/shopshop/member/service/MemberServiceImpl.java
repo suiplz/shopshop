@@ -37,6 +37,7 @@ public class MemberServiceImpl implements MemberService {
         return null;
     }
 
+
     @Override
     public MemberDTO get(Long id) {
         Optional<Member> result = memberRepository.findById(id);

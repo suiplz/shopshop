@@ -1,10 +1,12 @@
 package com.example.shopshop.cart.service;
 
+import com.example.shopshop.Item.domain.Item;
 import com.example.shopshop.cart.domain.Cart;
 import com.example.shopshop.cart.domain.CartItem;
 import com.example.shopshop.cart.dto.CartDTO;
 import com.example.shopshop.cart.dto.CartItemDTO;
 import com.example.shopshop.cart.dto.CartItemModifyDTO;
+import com.example.shopshop.member.domain.Member;
 
 import java.util.HashMap;
 import java.util.List;
@@ -13,7 +15,9 @@ import java.util.stream.Collectors;
 
 public interface CartService {
 
-    Long register(CartDTO dto);
+    void register(Member member, Item item, String size, Integer amount) throws Exception;
+
+//    void register(Member member, CartItemDTO cartItemDTO) throws Exception;
 
     List<Object[]> getCartByMember(Long id);
 
@@ -35,7 +39,6 @@ public interface CartService {
 
                 CartItem cartItem = CartItem.builder()
                         .item(cartItemDTO.getItem())
-                        .price(cartItemDTO.getPrice())
                         .amount(cartItemDTO.getAmount())
                         .size(cartItemDTO.getSize())
                         .cart(cart)
