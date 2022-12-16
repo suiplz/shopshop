@@ -67,7 +67,7 @@ public class Item extends BaseEntity {
     }
 
 
-    public boolean stockCondition(String size, int count){
+    public boolean stockCondition(String size, Integer count){
 
         if (size == "S") { return this.sizeS - count > 0;}
         if (size == "M") { return this.sizeM - count > 0;}
@@ -75,11 +75,19 @@ public class Item extends BaseEntity {
         return true;
     }
 
-    public void changeStock(String size, int count){
+    public void removeStock(String size, Integer count){
 
         if (size == "S"){ this.sizeS -= count;}
         if (size == "M"){ this.sizeM -= count;}
         if (size == "L"){ this.sizeL -= count;}
+
+    }
+
+    public void addStock(String size, int count){
+
+        if (size == "S"){ this.sizeS += count;}
+        if (size == "M"){ this.sizeM += count;}
+        if (size == "L"){ this.sizeL += count;}
 
     }
 

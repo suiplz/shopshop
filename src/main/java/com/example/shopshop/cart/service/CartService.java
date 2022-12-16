@@ -21,7 +21,7 @@ public interface CartService {
 
     List<Object[]> getCartByMember(Long id);
 
-    void modify(CartItemModifyDTO cartModifyDTO);
+    void modify(CartItemModifyDTO cartModifyDTO) throws Exception;
 
 
     default Map<String, Object> dtoToEntity(CartDTO cartDTO) {
@@ -51,4 +51,6 @@ public interface CartService {
 
         return entityMap;
     }
+
+    void remove(Long memberId, Long id);
 }

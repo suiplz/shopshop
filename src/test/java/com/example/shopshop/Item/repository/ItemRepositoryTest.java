@@ -101,5 +101,22 @@ class ItemRepositoryTest {
     }
 
 
+    @Test
+    void changeStockTest() {
+
+        Optional<Item> findItem = itemRepository.findById(2L);
+        Item item = findItem.get();
+
+        log.info("Before : " + item.getSizeS());
+        int stock = 1;
+        item.addStock("S", stock);
+
+        log.info("After : " + item.getSizeS());
+
+        item.removeStock("S", 1);
+
+        log.info("Final : " + item.getSizeS());
+
+    }
 
 }
