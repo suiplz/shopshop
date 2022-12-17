@@ -34,7 +34,7 @@ public class CartServiceImpl implements CartService{
     public void register(Member member, Item newItem, String size, Integer amount) throws Exception{
         //CartRegisterDTO? principalID 고려해서 가능하면 DTO 별도 (cart 페이지 아닌 item 페이지에서 정보 받아옴)
 
-        Cart cart = cartRepository.findByBuyerId(member.getId());
+        Cart cart = cartRepository.findByMemberId(member.getId());
 
 
         if (!newItem.stockCondition(size, amount)) {
@@ -53,7 +53,7 @@ public class CartServiceImpl implements CartService{
 
         CartItem cartItem = cartItemRepository.findByCartIdAndItemId(cart.getId(), item.getId());
 
-        if (cartItem == null || (cartItem != null && !cartItem.getSize().equals(size))) {
+        if (cartItem == null || (cartItem != null && !(cartItem.getSize().equals(size)))) {
             cartItem = CartItem.builder()
                     .cart(cart)
                     .item(item)
@@ -71,78 +71,35 @@ public class CartServiceImpl implements CartService{
         }
     }
 
-//    @Override
-//    public void register(Member member, CartItemDTO cartItemDTO) throws Exception{
-//
-//        Cart cart = cartRepository.findByBuyerId(member.getId());
-//
-//        //Item page에서 받는 정보 item? dto?
-//
-//        Item newItem = cartItemDTO.getItem();
-//        String size = cartItemDTO.getSize();
-//        Integer amount = cartItemDTO.getAmount();
-//
-//        if (!newItem.stockCondition(size, amount)) {
-//            throw new Exception("재고 수량이 부족합니다.");
-//        }
-//
-//        if (cart == null) {
-//            cart = Cart.builder()
-//                    .buyer(member)
-//                    .build();
-//            cartRepository.save(cart);
-//        }
-//
-//        Optional<Item> result = itemRepository.findById(newItem.getId());
-//        Item item = result.get();
-//
-//        CartItem cartItem = cartItemRepository.findByCartIdAndItemId(cart.getId(), item.getId());
-//
-//        if (cartItem == null) {
-//            cartItem = CartItem.builder()
-//                    .cart(cart)
-//                    .item(item)
-//                    .amount(amount)
-//                    .size(size)
-//                    .build();
-//            item.changeStock(size, amount);
-//            cartItemRepository.save(cartItem);
-//        }
-//
-//        else {
-//            throw new Exception("이미 장바구니에 담겨있는 상품입니다.");
-//            //이미 장바구니에 담겨있는 상품입니다.
-//        }
-//    }
 
+    @Transactional
     @Override
     public void modify(CartItemModifyDTO dto) throws Exception{
-        Optional<CartItem> result = cartItemRepository.findById(dto.getId());
-        CartItem cartItem = result.get();
+        CartItem cartItem = cartItemRepository.findById(dto.getId()).orElseThrow(() -> new IllegalArgumentException("없는 카트 정보입니다."));
+
+
         Optional<Item> findItem = itemRepository.findById(cartItem.getItem().getId());
         Item item = findItem.get();
 
         if (!item.stockCondition(dto.getSize(), dto.getAmount())) {
             throw new Exception("재고 수량이 부족합니다.");
         }
-
-        String size = cartItem.getSize();
-        int amount = cartItem.getAmount();
-
-        log.info("Before : " + item.getSizeS());
-        log.info("getAmount : " + amount + " " + size + " " + dto.getSize());
-
-        log.info("result : " + dto.getSize().equals(size));
-        item.addStock(size, amount); //???????????????
-        log.info("CHECK 1 : " + item.getSizeS());
+        log.info("CHECK 1S : " + item.getSizeS());
+        log.info("CHECK 1M : " + item.getSizeM());
+        log.info("CHECK 1L : " + item.getSizeL());
+        item.addStock(dto.getSize(), cartItem.getAmount()); // cartItem.getSize() ???????????????
+        log.info("CHECK 2S : " + item.getSizeS());
+        log.info("CHECK 2M : " + item.getSizeM());
+        log.info("CHECK 2L : " + item.getSizeL());
 
         cartItem.changeSize(dto.getSize());
         cartItem.changeAmount(dto.getAmount());
 
         item.removeStock(dto.getSize(), dto.getAmount());
-        log.info("CHECK 2 : " + item.getSizeS());
         itemRepository.save(item);
-        log.info("CHECK 3 : " + item.getSizeS());
+        log.info("CHECK 3S : " + item.getSizeS());
+        log.info("CHECK 3M : " + item.getSizeM());
+        log.info("CHECK 3L : " + item.getSizeL());
 
         cartItemRepository.save(cartItem);
 
@@ -154,6 +111,12 @@ public class CartServiceImpl implements CartService{
         return carts;
     }
 
+    @Override
+    public Cart findByMemberId(Long memberId) {
+        Cart cart = cartRepository.findByMemberId(memberId);
+        return cart;
+    }
+
     @Transactional
     @Override
     public void remove(Long cartId, Long itemId) {
@@ -162,7 +125,6 @@ public class CartServiceImpl implements CartService{
         Item item = cartItem.getItem();
         item.addStock(cartItem.getSize(), cartItem.getAmount());
         cartItemRepository.deleteByCartIdAndItemId(cartId, itemId);
-
 
     }
 }

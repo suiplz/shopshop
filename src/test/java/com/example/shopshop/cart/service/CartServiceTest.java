@@ -40,7 +40,7 @@ class CartServiceTest {
     @Test
     void cartRegisterTest() throws Exception{
 
-        MemberDTO memberDTO = memberService.get(1L);
+        MemberDTO memberDTO = memberService.get(2L);
         Member member = Member.builder()
                 .id(memberDTO.getId())
                 .email(memberDTO.getEmail())
@@ -64,7 +64,7 @@ class CartServiceTest {
                 .build();
 
 
-        cartService.register(member, item, "S", 1);
+        cartService.register(member, item, "L", 1);
 
 
     }
@@ -73,12 +73,10 @@ class CartServiceTest {
     void cartModifyTest() throws Exception{
 
         CartItemModifyDTO cartItemModifyDTO = CartItemModifyDTO.builder()
-                .id(5L)
+                .id(6L)
                 .size("S")
-                .amount(1)
+                .amount(10)
                 .build();
-
-        // item 재고 수량 변화 itemRepository save? querydsl?
 
         cartService.modify(cartItemModifyDTO);
     }
@@ -100,7 +98,6 @@ class CartServiceTest {
 
     @Test
     void deleteCartByIdTest() {
-        cartService.remove(1L, 1L);
         cartService.remove(1L, 2L);
     }
 }

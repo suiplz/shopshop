@@ -21,6 +21,8 @@ public interface CartService {
 
     List<Object[]> getCartByMember(Long id);
 
+    Cart findByMemberId(Long memberId);
+
     void modify(CartItemModifyDTO cartModifyDTO) throws Exception;
 
 
@@ -52,5 +54,5 @@ public interface CartService {
         return entityMap;
     }
 
-    void remove(Long memberId, Long id);
+    void remove(Long cartId, Long itemId);
 }

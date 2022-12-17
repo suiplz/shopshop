@@ -26,7 +26,7 @@ class CartRepositoryTest {
     @Test
     void getCartByMemberId() {
 
-        Cart cart = cartRepository.findByBuyerId(1L);
+        Cart cart = cartRepository.findByMemberId(1L);
         System.out.println("cart = " + cart);
     }
 
