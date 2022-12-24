@@ -34,7 +34,7 @@ public class CartServiceImpl implements CartService{
     public void register(Member member, Item newItem, String size, Integer amount) throws Exception{
         //CartRegisterDTO? principalID 고려해서 가능하면 DTO 별도 (cart 페이지 아닌 item 페이지에서 정보 받아옴)
 
-        Cart cart = cartRepository.findByMemberId(member.getId());
+        Cart cart = cartRepository.findCartByMemberId(member.getId());
 
 
         if (!newItem.stockCondition(size, amount)) {
@@ -113,7 +113,7 @@ public class CartServiceImpl implements CartService{
 
     @Override
     public Cart findByMemberId(Long memberId) {
-        Cart cart = cartRepository.findByMemberId(memberId);
+        Cart cart = cartRepository.findCartByMemberId(memberId);
         return cart;
     }
 

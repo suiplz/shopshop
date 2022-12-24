@@ -1,5 +1,6 @@
 package com.example.shopshop.member.controller;
 
+import com.example.shopshop.aop.annotation.LoginCheck;
 import com.example.shopshop.member.domain.Member;
 import com.example.shopshop.member.dto.MemberDTO;
 import com.example.shopshop.member.dto.SignupDTO;
@@ -45,25 +46,31 @@ public class MemberController {
     }
 
     @GetMapping("/info/{id}")
-    public String info(@PathVariable Long id, @AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
-        if (principalDetails.isAuthenticated(id)) {
-            MemberDTO memberDTO = memberService.get(id);
-            model.addAttribute("dto", memberDTO);
-            return "/member/info";
-        }
-        return null;
+    public String info(@PathVariable Long id, @LoginCheck Member member, Model model) {
+
+        MemberDTO memberDTO = memberService.get(member.getId());
+        model.addAttribute("dto", memberDTO);
+        return "/member/info";
 
     }
 
+//    @GetMapping("/info/{id}")
+//    public String info(@PathVariable Long id, @AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
+//        if (principalDetails.isAuthenticated(id)) {
+//            MemberDTO memberDTO = memberService.get(id);
+//            model.addAttribute("dto", memberDTO);
+//            return "/member/info";
+//        }
+//        return null;
+//
+//    }
+
     @GetMapping("/modify/{id}")
-    public String modify(@PathVariable Long id, @AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
-        if (principalDetails.isAuthenticated(id)) {
-            MemberDTO memberDTO = memberService.get(id);
-            log.info("memberDTO.getId() : " + memberDTO.getId());
-            model.addAttribute("dto", memberDTO);
-            return "/member/modify";
-        }
-        return null;
+    public String modify(@PathVariable Long id, @LoginCheck Member member, Model model) {
+        MemberDTO memberDTO = memberService.get(member.getId());
+        log.info("memberDTO.getId() : " + memberDTO.getId());
+        model.addAttribute("dto", memberDTO);
+        return "/member/modify";
     }
 
     @PostMapping("/modify")

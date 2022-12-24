@@ -18,7 +18,10 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
             "WHERE c.buyer.id = :id")
     List<Object[]> getCartByMemberId(@Param("id") Long id);
 
-    Cart findByMemberId(Long id);
+    @EntityGraph(attributePaths = {"buyer"}, type = EntityGraph.EntityGraphType.FETCH)
+    @Query("SELECT c FROM Cart c " +
+            "WHERE c.buyer.id = :memberId")
+    Cart findCartByMemberId(@Param("memberId") Long memberId);
 
     // query error - consider to use querydsl
 //    @EntityGraph(attributePaths = {"buyer"}, type = EntityGraph.EntityGraphType.FETCH)
