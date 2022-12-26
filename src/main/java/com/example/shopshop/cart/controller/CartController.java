@@ -1,5 +1,6 @@
 package com.example.shopshop.cart.controller;
 
+import com.example.shopshop.aop.annotation.LoginCheck;
 import com.example.shopshop.cart.service.CartService;
 import com.example.shopshop.member.domain.Member;
 import com.example.shopshop.security.auth.PrincipalDetails;
@@ -20,14 +21,11 @@ public class CartController {
     private final CartService cartService;
 
     @GetMapping("/cartList")
-    public void cartList(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model){
+    public void cartList(@LoginCheck Member member, Model model){
 
-        Member member = principalDetails.getMember();
-
-        if (principalDetails.isAuthenticated(member.getId())) {
-            List<Object[]> cartList = cartService.getCartByMember(member.getId());
-            model.addAttribute("cartList", cartList);
-        }
+        List<Object[]> cartList = cartService.getCartByMember(member.getId());
+        //vue spring 동영상 2:01:00 참고 or itemList 처럼
+        model.addAttribute("cartList", cartList);
 
     }
 }

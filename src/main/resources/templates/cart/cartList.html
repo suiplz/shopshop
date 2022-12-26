@@ -10,7 +10,43 @@
     <title>Title</title>
         </head>
 <body>
+    <div class="col mb-6" th:each="cartItem : ${cartList.cartItem}">
+        <div class="form-floating">
+            <input type="hidden" class="form-control"  id="id" th:value="${cartItem.id}" placeholder="id">
+            <label for="id">id</label>
+        </div>
+        <div class="form-floating">
+            <input type="hidden" class="form-control"  id="size" th:value="${cartItem.size}" placeholder="id">
+            <label for="size">size</label>
+        </div>
+    </div>
+<!--    <div class="form-floating">-->
+<!--        <input type="hidden" class="form-control"  id="id" th:value="${cartList.id}" placeholder="id">-->
+<!--        <label for="id">id</label>-->
+<!--    </div>-->
 
+<!--    <div class="form-floating">-->
+<!--        <input type="password" class="form-control" id="floatingPassword" name="password" th:value="${dto.password}">-->
+<!--        <label for="floatingPassword">Password</label>-->
+<!--    </div>-->
+<!--    -->
+<!--    <div class="form-floating">-->
+<!--        <input type="password" class="form-control" id="floatingPasswordCheck" name="passwordCheck" th:value="${dto.passwordCheck}">-->
+<!--        <label for="floatingPasswordCheck">PasswordCheck</label>-->
+<!--    </div>-->
+<!--    -->
+<!--    <div class="form-floating">-->
+<!--        <input type="text" class="form-control" id="floatingPhone" name="phone" th:value="${dto.phone}" placeholder="Phone">-->
+<!--        <label for="floatingPhone">Phone</label>-->
+<!--    </div>-->
+<!--    <div class="form-floating">-->
+<!--        <input type="text" class="form-control" id="floatingAddress" name="address"  th:value="${dto.address}"placeholder="Address">-->
+<!--        <label for="floatingAddress">Address</label>-->
+<!--    </div>-->
+<!--    <div class="form-group m-0">-->
+<!--        <button class="btn btn-primary" type="button">Check</button>-->
+<!--    </div>-->
+<!--    -->
 
 </body>
     </th:block>

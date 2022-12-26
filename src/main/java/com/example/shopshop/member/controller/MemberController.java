@@ -47,10 +47,13 @@ public class MemberController {
 
     @GetMapping("/info/{id}")
     public String info(@PathVariable Long id, @LoginCheck Member member, Model model) {
-
-        MemberDTO memberDTO = memberService.get(member.getId());
-        model.addAttribute("dto", memberDTO);
-        return "/member/info";
+        if (member.getId() == id) {
+            MemberDTO memberDTO = memberService.get(member.getId());
+            model.addAttribute("dto", memberDTO);
+            return "/member/info";
+        } else {
+            return null;
+        }
 
     }
 
@@ -67,10 +70,14 @@ public class MemberController {
 
     @GetMapping("/modify/{id}")
     public String modify(@PathVariable Long id, @LoginCheck Member member, Model model) {
-        MemberDTO memberDTO = memberService.get(member.getId());
-        log.info("memberDTO.getId() : " + memberDTO.getId());
-        model.addAttribute("dto", memberDTO);
-        return "/member/modify";
+        if (member.getId() == id) {
+            MemberDTO memberDTO = memberService.get(member.getId());
+            log.info("memberDTO.getId() : " + memberDTO.getId());
+            model.addAttribute("dto", memberDTO);
+            return "/member/modify";
+        } else {
+            return null;
+        }
     }
 
     @PostMapping("/modify")

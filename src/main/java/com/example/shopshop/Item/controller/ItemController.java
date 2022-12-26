@@ -5,6 +5,7 @@ import com.example.shopshop.Item.domain.Item;
 import com.example.shopshop.Item.dto.ItemDTO;
 import com.example.shopshop.Item.service.ItemService;
 import com.example.shopshop.page.dto.PageRequestDTO;
+import com.example.shopshop.page.dto.PageResultDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.context.annotation.Bean;

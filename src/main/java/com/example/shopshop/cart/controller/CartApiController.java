@@ -2,6 +2,7 @@ package com.example.shopshop.cart.controller;
 
 import com.example.shopshop.Item.domain.Item;
 import com.example.shopshop.Item.service.ItemService;
+import com.example.shopshop.aop.annotation.LoginCheck;
 import com.example.shopshop.cart.dto.CartItemDTO;
 import com.example.shopshop.cart.service.CartService;
 import com.example.shopshop.member.domain.Member;
@@ -38,10 +39,9 @@ public class CartApiController {
     }
 
     @GetMapping("/cartList/{memberId}")
-    public ResponseEntity getList(@PathVariable Long memberId, @AuthenticationPrincipal PrincipalDetails principalDetails, Model model){
+    public ResponseEntity getList(@PathVariable Long memberId, @LoginCheck Member member, Model model){
 
-        Member member = principalDetails.getMember();
-        if (principalDetails.isAuthenticated(member.getId())) {
+        if (member.getId() == memberId) {
             List<Object[]> carts = cartService.getCartByMember(member.getId());
             model.addAttribute("carts", carts);
             return new ResponseEntity<>(HttpStatus.OK);

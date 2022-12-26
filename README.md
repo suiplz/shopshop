@@ -4,7 +4,7 @@
 ## TO DO
 ### userService,Security, item by category, order Implement, review Implement, cart CRUD, Validation, Paging
 
-### 연관관계 테이블 - 하나의 서비스에서 여러개의 엔티티 필요로 할 시 1. 그에 맞는 쿼리 생성 2. 여러 entity의 repository 이용 3. 가짜 객체 생성 통합할 것
+### 연관관계 테이블 - 하나의 서비스에서 여러개의 엔티티 필요로 할 시 1. 그에 맞는 쿼리 생성 2. 여러 model의 repository 이용 3. 가짜 객체 생성 통합할 것
 
 
 #TODO 
