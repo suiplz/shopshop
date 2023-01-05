@@ -17,13 +17,14 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
 
     @EntityGraph(attributePaths = {"provider"}, type = EntityGraph.EntityGraphType.FETCH)
     @Query("SELECT i, ii FROM Item i " +
-            "left outer join ItemImage ii on ii.item = i " +
-            "group by i.id")
+            "LEFT OUTER JOIN ItemImage ii on ii.item = i " +
+            "GROUP BY i.id")
     Page<Object[]> getListPage(Pageable pageable);
 
     @EntityGraph(attributePaths = {"provider"}, type = EntityGraph.EntityGraphType.FETCH)
-    @Query("SELECT i, ii FROM Item i " +
-            "left outer join ItemImage ii on ii.item = i " +
+    @Query("SELECT i, ii, avg(coalesce(r.rate, 0)), count(r) FROM Item i " +
+            "LEFT OUTER JOIN ItemImage ii on ii.item = i " +
+            "LEFT OUTER JOIN Review r on r.item = i " +
             "WHERE i.id = :id")
     List<Object[]> getItemDetail(@Param("id") Long id);
 

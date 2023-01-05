@@ -55,7 +55,9 @@ public class ItemServiceImpl implements ItemService{
 
         Function<Object[], ItemDTO> fn = (arr -> entitiesToDTO(
                 (Item)arr[0],
-                (List<ItemImage>)(Arrays.asList((ItemImage)arr[1]))));
+                (List<ItemImage>)(Arrays.asList((ItemImage)arr[1])),
+                (Double) arr[2],
+                (Long) arr[3]));
 
 
         return new PageResultDTO<>(result, fn);
@@ -77,7 +79,10 @@ public class ItemServiceImpl implements ItemService{
             itemImageList.add(itemImage);
         });
 
-        return entitiesToDTO(item, itemImageList);
+        Double avgRate = (Double) result.get(0)[2];
+        Long reviewCnt = (Long) result.get(0)[3];
+
+        return entitiesToDTO(item, itemImageList, avgRate, reviewCnt);
 
 
     }

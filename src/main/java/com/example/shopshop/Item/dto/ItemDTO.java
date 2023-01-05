@@ -43,6 +43,10 @@ public class ItemDTO {
 
     private Member provider;
 
+    private double avgRate;
+
+    private int reviewCnt;
+
     @Builder.Default
     private List<ItemImageDTO> imageDTOList = new ArrayList<>();
 
