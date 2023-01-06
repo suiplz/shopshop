@@ -44,14 +44,207 @@
                         </ul>
                     </div>
                 </div>
+
+                <div class="reviewModal modal" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Item Review</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label> Reviewer ID</label>
+                                    <input type="text" class="form-control" name="memberId">
+                                </div>
+                                <div class="form-group">
+                                    <label>Grade <span class="grade"></span></label>
+                                    <div class='starrr'></div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Review Title</label>
+                                    <input type="text" class="form-control" name="text" placeholder="Item GOOD">
+                                </div>
+                                <div class="form-group">
+                                    <label>Review text</label>
+                                    <input type="text" class="form-control" name="text" placeholder="love it">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary reviewSaveBtn">Save Review</button>
+                                <button type="button" class="btn btn-warning modifyBtn" >Modify Review</button>
+                                <button type="button" class="btn btn-danger removeBtn" >Remove</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
+
+
         <!-- Footer-->
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
-        <script src="js/scripts.js"></script>
-    </body>
+<!--        <script src="js/scripts.js"></script>-->
+        <script th:src="@{/vendor/starrr.js}"></script>
+        <script>
+            $(document).ready(function (e) {
+
+                var grade = 0;
+                var id = [[${dto.id}]];
+
+                $('.starrr').starrr({
+                    rating: grade,
+                    change: function (e, value) {
+                        if (value) {
+                            console.log(value);
+                            grade = value;
+                        }
+                    }
+                });
+
+                var reviewModal = $(".reviewModal");
+                var inputMemberId = $('input[name="memberId"]');
+                var inputTitle = $('input[name="title"]');
+                var inputText = $('input[name="text"]');
+
+                $(".addReviewBtn").click(function () {
+                    inputMemberId.val("");
+                    inputTitle.val("");
+                    inputText.val("");
+
+                    $("removeBtn, .modifyBtn").hide();
+                    $(".reviewSaveBtn").show();
+
+                    reviewModal.modal('show');
+
+                });
+
+                $(".reviewSaveBtn").click(function () {
+                    var data = {
+                        id: id,
+                        grade: grade,
+                        title: inputTitle.val(),
+                        text: inputText.val(),
+                        memberId: inputMemberId.val()
+                    };
+
+                    console.log(data);
+
+                    $.ajax({
+                        url: '/review/' + id,
+                        type: "POST",
+                        data: JSON.stringify(data),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "text",
+                        success: function (result) {
+                            console.log("result: " + result);
+                            self.location.reload();
+                        }
+
+                    })
+                    reviewModal.modal('hide');
+                });
+
+                function getItemReviews() {
+                    function formatTime(str) {
+                        var date = new Date(str);
+
+                        return date.getFullYear() + '/' +
+                            (date.getMonth() + 1) + '/' +
+                            date.getDate() + ' ' +
+                            date.getHours() + ':' +
+                            date.getMinutes();
+                    }
+
+                    $.getJSON("/review/" + id + "/all", function (arr) {
+                        var str = "";
+
+                        $.each(arr, function (idx, review) {
+
+                            console.log(review);
+
+                            str += ' <div class="card-body" data-id=' + review.id + 'data-memberId=' + review.memberId + '>';
+                            str += ' <h5 class="card-title">' + review.title + '</h5>';
+                            str += ' <h5 class="card-title">' + review.text + '<span>' + review.grade + '</span></h5>';
+                            str += ' <h6 class="card-subtitle mb-2 text-muted">' + review.member.email + '</h6>';
+                            str += ' <p class="card-text">' + formatTime(review.regDate) + '</p>';
+                        });
+                        $("reviewList").html(str);
+                    });
+                }
+
+                getItemReviews();
+
+                var reviewnum;
+                $(".reviewList").on("click", ".card-body", function () {
+
+                    $(".reviewSaveBtn").hide();
+                    $(".removeBtn, .modifyBtn").show();
+
+                    var targetReview = $(this);
+
+                    reviewnum = target.review.data("reviewnum");
+                    console.log("reviewnum: " + reviewnum);
+                    inputMemberId.val(targetReview.data("memberId"));
+
+                    var grade = targetReview.find('.card-title span').html();
+                    $(".starrr a:nth-child(" + grade + ")").trigger('click');
+
+                    $('.reviewModal').modal('show');
+                });
+
+                $(".modifyBtn").on("click", function () {
+
+                    var data = {
+                        reviewnum: reviewnum,
+                        id: id,
+                        grade: grade,
+                        title: inputTitle.val(),
+                        text: inputText.val(),
+                        memberId: inputMemberId.val()
+                    };
+
+                    console.log(data);
+
+                    $.ajax({
+                        url: '/review/' + mno + "/" + reviewnum,
+                        type: "PUT",
+                        data: JSON.stringify(data),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "text",
+                        success: function (result) {
+                            console.log("result: " + result);
+                            self.location.reload();
+
+                        }
+                    })
+                    reviewModal.modal('hide');
+                });
+
+                $(".removeBtn").on("click", function () {
+                    var data = {reviewnum: reviewnum};
+                    console.log(data);
+
+                    $.ajax({
+                        url: '/review/' + mno + "/" + reviewnum,
+                        type: "DELETE",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "text",
+                        success: function (result) {
+                            console.log("result: " + result);
+                            self.location.reload();
+                        }
+                    })
+                    reviewModal.modal('hide');
+                });
+            });
+
+        </script>
 
     </th:block>
 </th:block>

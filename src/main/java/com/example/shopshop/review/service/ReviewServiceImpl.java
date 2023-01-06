@@ -9,6 +9,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,6 +27,13 @@ public class ReviewServiceImpl implements ReviewService{
     }
 
     @Override
+    public Review get(Long id) {
+
+        Review review = reviewRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("없는 정보입니다."));
+        return review;
+    }
+
+    @Override
     public List<ReviewDTO> getListByItemId(Long itemId) {
 
         Item item = Item.builder().id(itemId).build();
@@ -36,8 +44,18 @@ public class ReviewServiceImpl implements ReviewService{
     }
 
     @Override
-    public Review modify(ReviewDTO dto) {
-        return null;
+    public void modify(ReviewDTO dto) {
+        Optional<Review> result = reviewRepository.findById(dto.getId());
+
+        if (result.isPresent()) {
+
+            Review review = result.get();
+            review.changeTitle(dto.getTitle());
+            review.changeText(dto.getText());
+            review.changeRate(dto.getRate());
+
+            reviewRepository.save(review);
+        }
     }
 
     @Override

@@ -15,9 +15,16 @@ import java.util.List;
 
 public interface ItemRepository extends JpaRepository<Item, Long> {
 
+//    @EntityGraph(attributePaths = {"provider"}, type = EntityGraph.EntityGraphType.FETCH)
+//    @Query("SELECT i, ii FROM Item i " +
+//            "LEFT OUTER JOIN ItemImage ii on ii.item = i " +
+//            "GROUP BY i.id")
+//    Page<Object[]> getListPage(Pageable pageable);
+
     @EntityGraph(attributePaths = {"provider"}, type = EntityGraph.EntityGraphType.FETCH)
-    @Query("SELECT i, ii FROM Item i " +
+    @Query("SELECT i, ii, avg(coalesce(r.rate, 0)), count(r) FROM Item i " +
             "LEFT OUTER JOIN ItemImage ii on ii.item = i " +
+            "LEFT OUTER JOIN Review  r on r.item = i " +
             "GROUP BY i.id")
     Page<Object[]> getListPage(Pageable pageable);
 

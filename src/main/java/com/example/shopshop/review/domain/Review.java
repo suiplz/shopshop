@@ -36,6 +36,15 @@ public class Review extends BaseEntity {
     private Member member;
 
 
+    public void changeTitle(String title){
+        this.title = title;
+    }
 
+    public void changeText(String text) {
+        this.text = text;
+    }
 
+    public void changeRate(Integer rate) {
+        this.rate = rate;
+    }
 }

@@ -24,11 +24,5 @@ class ItemServiceTest {
         System.out.println("item = " + item);
     }
 
-    @Test
-    void getList() {
-        PageRequestDTO requestDTO = new PageRequestDTO();
-        Pageable pageable = requestDTO.getPageable(Sort.by("id").descending());
-
-    }
 
 }

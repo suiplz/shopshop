@@ -2,7 +2,6 @@ package com.example.shopshop.review.service;
 
 import com.example.shopshop.review.domain.Review;
 import com.example.shopshop.review.dto.ReviewDTO;
-import lombok.extern.log4j.Log4j2;
 
 import java.util.List;
 
@@ -10,7 +9,9 @@ public interface ReviewService {
 
     Long register(ReviewDTO dto);
 
-    Review modify(ReviewDTO dto);
+    Review get(Long id);
+
+    void modify(ReviewDTO dto);
 
     List<ReviewDTO> getListByItemId(Long itemId);
 

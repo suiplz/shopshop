@@ -8,6 +8,7 @@ import com.example.shopshop.member.domain.Member;
 import com.example.shopshop.member.dto.MemberDTO;
 import com.example.shopshop.member.repository.MemberRepository;
 import com.example.shopshop.member.service.MemberService;
+import com.example.shopshop.review.domain.Review;
 import com.example.shopshop.review.dto.ReviewDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -82,6 +83,28 @@ class ReviewServiceTest {
             System.out.println("itemReview.getItem() = " + itemReview.getItem().getId());
             System.out.println("itemReview.getRate() = " + itemReview.getRate());
         });
+    }
+
+    @Test
+    void getOneReviewTest() {
+
+//        Optional<Member> result1 = memberRepository.findById(1L);
+//        Optional<Item> result2 = itemRepository.findById(1L);
+//
+//        Member member = result1.get();
+//        Item item = result2.get();
+//        ReviewDTO reviewDTO = ReviewDTO.builder()
+//                .member(member)
+//                .item(item)
+//                .title("title")
+//                .text("asdf")
+//                .rate(3)
+//                .build();
+//        reviewService.register(reviewDTO);
+
+        Review review = reviewService.get(1L);
+        log.info("Review : " + review);
+        log.info("memberId" + review.getMember().getId());
     }
 
 }
