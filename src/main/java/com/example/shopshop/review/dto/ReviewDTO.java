@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Setter
 public class ReviewDTO {
 
-    private Long id;
+    private Long reviewId;
 
     private String title;
 

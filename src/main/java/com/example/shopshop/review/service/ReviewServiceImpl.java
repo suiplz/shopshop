@@ -23,7 +23,7 @@ public class ReviewServiceImpl implements ReviewService{
     public Long register(ReviewDTO dto) {
         Review review = dtoToEntity(dto);
         reviewRepository.save(review);
-        return review.getId();
+        return review.getReviewId();
     }
 
     @Override
@@ -45,7 +45,7 @@ public class ReviewServiceImpl implements ReviewService{
 
     @Override
     public void modify(ReviewDTO dto) {
-        Optional<Review> result = reviewRepository.findById(dto.getId());
+        Optional<Review> result = reviewRepository.findById(dto.getReviewId());
 
         if (result.isPresent()) {
 

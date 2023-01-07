@@ -18,7 +18,11 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
 //            "WHERE i.id = :id")
 //    List<Review> getReviewByItemId(@Param("id") Long id);
 
-    List<Review> findByItem(Item item);
+    @EntityGraph(attributePaths = {"item"}, type = EntityGraph.EntityGraphType.FETCH)
+    @Query("SELECT r FROM Review r " +
+            "INNER JOIN Item i ON i.id = r.item.id " +
+            "WHERE i =:item")
+    List<Review> findByItem(@Param("item") Item item);
 
     @EntityGraph(attributePaths = {"member"}, type = EntityGraph.EntityGraphType.FETCH)
     @Query("SELECT r FROM Review r " +

@@ -34,18 +34,18 @@ public class ReviewApiController {
 
     }
 
-    @PutMapping("/{itemId}/{reviewnum}")
-    public ResponseEntity<Long> modifyReview(@PathVariable Long reviewnum,
+    @PutMapping("/{itemId}/{reviewId}")
+    public ResponseEntity<Long> modifyReview(@PathVariable Long reviewId,
                                              @RequestBody ReviewDTO reviewDTO) {
 
         reviewService.modify(reviewDTO);
-        return new ResponseEntity<>(reviewnum, HttpStatus.OK);
+        return new ResponseEntity<>(reviewId, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{itemId}/{reviewnum}")
-    public ResponseEntity<Long> removeReview(@PathVariable Long reviewnum) {
-        reviewService.remove(reviewnum);
+    @DeleteMapping("/{itemId}/{reviewId}")
+    public ResponseEntity<Long> removeReview(@PathVariable Long reviewId) {
+        reviewService.remove(reviewId);
 
-        return new ResponseEntity<>(reviewnum, HttpStatus.OK);
+        return new ResponseEntity<>(reviewId, HttpStatus.OK);
     }
 }

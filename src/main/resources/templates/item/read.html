@@ -45,13 +45,24 @@
                     </div>
                 </div>
 
+                <button type="button" class="btn btn-primary">
+                    Review Count <span class="badge badge-light">[[${dto.reviewCnt}]]</span>
+                </button>
+
+                <button type="button" class="btn btn-info addReviewBtn">
+                    Review Register
+                </button>
+
+                <div class="list-group reviewList">
+
+                </div>
                 <div class="reviewModal modal" tabindex="-1" role="dialog">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title">Item Review</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
+                                <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
                             <div class="modal-body">
@@ -81,7 +92,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
         </section>
 
 
@@ -91,6 +101,8 @@
         <!-- Core theme JS-->
 <!--        <script src="js/scripts.js"></script>-->
         <script th:src="@{/vendor/starrr.js}"></script>
+        <link th:href="@{/css/starrr.css}" rel="stylesheet">
+
         <script>
             $(document).ready(function (e) {
 
@@ -117,7 +129,7 @@
                     inputTitle.val("");
                     inputText.val("");
 
-                    $("removeBtn, .modifyBtn").hide();
+                    $(".removeBtn, .modifyBtn").hide();
                     $(".reviewSaveBtn").show();
 
                     reviewModal.modal('show');
@@ -174,13 +186,13 @@
                             str += ' <h6 class="card-subtitle mb-2 text-muted">' + review.member.email + '</h6>';
                             str += ' <p class="card-text">' + formatTime(review.regDate) + '</p>';
                         });
-                        $("reviewList").html(str);
+                        $(".reviewList").html(str);
                     });
                 }
 
                 getItemReviews();
 
-                var reviewnum;
+                var reviewId;
                 $(".reviewList").on("click", ".card-body", function () {
 
                     $(".reviewSaveBtn").hide();
@@ -188,9 +200,13 @@
 
                     var targetReview = $(this);
 
-                    reviewnum = target.review.data("reviewnum");
-                    console.log("reviewnum: " + reviewnum);
+                    reviewId = targetReview.data("reviewId");
+                    console.log("reviewId: " + reviewId);
                     inputMemberId.val(targetReview.data("memberId"));
+                    inputTitle.val(targetReview.find('.card-title').clone().children().remove().end().text());
+                    inputText.val(targetReview.find('.card-title').clone().children().remove().end().text());
+
+
 
                     var grade = targetReview.find('.card-title span').html();
                     $(".starrr a:nth-child(" + grade + ")").trigger('click');
@@ -201,7 +217,7 @@
                 $(".modifyBtn").on("click", function () {
 
                     var data = {
-                        reviewnum: reviewnum,
+                        reviewId: reviewId,
                         id: id,
                         grade: grade,
                         title: inputTitle.val(),
@@ -212,7 +228,7 @@
                     console.log(data);
 
                     $.ajax({
-                        url: '/review/' + mno + "/" + reviewnum,
+                        url: '/review/' + id + "/" + reviewId,
                         type: "PUT",
                         data: JSON.stringify(data),
                         contentType: "application/json; charset=utf-8",
@@ -227,11 +243,11 @@
                 });
 
                 $(".removeBtn").on("click", function () {
-                    var data = {reviewnum: reviewnum};
+                    var data = {reviewId: reviewId};
                     console.log(data);
 
                     $.ajax({
-                        url: '/review/' + mno + "/" + reviewnum,
+                        url: '/review/' + id + "/" + reviewId,
                         type: "DELETE",
                         contentType: "application/json; charset=utf-8",
                         dataType: "text",
