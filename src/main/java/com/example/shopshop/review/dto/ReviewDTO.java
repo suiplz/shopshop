@@ -19,7 +19,7 @@ public class ReviewDTO {
 
     private String text;
 
-    private Integer rate;
+    private Integer grade;
 
     private Item item;
 

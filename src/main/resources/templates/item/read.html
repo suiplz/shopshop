@@ -67,8 +67,8 @@
                             </div>
                             <div class="modal-body">
                                 <div class="form-group">
-                                    <label> Reviewer ID</label>
-                                    <input type="text" class="form-control" name="memberId">
+                                    <label> Reviewer Email</label>
+
                                 </div>
                                 <div class="form-group">
                                     <label>Grade <span class="grade"></span></label>
@@ -76,11 +76,11 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Review Title</label>
-                                    <input type="text" class="form-control" name="text" placeholder="Item GOOD">
+                                    <input type="text" class="form-control" name="title" placeholder="Item GOOD">
                                 </div>
                                 <div class="form-group">
                                     <label>Review text</label>
-                                    <input type="text" class="form-control" name="text" placeholder="love it">
+                                    <textarea type="text" class="form-control" name="text" placeholder="love it" rows="6"></textarea>
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -92,6 +92,7 @@
                         </div>
                     </div>
                 </div>
+            </div>
         </section>
 
 
@@ -102,15 +103,16 @@
 <!--        <script src="js/scripts.js"></script>-->
         <script th:src="@{/vendor/starrr.js}"></script>
         <link th:href="@{/css/starrr.css}" rel="stylesheet">
+        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
 
         <script>
             $(document).ready(function (e) {
 
                 var grade = 0;
-                var id = [[${dto.id}]];
+                var itemId = [[${dto.id}]];
 
                 $('.starrr').starrr({
-                    rating: grade,
+                    grade: grade,
                     change: function (e, value) {
                         if (value) {
                             console.log(value);
@@ -120,12 +122,10 @@
                 });
 
                 var reviewModal = $(".reviewModal");
-                var inputMemberId = $('input[name="memberId"]');
                 var inputTitle = $('input[name="title"]');
-                var inputText = $('input[name="text"]');
+                var inputText = $('textarea[name="text"]');
 
                 $(".addReviewBtn").click(function () {
-                    inputMemberId.val("");
                     inputTitle.val("");
                     inputText.val("");
 
@@ -138,17 +138,16 @@
 
                 $(".reviewSaveBtn").click(function () {
                     var data = {
-                        id: id,
+                        itemId: itemId,
                         grade: grade,
                         title: inputTitle.val(),
                         text: inputText.val(),
-                        memberId: inputMemberId.val()
                     };
 
                     console.log(data);
 
                     $.ajax({
-                        url: '/review/' + id,
+                        url: '/review/' + itemId,
                         type: "POST",
                         data: JSON.stringify(data),
                         contentType: "application/json; charset=utf-8",
@@ -173,18 +172,19 @@
                             date.getMinutes();
                     }
 
-                    $.getJSON("/review/" + id + "/all", function (arr) {
+                    $.getJSON("/review/" + itemId + "/all", function (arr) {
                         var str = "";
 
                         $.each(arr, function (idx, review) {
 
                             console.log(review);
 
-                            str += ' <div class="card-body" data-id=' + review.id + 'data-memberId=' + review.memberId + '>';
+                            str += ' <div class="card-body" data-reviewId=' + review.reviewId + '>';
                             str += ' <h5 class="card-title">' + review.title + '</h5>';
-                            str += ' <h5 class="card-title">' + review.text + '<span>' + review.grade + '</span></h5>';
+                            str += ' <h5 class="card-text">' + review.text + '<span>' + review.grade + '</span></h5>';
                             str += ' <h6 class="card-subtitle mb-2 text-muted">' + review.member.email + '</h6>';
                             str += ' <p class="card-text">' + formatTime(review.regDate) + '</p>';
+                            str += '</div>'
                         });
                         $(".reviewList").html(str);
                     });
@@ -202,9 +202,8 @@
 
                     reviewId = targetReview.data("reviewId");
                     console.log("reviewId: " + reviewId);
-                    inputMemberId.val(targetReview.data("memberId"));
                     inputTitle.val(targetReview.find('.card-title').clone().children().remove().end().text());
-                    inputText.val(targetReview.find('.card-title').clone().children().remove().end().text());
+                    inputText.val(targetReview.find('.card-text').clone().children().remove().end().text());
 
 
 
@@ -218,17 +217,16 @@
 
                     var data = {
                         reviewId: reviewId,
-                        id: id,
+                        itemId: itemId,
                         grade: grade,
                         title: inputTitle.val(),
                         text: inputText.val(),
-                        memberId: inputMemberId.val()
                     };
 
                     console.log(data);
 
                     $.ajax({
-                        url: '/review/' + id + "/" + reviewId,
+                        url: '/review/' + itemId + "/" + reviewId,
                         type: "PUT",
                         data: JSON.stringify(data),
                         contentType: "application/json; charset=utf-8",
@@ -247,7 +245,7 @@
                     console.log(data);
 
                     $.ajax({
-                        url: '/review/' + id + "/" + reviewId,
+                        url: '/review/' + itemId + "/" + reviewId,
                         type: "DELETE",
                         contentType: "application/json; charset=utf-8",
                         dataType: "text",

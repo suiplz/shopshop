@@ -81,7 +81,7 @@ class ReviewServiceTest {
         result.forEach(itemReview -> {
             System.out.println("itemReview = " + itemReview);
             System.out.println("itemReview.getItem() = " + itemReview.getItem().getId());
-            System.out.println("itemReview.getRate() = " + itemReview.getRate());
+            System.out.println("itemReview.getRate() = " + itemReview.getGrade());
         });
     }
 

@@ -20,13 +20,11 @@ public class Review extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long reviewId;
 
-    @NotBlank
     private String title;
 
-    @NotBlank
     private String text;
 
-    private Integer rate;
+    private Integer grade;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id")
@@ -47,7 +45,7 @@ public class Review extends BaseEntity {
         this.text = text;
     }
 
-    public void changeRate(Integer rate) {
-        this.rate = rate;
+    public void changeGrade(Integer rate) {
+        this.grade = rate;
     }
 }

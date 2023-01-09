@@ -21,7 +21,7 @@ public interface ReviewService {
         Review review = Review.builder()
                 .title(reviewDTO.getTitle())
                 .text(reviewDTO.getText())
-                .rate(reviewDTO.getRate())
+                .grade(reviewDTO.getGrade())
                 .item(reviewDTO.getItem())
                 .member(reviewDTO.getMember())
                 .build();
@@ -35,7 +35,7 @@ public interface ReviewService {
                 .reviewId(review.getReviewId())
                 .title(review.getTitle())
                 .text(review.getText())
-                .rate(review.getRate())
+                .grade(review.getGrade())
                 .item(review.getItem())
                 .member(review.getMember())
                 .regDate(review.getRegDate())

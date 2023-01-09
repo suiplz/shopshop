@@ -22,14 +22,14 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
 //    Page<Object[]> getListPage(Pageable pageable);
 
     @EntityGraph(attributePaths = {"provider"}, type = EntityGraph.EntityGraphType.FETCH)
-    @Query("SELECT i, ii, avg(coalesce(r.rate, 0)), count(r) FROM Item i " +
+    @Query("SELECT i, ii, avg(coalesce(r.grade, 0)), count(r) FROM Item i " +
             "LEFT OUTER JOIN ItemImage ii on ii.item = i " +
             "LEFT OUTER JOIN Review  r on r.item = i " +
             "GROUP BY i.id")
     Page<Object[]> getListPage(Pageable pageable);
 
     @EntityGraph(attributePaths = {"provider"}, type = EntityGraph.EntityGraphType.FETCH)
-    @Query("SELECT i, ii, avg(coalesce(r.rate, 0)), count(r) FROM Item i " +
+    @Query("SELECT i, ii, avg(coalesce(r.grade, 0)), count(r) FROM Item i " +
             "LEFT OUTER JOIN ItemImage ii on ii.item = i " +
             "LEFT OUTER JOIN Review r on r.item = i " +
             "WHERE i.id = :id")

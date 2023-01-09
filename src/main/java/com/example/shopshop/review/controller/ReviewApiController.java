@@ -1,11 +1,15 @@
 package com.example.shopshop.review.controller;
 
+import com.example.shopshop.Item.service.ItemService;
+import com.example.shopshop.member.domain.Member;
 import com.example.shopshop.review.dto.ReviewDTO;
 import com.example.shopshop.review.service.ReviewService;
+import com.example.shopshop.security.auth.PrincipalDetails;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +21,7 @@ import java.util.List;
 public class ReviewApiController {
 
     private final ReviewService reviewService;
+    private final ItemService itemService;
 
     @GetMapping("/{itemId}/all")
     public ResponseEntity<List<ReviewDTO>> getList(@PathVariable Long itemId) {
@@ -26,11 +31,18 @@ public class ReviewApiController {
     }
 
     @PostMapping("/{itemId}")
-    public ResponseEntity<Long> register(@RequestBody ReviewDTO reviewDTO) {
+    public ResponseEntity<Long> register(@PathVariable Long itemId, @RequestBody ReviewDTO reviewDTO, @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
-        Long reviewnum = reviewService.register(reviewDTO);
+        Member member = principalDetails.getMember();
+        if (principalDetails.isAuthenticated(member.getId())) {
+            reviewDTO.setMember(member);
+            reviewDTO.setItem(itemService.findItemById(itemId));
+            Long reviewnum = reviewService.register(reviewDTO);
 
-        return new ResponseEntity<>(reviewnum, HttpStatus.OK);
+            return new ResponseEntity<>(reviewnum, HttpStatus.OK);
+        }
+
+        return new ResponseEntity(-1, HttpStatus.FORBIDDEN);
 
     }
 

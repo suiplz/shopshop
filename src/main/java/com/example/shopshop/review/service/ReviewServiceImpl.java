@@ -52,7 +52,7 @@ public class ReviewServiceImpl implements ReviewService{
             Review review = result.get();
             review.changeTitle(dto.getTitle());
             review.changeText(dto.getText());
-            review.changeRate(dto.getRate());
+            review.changeGrade(dto.getGrade());
 
             reviewRepository.save(review);
         }
