@@ -64,8 +64,8 @@ public class ItemController {
         log.info("result : " + itemService.getList(pageRequestDTO));
     }
 
-    @GetMapping("/read")
-    public void read(Long id, Model model) {
+    @GetMapping({"/read", "/modify"})
+    public void read(Long id,@ModelAttribute("requestDTO") PageRequestDTO pageRequestDTO, Model model) {
 
         ItemDTO itemDTO = itemService.getItem(id);
         model.addAttribute("dto", itemDTO);

@@ -36,12 +36,10 @@
                         </div>
                     </div>
                     <div class="uploadResult" style="text-align : center;">
-                        <ul >
-                            <div th:each="itemImage: ${dto.imageDTOList}" th:data-file="${itemImage.getThumbnailURL()}">
-                                <img  th:if="${itemImage.path != null}" th:src="|/display?fileName=${itemImage.getThumbnailURL()}|"
-                                      width = 800px height = 1200px>
-                            </div>
-                        </ul>
+                        <div th:each="itemImage: ${dto.imageDTOList}" th:data-file="${itemImage.getThumbnailURL()}">
+                            <img  th:if="${itemImage.path != null}" th:src="|/display?fileName=${itemImage.getThumbnailURL()}|"
+                                  width = 600px height = 800px>
+                        </div>
                     </div>
                 </div>
 
@@ -112,7 +110,7 @@
                 var itemId = [[${dto.id}]];
 
                 $('.starrr').starrr({
-                    grade: grade,
+                    rating: grade,
                     change: function (e, value) {
                         if (value) {
                             console.log(value);
@@ -199,16 +197,18 @@
                     $(".removeBtn, .modifyBtn").show();
 
                     var targetReview = $(this);
+                    console.log(targetReview);
 
                     reviewId = targetReview.data("reviewId");
                     console.log("reviewId: " + reviewId);
+
                     inputTitle.val(targetReview.find('.card-title').clone().children().remove().end().text());
                     inputText.val(targetReview.find('.card-text').clone().children().remove().end().text());
 
 
 
                     var grade = targetReview.find('.card-title span').html();
-                    $(".starrr a:nth-child(" + grade + ")").trigger('click');
+                    // $(".starrr a:nth-child(" + grade + ")").trigger('click');
 
                     $('.reviewModal').modal('show');
                 });
