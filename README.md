@@ -11,8 +11,8 @@
 cart 구현 성공 order 감안하여 로직 보강
 cart 링크, 페이지 구현
 item list에서 review 갯수, 평점
+item list, read에서 like 처리
 item read에서 review list, review register view
-review 권한 처리 로직 생각해볼것
 item register시 별도의 모달 창 고려
 
 

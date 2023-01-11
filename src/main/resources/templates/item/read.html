@@ -18,21 +18,17 @@
 
                         <p class="lead">Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium at dolorem quidem modi. Nam sequi consequatur obcaecati excepturi alias magni, accusamus eius blanditiis delectus ipsam minima ea iste laborum vero?</p>
                         <div class="d-flex" id="addToCart">
-                            <select class="form-select" id="itemSize" name="itemSize">
-                                <option value="S"> S 95 </option>
-                                <option value="M"> M 100 </option>
-                                <option value="L"> L 105 </option>
-                            </select>
-
-                            <input class="form-control text-center me-3" id="itemAmount" type="num" value="1" style="max-width: 3rem" />
-
-
-                            <a th:href="@{/api/cart/register/{itemId}(itemId=${dto.getId})}" th:method="post">
-                            <button class="btn btn-outline-dark flex-shrink-0" type="button">
+<!--                            <select class="form-select" id="itemSize" name="itemSize">-->
+<!--                                <option value="S"> S 95 </option>-->
+<!--                                <option value="M"> M 100 </option>-->
+<!--                                <option value="L"> L 105 </option>-->
+<!--                            </select>-->
+<!--                            <a th:href="@{/api/cart/register/{itemId}(itemId=${dto.getId})}" th:method="post">-->
+                            <button class="btn btn-outline-dark flex-shrink-0" type="button" name="addCart">
                                 <i class="bi-cart-fill me-1"></i>
                                 카트에 상품 담기
                             </button>
-                            </a>
+                            <!--                            </a>-->
                         </div>
                     </div>
                     <div class="uploadResult" style="text-align : center;">
@@ -66,7 +62,7 @@
                             <div class="modal-body">
                                 <div class="form-group">
                                     <label> Reviewer Email</label>
-
+                                    <input type="text" class="form-control" name="email" readonly="true">
                                 </div>
                                 <div class="form-group">
                                     <label>Grade <span class="grade"></span></label>
@@ -91,6 +87,31 @@
                     </div>
                 </div>
             </div>
+
+            <div class="cartModal modal" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Add Cart</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <input class="form-control text-center me-3" id="itemAmount" type="num" value="1" style="max-width: 3rem" />
+                            <select class="form-select" id="itemSize" name="itemSize">
+                                <option value="S"> S 95 </option>
+                                <option value="M"> M 100 </option>
+                                <option value="L"> L 105 </option>
+                            </select>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary addCartBtn">Save Item to Cart</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
 
 
@@ -99,15 +120,16 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
 <!--        <script src="js/scripts.js"></script>-->
-        <script th:src="@{/vendor/starrr.js}"></script>
+
         <link th:href="@{/css/starrr.css}" rel="stylesheet">
         <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
-
+        <script th:src="@{/vendor/starrr.js}"></script>
         <script>
             $(document).ready(function (e) {
 
                 var grade = 0;
                 var itemId = [[${dto.id}]];
+
 
                 $('.starrr').starrr({
                     rating: grade,
@@ -120,10 +142,13 @@
                 });
 
                 var reviewModal = $(".reviewModal");
+                var inputEmail = $('input[name="email"]');
                 var inputTitle = $('input[name="title"]');
                 var inputText = $('textarea[name="text"]');
 
+
                 $(".addReviewBtn").click(function () {
+                    inputEmail.val("");
                     inputTitle.val("");
                     inputText.val("");
 
@@ -178,8 +203,8 @@
                             console.log(review);
 
                             str += ' <div class="card-body" data-reviewId=' + review.reviewId + '>';
-                            str += ' <h5 class="card-title">' + review.title + '</h5>';
-                            str += ' <h5 class="card-text">' + review.text + '<span>' + review.grade + '</span></h5>';
+                            str += ' <h5 class="card-title">' + review.title + '<span>' + "          " +review.grade + '</span></h5>';
+                            str += ' <h5 class="card-text">' + review.text + '</h5>';
                             str += ' <h6 class="card-subtitle mb-2 text-muted">' + review.member.email + '</h6>';
                             str += ' <p class="card-text">' + formatTime(review.regDate) + '</p>';
                             str += '</div>'
@@ -199,7 +224,7 @@
                     var targetReview = $(this);
                     console.log(targetReview);
 
-                    reviewId = targetReview.data("reviewId");
+                    reviewId = targetReview.data("reviewid");
                     console.log("reviewId: " + reviewId);
 
                     inputTitle.val(targetReview.find('.card-title').clone().children().remove().end().text());
@@ -208,7 +233,7 @@
 
 
                     var grade = targetReview.find('.card-title span').html();
-                    // $(".starrr a:nth-child(" + grade + ")").trigger('click');
+                    $(".starrr a:nth-child(" + grade + ")").trigger('click');
 
                     $('.reviewModal').modal('show');
                 });
@@ -255,6 +280,18 @@
                         }
                     })
                     reviewModal.modal('hide');
+                });
+
+                $(".addCartBtn").on("click", function () {
+
+                    var data = {itemId: itemId}
+
+                    $.ajax({
+                        url: '/api/cart/register/' + itemId,
+                        type: "POST",
+                        data: data,
+
+                    });
                 });
             });
 

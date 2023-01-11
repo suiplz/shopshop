@@ -31,7 +31,7 @@ public class ReviewApiController {
     }
 
     @PostMapping("/{itemId}")
-    public ResponseEntity<Long> register(@PathVariable Long itemId, @RequestBody ReviewDTO reviewDTO, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+    public ResponseEntity<Long> register(@PathVariable Long itemId, @ModelAttribute("reviewDTO") @RequestBody ReviewDTO reviewDTO, @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
         Member member = principalDetails.getMember();
         if (principalDetails.isAuthenticated(member.getId())) {
