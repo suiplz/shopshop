@@ -47,6 +47,12 @@
                     Review Register
                 </button>
 
+                <button name="likeButton">
+                    <i class="fa fa-heart" id="likesIcon-${item.id}" onclick="toggleLike(${item.id})" style="color:red"></i>
+                </button>
+                <span class="like">[[${likesCount}]]</span>
+
+
                 <div class="list-group reviewList">
 
                 </div>

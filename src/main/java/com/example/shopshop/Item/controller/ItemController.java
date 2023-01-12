@@ -4,13 +4,18 @@ import com.example.shopshop.Item.domain.ClothType;
 import com.example.shopshop.Item.domain.Item;
 import com.example.shopshop.Item.dto.ItemDTO;
 import com.example.shopshop.Item.service.ItemService;
+import com.example.shopshop.aop.annotation.LoginCheck;
+import com.example.shopshop.likes.service.LikesService;
+import com.example.shopshop.member.domain.Member;
 import com.example.shopshop.page.dto.PageRequestDTO;
 import com.example.shopshop.page.dto.PageResultDTO;
+import com.example.shopshop.security.auth.PrincipalDetails;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,6 +33,8 @@ import javax.validation.Valid;
 public class ItemController {
 
     private final ItemService itemService;
+
+    private final LikesService likesService;
 
 
     @GetMapping("/register")
@@ -65,10 +72,21 @@ public class ItemController {
     }
 
     @GetMapping({"/read", "/modify"})
-    public void read(Long id,@ModelAttribute("requestDTO") PageRequestDTO pageRequestDTO, Model model) {
+    public void read(Long id, @ModelAttribute("requestDTO") PageRequestDTO pageRequestDTO, Model model, @LoginCheck Member member) {
 
         ItemDTO itemDTO = itemService.getItem(id);
         model.addAttribute("dto", itemDTO);
+        boolean likesStates = false;
+
+        if (member != null) {
+            likesStates = likesService.getLikeStates(member.getId(), itemDTO.getId());
+
+        }
+        Long likesCount = likesService.getLikesCount(itemDTO.getId());
+
+        model.addAttribute("likesStates", likesStates);
+        model.addAttribute("likesCount", likesCount);
+
     }
 
     @GetMapping("/test")

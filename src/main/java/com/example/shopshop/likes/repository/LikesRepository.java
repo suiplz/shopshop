@@ -9,14 +9,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 public interface LikesRepository extends JpaRepository<Likes, Long> {
 
-    @Modifying(clearAutomatically = true)
-    @Transactional
-    @Query(value = " INSERT INTO LIKES(member_id, item_id) VALUES (:member_id, :item_id)", nativeQuery = true)
-    void mLikes(@Param("member_id") Long memberId, @Param("item_id") Long itemId);
+    void deleteByMemberIdAndItemId(Long memberId, Long itemId);
 
-    @Modifying
-    @Transactional
-    @Query(value = " DELETE FROM LIKES WHERE member_id = :member_id AND item_id = :item_id", nativeQuery = true)
-    void mUnlikes(@Param("member_id") Long memberId, @Param("item_id") Long itemId);
+    boolean existsByMemberIdAndItemId(Long memberId, Long itemId);
+
+    Long countByMemberId(Long memberId);
+
+    Long countByItemId(Long itemId);
+
 
 }

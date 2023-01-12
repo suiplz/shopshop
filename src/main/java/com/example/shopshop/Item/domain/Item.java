@@ -1,6 +1,7 @@
 package com.example.shopshop.Item.domain;
 
 import com.example.shopshop.etc.BaseEntity;
+import com.example.shopshop.likes.domain.Likes;
 import com.example.shopshop.member.domain.Member;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
@@ -53,7 +54,6 @@ public class Item extends BaseEntity {
     @JoinColumn(name = "member_id")
     @JsonIgnore
     private Member provider;
-
 
 
 //    private int reviewCnt;

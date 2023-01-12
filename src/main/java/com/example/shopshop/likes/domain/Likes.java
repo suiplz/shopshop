@@ -3,15 +3,13 @@ package com.example.shopshop.likes.domain;
 import com.example.shopshop.Item.domain.Item;
 import com.example.shopshop.etc.BaseEntity;
 import com.example.shopshop.member.domain.Member;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @Builder
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(exclude = {"member", "item"})
