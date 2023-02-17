@@ -80,12 +80,14 @@ public class ItemController {
 
         if (member != null) {
             likesStates = likesService.getLikeStates(member.getId(), itemDTO.getId());
+            model.addAttribute("member", member);
 
         }
         Long likesCount = likesService.getLikesCount(itemDTO.getId());
 
         model.addAttribute("likesStates", likesStates);
         model.addAttribute("likesCount", likesCount);
+
 
     }
 

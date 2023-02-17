@@ -10,6 +10,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,7 +32,7 @@ public class ReviewApiController {
     }
 
     @PostMapping("/{itemId}")
-    public ResponseEntity<Long> register(@PathVariable Long itemId, @ModelAttribute("reviewDTO") @RequestBody ReviewDTO reviewDTO, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+    public ResponseEntity<Long> register(@PathVariable Long itemId, @RequestBody ReviewDTO reviewDTO, @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
         Member member = principalDetails.getMember();
         if (principalDetails.isAuthenticated(member.getId())) {

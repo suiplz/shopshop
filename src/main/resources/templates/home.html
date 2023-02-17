@@ -1,5 +1,6 @@
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf/extras/springsecurity">
+
 <head>
   <meta charset="UTF-8">
   <title>Home</title>
@@ -9,7 +10,7 @@
 <div class="container">
   <div class="my-4">
     <h2>홈</h2>
-    <div sec:authorize="isAuthenticated()">
+    <div sec:authorize-urls="isAuthenticated()">
       <ul>
         <li th:text="|session.getId = ${#session.getId()}|"></li>
         <li th:text="|session.getAttributeNames = ${#session.getAttributeNames()}|"></li>
@@ -21,10 +22,10 @@
         <button class="btn btn-lg btn-secondary">회원가입</button>
       </a>
       <a th:href="@{/member/login}">
-        <button sec:authorize="!isAuthenticated()" class="btn btn-lg btn-dark">로그인</button>
+        <button sec:authorize-urls="!isAuthenticated()" class="btn btn-lg btn-dark">로그인</button>
       </a>
       <a th:href="@{/logout}">
-        <button sec:authorize="isAuthenticated()" class="btn btn-danger btn-lg">로그아웃</button>
+        <button sec:authorize-urls="isAuthenticated()" class="btn btn-danger btn-lg">로그아웃</button>
       </a>
 
 <!--      <hr class="my-4">-->

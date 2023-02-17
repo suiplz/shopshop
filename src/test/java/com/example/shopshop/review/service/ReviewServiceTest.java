@@ -73,6 +73,21 @@ class ReviewServiceTest {
 //
 //
 //    }
+
+    @Test
+    void insertReview() {
+        Optional<Member> result = memberRepository.findById(1L);
+        Member member = result.get();
+        ReviewDTO reviewDTO = ReviewDTO.builder()
+                .member(member)
+                .reviewId(10L)
+                .grade(4)
+                .title("test title")
+                .text("test text")
+                .build();
+        reviewService.register(reviewDTO);
+
+    }
     @Test
     void getReviews() {
 

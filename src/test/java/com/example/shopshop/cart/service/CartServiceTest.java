@@ -50,7 +50,7 @@ class CartServiceTest {
                 .name(memberDTO.getName())
                 .build();
 
-        ItemDTO itemDTO = itemService.getItem(2L);
+        ItemDTO itemDTO = itemService.getItem(1L);
         itemService.dtoToEntity(itemDTO);
         Item item = Item.builder()
                 .id(itemDTO.getId())
@@ -84,7 +84,7 @@ class CartServiceTest {
     @Test
     void getCartByMemberIdTest() {
 
-        MemberDTO memberDTO = memberService.get(1L);
+        MemberDTO memberDTO = memberService.get(2L);
         Member member = Member.builder()
                 .id(memberDTO.getId())
                 .build();
