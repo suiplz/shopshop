@@ -16,6 +16,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
 @RequestMapping("/member")
 @RequiredArgsConstructor
@@ -40,9 +42,15 @@ public class MemberController {
     }
 
     @GetMapping("/login")
-    public void login() {
+    public String login(HttpServletRequest request) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         log.info("principal = " + principal);
+
+        String uri = request.getHeader("Referer");
+        if ( uri != null && !uri.contains("/login")) {
+            request.getSession().setAttribute("prevPage", uri);
+        }
+        return "/member/login";
     }
 
     @GetMapping("/info/{id}")

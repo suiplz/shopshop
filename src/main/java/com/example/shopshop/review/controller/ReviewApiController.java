@@ -43,7 +43,7 @@ public class ReviewApiController {
             return new ResponseEntity<>(reviewnum, HttpStatus.OK);
         }
 
-        return new ResponseEntity(-1, HttpStatus.FORBIDDEN);
+        return new ResponseEntity(-1, HttpStatus.UNAUTHORIZED);
 
     }
 
