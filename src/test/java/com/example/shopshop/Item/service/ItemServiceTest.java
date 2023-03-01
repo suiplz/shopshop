@@ -2,6 +2,7 @@ package com.example.shopshop.Item.service;
 
 import com.example.shopshop.Item.dto.ItemDTO;
 import com.example.shopshop.page.dto.PageRequestDTO;
+import com.example.shopshop.page.dto.PageResultDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,6 +23,15 @@ class ItemServiceTest {
 
         ItemDTO item = itemService.getItem(1L);
         System.out.println("item = " + item);
+    }
+
+    @Test
+    void getItemList() {
+
+        PageRequestDTO pageRequestDTO = new PageRequestDTO();
+        PageResultDTO<ItemDTO, Object[]> list = itemService.getList(pageRequestDTO);
+
+        System.out.println("list = " + list);
     }
 
 

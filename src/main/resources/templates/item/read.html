@@ -21,28 +21,28 @@
                         <div class="d-flex" id="addToCart">
 
                             <input type="hidden" th:value="${dto.getPrice}" id="price" name="price">
-<!--                            <select class="form-select" id="itemSize" name="itemSize">-->
-<!--                                <option value="S"> S 95 </option>-->
-<!--                                <option value="M"> M 100 </option>-->
-<!--                                <option value="L"> L 105 </option>-->
-<!--                            </select>-->
-                            <div class="input-group w-25">
+                            <div class="input-group w-50">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">수량</span>
                                 </div>
-                                <input type="number" name="count" id="count" class="form-control" value="1" min="1">
+                                <input type="number" name="amount" id="amount" class="form-control" value="1" min="1">
                             </div>
-                            <div class="input-group w-25">
+                            <div class="input-group w-50">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">사이즈</span>
                                 </div>
-                                <input type="number" name="size" id="size" class="form-control" value="1" min="1">
+<!--                                <input type="number" name="size" id="size" class="form-control" value="1" min="1">-->
+                                <select class="form-select" id="size" name="size">-->
+                                                                    <option value="S"> S 95 </option>
+                                                                    <option value="M"> M 100 </option>
+                                                                    <option value="L"> L 105 </option>
+                                                                </select>
                             </div>
                             <div class="text mgt-50">
                                 <h5>결제 금액</h5>
                                 <h3 name="totalPrice" id="totalPrice" class="font-weight-bold"></h3>
                             </div>
-                            <button class="btn btn-outline-dark flex-shrink-0" type="button" name="addCart">
+                            <button class="btn btn-outline-dark flex-shrink-0" type="button" name="addCart" onclick="addCart()">
                                 <i class="bi-cart-fill me-1"></i>
                                 카트에 상품 담기
                             </button>
@@ -58,7 +58,7 @@
                 </div>
 
                 <button type="button" class="btn btn-primary">
-                    Review Count <span class="badge badge-light">[[${dto.reviewCnt}]]</span>
+                    Review amount <span class="badge badge-light">[[${dto.reviewCnt}]]</span>
                 </button>
 
                 <button type="button" class="btn btn-info addReviewBtn">
@@ -68,7 +68,7 @@
                 <button name="likeButton">
                     <i class="fa fa-heart" id="likesIcon-${item.id}" onclick="toggleLike(${item.id})" style="color:red"></i>
                 </button>
-                <span class="like">[[${likesCount}]]</span>
+                <span class="like">[[${likesAmount}]]</span>
 
 
                 <div class="list-group reviewList">
@@ -153,15 +153,15 @@
             $(document).ready(function (e) {
                 calculateTotalPrice();
 
-                $("#count").change(function () {
+                $("#amount").change(function () {
                     calculateTotalPrice();
                 });
             });
 
             function calculateTotalPrice() {
-                var count = $("#count").val();
+                var amount = $("#amount").val();
                 var price = $("#price").val();
-                var totalPrice = price * count;
+                var totalPrice = price * amount;
                 $("#totalPrice").html(totalPrice + '원');
             }
 
@@ -169,10 +169,12 @@
 
                 var url = "/api/cart/register/" + itemId;
                 var paramData = {
+                    size : $("#size").val(),
                     itemId : $("#itemId").val(),
-                    count : $("#count").val()
+                    amount : $("#amount").val()
                 };
 
+                console.log(paramData);
                 var param = JSON.stringify(paramData);
 
                 $.ajax({
@@ -180,10 +182,6 @@
                     type: "POST",
                     contentType: "application/json",
                     data: param,
-                    beforeSend: function (xhr) {
-                        xhr.setRequestHeader(header, token);
-                    },
-
                     dataType: "json",
                     cache: false,
                     success: function (result, status) {

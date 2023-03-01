@@ -8,6 +8,7 @@ import com.example.shopshop.cart.service.CartService;
 import com.example.shopshop.member.domain.Member;
 import com.example.shopshop.security.auth.PrincipalDetails;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -19,37 +20,37 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/cart")
 @RequiredArgsConstructor
+@Log4j2
 public class CartApiController {
 
     private final CartService cartService;
     private final ItemService itemService;
 
     @PostMapping("/register/{itemId}")
-    public ResponseEntity register(@PathVariable Long itemId, @ModelAttribute CartItemDTO cartItemDTO, @AuthenticationPrincipal PrincipalDetails principalDetails) throws Exception {
+    public ResponseEntity register(@PathVariable Long itemId, @RequestBody CartItemDTO cartItemDTO, @AuthenticationPrincipal PrincipalDetails principalDetails) throws Exception {
 
-        Item item = itemService.findItemById(itemId);
         Member member = principalDetails.getMember();
 
         if (principalDetails.isAuthenticated(member.getId())) {
-            cartService.register(member, item, "S", 1);
+            cartService.register(member, itemId, cartItemDTO);
 
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
 
-    @GetMapping("/cartList/{memberId}")
-    public ResponseEntity getList(@PathVariable Long memberId, @LoginCheck Member member, Model model){
+//    @GetMapping("/cartList/{memberId}")
+//    public ResponseEntity getList(@PathVariable Long memberId, @LoginCheck Member member, Model model){
+//
+//        if (member.getId() == memberId) {
+//            List<Object[]> carts = cartService.getCartByMember(member.getId());
+//            model.addAttribute("carts", carts);
+//            return new ResponseEntity<>(HttpStatus.OK);
+//        }
+//        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 
-        if (member.getId() == memberId) {
-            List<Object[]> carts = cartService.getCartByMember(member.getId());
-            model.addAttribute("carts", carts);
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 
 
-    }
 
     @DeleteMapping("/{itemId}")
     public ResponseEntity remove(@PathVariable Long itemId, @AuthenticationPrincipal PrincipalDetails principalDetails) {

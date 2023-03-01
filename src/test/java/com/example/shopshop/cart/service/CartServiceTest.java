@@ -7,6 +7,7 @@ import com.example.shopshop.cart.domain.CartItem;
 import com.example.shopshop.cart.dto.CartDTO;
 import com.example.shopshop.cart.dto.CartItemDTO;
 import com.example.shopshop.cart.dto.CartItemModifyDTO;
+import com.example.shopshop.cart.repository.CartItemRepository;
 import com.example.shopshop.member.domain.Member;
 import com.example.shopshop.member.dto.MemberDTO;
 import com.example.shopshop.member.service.MemberService;
@@ -31,6 +32,9 @@ class CartServiceTest {
     private CartService cartService;
 
     @Autowired
+    CartItemRepository cartItemRepository;
+
+    @Autowired
     private MemberService memberService;
 
     @Autowired
@@ -49,22 +53,29 @@ class CartServiceTest {
                 .phone(memberDTO.getPhone())
                 .name(memberDTO.getName())
                 .build();
+//
+//        ItemDTO itemDTO = itemService.getItem(1L);
+//        itemService.dtoToEntity(itemDTO);
+//        Item item = Item.builder()
+//                .id(itemDTO.getId())
+//                .itemName(itemDTO.getItemName())
+//                .sizeL(itemDTO.getSizeL())
+//                .sizeM(itemDTO.getSizeM())
+//                .sizeS(itemDTO.getSizeS())
+//                .provider(itemDTO.getProvider())
+//                .saleRate(itemDTO.getSaleRate())
+//                .price(itemDTO.getPrice())
+//                .build();
 
-        ItemDTO itemDTO = itemService.getItem(1L);
-        itemService.dtoToEntity(itemDTO);
-        Item item = Item.builder()
-                .id(itemDTO.getId())
-                .itemName(itemDTO.getItemName())
-                .sizeL(itemDTO.getSizeL())
-                .sizeM(itemDTO.getSizeM())
-                .sizeS(itemDTO.getSizeS())
-                .provider(itemDTO.getProvider())
-                .saleRate(itemDTO.getSaleRate())
-                .price(itemDTO.getPrice())
+
+        CartItemDTO cartItemDTO = CartItemDTO.builder()
+                .itemId(1L)
+                .amount(1)
+                .size("S")
                 .build();
 
+        cartService.register(member,1L, cartItemDTO);
 
-        cartService.register(member, item, "L", 1);
 
 
     }

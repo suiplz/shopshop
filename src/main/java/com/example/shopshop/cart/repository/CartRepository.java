@@ -12,11 +12,19 @@ import java.util.List;
 
 public interface CartRepository extends JpaRepository<Cart, Long> {
 
+//    @EntityGraph(attributePaths = {"buyer"}, type = EntityGraph.EntityGraphType.FETCH)
+//    @Query("SELECT c, ci FROM Cart c " +
+//            "INNER JOIN CartItem ci ON ci.cart = c " +
+//            "WHERE c.buyer.id = :id")
+//    List<Object[]> getCartByMemberId(@Param("id") Long id);
+
     @EntityGraph(attributePaths = {"buyer"}, type = EntityGraph.EntityGraphType.FETCH)
-    @Query("SELECT c, ci FROM Cart c " +
+    @Query("SELECT c, ci, ii FROM Cart c " +
             "INNER JOIN CartItem ci ON ci.cart = c " +
-            "WHERE c.buyer.id = :id")
-    List<Object[]> getCartByMemberId(@Param("id") Long id);
+            "INNER JOIN ItemImage ii ON ii.item.id = ci.item.id " +
+            "WHERE c.buyer.id = :memberId")
+    List<Object[]> getCartByMemberId(@Param("memberId") Long memberId);
+
 
     @EntityGraph(attributePaths = {"buyer"}, type = EntityGraph.EntityGraphType.FETCH)
     @Query("SELECT c FROM Cart c " +

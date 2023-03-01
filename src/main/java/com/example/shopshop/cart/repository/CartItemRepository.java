@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 public interface CartItemRepository extends JpaRepository<CartItem, Long> {
 
     CartItem findByCartIdAndItemId(Long cartId, Long itemId);
+    
 
     @Transactional
     @Modifying
@@ -19,4 +20,6 @@ public interface CartItemRepository extends JpaRepository<CartItem, Long> {
     void updateCartItem(@Param("id") Long id,@Param("size") String size, @Param("amount") int amount);
 
     void deleteByCartIdAndItemId(Long cartId, Long itemId);
+
+
 }

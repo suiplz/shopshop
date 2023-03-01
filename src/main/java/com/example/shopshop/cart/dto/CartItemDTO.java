@@ -17,7 +17,7 @@ public class CartItemDTO {
 
     private Cart cart;
 
-    private Item item;
+    private Long itemId;
 
     private String size;
 

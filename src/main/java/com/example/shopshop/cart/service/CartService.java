@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 public interface CartService {
 
-    void register(Member member, Item item, String size, Integer amount) throws Exception;
+    void register(Member member, Long ItemId, CartItemDTO cartItemDTO) throws Exception;
 
 //    void register(Member member, CartItemDTO cartItemDTO) throws Exception;
 
@@ -38,9 +38,8 @@ public interface CartService {
 
         if (cartItemDTOList != null && cartItemDTOList.size() > 0 ) {
             List<CartItem> cartItemList = cartItemDTOList.stream().map(cartItemDTO -> {
-
                 CartItem cartItem = CartItem.builder()
-                        .item(cartItemDTO.getItem())
+                        .item(Item.builder().id(cartItemDTO.getItemId()).build())
                         .amount(cartItemDTO.getAmount())
                         .size(cartItemDTO.getSize())
                         .cart(cart)

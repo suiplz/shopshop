@@ -31,15 +31,12 @@ public class CartServiceImpl implements CartService{
     private final ItemRepository itemRepository;
 
     @Override
-    public void register(Member member, Item newItem, String size, Integer amount) throws Exception{
+    public void register(Member member, Long itemId, CartItemDTO cartItemDTO) throws Exception{
         //CartRegisterDTO? principalID 고려해서 가능하면 DTO 별도 (cart 페이지 아닌 item 페이지에서 정보 받아옴)
 
         Cart cart = cartRepository.findCartByMemberId(member.getId());
+        Item newItem = itemRepository.findById(itemId).orElseThrow(() -> new IllegalArgumentException());
 
-
-        if (!newItem.stockCondition(size, amount)) {
-            throw new Exception("재고 수량이 부족합니다.");
-        }
 
         if (cart == null) {
             cart = Cart.builder()
@@ -53,14 +50,14 @@ public class CartServiceImpl implements CartService{
 
         CartItem cartItem = cartItemRepository.findByCartIdAndItemId(cart.getId(), item.getId());
 
-        if (cartItem == null || (cartItem != null && !(cartItem.getSize().equals(size)))) {
+        if (cartItem == null || (cartItem != null && !(cartItem.getSize().equals(cartItemDTO.getSize())))) {
             cartItem = CartItem.builder()
                     .cart(cart)
                     .item(item)
-                    .amount(amount)
-                    .size(size)
+                    .amount(cartItemDTO.getAmount())
+                    .size(cartItemDTO.getSize())
                     .build();
-            item.removeStock(size, amount);
+            item.removeStock(cartItemDTO.getSize(), cartItemDTO.getAmount());
             cartItemRepository.save(cartItem);
         }
 
