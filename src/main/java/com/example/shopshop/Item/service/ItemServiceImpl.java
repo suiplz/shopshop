@@ -52,7 +52,6 @@ public class ItemServiceImpl implements ItemService{
 
         Page<Object[]> result = itemRepository.getListPage(pageable);
 
-
         Function<Object[], ItemDTO> fn = (arr -> entitiesToDTO(
                 (Item)arr[0],
                 (List<ItemImage>)(Arrays.asList((ItemImage)arr[1])),
@@ -61,7 +60,6 @@ public class ItemServiceImpl implements ItemService{
 
 
         return new PageResultDTO<>(result, fn);
-
 
     }
 

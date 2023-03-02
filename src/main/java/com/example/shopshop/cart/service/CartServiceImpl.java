@@ -1,6 +1,7 @@
 package com.example.shopshop.cart.service;
 
 import com.example.shopshop.Item.domain.Item;
+import com.example.shopshop.Item.domain.ItemImage;
 import com.example.shopshop.Item.repository.ItemRepository;
 import com.example.shopshop.cart.domain.Cart;
 import com.example.shopshop.cart.domain.CartItem;
@@ -10,14 +11,21 @@ import com.example.shopshop.cart.dto.CartItemModifyDTO;
 import com.example.shopshop.cart.repository.CartItemRepository;
 import com.example.shopshop.cart.repository.CartRepository;
 import com.example.shopshop.member.domain.Member;
+import com.example.shopshop.page.dto.PageRequestDTO;
+import com.example.shopshop.page.dto.PageResultDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
 
 @Service
 @RequiredArgsConstructor
@@ -35,7 +43,7 @@ public class CartServiceImpl implements CartService{
         //CartRegisterDTO? principalID 고려해서 가능하면 DTO 별도 (cart 페이지 아닌 item 페이지에서 정보 받아옴)
 
         Cart cart = cartRepository.findCartByMemberId(member.getId());
-        Item newItem = itemRepository.findById(itemId).orElseThrow(() -> new IllegalArgumentException());
+        Item item = itemRepository.findById(itemId).orElseThrow(() -> new IllegalArgumentException());
 
 
         if (cart == null) {
@@ -45,12 +53,19 @@ public class CartServiceImpl implements CartService{
             cartRepository.save(cart);
         }
 
-        Optional<Item> result = itemRepository.findById(newItem.getId());
-        Item item = result.get();
 
-        CartItem cartItem = cartItemRepository.findByCartIdAndItemId(cart.getId(), item.getId());
+        CartItem cartItem = cartItemRepository.findCartItemByComp(cart.getId(), item.getId(), cartItemDTO.getSize());
 
-        if (cartItem == null || (cartItem != null && !(cartItem.getSize().equals(cartItemDTO.getSize())))) {
+//        if (cartItem == null || (cartItem != null && !(cartItemRepository.itemInCart(cart.getId(), itemId, cartItemDTO.getSize())))) {
+//            cartItem = CartItem.builder()
+//                    .cart(cart)
+//                    .item(item)
+//                    .amount(cartItemDTO.getAmount())
+//                    .size(cartItemDTO.getSize())
+//                    .build();
+//            item.removeStock(cartItemDTO.getSize(), cartItemDTO.getAmount());
+//            cartItemRepository.save(cartItem);
+        if (cartItem == null) {
             cartItem = CartItem.builder()
                     .cart(cart)
                     .item(item)
@@ -59,10 +74,7 @@ public class CartServiceImpl implements CartService{
                     .build();
             item.removeStock(cartItemDTO.getSize(), cartItemDTO.getAmount());
             cartItemRepository.save(cartItem);
-        }
-
-
-        else {
+        } else {
             throw new Exception("이미 장바구니에 담겨있는 상품입니다.");
             //이미 장바구니에 담겨있는 상품입니다.
         }
@@ -103,9 +115,20 @@ public class CartServiceImpl implements CartService{
     }
 
     @Override
-    public List<Object[]> getCartByMember(Long id) {
-        List<Object[]> carts = cartRepository.getCartByMemberId(id);
-        return carts;
+    public PageResultDTO<CartDTO, Object[]> getCartByMember(PageRequestDTO requestDTO, Long memberId) {
+
+        Pageable pageable = requestDTO.getPageable(Sort.by("id").descending());
+
+        Page<Object[]> result = cartRepository.getCartByMemberId(pageable, memberId);
+        Function<Object[], CartDTO> fn = (arr -> entitiesToDTO(
+                (Cart) arr[0],
+                (List<CartItem>) (Arrays.asList((CartItem) arr[1])),
+                (Item) arr[2],
+                (ItemImage) arr[3])
+        );
+
+
+        return new PageResultDTO<>(result, fn);
     }
 
     @Override
@@ -116,12 +139,13 @@ public class CartServiceImpl implements CartService{
 
     @Transactional
     @Override
-    public void remove(Long cartId, Long itemId) {
+    public void remove(Long cartItemId) {
 
-        CartItem cartItem = cartItemRepository.findByCartIdAndItemId(cartId, itemId);
+        CartItem cartItem = cartItemRepository.findById(cartItemId).orElseThrow(() -> new IllegalArgumentException());
+
         Item item = cartItem.getItem();
         item.addStock(cartItem.getSize(), cartItem.getAmount());
-        cartItemRepository.deleteByCartIdAndItemId(cartId, itemId);
+        cartItemRepository.deleteById(cartItemId);
 
     }
 }

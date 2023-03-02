@@ -26,21 +26,21 @@ public class CartController {
     @GetMapping("/cartList")
     public void cartList(@LoginCheck Member member, Model model){
 
-        List<Object[]> cartList = cartService.getCartByMember(member.getId());
+//        List<Object[]> cartList = cartService.getCartByMember(member.getId());
         //vue spring 동영상 2:01:00 참고 or itemList 처럼
-        model.addAttribute("cartList", cartList);
+//        model.addAttribute("cartList", cartList);
 
     }
 
     @GetMapping("/cartList/{memberId}")
     public String getList(@PathVariable Long memberId, @LoginCheck Member member, Model model) {
-
-        if (member.getId() == memberId) {
-            List<Object[]> cartList = cartService.getCartByMember(member.getId());
-            model.addAttribute("cartList", cartList);
-
-            return "/cart/cartList";
-        }
+//
+//        if (member.getId() == memberId) {
+//            List<Object[]> cartList = cartService.getCartByMember(member.getId());
+//            model.addAttribute("cartList", cartList);
+//
+//            return "/cart/cartList";
+//        }
         return null;
     }
 }

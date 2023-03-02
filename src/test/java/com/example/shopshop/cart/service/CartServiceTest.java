@@ -11,10 +11,15 @@ import com.example.shopshop.cart.repository.CartItemRepository;
 import com.example.shopshop.member.domain.Member;
 import com.example.shopshop.member.dto.MemberDTO;
 import com.example.shopshop.member.service.MemberService;
+import com.example.shopshop.page.dto.PageRequestDTO;
+import com.example.shopshop.page.dto.PageResultDTO;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -93,6 +98,7 @@ class CartServiceTest {
     }
 
     @Test
+    @Transactional
     void getCartByMemberIdTest() {
 
         MemberDTO memberDTO = memberService.get(2L);
@@ -100,15 +106,15 @@ class CartServiceTest {
                 .id(memberDTO.getId())
                 .build();
 
-        List<Object[]> cartByMember = cartService.getCartByMember(member.getId());
+        PageRequestDTO pageRequestDTO = new PageRequestDTO();
+        PageResultDTO<CartDTO, Object[]> cartByMember = cartService.getCartByMember(pageRequestDTO, member.getId());
 
-        for (Object[] objects : cartByMember) {
-            System.out.println("objects = " + Arrays.toString(objects));
-        }
+        log.info("result : " + cartByMember);
+
     }
 
     @Test
     void deleteCartByIdTest() {
-        cartService.remove(1L, 2L);
+        cartService.remove(1L);
     }
 }

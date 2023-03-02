@@ -52,13 +52,13 @@ public class CartApiController {
 
 
 
-    @DeleteMapping("/{itemId}")
-    public ResponseEntity remove(@PathVariable Long itemId, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+    @DeleteMapping("/{cartItemId}")
+    public ResponseEntity remove(@PathVariable Long cartItemId, @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
         Member member = principalDetails.getMember();
         if (principalDetails.isAuthenticated(member.getId())) {
             Long cartId = cartService.findByMemberId(member.getId()).getId();
-            cartService.remove(cartId, itemId);
+            cartService.remove(cartItemId);
             return new ResponseEntity(HttpStatus.OK);
         }
 

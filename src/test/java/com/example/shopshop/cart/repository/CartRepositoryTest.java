@@ -7,45 +7,69 @@ import com.example.shopshop.cart.domain.CartItem;
 import com.example.shopshop.member.domain.Member;
 import com.example.shopshop.member.domain.MemberRole;
 import com.example.shopshop.member.repository.MemberRepository;
+import com.example.shopshop.page.dto.PageRequestDTO;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+
 import java.util.Arrays;
 import java.util.List;
 
 
 @SpringBootTest
 @RequiredArgsConstructor
+@Log4j2
 class CartRepositoryTest {
 
     @Autowired
     private CartRepository cartRepository;
 
+    @Autowired
+    private CartItemRepository cartItemRepository;
+
 
     @Test
     void getCartItemByMemberId() {
-        List<Object[]> cartByMemberId = cartRepository.getCartByMemberId(1L);
+
+        PageRequestDTO requestDTO = new PageRequestDTO();
+        Pageable pageable = requestDTO.getPageable(Sort.by("id").descending());
+
+        Page<Object[]> cartByMemberId = cartRepository.getCartByMemberId(pageable, 1L);
 
         for (Object[] objects : cartByMemberId) {
-            System.out.println("results = " + Arrays.toString(objects));
+            log.info("result : " + Arrays.toString(objects));
         }
-
-    }
-
-//    [Item(id=3, itemName=zxc, price=12, sizeS=1, sizeM=1, sizeL=1, clothType=null, season=null, gender=null, saleRate=2, provider=null), ItemImage(id=6, uuid=bcae3147-b4d8-4e8b-9ec1-2c7d9147510f, imgName=dmitry-ganin-_Qoa_q8C66o-unsplash.jpg, path=2023\03\01), 0.0, 0]
+//[Item(id=3, itemName=zxc, price=12, sizeS=1, sizeM=1, sizeL=1, clothType=null, season=null, gender=null, saleRate=2, provider=null), ItemImage(id=6, uuid=bcae3147-b4d8-4e8b-9ec1-2c7d9147510f, imgName=dmitry-ganin-_Qoa_q8C66o-unsplash.jpg, path=2023\03\01), 0.0, 0]
 //[Item(id=2, itemName=qwetfqe, price=122, sizeS=33, sizeM=44, sizeL=55, clothType=null, season=null, gender=null, saleRate=2, provider=null), ItemImage(id=4, uuid=aeae5915-42ca-4a14-8805-08836e8b4d66, imgName=maxim-shklyaev-ENcj1kd8yx8-unsplash.jpg, path=2023\03\01), 0.0, 0]
 //[Item(id=1, itemName=das, price=1235, sizeS=12, sizeM=2, sizeL=4, clothType=null, season=null, gender=null, saleRate=1, provider=null), ItemImage(id=1, uuid=492867ef-50b0-4729-b105-1d0dfee93ab0, imgName=3ca.PNG, path=2023\01\10), 1.5455, 11]
+    }
 
-//    @Test
-//    void isAlreadyInCartTest(){
-//        Boolean alreadyInCart = cartRepository.isAlreadyInCart(1L, 1L);
-//        System.out.println("alreadyInCart = " + alreadyInCart);
-//    }
 
     @Test
     void getTotalPriceByMemberId() {
         Integer totalPriceByMemberId = cartRepository.getTotalPriceByMemberId(1L);
         System.out.println("totalPriceByMemberId = " + totalPriceByMemberId);
+    }
+
+
+    @Test
+    void cartSizeTest() {
+
+        boolean s = cartItemRepository.itemInCart(1L, 1L, "M");
+        log.info("result = " + s);
+    }
+
+    @Test
+    void findCartItemByComp() {
+
+        CartItem cartItem = cartItemRepository.findCartItemByComp(1L, 1L, "M");
+        log.info("result : " + cartItem);
+
     }
 }

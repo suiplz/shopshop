@@ -1,6 +1,8 @@
 package com.example.shopshop.cart.repository;
 
 import com.example.shopshop.cart.domain.Cart;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -19,11 +21,13 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
 //    List<Object[]> getCartByMemberId(@Param("id") Long id);
 
     @EntityGraph(attributePaths = {"buyer"}, type = EntityGraph.EntityGraphType.FETCH)
-    @Query("SELECT c, ci, ii FROM Cart c " +
+    @Query("SELECT c, ci, i, ii FROM Cart c " +
             "INNER JOIN CartItem ci ON ci.cart = c " +
+            "INNER JOIN Item i ON i.id = ci.item.id " +
             "INNER JOIN ItemImage ii ON ii.item.id = ci.item.id " +
-            "WHERE c.buyer.id = :memberId")
-    List<Object[]> getCartByMemberId(@Param("memberId") Long memberId);
+            "WHERE c.buyer.id = :memberId " +
+            "GROUP BY ci.id")
+    Page<Object[]> getCartByMemberId(Pageable pageable, @Param("memberId") Long memberId);
 
 
     @EntityGraph(attributePaths = {"buyer"}, type = EntityGraph.EntityGraphType.FETCH)
