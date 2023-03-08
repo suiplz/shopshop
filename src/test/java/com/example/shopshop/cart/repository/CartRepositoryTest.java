@@ -72,4 +72,15 @@ class CartRepositoryTest {
         log.info("result : " + cartItem);
 
     }
+
+    @Test
+    void findByCartIdTest() {
+
+        List<Object[]> cartByCartId = cartRepository.findCartByCartId(2L);
+
+        for (Object[] objects : cartByCartId) {
+            log.info("result : " + Arrays.toString(objects));
+        }
+
+    }
 }

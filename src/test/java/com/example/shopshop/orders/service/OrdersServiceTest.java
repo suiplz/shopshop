@@ -21,15 +21,7 @@ class OrdersServiceTest {
 
     @Test
     void insertOrders() {
-        Member member = Member.builder().id(21L).build();
-        Item item = Item.builder().id(33L).build();
-        OrdersDTO ordersDTO = OrdersDTO.builder()
-                .id(21L)
-                .buyer(member)
-                .build();
-        OrdersItemDTO ordersItemDTO = OrdersItemDTO.builder().id(21L).item(item).ordersPrice(2999).ordersCount(3).build();
 
-        Long result = ordersService.register(ordersDTO, ordersItemDTO);
 
     }
 

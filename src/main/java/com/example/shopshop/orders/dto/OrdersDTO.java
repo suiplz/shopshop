@@ -1,5 +1,6 @@
 package com.example.shopshop.orders.dto;
 
+import com.example.shopshop.Item.domain.ItemImage;
 import com.example.shopshop.delivery.domain.Delivery;
 import com.example.shopshop.member.domain.Member;
 import com.example.shopshop.orders.domain.Orders;
@@ -18,9 +19,14 @@ public class OrdersDTO {
 
     private Long id;
 
-    private List<OrdersItem> ordersItem;
+    @Builder.Default
+    private List<OrdersItemDTO> ordersItem = new ArrayList<>();
 
-    private Member buyer;
+    private Long cartId;
+
+    private Long memberId;
+
+    private int totalPrice;
 
     private Delivery delivery;
 }

@@ -7,6 +7,7 @@ import com.example.shopshop.cart.domain.Cart;
 import com.example.shopshop.cart.domain.CartItem;
 import com.example.shopshop.cart.dto.CartDTO;
 import com.example.shopshop.cart.dto.CartItemDTO;
+import com.example.shopshop.cart.dto.CartItemListDTO;
 import com.example.shopshop.cart.dto.CartItemModifyDTO;
 import com.example.shopshop.cart.repository.CartItemRepository;
 import com.example.shopshop.cart.repository.CartRepository;
@@ -20,6 +21,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StreamUtils;
 
 import java.util.Arrays;
 import java.util.List;
@@ -115,18 +117,19 @@ public class CartServiceImpl implements CartService{
     }
 
     @Override
-    public PageResultDTO<CartDTO, Object[]> getCartByMember(PageRequestDTO requestDTO, Long memberId) {
+    public PageResultDTO<CartItemListDTO, Object[]> getCartByMember(PageRequestDTO requestDTO, Long memberId) {
 
         Pageable pageable = requestDTO.getPageable(Sort.by("id").descending());
 
         Page<Object[]> result = cartRepository.getCartByMemberId(pageable, memberId);
-        Function<Object[], CartDTO> fn = (arr -> entitiesToDTO(
+        Function<Object[], CartItemListDTO> fn = (arr -> entitiesToDTO(
                 (Cart) arr[0],
-                (List<CartItem>) (Arrays.asList((CartItem) arr[1])),
-                (Item) arr[2],
-                (ItemImage) arr[3])
+                (CartItem) arr[1],
+                (Long) arr[2],
+                (String) arr[3],
+                (Integer) arr[4],
+                (ItemImage) arr[5])
         );
-
 
         return new PageResultDTO<>(result, fn);
     }

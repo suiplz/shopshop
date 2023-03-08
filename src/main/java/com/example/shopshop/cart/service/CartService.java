@@ -2,10 +2,12 @@ package com.example.shopshop.cart.service;
 
 import com.example.shopshop.Item.domain.Item;
 import com.example.shopshop.Item.domain.ItemImage;
+import com.example.shopshop.Item.dto.ItemImageDTO;
 import com.example.shopshop.cart.domain.Cart;
 import com.example.shopshop.cart.domain.CartItem;
 import com.example.shopshop.cart.dto.CartDTO;
 import com.example.shopshop.cart.dto.CartItemDTO;
+import com.example.shopshop.cart.dto.CartItemListDTO;
 import com.example.shopshop.cart.dto.CartItemModifyDTO;
 import com.example.shopshop.member.domain.Member;
 import com.example.shopshop.page.dto.PageRequestDTO;
@@ -22,59 +24,72 @@ public interface CartService {
 
 //    void register(Member member, CartItemDTO cartItemDTO) throws Exception;
 
-    PageResultDTO<CartDTO, Object[]> getCartByMember(PageRequestDTO pageRequestDTO, Long memberId);
+    PageResultDTO<CartItemListDTO, Object[]> getCartByMember(PageRequestDTO pageRequestDTO, Long memberId);
 
     Cart findByMemberId(Long memberId);
 
     void modify(CartItemModifyDTO cartModifyDTO) throws Exception;
 
 
-    default Map<String, Object> dtoToEntity(CartDTO cartDTO) {
-        Map<String, Object> entityMap = new HashMap<>();
+//    default Map<String, Object> dtoToEntity(CartDTO cartDTO) {
+//        Map<String, Object> entityMap = new HashMap<>();
+//
+//        Cart cart = Cart.builder()
+//                .buyer(cartDTO.getBuyer())
+//                .build();
+//        entityMap.put("cart", cart);
+//
+////        List<CartItemDTO> cartItemDTOList = cartDTO.getCartItemListDTOS();
+//
+//        if (cartItemDTOList != null && cartItemDTOList.size() > 0 ) {
+//            List<CartItem> cartItemList = cartItemDTOList.stream().map(cartItemDTO -> {
+//                CartItem cartItem = CartItem.builder()
+//                        .item(Item.builder().id(cartItemDTO.getItemId()).build())
+//                        .amount(cartItemDTO.getAmount())
+//                        .size(cartItemDTO.getSize())
+//                        .cart(cart)
+//                        .build();
+//                return cartItem;
+//            }).collect(Collectors.toList());
+//
+//            entityMap.put("cartItemList", cartItemList);
+//        }
 
-        Cart cart = Cart.builder()
-                .buyer(cartDTO.getBuyer())
+//        return entityMap;
+//    }
+
+
+    default CartItemListDTO entitiesToDTO(Cart cart, CartItem cartItem, Long itemId, String itemName, int itemPrice, ItemImage itemImage) {
+
+//        CartDTO cartDTO = CartDTO.builder()
+//                .id(cart.getId())
+//                .memberId(cart.getBuyer().getId())
+//                .build();
+
+        ItemImageDTO itemImageDTO = new ItemImageDTO().builder()
+                .uuid(itemImage.getUuid())
+                .imgName(itemImage.getImgName())
+                .path(itemImage.getPath())
                 .build();
-        entityMap.put("cart", cart);
 
-        List<CartItemDTO> cartItemDTOList = cartDTO.getCartItemDTOList();
-
-        if (cartItemDTOList != null && cartItemDTOList.size() > 0 ) {
-            List<CartItem> cartItemList = cartItemDTOList.stream().map(cartItemDTO -> {
-                CartItem cartItem = CartItem.builder()
-                        .item(Item.builder().id(cartItemDTO.getItemId()).build())
-                        .amount(cartItemDTO.getAmount())
-                        .size(cartItemDTO.getSize())
-                        .cart(cart)
+        CartItemListDTO cartItemListDTO =
+                CartItemListDTO.builder()
+                        .id(cartItem.getId())
+                        .cartId(cart.getId())
+                        .itemId(itemId)
+                        .itemName(itemName)
+                        .itemPrice(itemPrice)
+                        .size(cartItem.getSize())
+                        .amount(cartItem.getAmount())
+                        .totalPrice(cartItem.getAmount() * itemPrice)
+                        .itemImage(itemImageDTO)
                         .build();
-                return cartItem;
-            }).collect(Collectors.toList());
 
-            entityMap.put("cartItemList", cartItemList);
-        }
+//        cartDTO.setCartItemListDTOS(cartItemListDTO);
 
-        return entityMap;
-    }
+//        cartDTO.setItemImage(itemImage);
 
-    default CartDTO entitiesToDTO(Cart cart, List<CartItem> cartItems, Item item, ItemImage itemImage) {
-
-        CartDTO cartDTO = CartDTO.builder()
-                .id(cart.getId())
-                .buyer(cart.getBuyer())
-                .build();
-
-        List<CartItemDTO> cartItemDTOList = cartItems.stream().map(cartItem -> {
-            return CartItemDTO.builder()
-                    .size(cartItem.getSize())
-                    .amount(cartItem.getAmount())
-                    .build();
-        }).collect(Collectors.toList());
-
-        cartDTO.setCartItemDTOList(cartItemDTOList);
-        cartDTO.setItem(item);
-        cartDTO.setItemImage(itemImage);
-
-        return cartDTO;
+        return cartItemListDTO;
         }
 
     void remove(Long cartItemId);

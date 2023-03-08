@@ -1,23 +1,23 @@
-package com.example.shopshop.orders.dto;
+package com.example.shopshop.cart.dto;
 
-import com.example.shopshop.Item.domain.Item;
 import com.example.shopshop.Item.domain.ItemImage;
 import com.example.shopshop.Item.dto.ItemImageDTO;
-import com.example.shopshop.orders.domain.Orders;
+import com.example.shopshop.cart.domain.Cart;
+import com.example.shopshop.cart.domain.CartItem;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-public class OrdersItemDTO {
+public class CartItemListDTO {
 
     private Long id;
 
-    private Orders orders;
+    private Long cartId;
 
     private Long itemId;
 
@@ -27,14 +27,15 @@ public class OrdersItemDTO {
 
     private String size;
 
-    private Integer amount;
+    private int amount;
 
     private int totalPrice;
 
     private ItemImageDTO itemImage;
 
-    private int totalPrice() {
+    public int totalPrice() {
         return this.itemPrice * this.amount;
     }
+
 
 }

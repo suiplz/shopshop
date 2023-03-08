@@ -1,13 +1,13 @@
 package com.example.shopshop.cart.controller;
 
 import com.example.shopshop.aop.annotation.LoginCheck;
+import com.example.shopshop.cart.dto.CartDTO;
+import com.example.shopshop.cart.dto.CartItemListDTO;
 import com.example.shopshop.cart.service.CartService;
 import com.example.shopshop.member.domain.Member;
-import com.example.shopshop.security.auth.PrincipalDetails;
+import com.example.shopshop.page.dto.PageRequestDTO;
+import com.example.shopshop.page.dto.PageResultDTO;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,14 +33,21 @@ public class CartController {
     }
 
     @GetMapping("/cartList/{memberId}")
-    public String getList(@PathVariable Long memberId, @LoginCheck Member member, Model model) {
+    public String getList(PageRequestDTO pageRequestDTO, @PathVariable Long memberId, @LoginCheck Member member, Model model) {
 //
 //        if (member.getId() == memberId) {
-//            List<Object[]> cartList = cartService.getCartByMember(member.getId());
-//            model.addAttribute("cartList", cartList);
+//            PageResultDTO<CartItemListDTO, Object[]> result = cartService.getCartByMember(pageRequestDTO, memberId);
+//            model.addAttribute("result", result);
 //
 //            return "/cart/cartList";
 //        }
-        return null;
+
+        PageResultDTO<CartItemListDTO, Object[]> result = cartService.getCartByMember(pageRequestDTO, memberId);
+        model.addAttribute("result", result);
+
+        return "/cart/cartList";
+
+
     }
+
 }

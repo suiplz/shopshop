@@ -6,6 +6,7 @@ import com.example.shopshop.Item.service.ItemService;
 import com.example.shopshop.cart.domain.CartItem;
 import com.example.shopshop.cart.dto.CartDTO;
 import com.example.shopshop.cart.dto.CartItemDTO;
+import com.example.shopshop.cart.dto.CartItemListDTO;
 import com.example.shopshop.cart.dto.CartItemModifyDTO;
 import com.example.shopshop.cart.repository.CartItemRepository;
 import com.example.shopshop.member.domain.Member;
@@ -74,7 +75,7 @@ class CartServiceTest {
 
 
         CartItemDTO cartItemDTO = CartItemDTO.builder()
-                .itemId(1L)
+//                .itemId(1L)
                 .amount(1)
                 .size("S")
                 .build();
@@ -107,9 +108,12 @@ class CartServiceTest {
                 .build();
 
         PageRequestDTO pageRequestDTO = new PageRequestDTO();
-        PageResultDTO<CartDTO, Object[]> cartByMember = cartService.getCartByMember(pageRequestDTO, member.getId());
+        PageResultDTO<CartItemListDTO, Object[]> cartByMember = cartService.getCartByMember(pageRequestDTO, member.getId());
 
         log.info("result : " + cartByMember);
+        log.info("result dtoList : " + cartByMember.getDtoList());
+
+
 
     }
 

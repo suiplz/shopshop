@@ -18,13 +18,14 @@ public class CartDTO {
     private Long id;
 
     @Builder.Default
-    private List<CartItemDTO> cartItemDTOList = new ArrayList<>();
+    private List<CartItemListDTO> cartItemListDTOS = new ArrayList<>();
 
-    private Item item;
+//    private Item item;
 
     private ItemImage itemImage;
 
-    private Member buyer;
+    private Long memberId;
+
 
 
 }

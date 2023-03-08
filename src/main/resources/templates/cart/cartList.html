@@ -10,44 +10,108 @@
     <title>Title</title>
         </head>
 <body>
-    <div class="col mb-6" th:each="cartItem : ${cartList.cartItem}">
-        <div class="form-floating">
-            <input type="hidden" class="form-control"  id="id" th:value="${cartItem.id}" placeholder="id">
-            <label for="id">id</label>
+<!--    <div class="col mb-6" th:each="dto : ${result.dtoList}">-->
+<!--        <div class="form-floating">-->
+<!--            <input type="hidden" class="form-control"  id="id" th:value="${dto.getId()}" placeholder="id">-->
+<!--            <label for="id">id</label>-->
+<!--        </div>-->
+<!--        <div class="form-floating">-->
+<!--            <input type="hidden" class="form-control"  id="itemName" th:value="${dto.itemName}" placeholder="itemName">-->
+<!--            <label for="itemName">itemName</label>-->
+<!--        </div>-->
+<!--    </div>-->
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th scope="col">상품 이미지</th>
+        <th scope="col">상품 이름</th>
+        <th scope="col">가격</th>
+        <th scope="col">사이즈</th>
+        <th scope="col">주문 숫자</th>
+        <th scope="col">총액</th>
+        <th scope="col">사이즈,수량 변경</th>
+        <th scope="col">삭제</th>
+    </tr>
+    </thead>
+    <tbody>
+<tr th:each="dto : ${result.dtoList}">
+    <td><img th:if="${dto.itemImage != null && dto.itemImage.path != null}"
+             th:src="|/display?fileName=${dto.itemImage.getThumbnailURL()}|"></td>
+    <td th:text="${dto.itemName}"></td>
+    <td th:text="${dto.itemPrice}"></td>
+    <td th:text="${dto.size}"></td>
+    <td th:text="${dto.amount}"></td>
+    <td th:text="${dto.totalPrice}"></td>
+    <td><button class="btn btn-success modifyBtn" th:attr="data-id=${dto.id} data-cart-id=${dto.cartId} data-item-id=${dto.itemId} data-amount=${dto.amount} data-size=${dto.size}">변경</button></td>
+    <td><button class="btn btn-danger removeBtn" th:attr="data-id=${dto.id}">삭제</button></td>
+
+</tr>
+    </tbody>
+</table>
+<div class="itemModal modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Item Order</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="input-group w-50">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">수량</span>
+                </div>
+                <input type="number" name="amount" id="amount" class="form-control" value="1" min="1">
+            </div>
+            <div class="input-group w-50">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">사이즈</span>
+                </div>
+                <!--                                <input type="number" name="size" id="size" class="form-control" value="1" min="1">-->
+                <select class="form-select" id="size" name="size">-->
+                    <option value="S"> S 95 </option>
+                    <option value="M"> M 100 </option>
+                    <option value="L"> L 105 </option>
+                </select>
+            </div>
         </div>
-        <div class="form-floating">
-            <input type="hidden" class="form-control"  id="size" th:value="${cartItem.size}" placeholder="id">
-            <label for="size">size</label>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-warning modifyBtn" >Modify Info</button>
         </div>
     </div>
-<!--    <div class="form-floating">-->
-<!--        <input type="hidden" class="form-control"  id="id" th:value="${cartList.id}" placeholder="id">-->
-<!--        <label for="id">id</label>-->
-<!--    </div>-->
+</div>
 
-<!--    <div class="form-floating">-->
-<!--        <input type="password" class="form-control" id="floatingPassword" name="password" th:value="${dto.password}">-->
-<!--        <label for="floatingPassword">Password</label>-->
-<!--    </div>-->
-<!--    -->
-<!--    <div class="form-floating">-->
-<!--        <input type="password" class="form-control" id="floatingPasswordCheck" name="passwordCheck" th:value="${dto.passwordCheck}">-->
-<!--        <label for="floatingPasswordCheck">PasswordCheck</label>-->
-<!--    </div>-->
-<!--    -->
-<!--    <div class="form-floating">-->
-<!--        <input type="text" class="form-control" id="floatingPhone" name="phone" th:value="${dto.phone}" placeholder="Phone">-->
-<!--        <label for="floatingPhone">Phone</label>-->
-<!--    </div>-->
-<!--    <div class="form-floating">-->
-<!--        <input type="text" class="form-control" id="floatingAddress" name="address"  th:value="${dto.address}"placeholder="Address">-->
-<!--        <label for="floatingAddress">Address</label>-->
-<!--    </div>-->
-<!--    <div class="form-group m-0">-->
-<!--        <button class="btn btn-primary" type="button">Check</button>-->
-<!--    </div>-->
-<!--    -->
+<script>
 
+    var itemModal = $(".itemModal");
+    var id="";
+    var cartId="";
+    // var itemId="";
+    var size="";
+    var amount="";
+
+
+    $(document).on("click", ".removeBtn", function () {
+        var cartItemId = $(this).data('id');
+        console.log("item ID is : " + cartItemId);
+
+        $.ajax({
+            url: '/api/cart/' + cartItemId,
+            type: "DELETE",
+            contentType: "application/json; charset=utf-8",
+            dataType: "text",
+            success: function (result) {
+
+                console.log("result: " + result);
+                self.location.reload();
+            }
+        });
+
+    });
+
+
+</script>
 </body>
     </th:block>
 </th:block>

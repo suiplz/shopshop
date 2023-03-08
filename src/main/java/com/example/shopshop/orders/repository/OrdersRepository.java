@@ -19,11 +19,12 @@ public interface OrdersRepository extends JpaRepository<Orders, Long>  {
     List<Orders> getOrdersByMemberId(@Param("id") Long id);
 
 //    @EntityGraph(attributePaths = {"item"}, type = EntityGraph.EntityGraphType.FETCH)
-    @Query("SELECT o.buyer.id, i.id, i.itemName, i.price FROM Orders o " +
+    @Query("SELECT o.buyer.id, i FROM Orders o " +
             "INNER JOIN OrdersItem oi ON oi.orders.id = o.id " +
             "INNER JOIN Item i ON i.id = oi.item.id " +
-            "WHERE o.buyer.id = :id")
-    List<Object[]> getOrdersItemByMemberId(@Param("id") Long id);
+            "WHERE o.buyer.id = :memberId")
+    List<Object[]> getOrdersItemByMemberId(@Param("memberId") Long memberId);
+
 
 
 //    @EntityGraph(attributePaths = {"ordersItem.item"}, type = EntityGraph.EntityGraphType.FETCH)

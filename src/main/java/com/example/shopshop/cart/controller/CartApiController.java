@@ -55,13 +55,8 @@ public class CartApiController {
     @DeleteMapping("/{cartItemId}")
     public ResponseEntity remove(@PathVariable Long cartItemId, @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
-        Member member = principalDetails.getMember();
-        if (principalDetails.isAuthenticated(member.getId())) {
-            Long cartId = cartService.findByMemberId(member.getId()).getId();
-            cartService.remove(cartItemId);
-            return new ResponseEntity(HttpStatus.OK);
-        }
+        cartService.remove(cartItemId);
+        return new ResponseEntity(HttpStatus.OK);
 
-        return new ResponseEntity(HttpStatus.FORBIDDEN);
     }
 }

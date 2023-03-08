@@ -11,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CartItemRepository extends JpaRepository<CartItem, Long> {
 
@@ -24,6 +25,7 @@ public interface CartItemRepository extends JpaRepository<CartItem, Long> {
             "FROM CartItem ci " +
             "WHERE ci.cart.id = :cartId AND ci.item.id = :itemId AND ci.size = :dtoSize")
     CartItem findCartItemByComp(@Param("cartId") Long cartId, @Param("itemId") Long itemId, @Param("dtoSize") String dtoSize);
+
 
 
     @Transactional

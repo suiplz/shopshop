@@ -14,14 +14,8 @@ import java.util.List;
 
 public interface CartRepository extends JpaRepository<Cart, Long> {
 
-//    @EntityGraph(attributePaths = {"buyer"}, type = EntityGraph.EntityGraphType.FETCH)
-//    @Query("SELECT c, ci FROM Cart c " +
-//            "INNER JOIN CartItem ci ON ci.cart = c " +
-//            "WHERE c.buyer.id = :id")
-//    List<Object[]> getCartByMemberId(@Param("id") Long id);
 
-    @EntityGraph(attributePaths = {"buyer"}, type = EntityGraph.EntityGraphType.FETCH)
-    @Query("SELECT c, ci, i, ii FROM Cart c " +
+    @Query("SELECT c, ci, i.id, i.itemName, i.price, ii FROM Cart c " +
             "INNER JOIN CartItem ci ON ci.cart = c " +
             "INNER JOIN Item i ON i.id = ci.item.id " +
             "INNER JOIN ItemImage ii ON ii.item.id = ci.item.id " +
@@ -29,6 +23,14 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
             "GROUP BY ci.id")
     Page<Object[]> getCartByMemberId(Pageable pageable, @Param("memberId") Long memberId);
 
+    @Query("SELECT c, m.id, ci, i.id, i.itemName, i.price, ii FROM Cart c " +
+            "INNER JOIN CartItem ci ON ci.cart = c " +
+            "INNER JOIN Item i ON i.id = ci.item.id " +
+            "INNER JOIN ItemImage ii ON ii.item.id = ci.item.id " +
+            "INNER JOIN Member m ON m.id = c.buyer.id " +
+            "WHERE c.id = :cartId " +
+            "GROUP BY ci.id")
+    List<Object[]> findCartByCartId(@Param("cartId") Long cartId);
 
     @EntityGraph(attributePaths = {"buyer"}, type = EntityGraph.EntityGraphType.FETCH)
     @Query("SELECT c FROM Cart c " +
@@ -49,5 +51,6 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
             "INNER JOIN Cart c ON ci.cart = c " +
             "WHERE c.buyer.id = :id")
     Integer getTotalPriceByMemberId(@Param("id") Long id);
+
 
 }
