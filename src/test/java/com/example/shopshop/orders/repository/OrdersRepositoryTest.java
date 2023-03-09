@@ -26,6 +26,9 @@ class OrdersRepositoryTest {
     @Autowired
     private ItemRepository itemRepository;
 
+    @Autowired
+    private OrdersItemRepository ordersItemRepository;
+
     @Test
     void insertOrders(){
 
@@ -74,6 +77,20 @@ class OrdersRepositoryTest {
             System.out.println("toString = " + Arrays.toString(objects));
         }
 
+    }
+
+    @Test
+    void removeForReset() {
+//        ordersRepository.deleteById(1L);
+//        ordersRepository.deleteById(2L);
+//        ordersRepository.deleteById(3L);
+
+        ordersItemRepository.deleteById(7L);
+        ordersItemRepository.deleteById(8L);
+        ordersItemRepository.deleteById(9L);
+        ordersItemRepository.deleteById(10L);
+        ordersItemRepository.deleteById(11L);
+        ordersItemRepository.deleteById(12L);
     }
 
 }

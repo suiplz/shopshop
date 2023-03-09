@@ -25,8 +25,6 @@ public interface OrdersRepository extends JpaRepository<Orders, Long>  {
             "WHERE o.buyer.id = :memberId")
     List<Object[]> getOrdersItemByMemberId(@Param("memberId") Long memberId);
 
-
-
 //    @EntityGraph(attributePaths = {"ordersItem.item"}, type = EntityGraph.EntityGraphType.FETCH)
 //    @Query("SELECT oi.item FROM Orders o " +
 //            "INNER JOIN OrdersItem oi ON oi.orders.id = o.id " +

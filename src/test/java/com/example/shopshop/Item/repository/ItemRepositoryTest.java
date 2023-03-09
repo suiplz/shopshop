@@ -70,7 +70,7 @@ class ItemRepositoryTest {
     @Test
     void getItem() {
         Long id = 1L;
-        List<Object[]> item = itemRepository.getItemDetail(1L);
+        List<Object[]> item = itemRepository.getItemDetail(2L);
         for (Object[] objects : item) {
 
             System.out.println("objects = " + Arrays.toString(objects));

@@ -34,6 +34,7 @@ public class Orders extends BaseEntity {
     @OneToOne
     private Delivery delivery;
 
+
     public void addOrdersItem(OrdersItem ordersItem) {
         this.ordersItem.add(ordersItem);
         ordersItem.setOrders(this);

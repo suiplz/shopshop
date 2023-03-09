@@ -42,13 +42,13 @@
     <td th:text="${dto.size}"></td>
     <td th:text="${dto.amount}"></td>
     <td th:text="${dto.totalPrice}"></td>
-    <td><button class="btn btn-success modifyBtn" th:attr="data-id=${dto.id} data-cart-id=${dto.cartId} data-item-id=${dto.itemId} data-amount=${dto.amount} data-size=${dto.size}">변경</button></td>
+    <td><button class="btn btn-success modifyBtn" th:attr="data-id=${dto.id}, data-cart-id=${dto.cartId}, data-item-id=${dto.itemId}, data-amount=${dto.amount}, data-size=${dto.size}">변경</button></td>
     <td><button class="btn btn-danger removeBtn" th:attr="data-id=${dto.id}">삭제</button></td>
 
 </tr>
     </tbody>
 </table>
-<div class="itemModal modal" tabindex="-1" role="dialog">
+<div class="modifyModal modal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -77,37 +77,85 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-warning modifyBtn" >Modify Info</button>
+            <button type="button" class="btn btn-warning modifySubmitBtn" >Submit</button>
         </div>
     </div>
 </div>
 
 <script>
 
-    var itemModal = $(".itemModal");
-    var id="";
-    var cartId="";
-    // var itemId="";
-    var size="";
-    var amount="";
+    var modifyModal = $(".modifyModal");
 
+    $(document).ready(function () {
+        $('.modifyBtn').on('click', function () {
+            const id = $(this).data('id');
+            const itemId = $(this).data('item-id');
+            const amount = $(this).data('amount');
+            const size = $(this).data('size');
 
-    $(document).on("click", ".removeBtn", function () {
-        var cartItemId = $(this).data('id');
-        console.log("item ID is : " + cartItemId);
+            $('#id').val(id);
+            $('#itemId').val(itemId);
+            $('#amount').val(amount);
+            $('#size').val(size);
 
-        $.ajax({
-            url: '/api/cart/' + cartItemId,
-            type: "DELETE",
-            contentType: "application/json; charset=utf-8",
-            dataType: "text",
-            success: function (result) {
-
-                console.log("result: " + result);
-                self.location.reload();
-            }
+            $('.modifyModal').modal('show');
         });
 
+        $('.modifyModal').on('hidden.bs.modal', function(){
+            $('#id').val('');
+            $('#itemId').val('');
+            $('#amount').val('');
+            $('#size').val('');
+    });
+
+
+        $('#modifySubmitBtn').on('click', function () {
+            const id = $(this).data('id');
+            const amount = $('#amount').val(); // input amount 값 가져오기
+            const size = $('#size').val(); // select box size 값 가져오기
+
+            const data = {
+                amount: amount,
+                size: size
+            };
+
+            $.ajax({
+                type: 'PUT',
+                url: '/api/cart/' + id,
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    console.log(data);
+                    alert('변경이 완료되었습니다.');
+                    window.location.reload();
+                },
+            error: function () {
+                alert("변경에 실패했습니다.");
+            }
+        });
+    });
+
+
+        $(document).on("click", ".removeBtn", function () {
+            const cartItemId = $(this).data('id');
+            console.log("item ID is : " + cartItemId);
+
+            $.ajax({
+                url: '/api/cart/' + cartItemId,
+                type: "DELETE",
+                contentType: "application/json; charset=utf-8",
+                dataType: "text",
+                success: function (result) {
+
+                    console.log("result: " + result);
+                    self.location.reload();
+                },
+                error: function () {
+                    alert("삭제에 실패했습니다.");
+                }
+            });
+
+        });
     });
 
 

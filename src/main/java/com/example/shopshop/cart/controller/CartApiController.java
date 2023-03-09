@@ -4,6 +4,7 @@ import com.example.shopshop.Item.domain.Item;
 import com.example.shopshop.Item.service.ItemService;
 import com.example.shopshop.aop.annotation.LoginCheck;
 import com.example.shopshop.cart.dto.CartItemDTO;
+import com.example.shopshop.cart.dto.CartItemModifyDTO;
 import com.example.shopshop.cart.service.CartService;
 import com.example.shopshop.member.domain.Member;
 import com.example.shopshop.security.auth.PrincipalDetails;
@@ -51,6 +52,14 @@ public class CartApiController {
 
 
 
+    @PutMapping("/{cartItemId}")
+    public ResponseEntity<Long> modify(@PathVariable Long cartItemId, @RequestBody CartItemModifyDTO cartItemModifyDTO) throws Exception{
+
+        cartService.modify(cartItemModifyDTO);
+
+        return new ResponseEntity(cartItemId, HttpStatus.OK);
+
+    }
 
     @DeleteMapping("/{cartItemId}")
     public ResponseEntity remove(@PathVariable Long cartItemId, @AuthenticationPrincipal PrincipalDetails principalDetails) {

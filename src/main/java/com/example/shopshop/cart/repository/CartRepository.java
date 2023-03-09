@@ -23,7 +23,7 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
             "GROUP BY ci.id")
     Page<Object[]> getCartByMemberId(Pageable pageable, @Param("memberId") Long memberId);
 
-    @Query("SELECT c, m.id, ci, i.id, i.itemName, i.price, ii FROM Cart c " +
+    @Query("SELECT c.id, m.id, ci, i.id, i.itemName, i.price, ii FROM Cart c " +
             "INNER JOIN CartItem ci ON ci.cart = c " +
             "INNER JOIN Item i ON i.id = ci.item.id " +
             "INNER JOIN ItemImage ii ON ii.item.id = ci.item.id " +
