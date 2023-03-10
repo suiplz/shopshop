@@ -95,7 +95,7 @@ class CartServiceTest {
                 .amount(10)
                 .build();
 
-        cartService.modify(cartItemModifyDTO);
+        cartService.modify(cartItemModifyDTO.getId(), cartItemModifyDTO);
     }
 
     @Test

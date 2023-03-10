@@ -28,7 +28,7 @@ public interface CartService {
 
     Cart findByMemberId(Long memberId);
 
-    void modify(CartItemModifyDTO cartModifyDTO) throws Exception;
+    void modify(Long cartItemId, CartItemModifyDTO cartModifyDTO) throws Exception;
 
 
 //    default Map<String, Object> dtoToEntity(CartDTO cartDTO) {

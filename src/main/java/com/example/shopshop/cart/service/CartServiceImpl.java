@@ -85,8 +85,8 @@ public class CartServiceImpl implements CartService{
 
     @Transactional
     @Override
-    public void modify(CartItemModifyDTO dto) throws Exception{
-        CartItem cartItem = cartItemRepository.findById(dto.getId()).orElseThrow(() -> new IllegalArgumentException("없는 카트 정보입니다."));
+    public void modify(Long cartItemId, CartItemModifyDTO dto) throws Exception{
+        CartItem cartItem = cartItemRepository.findById(cartItemId).orElseThrow(() -> new IllegalArgumentException("없는 카트 정보입니다."));
 
 
         Optional<Item> findItem = itemRepository.findById(cartItem.getItem().getId());
