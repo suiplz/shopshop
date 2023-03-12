@@ -89,8 +89,14 @@ public class CartServiceImpl implements CartService{
         CartItem cartItem = cartItemRepository.findById(cartItemId).orElseThrow(() -> new IllegalArgumentException("없는 카트 정보입니다."));
 
 
-        Optional<Item> findItem = itemRepository.findById(cartItem.getItem().getId());
-        Item item = findItem.get();
+        log.info("cartItem 111: " + cartItem);
+        Item item = itemRepository.findById(cartItem.getItem().getId()).orElseThrow(() -> new IllegalArgumentException());
+        log.info("itemId : " + cartItem.getItem().getId());
+        log.info("cartItemId : " + cartItem.getId());
+        log.info("Amount : " + dto.getAmount());
+
+        log.info("Item : " + item);
+        log.info("dto : " + dto);
 
         if (!item.stockCondition(dto.getSize(), dto.getAmount())) {
             throw new Exception("재고 수량이 부족합니다.");

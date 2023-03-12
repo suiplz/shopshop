@@ -37,7 +37,9 @@
 <tr th:each="dto : ${result.dtoList}">
     <td><img th:if="${dto.itemImage != null && dto.itemImage.path != null}"
              th:src="|/display?fileName=${dto.itemImage.getThumbnailURL()}|"></td>
-    <td th:text="${dto.itemName}"></td>
+<!--    <td th:text="${dto.itemName}"></td>-->
+<!--    <td><a th:href="@{/item/read/{itemId}(itemId=${dto.getItemId})}">[[${dto.itemName}]]</a></td>-->
+    <td><a th:href="@{/item/read(id=${dto.itemId})}">[[${dto.itemName}]]</a></td>
     <td th:text="${dto.itemPrice}"></td>
     <td th:text="${dto.size}"></td>
     <td th:text="${dto.amount}"></td>

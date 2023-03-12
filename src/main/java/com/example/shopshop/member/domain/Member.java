@@ -57,7 +57,7 @@ public class Member extends BaseEntity {
         this.address = address;
     }
 
-//    public String getRole() {
+//    public String getRole() {/
 //        return this.role.value();
 //    }
     public MemberRole setMemberRole(MemberRole memberRole) {

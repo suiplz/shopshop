@@ -55,7 +55,11 @@ public class CartApiController {
     @PutMapping("/{cartItemId}")
     public ResponseEntity<Long> modify(@PathVariable Long cartItemId, @RequestBody CartItemModifyDTO cartItemModifyDTO) throws Exception{
 
+        log.info("cartItemId On Controller : " + cartItemId);
+        log.info("cartItem Modify DTO : " + cartItemModifyDTO);
+        cartItemModifyDTO.setId(cartItemId);
         cartService.modify(cartItemId, cartItemModifyDTO);
+
 
         return new ResponseEntity(cartItemId, HttpStatus.OK);
 

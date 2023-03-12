@@ -90,9 +90,9 @@ class CartServiceTest {
     void cartModifyTest() throws Exception{
 
         CartItemModifyDTO cartItemModifyDTO = CartItemModifyDTO.builder()
-                .id(6L)
-                .size("S")
-                .amount(10)
+                .id(9L)
+                .size("L")
+                .amount(4)
                 .build();
 
         cartService.modify(cartItemModifyDTO.getId(), cartItemModifyDTO);
