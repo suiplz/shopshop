@@ -4,6 +4,7 @@ import com.example.shopshop.Item.domain.ItemImage;
 import com.example.shopshop.Item.repository.ItemRepository;
 import com.example.shopshop.cart.domain.CartItem;
 import com.example.shopshop.cart.dto.CartItemDTO;
+import com.example.shopshop.cart.repository.CartItemRepository;
 import com.example.shopshop.cart.repository.CartRepository;
 import com.example.shopshop.orders.domain.Orders;
 import com.example.shopshop.orders.domain.OrdersItem;
@@ -31,6 +32,8 @@ public class OrdersServiceImpl implements OrdersService{
 
     private final CartRepository cartRepository;
 
+    private final CartItemRepository cartItemRepository;
+
     private final ItemRepository itemRepository;
 
     @Transactional
@@ -47,7 +50,6 @@ public class OrdersServiceImpl implements OrdersService{
             cartItemList.add(cartItem);
         });
 
-        log.info("result : {}, {}, {}, {}, {}, {}, {}", result.get(0)[1], result.get(1), result.get(2)[2]);
         OrdersRegisterDTO ordersRegisterDTO = entitiesToDTOForRegister((Long) result.get(0)[0], (Long) result.get(0)[1], cartItemList, (Long) result.get(0)[3], (String) result.get(0)[4], (int) result.get(0)[5], (ItemImage) result.get(0)[6]);
         Map<String, Object> entityMap = dtoToEntity(ordersRegisterDTO);
         Orders orders = (Orders) entityMap.get("orders");
@@ -57,21 +59,9 @@ public class OrdersServiceImpl implements OrdersService{
         ordersItemList.forEach(ordersItem -> {
                     ordersItemRepository.save(ordersItem);
                 });
-
-//        for (Object[] objects : result) {
-//            OrdersRegisterDTO ordersDTO = entitiesToDTOForRegister((Long) objects[0], (Long) objects[1], (CartItem) objects[2], (Long) objects[3], (String) objects[4], (Integer) objects[5], (ItemImage) objects[6]);
-//            log.info("result : {}, {}, {}, {}, {}, {}, {}", (Long) objects[0], (Long) objects[1], (CartItem) objects[2], (Long) objects[3], (String) objects[4], (Integer) objects[5], (ItemImage) objects[6]);
-//            Map<String, Object> entity = dtoToEntity(ordersDTO);
-//            Orders orders = (Orders) entity.get("orders");
-//            log.info("orders" + orders);
-//            if (ordersRepository.findById(orders.getId()) != null) {
-//                ordersRepository.save(orders);
-//            }
-//            OrdersItem ordersItem = (OrdersItem) entity.get("ordersItem");
-//            ordersItemRepository.save(ordersItem);
-//    }
-
-
+        cartItemList.forEach(cartItem -> {
+            cartItemRepository.deleteById(cartItem.getId());
+        });
 
     }
 
@@ -82,7 +72,10 @@ public class OrdersServiceImpl implements OrdersService{
     }
 
     @Override
+    @Transactional
     public void cancel(Long id) {
+
+        ordersItemRepository.deleteByOrdersId(id);
         ordersRepository.deleteById(id);
     }
 }

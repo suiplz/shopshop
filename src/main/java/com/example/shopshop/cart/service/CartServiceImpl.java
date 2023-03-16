@@ -42,7 +42,6 @@ public class CartServiceImpl implements CartService{
 
     @Override
     public void register(Member member, Long itemId, CartItemDTO cartItemDTO) throws Exception{
-        //CartRegisterDTO? principalID 고려해서 가능하면 DTO 별도 (cart 페이지 아닌 item 페이지에서 정보 받아옴)
 
         Cart cart = cartRepository.findCartByMemberId(member.getId());
         Item item = itemRepository.findById(itemId).orElseThrow(() -> new IllegalArgumentException());
@@ -58,15 +57,6 @@ public class CartServiceImpl implements CartService{
 
         CartItem cartItem = cartItemRepository.findCartItemByComp(cart.getId(), item.getId(), cartItemDTO.getSize());
 
-//        if (cartItem == null || (cartItem != null && !(cartItemRepository.itemInCart(cart.getId(), itemId, cartItemDTO.getSize())))) {
-//            cartItem = CartItem.builder()
-//                    .cart(cart)
-//                    .item(item)
-//                    .amount(cartItemDTO.getAmount())
-//                    .size(cartItemDTO.getSize())
-//                    .build();
-//            item.removeStock(cartItemDTO.getSize(), cartItemDTO.getAmount());
-//            cartItemRepository.save(cartItem);
         if (cartItem == null) {
             cartItem = CartItem.builder()
                     .cart(cart)
@@ -88,35 +78,18 @@ public class CartServiceImpl implements CartService{
     public void modify(Long cartItemId, CartItemModifyDTO dto) throws Exception{
         CartItem cartItem = cartItemRepository.findById(cartItemId).orElseThrow(() -> new IllegalArgumentException("없는 카트 정보입니다."));
 
-
-        log.info("cartItem 111: " + cartItem);
         Item item = itemRepository.findById(cartItem.getItem().getId()).orElseThrow(() -> new IllegalArgumentException());
-        log.info("itemId : " + cartItem.getItem().getId());
-        log.info("cartItemId : " + cartItem.getId());
-        log.info("Amount : " + dto.getAmount());
-
-        log.info("Item : " + item);
-        log.info("dto : " + dto);
 
         if (!item.stockCondition(dto.getSize(), dto.getAmount())) {
             throw new Exception("재고 수량이 부족합니다.");
         }
-        log.info("CHECK 1S : " + item.getSizeS());
-        log.info("CHECK 1M : " + item.getSizeM());
-        log.info("CHECK 1L : " + item.getSizeL());
-        item.addStock(dto.getSize(), cartItem.getAmount()); // cartItem.getSize() ???????????????
-        log.info("CHECK 2S : " + item.getSizeS());
-        log.info("CHECK 2M : " + item.getSizeM());
-        log.info("CHECK 2L : " + item.getSizeL());
+        item.addStock(cartItem.getSize(), cartItem.getAmount());
 
         cartItem.changeSize(dto.getSize());
         cartItem.changeAmount(dto.getAmount());
 
         item.removeStock(dto.getSize(), dto.getAmount());
         itemRepository.save(item);
-        log.info("CHECK 3S : " + item.getSizeS());
-        log.info("CHECK 3M : " + item.getSizeM());
-        log.info("CHECK 3L : " + item.getSizeL());
 
         cartItemRepository.save(cartItem);
 
@@ -156,5 +129,14 @@ public class CartServiceImpl implements CartService{
         item.addStock(cartItem.getSize(), cartItem.getAmount());
         cartItemRepository.deleteById(cartItemId);
 
+    }
+
+    @Override
+    public int grandTotalOfCart(List<CartItemListDTO> dtoList) {
+        int sumTotalPrice = 0;
+        for (CartItemListDTO cartItemListDTO : dtoList) {
+            sumTotalPrice += cartItemListDTO.totalPrice();
+        }
+        return sumTotalPrice;
     }
 }

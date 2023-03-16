@@ -93,4 +93,6 @@ public interface CartService {
         }
 
     void remove(Long cartItemId);
+
+    int grandTotalOfCart(List<CartItemListDTO> dtoList);
 }

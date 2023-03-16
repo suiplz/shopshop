@@ -74,9 +74,9 @@ public class Item extends BaseEntity {
 
     public boolean stockCondition(String size, Integer count){
 
-        if (size == "S") { return this.sizeS - count > 0;}
-        if (size == "M") { return this.sizeM - count > 0;}
-        if (size == "L") { return this.sizeL - count > 0;}
+        if (size.equals("S")){ return this.sizeS - count >= 0;}
+        if (size.equals("M")){ return this.sizeM - count >= 0;}
+        if (size.equals("L")){ return this.sizeL - count >= 0;}
         return true;
     }
 

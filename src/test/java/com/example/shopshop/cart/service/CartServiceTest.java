@@ -102,7 +102,7 @@ class CartServiceTest {
     @Transactional
     void getCartByMemberIdTest() {
 
-        MemberDTO memberDTO = memberService.get(2L);
+        MemberDTO memberDTO = memberService.get(1L);
         Member member = Member.builder()
                 .id(memberDTO.getId())
                 .build();
@@ -113,12 +113,26 @@ class CartServiceTest {
         log.info("result : " + cartByMember);
         log.info("result dtoList : " + cartByMember.getDtoList());
 
-
-
     }
 
     @Test
     void deleteCartByIdTest() {
         cartService.remove(1L);
+    }
+
+    @Test
+    @Transactional
+    void getTotal() {
+
+        MemberDTO memberDTO = memberService.get(1L);
+        Member member = Member.builder()
+                .id(memberDTO.getId())
+                .build();
+
+        PageRequestDTO pageRequestDTO = new PageRequestDTO();
+        PageResultDTO<CartItemListDTO, Object[]> cartByMember = cartService.getCartByMember(pageRequestDTO, member.getId());
+        int i = cartService.grandTotalOfCart(cartByMember.getDtoList());
+        log.info("total Price : " + i);
+
     }
 }

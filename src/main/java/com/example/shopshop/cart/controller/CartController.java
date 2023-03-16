@@ -43,6 +43,8 @@ public class CartController {
 //        }
 
         PageResultDTO<CartItemListDTO, Object[]> result = cartService.getCartByMember(pageRequestDTO, memberId);
+        int grandTotal = cartService.grandTotalOfCart(result.getDtoList());
+        model.addAttribute("grandTotal", grandTotal);
         model.addAttribute("result", result);
 
         return "/cart/cartList";

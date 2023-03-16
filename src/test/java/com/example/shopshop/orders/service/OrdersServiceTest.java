@@ -35,5 +35,11 @@ class OrdersServiceTest {
         
     }
 
+    @Test
+    void cancelOrdersTest() {
+        ordersService.cancel(3L);
+        ordersService.cancel(4L);
+        ordersService.cancel(5L);
+    }
 
 }

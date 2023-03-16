@@ -90,12 +90,14 @@ public class ItemServiceImpl implements ItemService{
         return itemRepository.findById(id).get();
     }
 
+    @Transactional
     @Override
     public void modify(ItemModifyDTO dto) {
         Optional<Item> result = itemRepository.findById(dto.getId());
         if (result.isPresent()) {
             Item item = result.get();
             item.changeItem(dto.getItemName(), dto.getPrice(), dto.getSizeS(), dto.getSizeM(), dto.getSizeL(), dto.getSaleRate());
+            itemRepository.save(item);
         }
 
     }

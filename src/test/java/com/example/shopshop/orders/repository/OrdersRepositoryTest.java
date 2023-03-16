@@ -85,12 +85,10 @@ class OrdersRepositoryTest {
 //        ordersRepository.deleteById(2L);
 //        ordersRepository.deleteById(3L);
 
-        ordersItemRepository.deleteById(7L);
-        ordersItemRepository.deleteById(8L);
-        ordersItemRepository.deleteById(9L);
-        ordersItemRepository.deleteById(10L);
-        ordersItemRepository.deleteById(11L);
-        ordersItemRepository.deleteById(12L);
+
+        ordersItemRepository.deleteById(13L);
+        ordersItemRepository.deleteById(14L);
+        ordersItemRepository.deleteById(15L);
     }
 
 }

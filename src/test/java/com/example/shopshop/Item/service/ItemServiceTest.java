@@ -1,18 +1,23 @@
 package com.example.shopshop.Item.service;
 
 import com.example.shopshop.Item.dto.ItemDTO;
+import com.example.shopshop.Item.dto.ItemModifyDTO;
 import com.example.shopshop.page.dto.PageRequestDTO;
 import com.example.shopshop.page.dto.PageResultDTO;
+import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@Log4j2
 class ItemServiceTest {
 
     @Autowired
@@ -32,6 +37,23 @@ class ItemServiceTest {
         PageResultDTO<ItemDTO, Object[]> list = itemService.getList(pageRequestDTO);
 
         System.out.println("list = " + list);
+    }
+
+    @Test
+    void itemModify() {
+        ItemDTO dto = itemService.getItem(1L);
+        ItemModifyDTO item = ItemModifyDTO.builder()
+                .id(1L)
+                .itemName(dto.getItemName())
+                .price(dto.getPrice())
+                .sizeS(dto.getSizeS())
+                .sizeM(dto.getSizeM())
+                .sizeL(100)
+                .saleRate(dto.getSaleRate())
+                .build();
+
+
+        itemService.modify(item);
     }
 
 

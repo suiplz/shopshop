@@ -40,18 +40,6 @@ public class CartApiController {
         return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
 
-//    @GetMapping("/cartList/{memberId}")
-//    public ResponseEntity getList(@PathVariable Long memberId, @LoginCheck Member member, Model model){
-//
-//        if (member.getId() == memberId) {
-//            List<Object[]> carts = cartService.getCartByMember(member.getId());
-//            model.addAttribute("carts", carts);
-//            return new ResponseEntity<>(HttpStatus.OK);
-//        }
-//        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-
-
-
     @PutMapping("/{cartItemId}")
     public ResponseEntity<Long> modify(@PathVariable Long cartItemId, @RequestBody CartItemModifyDTO cartItemModifyDTO) throws Exception{
 
