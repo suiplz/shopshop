@@ -12,11 +12,17 @@ cart 구현 성공 order 감안하여 로직 보강
 cart 링크, 페이지 구현
 item list에서 review 갯수, 평점
 item list, read에서 like 처리
-item read에서 review list, review register view
-item register시 별도의 모달 창 고려
 
-cartItem modify 화면 구현, serviceImpl 로직 보강
 cartItem -> OrderRegister 구현
+
+orders list 구현
+orders service 에서 delivery status 구현
+cartId -> memberId 1:1
+orderId -> memberId ! 1:1
+로직 고민해보기
+
+board, comment 완성시키기
+
 
 
 

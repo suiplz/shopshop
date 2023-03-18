@@ -60,9 +60,8 @@ public interface OrdersService {
         return entityMap;
     }
 
-    default OrdersRegisterDTO entitiesToDTOForRegister(Long cartId, Long memberId, List<CartItem> cartItems, Long itemId, String itemName, int price, ItemImage itemImage) {
+    default OrdersRegisterDTO entitiesToDTOForRegister(Long cartId, Long memberId, List<CartItem> cartItems, ItemImage itemImage) {
 
-        int ordersTotalPrice = 0;
         ItemImageDTO itemImageDTO = new ItemImageDTO().builder()
                 .uuid(itemImage.getUuid())
                 .imgName(itemImage.getImgName())
@@ -76,12 +75,12 @@ public interface OrdersService {
 
         List<OrdersItemDTO> ordersItemDTOS = cartItems.stream().map(cartItem -> {
             return OrdersItemDTO.builder()
-                    .itemId(itemId)
-                    .itemName(itemName)
+                    .itemId(cartItem.getItem().getId())
+                    .itemName(cartItem.getItem().getItemName())
                     .itemPrice(cartItem.getItem().getPrice())
                     .size(cartItem.getSize())
                     .amount(cartItem.getAmount())
-                    .totalPrice(cartItem.getAmount() * price)
+                    .totalPrice(cartItem.getAmount() * cartItem.getItem().getPrice())
                     .itemImage(itemImageDTO)
                     .build();
 
@@ -97,7 +96,7 @@ public interface OrdersService {
         OrdersListDTO ordersDTO = OrdersListDTO.builder()
                 .cartId(cartId)
                 .memberId(memberId)
-                .totalPrice(totalPrice)
+//                .grandTotal(grandTotal)
                 .build();
 
         ItemImageDTO itemImageDTO = new ItemImageDTO().builder()

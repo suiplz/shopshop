@@ -1,7 +1,10 @@
 package com.example.shopshop.orders.repository;
 
 import com.example.shopshop.Item.domain.Item;
+import com.example.shopshop.Item.domain.ItemImage;
 import com.example.shopshop.Item.repository.ItemRepository;
+import com.example.shopshop.cart.domain.CartItem;
+import com.example.shopshop.cart.repository.CartRepository;
 import com.example.shopshop.member.domain.Member;
 import com.example.shopshop.orders.domain.Orders;
 import com.example.shopshop.orders.domain.OrdersItem;
@@ -11,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -22,6 +26,9 @@ class OrdersRepositoryTest {
 
     @Autowired
     private OrdersRepository ordersRepository;
+
+    @Autowired
+    private CartRepository cartRepository;
 
     @Autowired
     private ItemRepository itemRepository;
@@ -44,11 +51,31 @@ class OrdersRepositoryTest {
             Orders orders = Orders.builder()
                     .buyer(buyer)
                     .build();
-            orders.addOrdersItem(ordersItem);
 
 
             ordersRepository.save(orders);
         });
+    }
+
+    @Test
+    void findCartByCartIdTest() {
+        List<Object[]> result = cartRepository.findCartByCartId(2L);
+//        for (Object[] objects : result) {
+//            log.info("result : " + Arrays.toString(objects));
+//        }
+
+        List<CartItem> cartItemList = new ArrayList<>();
+        result.forEach(arr -> {
+            log.info("result : " + arr[2]);
+            log.info("price : " + arr[5]);
+            CartItem cartItem = (CartItem) arr[2];
+            log.info("cartItem : " + cartItem);
+            log.info("cartItem : " + cartItem);
+            cartItemList.add(cartItem);
+        });
+        log.info("c.id, m.id, ci, i.id, i.itemName, i.price, ii");
+        log.info("{}, {}, {}, {}, {}, {}, {}", (Long) result.get(0)[0], (Long) result.get(0)[1], cartItemList, (Long) result.get(0)[3], (String) result.get(0)[4], (int) result.get(0)[5], (ItemImage) result.get(0)[6]);
+
     }
 
     @Test

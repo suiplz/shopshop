@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -44,24 +45,27 @@ public class OrdersServiceImpl implements OrdersService{
 
         List<CartItem> cartItemList = new ArrayList<>();
         result.forEach(arr -> {
-            log.info("result : " + arr[2]);
-            log.info("price : " + arr[5]);
             CartItem cartItem = (CartItem) arr[2];
+            log.info("cartItem : " + cartItem);
             cartItemList.add(cartItem);
         });
 
-        OrdersRegisterDTO ordersRegisterDTO = entitiesToDTOForRegister((Long) result.get(0)[0], (Long) result.get(0)[1], cartItemList, (Long) result.get(0)[3], (String) result.get(0)[4], (int) result.get(0)[5], (ItemImage) result.get(0)[6]);
+        OrdersRegisterDTO ordersRegisterDTO = entitiesToDTOForRegister((Long) result.get(0)[0], (Long) result.get(0)[1], cartItemList, (ItemImage) result.get(0)[3]);
         Map<String, Object> entityMap = dtoToEntity(ordersRegisterDTO);
         Orders orders = (Orders) entityMap.get("orders");
         List<OrdersItem> ordersItemList = (List<OrdersItem>) entityMap.get("ordersItem");
         ordersRepository.save(orders);
 
         ordersItemList.forEach(ordersItem -> {
+            log.info(ordersItem);
                     ordersItemRepository.save(ordersItem);
                 });
         cartItemList.forEach(cartItem -> {
             cartItemRepository.deleteById(cartItem.getId());
         });
+        Integer grandTotal = ordersItemRepository.getGrandTotalByOrdersId(orders.getId());
+        orders.setGrandTotal(grandTotal);
+        ordersRepository.save(orders);
 
     }
 

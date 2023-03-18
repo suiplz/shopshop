@@ -27,5 +27,7 @@ public class OrdersRegisterDTO {
 
     private Long memberId;
 
+    private int grandTotal;
+
     private Delivery delivery;
 }

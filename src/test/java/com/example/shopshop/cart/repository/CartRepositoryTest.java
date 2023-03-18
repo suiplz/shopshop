@@ -17,9 +17,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 
 @SpringBootTest
@@ -53,7 +55,7 @@ class CartRepositoryTest {
 
     @Test
     void getTotalPriceByMemberId() {
-        Integer totalPriceByMemberId = cartRepository.getTotalPriceByMemberId(1L);
+        Integer totalPriceByMemberId = cartRepository.getGrandTotalByMemberId(1L);
         System.out.println("totalPriceByMemberId = " + totalPriceByMemberId);
     }
 
@@ -82,5 +84,13 @@ class CartRepositoryTest {
             log.info("result : " + Arrays.toString(objects));
         }
 
+    }
+
+    @Test
+    @Transactional
+    void getTotalPrice() {
+        Optional<CartItem> result = cartItemRepository.findById(5L);
+        CartItem cartItem = result.get();
+        log.info("result : " + cartItem.getAmount() * cartItem.getItem().getPrice());
     }
 }

@@ -22,9 +22,9 @@ public class Orders extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "orders", cascade = CascadeType.ALL)
-    @Builder.Default
-    private List<OrdersItem> ordersItem = new ArrayList<>();
+//    @OneToMany(mappedBy = "orders", cascade = CascadeType.ALL)
+//    @Builder.Default
+//    private List<OrdersItem> ordersItem = new ArrayList<>();
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
@@ -34,10 +34,17 @@ public class Orders extends BaseEntity {
     @OneToOne
     private Delivery delivery;
 
+    private int grandTotal;
 
-    public void addOrdersItem(OrdersItem ordersItem) {
-        this.ordersItem.add(ordersItem);
-        ordersItem.setOrders(this);
+
+//    public void addOrdersItem(OrdersItem ordersItem) {
+//        this.ordersItem.add(ordersItem);
+//        ordersItem.setOrders(this);
+//    }
+
+    public void setGrandTotal(int grandTotal) {
+        this.grandTotal = grandTotal;
     }
+
 
 }

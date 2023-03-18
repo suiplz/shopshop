@@ -22,7 +22,7 @@ public class OrdersListDTO {
 
     private Long memberId;
 
-    private int totalPrice;
+    private int grandTotal;
 
     private Delivery delivery;
 }

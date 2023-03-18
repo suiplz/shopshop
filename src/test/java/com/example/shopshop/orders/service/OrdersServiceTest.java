@@ -22,7 +22,7 @@ class OrdersServiceTest {
     @Test
     void readOrdersInfoByMemberId() {
 
-        List<Object[]> listByMember = ordersService.getListByMember(21L);
+        List<Object[]> listByMember = ordersService.getListByMember(1L);
         for (Object[] objects : listByMember) {
             System.out.println("objects = " + Arrays.toString(objects));
         }
@@ -37,9 +37,11 @@ class OrdersServiceTest {
 
     @Test
     void cancelOrdersTest() {
-        ordersService.cancel(3L);
-        ordersService.cancel(4L);
-        ordersService.cancel(5L);
+        ordersService.cancel(15L);
+        ordersService.cancel(16L);
+        ordersService.cancel(17L);
+
+
     }
 
 }

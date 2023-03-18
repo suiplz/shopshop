@@ -31,6 +31,8 @@ public class OrdersItem extends BaseEntity {
 
     private String size;
 
+    private int totalPrice;
+
 
     public void setOrders(Orders orders) {
         this.orders = orders;
