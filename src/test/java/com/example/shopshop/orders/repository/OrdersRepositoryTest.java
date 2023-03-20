@@ -8,10 +8,14 @@ import com.example.shopshop.cart.repository.CartRepository;
 import com.example.shopshop.member.domain.Member;
 import com.example.shopshop.orders.domain.Orders;
 import com.example.shopshop.orders.domain.OrdersItem;
+import com.example.shopshop.page.dto.PageRequestDTO;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -81,11 +85,15 @@ class OrdersRepositoryTest {
     @Test
     @Transactional
     void getOrdersByMember() {
+        PageRequestDTO requestDTO = new PageRequestDTO();
+        Pageable pageable = requestDTO.getPageable(Sort.by("id").ascending());
 
-        List<Orders> ordersByMemberId = ordersRepository.getOrdersByMemberId(1L);
-        for (Orders orders : ordersByMemberId) {
-            log.info("orders = " + orders);
+        Page<Object[]> cartByMemberId = ordersRepository.getOrdersByMemberId(pageable, 1L);
+
+        for (Object[] objects : cartByMemberId) {
+            log.info("result : " + Arrays.toString(objects));
         }
+
     }
 
     @Test

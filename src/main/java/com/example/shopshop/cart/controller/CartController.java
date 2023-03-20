@@ -23,14 +23,6 @@ public class CartController {
 
     private final CartService cartService;
 
-    @GetMapping("/cartList")
-    public void cartList(@LoginCheck Member member, Model model){
-
-//        List<Object[]> cartList = cartService.getCartByMember(member.getId());
-        //vue spring 동영상 2:01:00 참고 or itemList 처럼
-//        model.addAttribute("cartList", cartList);
-
-    }
 
     @GetMapping("/cartList/{memberId}")
     public String getList(PageRequestDTO pageRequestDTO, @PathVariable Long memberId, @LoginCheck Member member, Model model) {

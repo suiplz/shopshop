@@ -1,37 +1,37 @@
 package com.example.shopshop.orders.dto;
 
-import com.example.shopshop.Item.domain.Item;
-import com.example.shopshop.Item.domain.ItemImage;
 import com.example.shopshop.Item.dto.ItemImageDTO;
-import com.example.shopshop.orders.domain.Orders;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
+@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-public class OrdersItemDTO {
+public class OrdersItemListDTO {
 
     private Long id;
 
-    private Orders orders;
+    private Long ordersId;
+
+    private int ordersPrice;
+
+    private int ordersCount;
+
+    private String size;
+
+    private int totalPrice;
 
     private Long itemId;
 
     private String itemName;
 
-    private int itemPrice;
-
-    private String size;
-
-    private int amount;
-
-    private int totalPrice;
-
     private ItemImageDTO itemImage;
 
+    private LocalDateTime regDate;
 
 }

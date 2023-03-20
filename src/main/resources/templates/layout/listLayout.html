@@ -6,7 +6,19 @@
     <head>
 
         <head>
+            <style>
+                #wrapper2 {
+                    height: 0px;
+                    min-height: 100%;
+                    padding-bottom: 0px;
+                }
 
+                footer {
+                    height: 30px;
+                    positon : relative;
+                    transform : translateY(-100%);
+                }
+            </style>
             <meta charset="utf-8"/>
             <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
             <meta name="description" content=""/>
@@ -33,6 +45,7 @@
             <!--    <script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>-->
 
         </head>
+    </head>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container px-4 px-lg-5">
                 <a class="navbar-brand" href="#!">SHOPSHOP</a>
@@ -88,7 +101,11 @@
         </header>
     <body>
 
-    <div class="d-flex" id="wrapper">
+
+
+</body>
+
+    <div id="wrapper">
 
 
 
@@ -96,28 +113,11 @@
 
     </div>
 
-    </div>
-    <!-- /#page-content-wrapper -->
-
-    </div>
-    <!-- /#wrapper -->
-
-
-    <!-- Menu Toggle Script -->
-    <script>
-        // $("#menu-toggle").click(function(e) {
-        //     e.preventDefault();
-        //     $("#wrapper").toggleClass("toggled");
-        // });
-    </script>
-
-
-    </body>
-
+    <div id="wrapper2">
     <footer class="py-6 bg-dark">
-        <div class="container"><p class="m-3 text-center text-white">Copyright &copy; Your Website 2022</p></div>
+        <div class="container"><p class="m-3 text-center text-white">Copyright © Your Website 2022</p></div>
     </footer>
-
-    </head></head></th:block>
+    </div>
+</th:block>
 </html>
 

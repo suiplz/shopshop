@@ -9,23 +9,31 @@ import com.example.shopshop.cart.repository.CartRepository;
 import com.example.shopshop.orders.domain.Orders;
 import com.example.shopshop.orders.domain.OrdersItem;
 import com.example.shopshop.orders.dto.OrdersItemDTO;
+import com.example.shopshop.orders.dto.OrdersItemListDTO;
 import com.example.shopshop.orders.dto.OrdersRegisterDTO;
 import com.example.shopshop.orders.repository.OrdersItemRepository;
 import com.example.shopshop.orders.repository.OrdersRepository;
+import com.example.shopshop.page.dto.PageRequestDTO;
+import com.example.shopshop.page.dto.PageResultDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 @Service
 @RequiredArgsConstructor
 @Log4j2
-public class OrdersServiceImpl implements OrdersService{
+public class OrdersServiceImpl implements OrdersService {
 
     private final OrdersRepository ordersRepository;
 
@@ -47,6 +55,8 @@ public class OrdersServiceImpl implements OrdersService{
         result.forEach(arr -> {
             CartItem cartItem = (CartItem) arr[2];
             log.info("cartItem : " + cartItem);
+            log.info("cartItem.price : " + cartItem.getItem().getPrice());
+            log.info("total Price : " + cartItem.getAmount() * cartItem.getItem().getPrice());
             cartItemList.add(cartItem);
         });
 
@@ -54,10 +64,11 @@ public class OrdersServiceImpl implements OrdersService{
         Map<String, Object> entityMap = dtoToEntity(ordersRegisterDTO);
         Orders orders = (Orders) entityMap.get("orders");
         List<OrdersItem> ordersItemList = (List<OrdersItem>) entityMap.get("ordersItem");
+        log.info("result : " + ordersItemList);
+        log.info("result : " + ordersItemList.toString());
         ordersRepository.save(orders);
 
         ordersItemList.forEach(ordersItem -> {
-            log.info(ordersItem);
                     ordersItemRepository.save(ordersItem);
                 });
         cartItemList.forEach(cartItem -> {
@@ -70,9 +81,22 @@ public class OrdersServiceImpl implements OrdersService{
     }
 
     @Override
-    public List<Object[]> getListByMember(Long id) {
-        List<Object[]> result = ordersRepository.getOrdersItemByMemberId(id);
-        return result;
+    public PageResultDTO<OrdersItemListDTO, Object[]> getOrdersByMember(PageRequestDTO pageRequestDTO, Long memberId) {
+
+        Pageable pageable = pageRequestDTO.getPageable(Sort.by("id").ascending());
+
+        Page<Object[]> result = ordersRepository.getOrdersByMemberId(pageable, memberId);
+        Function<Object[], OrdersItemListDTO> fn = (arr -> entitiesToDTOForList(
+                (Orders) arr[0],
+                (OrdersItem) arr[1],
+                (Long) arr[2],
+                (String) arr[3],
+                (ItemImage) arr[4],
+                (LocalDateTime) arr[5]));
+
+        return new PageResultDTO<>(result, fn);
+
+
     }
 
     @Override

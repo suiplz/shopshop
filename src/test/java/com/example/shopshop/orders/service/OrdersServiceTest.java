@@ -1,5 +1,9 @@
 package com.example.shopshop.orders.service;
 
+import com.example.shopshop.orders.dto.OrdersItemListDTO;
+import com.example.shopshop.page.dto.PageRequestDTO;
+import com.example.shopshop.page.dto.PageResultDTO;
+import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -8,6 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @SpringBootTest
+@Log4j2
 class OrdersServiceTest {
 
     @Autowired
@@ -21,11 +26,11 @@ class OrdersServiceTest {
 
     @Test
     void readOrdersInfoByMemberId() {
+        PageRequestDTO pageRequestDTO = new PageRequestDTO();
 
-        List<Object[]> listByMember = ordersService.getListByMember(1L);
-        for (Object[] objects : listByMember) {
-            System.out.println("objects = " + Arrays.toString(objects));
-        }
+        PageResultDTO<OrdersItemListDTO, Object[]> listByMember = ordersService.getOrdersByMember(pageRequestDTO,1L);
+
+        log.info("result : " + listByMember);
     }
 
     @Test
@@ -37,9 +42,8 @@ class OrdersServiceTest {
 
     @Test
     void cancelOrdersTest() {
-        ordersService.cancel(15L);
-        ordersService.cancel(16L);
-        ordersService.cancel(17L);
+        ordersService.cancel(22L);
+        ordersService.cancel(23L);
 
 
     }

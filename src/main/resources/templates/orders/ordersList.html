@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{/layout/listLayout.html :: setContent(~{this::content} )}">
+    <th:block th:fragment="content">
+
+        <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/sign-in/">
+
+        <head>
+            <meta charset="UTF-8">
+            <title>Title</title>
+        </head>
+        <body>
+
+        <div class="container container-fluid">
+            <div style="margin-top : 40px; margin-bottom: 30px;">
+                <h2> 주문 내역 </h2>
+            </div>
+            <table class="table table-primary">
+                <thead>
+                <tr>
+                    <th scope="col">상품 이미지</th>
+                    <th scope="col">상품 이름</th>
+                    <th scope="col">가격</th>
+                    <th scope="col">사이즈</th>
+                    <th scope="col">주문 숫자</th>
+                    <th scope="col">총액</th>
+                    <th scope="col">삭제</th>
+                    <th scope="col">주문날짜</th>
+
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr th:each="dto : ${result.dtoList}">
+                    <td><img th:if="${dto.itemImage != null && dto.itemImage.path != null}"
+                             th:src="|/display?fileName=${dto.itemImage.getThumbnailURL()}|"
+                             title="image" height="100px" width="80px"/></td>
+                    <!--    <td th:text="${dto.itemName}"></td>-->
+                    <!--    <td><a th:href="@{/item/read/{itemId}(itemId=${dto.getItemId})}">[[${dto.itemName}]]</a></td>-->
+                    <td><a th:href="@{/item/read(id=${dto.itemId})}">[[${dto.itemName}]]</a></td>
+                    <td th:text="${dto.ordersPrice}"></td>
+                    <td th:text="${dto.size}"></td>
+                    <td th:text="${dto.ordersCount}"></td>
+                    <td th:text="${dto.totalPrice}" id="totalPrice"></td>
+<!--                    <td><button class="btn btn-success modifyBtn" th:attr="data-id=${dto.id}, data-cart-id=${dto.cartId}, data-item-id=${dto.itemId}, data-amount=${dto.amount}, data-size=${dto.size}">변경</button></td>-->
+                    <td><button class="btn btn-danger removeBtn" th:attr="data-id=${dto.id}">삭제</button></td>
+                    <td th:text="${dto.ordersId}" id="cartId" hidden="true"></td>
+<!--                    <td th:text="${dto.regDate}"></td>-->
+                    <td th:text="${#temporals.format(dto.regDate, 'yyyy/MM/dd  HH:mm')}"></td>
+
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+</body>
+    </th:block>
+</th:block>
+</html>

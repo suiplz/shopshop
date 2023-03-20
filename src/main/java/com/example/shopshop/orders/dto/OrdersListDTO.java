@@ -13,12 +13,13 @@ import java.util.List;
 @Setter
 public class OrdersListDTO {
 
-    private Long id;
+//    private Long id;
+
+    @Builder.Default
+    private List<OrdersDTO> orders = new ArrayList<>();
 
     @Builder.Default
     private List<OrdersItemDTO> ordersItem = new ArrayList<>();
-
-    private Long cartId;
 
     private Long memberId;
 

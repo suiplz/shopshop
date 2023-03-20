@@ -2,6 +2,7 @@ package com.example.shopshop.orders.repository;
 
 import com.example.shopshop.orders.domain.Orders;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -9,16 +10,19 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.awt.print.Pageable;
 import java.util.List;
 
 public interface OrdersRepository extends JpaRepository<Orders, Long>  {
 
     @EntityGraph(attributePaths = {"buyer"}, type = EntityGraph.EntityGraphType.FETCH)
-    @Query("SELECT o FROM Orders o " +
-            "INNER JOIN Member m ON o.buyer.id = m.id " +
-            "WHERE m.id = :id ")
-    List<Orders> getOrdersByMemberId(@Param("id") Long id);
+    @Query("SELECT o, oi, i.id, i.itemName, ii, o.regDate From Orders o " +
+            "INNER JOIN OrdersItem oi ON oi.orders.id = o.id " +
+            "INNER JOIN Item i ON oi.item.id = i.id " +
+            "INNER JOIN ItemImage ii ON ii.item.id = i.id " +
+            "INNER JOIN Member m ON o.buyer.id = :memberId " +
+            "WHERE m.id = :memberId " +
+            "GROUP BY oi.id")
+    Page<Object[]> getOrdersByMemberId(Pageable pageable, @Param("memberId") Long memberId);
 
 
 //    @Query("SELECT o, oi, "

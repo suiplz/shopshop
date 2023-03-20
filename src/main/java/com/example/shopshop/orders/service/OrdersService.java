@@ -7,10 +7,14 @@ import com.example.shopshop.cart.domain.CartItem;
 import com.example.shopshop.member.domain.Member;
 import com.example.shopshop.orders.domain.Orders;
 import com.example.shopshop.orders.domain.OrdersItem;
+import com.example.shopshop.orders.dto.OrdersItemListDTO;
 import com.example.shopshop.orders.dto.OrdersListDTO;
 import com.example.shopshop.orders.dto.OrdersRegisterDTO;
 import com.example.shopshop.orders.dto.OrdersItemDTO;
+import com.example.shopshop.page.dto.PageRequestDTO;
+import com.example.shopshop.page.dto.PageResultDTO;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +24,7 @@ public interface OrdersService {
 
     void register(Long cartId);
 
-    List<Object[]> getListByMember(Long id);
+    PageResultDTO<OrdersItemListDTO, Object[]> getOrdersByMember(PageRequestDTO pageRequestDTO, Long id);
 
     void cancel(Long id);
 
@@ -49,6 +53,7 @@ public interface OrdersService {
                     .ordersCount(ordersItemDTO.getAmount())
                     .ordersPrice(ordersItemDTO.getItemPrice())
                     .size(ordersItemDTO.getSize())
+                    .totalPrice(ordersItemDTO.getTotalPrice())
                     .item(item)
                     .build();
             return ordersItem;
@@ -91,13 +96,12 @@ public interface OrdersService {
         return ordersRegisterDTO;
     }
 
-    default OrdersListDTO entitiesToDTOForList(Long cartId, Long memberId, List<CartItem> cartItems, int totalPrice, ItemImage itemImage) {
+    default OrdersItemListDTO entitiesToDTOForList(Orders orders, OrdersItem ordersItem, Long itemId, String itemName, ItemImage itemImage, LocalDateTime regDate) {
 
-        OrdersListDTO ordersDTO = OrdersListDTO.builder()
-                .cartId(cartId)
-                .memberId(memberId)
+//        OrdersListDTO ordersListDTO = OrdersListDTO.builder()
+//                .memberId(memberId)
 //                .grandTotal(grandTotal)
-                .build();
+//                .build();
 
         ItemImageDTO itemImageDTO = new ItemImageDTO().builder()
                 .uuid(itemImage.getUuid())
@@ -105,21 +109,37 @@ public interface OrdersService {
                 .path(itemImage.getPath())
                 .build();
 
-        List<OrdersItemDTO> ordersItemDTOS = cartItems.stream().map(cartItem -> {
-            return OrdersItemDTO.builder()
-                    .itemId(cartItem.getItem().getId())
-                    .itemName(cartItem.getItem().getItemName())
-                    .size(cartItem.getSize())
-                    .amount(cartItem.getAmount())
-                    .totalPrice(totalPrice)
-                    .itemImage(itemImageDTO)
-                    .build();
+//        List<OrdersItemDTO> ordersItemDTOS = ordersItems.stream().map(ordersItem -> {
+//            return OrdersItemDTO.builder()
+//                    .itemId(itemId)
+//                    .itemName(itemName)
+//                    .size(ordersItem.getSize())
+//                    .amount(ordersItem.getOrdersCount())
+//                    .totalPrice(ordersItem.getTotalPrice())
+//                    .itemImage(itemImageDTO)
+//                    .build();
+//
+//        }).collect(Collectors.toList());
 
-        }).collect(Collectors.toList());
+        OrdersItemListDTO ordersItemListDTO =
+                OrdersItemListDTO.builder()
+                        .id(ordersItem.getId())
+                        .ordersId(orders.getId())
+                        .itemId(itemId)
+                        .itemName(itemName)
+                        .ordersPrice(ordersItem.getOrdersPrice())
+                        .ordersCount(ordersItem.getOrdersCount())
+                        .totalPrice(ordersItem.getTotalPrice())
+                        .size(ordersItem.getSize())
+                        .itemImage(itemImageDTO)
+                        .regDate(regDate)
+                        .build();
 
-        ordersDTO.setOrdersItem(ordersItemDTOS);
 
-        return ordersDTO;
+
+//        ordersListDTO.setOrdersItem(ordersItemDTOS);
+
+        return ordersItemListDTO;
     }
 
 

@@ -8,21 +8,15 @@
 
 
 #TODO 
-cart 구현 성공 order 감안하여 로직 보강
-cart 링크, 페이지 구현
-item list에서 review 갯수, 평점
+#cart 구현 성공 order 감안하여 로직 보강
+#cart 링크, 페이지 구현
+
+#item list에서 review 갯수, 평점
 item list, read에서 like 처리
 
-cartItem -> OrderRegister 구현
-
-orders list 구현
 orders service 에서 delivery status 구현
-cartId -> memberId 1:1
-orderId -> memberId ! 1:1
-로직 고민해보기
 
 board, comment 완성시키기
-
 
 
 

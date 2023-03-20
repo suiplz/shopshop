@@ -1,12 +1,7 @@
 package com.example.shopshop.cart.repository;
 
-import com.example.shopshop.Item.domain.Item;
-import com.example.shopshop.Item.repository.ItemRepository;
-import com.example.shopshop.cart.domain.Cart;
+
 import com.example.shopshop.cart.domain.CartItem;
-import com.example.shopshop.member.domain.Member;
-import com.example.shopshop.member.domain.MemberRole;
-import com.example.shopshop.member.repository.MemberRepository;
 import com.example.shopshop.page.dto.PageRequestDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
