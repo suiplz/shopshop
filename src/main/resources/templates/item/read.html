@@ -57,11 +57,12 @@
                     </div>
                 </div>
 
+
                 <button type="button" class="btn btn-primary">
                     Review amount <span class="badge badge-light">[[${dto.reviewCnt}]]</span>
                 </button>
 
-                <button type="button" class="btn btn-info addReviewBtn">
+                <button type="button" class="btn btn-info addReviewBtn" th:attr="data-previous-review-status=${previousReviewStatus}">
                     Review Register
                 </button>
 
@@ -69,7 +70,6 @@
                     <i class="fa fa-heart" id="likesIcon-${item.id}" onclick="toggleLike(${item.id})" style="color:red"></i>
                 </button>
                 <span class="like">[[${likesAmount}]]</span>
-
 
                 <div class="list-group reviewList">
 
@@ -134,6 +134,7 @@
                 });
             });
 
+
             function calculateTotalPrice() {
                 var amount = $("#amount").val();
                 var price = $("#price").val();
@@ -179,7 +180,6 @@
                 var grade = 0;
                 var itemId = [[${dto.id}]];
 
-
                 $('.starrr').starrr({
                     rating: grade,
                     change: function (e, value) {
@@ -197,7 +197,15 @@
 
 
 
-            $(".addReviewBtn").click(function () {
+
+                $(".addReviewBtn").click(function () {
+
+                    var previousReviewStatus = $(this).data("previous-review-status");
+                    console.log("prevReviewStatus" + previousReviewStatus);
+                    if (previousReviewStatus == true){
+
+                    alert("이미 댓글이 달려있습니다.");
+                } else {
 
                     inputEmail.val("");
                     inputTitle.val("");
@@ -207,8 +215,9 @@
                     $(".reviewSaveBtn").show();
 
                     reviewModal.modal('show');
+                }
+            });
 
-                });
 
                 $(".reviewSaveBtn").click(function () {
                     var data = {

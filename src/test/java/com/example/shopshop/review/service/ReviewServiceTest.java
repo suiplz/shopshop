@@ -122,4 +122,11 @@ class ReviewServiceTest {
         log.info("memberId" + review.getMember().getId());
     }
 
+    @Test
+    void reviewStatusTest() {
+        boolean previousReviewStatus1 = reviewService.previousReviewStatus(1L, 1L);
+        boolean previousReviewStatus2 = reviewService.previousReviewStatus(1L, 2L);
+
+        log.info("result : {}, {},", previousReviewStatus1, previousReviewStatus2);
+    }
 }

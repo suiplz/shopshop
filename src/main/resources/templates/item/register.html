@@ -32,6 +32,10 @@
       width: 100%;
 
     }
+
+    #seasonSelect {
+      width : 100px;
+    }
   </style>
 </head>
 <th:block th:replace="~{/layout/registerLayout.html :: setContent(~{this::content} )}">
@@ -66,14 +70,30 @@
         <label th:text="#{label.item.sizeL}">Item SizeL</label>
         <input type="text" class="form-control" name="sizeL" placeholder="Enter Quantity">
       </div>
-      <div class="form-group">
-        <div>상품 종류</div>
-        <div th:each="clothType : ${clothTypes}" class="form-check form-check-inline">
-          <input type="radio" th:field="*{clothType}" th:value="${clothType}" class="form-check-input">
-          <label th:for="${#ids.prev('clothType')}" th:text="${clothType}">
-          clothType</label>
+
+<!--        <div th:each="clothType : ${clothTypes}" class="form-check form-check-inline">-->
+<!--          <input type="radio" th:field="*{clothType}" th:value="${clothType}" class="form-check-input">-->
+<!--          <label th:for="${#ids.prev('clothType')}" th:text="${clothType}">-->
+<!--          clothType</label>-->
+<!--        </div>-->
+        <div class="form-group">
+          <div>상품 종류</div>
+          <select id="genderSelect" name="gender">
+            <th:block th:each="gender : ${genders}">
+              <option th:value="${gender.getValue()}" th:text="${gender.name()}"></option>
+            </th:block>
+          </select>
+          <select id="seasonSelect" name="season">
+            <th:block th:each="season : ${seasons}">
+              <option th:value="${season.getValue()}" th:text="${season.name()}"></option>
+            </th:block>
+          </select>
+          <select id="clothTypeSelect" name="clothType">
+            <th:block th:each="clothType : ${clothTypes}">
+              <option th:value="${clothType.getValue()}" th:text="${clothType.name()}"></option>
+            </th:block>
+          </select>
         </div>
-      </div>
       <div class="form-group">
         <label th:text="#{label.item.saleRate}">Item saleRate</label>
         <input type="text" class="form-control" name="saleRate" placeholder="Enter Quantity">

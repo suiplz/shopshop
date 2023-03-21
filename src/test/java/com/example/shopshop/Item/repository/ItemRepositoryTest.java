@@ -119,4 +119,17 @@ class ItemRepositoryTest {
 
     }
 
+    @Test
+    void getItemByComponentsTest() {
+
+        List<Item> itemByComponents = itemRepository.getItemByComponents("FEMALE", "AUTUMN", "SHOES");
+        List<Item> itemByComponents1 = itemRepository.getItemByComponents("FEMALE", "AUTUMN", "OUTER");
+        List<Item> itemByComponents2 = itemRepository.getItemByComponents(null, null, "OUTER");
+        log.info("result 1 : " + itemByComponents);
+        log.info("result 2 : " + itemByComponents1);
+        log.info("result 3 : " + itemByComponents2);
+
+
+    }
+
 }

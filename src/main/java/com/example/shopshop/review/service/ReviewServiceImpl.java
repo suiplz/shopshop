@@ -62,4 +62,9 @@ public class ReviewServiceImpl implements ReviewService{
     public void remove(Long id) {
         reviewRepository.deleteById(id);
     }
+
+    @Override
+    public boolean previousReviewStatus(Long memberId, Long itemId) {
+        return reviewRepository.reviewByMemberIdAndItemId(memberId, itemId);
+    }
 }

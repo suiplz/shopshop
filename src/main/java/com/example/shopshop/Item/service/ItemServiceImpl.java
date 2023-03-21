@@ -6,6 +6,7 @@ import com.example.shopshop.Item.dto.ItemDTO;
 import com.example.shopshop.Item.dto.ItemModifyDTO;
 import com.example.shopshop.Item.repository.ItemImageRepository;
 import com.example.shopshop.Item.repository.ItemRepository;
+import com.example.shopshop.category.repository.CategoryRepository;
 import com.example.shopshop.page.dto.PageRequestDTO;
 import com.example.shopshop.page.dto.PageResultDTO;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,7 @@ public class ItemServiceImpl implements ItemService{
 
     private final ItemRepository itemRepository;
     private final ItemImageRepository itemImageRepository;
+
 
     @Transactional
     @Override

@@ -49,8 +49,37 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
             "WHERE m.id = :id")
     List<Item> getItemByMemberId(@Param("id") Long id);
 
+//    @EntityGraph(attributePaths = {"category"}, type = EntityGraph.EntityGraphType.FETCH)
+//    @Query("SELECT i from Item i " +
+//            "INNER JOIN Category c ON c.id = i.category.id " +
+//            "WHERE c.gender = :gender AND c.season = :season And c.clothType = :clothType")
+//    List<Item> getItemByComponents(@Param("gender") String gender, @Param("season") String season ,@Param("clothType") String clothType);
+
+    @EntityGraph(attributePaths = {"category"}, type = EntityGraph.EntityGraphType.FETCH)
     @Query("SELECT i from Item i " +
-            "WHERE i.clothType =:c AND i.season =:s AND i.gender =:g")
-    List<Item> getItemByComponents(@Param("c") ClothType c, @Param("s") Season s, @Param("g")Gender g);
+            "INNER JOIN Category c ON c.id = i.category.id " +
+            "WHERE (:gender IS NULL OR c.gender = :gender) " +
+            "AND (:season IS NULL OR c.season = :season) " +
+            "AND (:clothType IS NULL OR c.clothType = :clothType)")
+    List<Item> getItemByComponents(@Param("gender") String gender, @Param("season") String season, @Param("clothType") String clothType);
+
+    @EntityGraph(attributePaths = {"category"}, type = EntityGraph.EntityGraphType.FETCH)
+    @Query("SELECT i from Item i " +
+            "INNER JOIN Category c ON c.id = i.category.id " +
+            "WHERE c.gender = :gender")
+    List<Item> getItemByGender(@Param("gender") String gender);
+
+    @EntityGraph(attributePaths = {"category"}, type = EntityGraph.EntityGraphType.FETCH)
+    @Query("SELECT i from Item i " +
+            "INNER JOIN Category c ON c.id = i.category.id " +
+            "WHERE c.season = :season")
+    List<Item> getItemBySeason(@Param("season") String season);
+
+    @EntityGraph(attributePaths = {"category"}, type = EntityGraph.EntityGraphType.FETCH)
+    @Query("SELECT i from Item i " +
+            "INNER JOIN Category c ON c.id = i.category.id " +
+            "WHERE c.clothType = :clothType")
+    List<Item> getItemByClothType(@Param("clothType") String clothType);
+
 
 }

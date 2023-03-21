@@ -18,8 +18,32 @@ orders service 에서 delivery status 구현
 
 board, comment 완성시키기
 
+비완성 로직 구현 - 아이템에서 리뷰 단 사용자가 같은 아이템에서 리뷰 작성, board도 마찬가지
+아이템에서 자신이 쓴 리뷰만 변경, 삭제 할 수 있도록 
 
+One        To    Many
+Category    ->    Item
 
+Many
+to      One
+Item    ->      Category
+
+Category Repository
+find Category By ItemId;
+
+find item By Category Component
+- find item By Category.season
+- find item By Category.clothType
+- find item By Gender
+
+To do For Category
+- register Item category
+- modify Item category
+- 
+
+category Test 추가로 필요
+itemDetail, itemList 에서 category 정보 노출시키도록 할 것
+category 정보를 통한 itemList 페이지
 
 
 # CRUD / Test

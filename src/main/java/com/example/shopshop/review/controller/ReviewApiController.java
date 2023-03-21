@@ -35,7 +35,8 @@ public class ReviewApiController {
     public ResponseEntity<Long> register(@PathVariable Long itemId, @RequestBody ReviewDTO reviewDTO, @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
         Member member = principalDetails.getMember();
-        if (principalDetails.isAuthenticated(member.getId())) {
+        if (principalDetails.isAuthenticated(member.getId()) && !reviewService.previousReviewStatus(member.getId(), itemId)) {
+
             reviewDTO.setMember(member);
             reviewDTO.setItem(itemService.findItemById(itemId));
             Long reviewnum = reviewService.register(reviewDTO);

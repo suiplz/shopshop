@@ -38,6 +38,7 @@ public interface ItemService {
                 .sizeS(itemDTO.getSizeS())
                 .sizeM(itemDTO.getSizeM())
                 .sizeL(itemDTO.getSizeL())
+                .category(itemDTO.getCategory())
                 .saleRate(itemDTO.getSaleRate())
                 .provider(itemDTO.getProvider())
                 .build();

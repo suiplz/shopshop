@@ -1,5 +1,6 @@
 package com.example.shopshop.Item.domain;
 
+import com.example.shopshop.category.domain.Category;
 import com.example.shopshop.etc.BaseEntity;
 import com.example.shopshop.likes.domain.Likes;
 import com.example.shopshop.member.domain.Member;
@@ -39,14 +40,8 @@ public class Item extends BaseEntity {
     @NotNull
     private Integer sizeL;
 
-    @Enumerated(EnumType.STRING)
-    private ClothType clothType;
-
-    @Enumerated(EnumType.STRING)
-    private Season season;
-
-    @Enumerated(EnumType.STRING)
-    private Gender gender;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Category category;
 
     @NotNull
     private Integer saleRate;

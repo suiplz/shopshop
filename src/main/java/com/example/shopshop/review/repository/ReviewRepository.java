@@ -29,4 +29,9 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
             "INNER JOIN Member m ON m.id = r.member.id " +
             "WHERE m.id = :id")
     List<Review> getReviewByMemberId(@Param("id") Long id);
+
+    @Query("SELECT CASE WHEN COUNT(r) > 0 THEN true ELSE false END " +
+            "FROM Review r " +
+            "WHERE r.member.id = :memberId AND r.item.id = :itemId")
+    boolean reviewByMemberIdAndItemId(@Param("memberId") Long memberId, @Param("itemId") Long itemId);
 }

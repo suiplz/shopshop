@@ -4,9 +4,57 @@
 
 <th:block th:replace="~{/layout/listLayout.html :: setContent(~{this::content} )}">
     <th:block th:fragment="content">
+        <style>
+            label {
+                padding: 0 5px;
+            }
+            #categoryBtn {
+                margin-top :5px;
+                margin-left : 15em;
+            }
+            #cancelBtn {
+                margin-top :5px;
+            }
+
+        </style>
 
         <section class="py-5">
+            <div id="categoryRadio">
+                <div>
+                    <label>성별 :</label>
+                    <th:block th:each="gender : ${genders}">
+                        <label>
+                            <input class="form-check-input" type="radio" name="gender" th:value="${gender.getValue()}" th:text="${gender.name()}">
+                        </label>
+                    </th:block>
+                </div>
+
+                <div>
+                    <label>계절 :</label>
+                    <th:block th:each="season : ${seasons}">
+                        <label>
+                            <input class="form-check-input" type="radio" name="season" th:value="${season.getValue()}" th:text="${season.name()}">
+                        </label>
+                    </th:block>
+
+                </div>
+
+                <div>
+                    <label>종류 :</label>
+                    <th:block th:each="clothType : ${clothTypes}">
+                        <label>
+                            <input class="form-check-input" type="radio" name="clothType" th:value="${clothType.getValue()}" th:text="${clothType.name()}">
+                        </label>
+                    </th:block>
+                </div>
+
+                <button class="btn btn-primary" id="categoryBtn">
+                    검색
+                </button>
+                <button class="btn btn-warning" onclick="deselect()" id="cancelBtn">선택해제</button>
+            </div>
             <div class="container px-4 px-lg-5 mt-5">
+
                 <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
                         <div class="col mb-6" th:each="dto : ${result.dtoList}">
                             <div class="card h-100">
@@ -40,40 +88,50 @@
                                 </div>
                             </div>
                         </div>
-<!--                    <div class="col mb-5">-->
-<!--                        <div class="card h-100">-->
-<!--                            &lt;!&ndash; Sale badge&ndash;&gt;-->
-<!--                            <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>-->
-<!--                            &lt;!&ndash; Product image&ndash;&gt;-->
-<!--                            <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />-->
-<!--                            &lt;!&ndash; Product details&ndash;&gt;-->
-<!--                            <div class="card-body p-4">-->
-<!--                                <div class="text-center">-->
-<!--                                    &lt;!&ndash; Product name&ndash;&gt;-->
-<!--                                    <h5 class="fw-bolder">Special Item</h5>-->
-<!--                                    &lt;!&ndash; Product reviews&ndash;&gt;-->
-<!--                                    <div class="d-flex justify-content-center small text-warning mb-2">-->
-<!--                                        <div class="bi-star-fill"></div>-->
-<!--                                        <div class="bi-star-fill"></div>-->
-<!--                                        <div class="bi-star-fill"></div>-->
-<!--                                        <div class="bi-star-fill"></div>-->
-<!--                                        <div class="bi-star-fill"></div>-->
-<!--                                    </div>-->
-<!--                                    &lt;!&ndash; Product price&ndash;&gt;-->
-<!--                                    <span class="text-muted text-decoration-line-through">$20.00</span>-->
-<!--                                    $18.00-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            &lt;!&ndash; Product actions&ndash;&gt;-->
-<!--                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">-->
-<!--                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-
                 </div>
             </div>
         </section>
+
+        <script>
+            function getSelectedValue(name) {
+                var selectedRadio = $("input[name='" + name + "']:checked");
+                if (selectedRadio.length > 0) {
+                    return selectedRadio.val();
+                } else {
+                    return null;
+                }
+            }
+
+            function deselect() {
+                $("input:radio[name='gender']").prop("checked", false);
+                $("input:radio[name='season']").prop("checked", false);
+                $("input:radio[name='clothType']").prop("checked", false);
+            }
+
+            $(document).ready(function() {
+                $("#categoryBtn").click(function() {
+                    var genderValue = getSelectedValue("gender");
+                    var seasonValue = getSelectedValue("season");
+                    var clothTypeValue = getSelectedValue("clothType");
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/item/list",
+                        data: {
+                            gender: genderValue,
+                            season: seasonValue,
+                            clothType: clothTypeValue
+                        },
+                        success: function(data) {
+                            // Handle success response from backend
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            // Handle error response from backend
+                        }
+                    });
+                });
+            });
+        </script>
         <!-- Footer-->
         <!-- Bootstrap core JS-->
     </th:block>
