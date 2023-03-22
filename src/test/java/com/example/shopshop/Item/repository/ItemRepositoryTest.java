@@ -28,6 +28,9 @@ class ItemRepositoryTest {
     private ItemRepository itemRepository;
 
     @Autowired
+    private ItemImageRepository itemImageRepository;
+
+    @Autowired
     private MemberRepository memberRepository;
 
     @Test
@@ -78,6 +81,12 @@ class ItemRepositoryTest {
     }
 
     @Test
+    void deleteItem() {
+        itemImageRepository.deleteById(10L);
+        itemRepository.deleteById(7L);
+    }
+
+    @Test
     void getByMember() {
 
         IntStream.rangeClosed(1, 10).forEach(i -> {
@@ -122,13 +131,28 @@ class ItemRepositoryTest {
     @Test
     void getItemByComponentsTest() {
 
-        List<Item> itemByComponents = itemRepository.getItemByComponents("FEMALE", "AUTUMN", "SHOES");
-        List<Item> itemByComponents1 = itemRepository.getItemByComponents("FEMALE", "AUTUMN", "OUTER");
-        List<Item> itemByComponents2 = itemRepository.getItemByComponents(null, null, "OUTER");
-        log.info("result 1 : " + itemByComponents);
-        log.info("result 2 : " + itemByComponents1);
-        log.info("result 3 : " + itemByComponents2);
+        PageRequestDTO requestDTO = new PageRequestDTO();
+        Pageable pageable = requestDTO.getPageable(Sort.by("id").descending());
 
+        Page<Object[]> itemByComponents = itemRepository.getItemByComponents(pageable,"MALE", "SPRING", "TOP");
+        Page<Object[]> itemByComponents1 = itemRepository.getItemByComponents(pageable,null, null, "OUTER");
+        Page<Object[]> itemByComponents2 = itemRepository.getItemByComponents(pageable,null, null, null);
+        Page<Object[]> itemByComponents3 = itemRepository.getItemByComponents(pageable,"MALE", "SPRING", null);
+
+        for (Object[] objects : itemByComponents) {
+            log.info("result1 : " + Arrays.toString(objects));
+        }
+
+        for (Object[] objects : itemByComponents1) {
+            log.info("result2 : " + Arrays.toString(objects));
+        }
+
+        for (Object[] objects : itemByComponents2) {
+            log.info("result3 : " + Arrays.toString(objects));
+        }
+        for (Object[] objects : itemByComponents3) {
+            log.info("result3 : " + Arrays.toString(objects));
+        }
 
     }
 

@@ -3,6 +3,7 @@ package com.example.shopshop.etc.file;
 
 import lombok.extern.log4j.Log4j2;
 import net.coobird.thumbnailator.Thumbnailator;
+import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -38,7 +41,6 @@ public class UploadController {
     @PostMapping("/uploadAjax")
     public ResponseEntity<List<UploadResultDTO>> uploadFile(MultipartFile[] uploadFiles) {
 
-
         List<UploadResultDTO> resultDTOList = new ArrayList<>();
 
         for (MultipartFile uploadFile : uploadFiles) {
@@ -50,6 +52,8 @@ public class UploadController {
 
             String originalName = uploadFile.getOriginalFilename();
             String fileName = originalName.substring(originalName.lastIndexOf("\\") + 1);
+            String extension = fileName.substring(fileName.lastIndexOf(".") + 1);
+
             log.info("fileName" + fileName);
 
             String folderPath = makeFolder();
@@ -66,7 +70,18 @@ public class UploadController {
 
                 log.info("uploadPath = " + uploadPath);
                 log.info("thumbnailsaveName = " + thumbnailSaveName);
-                Thumbnailator.createThumbnail(savePath.toFile(), thumbnailFile, 100, 100);
+                BufferedImage originalImage = ImageIO.read(savePath.toFile());
+
+                if (extension.equalsIgnoreCase("png")) {
+                    ImageIO.write(originalImage, "png", thumbnailFile);
+                } else {
+                    BufferedImage thumbnailImage = Thumbnails.of(originalImage)
+                            .size(originalImage.getWidth(), originalImage.getHeight())
+                            .outputQuality(1.0)
+                            .asBufferedImage();
+                    ImageIO.write(thumbnailImage, "jpg", thumbnailFile);
+                }
+
                 resultDTOList.add(new UploadResultDTO(fileName, uuid, folderPath));
             } catch (IOException e) {
                 e.printStackTrace();
@@ -106,6 +121,7 @@ public class UploadController {
     public ResponseEntity<Boolean> removeFile(String fileName) {
 
         String srcFileName = null;
+
 
         try {
             srcFileName = URLDecoder.decode(fileName, "UTF-8");

@@ -2,7 +2,6 @@ package com.example.shopshop.Item.controller;
 
 import com.example.shopshop.Item.domain.ClothType;
 import com.example.shopshop.Item.domain.Gender;
-import com.example.shopshop.Item.domain.Item;
 import com.example.shopshop.Item.domain.Season;
 import com.example.shopshop.Item.dto.ItemDTO;
 import com.example.shopshop.Item.service.ItemService;
@@ -14,21 +13,16 @@ import com.example.shopshop.member.domain.Member;
 import com.example.shopshop.page.dto.PageRequestDTO;
 import com.example.shopshop.page.dto.PageResultDTO;
 import com.example.shopshop.review.service.ReviewService;
-import com.example.shopshop.security.auth.PrincipalDetails;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.context.annotation.Bean;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
-import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.List;
 
@@ -81,27 +75,66 @@ public class ItemController {
 
     }
 
+//    @GetMapping("/list")
+//    public void list(PageRequestDTO pageRequestDTO, Model model, @RequestParam(value = "gender", required = false) String gender, @RequestParam(value = "season", required = false) String season, @RequestParam(value = "clothType", required = false) String clothType) {
+//        categoryAttribute(model);
+//
+//        model.addAttribute("result", itemService.getList(pageRequestDTO));
+//        log.info("result : " + itemService.getList(pageRequestDTO));
+//    }
+//
+//    @PostMapping("/list")
+//    public RedirectView list(PageRequestDTO pageRequestDTO, Model model, @RequestParam(value = "gender", required = false) String gender, @RequestParam(value = "season", required = false) String season, @RequestParam(value = "clothType", required = false) String clothType) {
+//        categoryAttribute(model);
+//
+//        log.info("category : {}, {}, {}", gender, season, clothType);
+//
+//        PageResultDTO<ItemDTO, Object[]> result = itemService.getList(pageRequestDTO, gender, season, clothType);
+//        model.addAttribute("result", result);
+//        log.info("result : " + itemService.getList(pageRequestDTO, gender, season, clothType));
+//        return new RedirectView("/item/list");
+//    }
+
     @GetMapping("/list")
-    public void list(PageRequestDTO pageRequestDTO, Model model) {
+    public String list(PageRequestDTO pageRequestDTO, Model model,
+                       @RequestParam(value = "gender", required = false) String gender,
+                       @RequestParam(value = "season", required = false) String season,
+                       @RequestParam(value = "clothType", required = false) String clothType) {
         categoryAttribute(model);
 
-        model.addAttribute("result", itemService.getList(pageRequestDTO));
-        log.info("result : " + itemService.getList(pageRequestDTO));
+        String isNull = "null";
+
+        PageResultDTO<ItemDTO, Object[]> result;
+        if (gender == null && season == null && clothType == null) {
+            result = itemService.getList(pageRequestDTO);
+            log.info("result2: " + result);
+
+        } else {
+            if (gender.equals(isNull)) { // 쿼리스트링에 들어가는 null 을 받아서 String "null" 값을 null로 변경
+                gender = null;
+            }
+            if (season.equals(isNull)) {
+                season = null;
+            }
+            if (clothType.equals(isNull)) {
+                clothType = null;
+            }
+            result = itemService.getList(pageRequestDTO, gender, season, clothType);
+            log.info("result1: " + result);
+        }
+        model.addAttribute("result", result);
+        log.info("result : " + result);
+        return "item/list";
     }
 
-    @PostMapping("/list")
-    public void categoryList(PageRequestDTO pageRequestDTO, Model model, @RequestParam("gender") String gender, @RequestParam("season") String season, @RequestParam("clothType") String clothType) {
-        categoryAttribute(model);
-
-        log.info("category : {}, {}, {}", gender, season, clothType);
-
-
-        model.addAttribute("result", itemService.getList(pageRequestDTO));
-        log.info("result : " + itemService.getList(pageRequestDTO));
-    }
+//    @PostMapping("/list")
+//    public void list(Model model, @RequestParam(value = "gender", required = false) String gender, @RequestParam(value = "season", required = false) String season, @RequestParam(value = "clothType", required = false) String clothType) {
+//        categoryAttribute(model);
+//
+//    }
 
     @GetMapping({"/read", "/modify"})
-    public void read(Long id, @ModelAttribute("requestDTO") PageRequestDTO pageRequestDTO, Model model, @LoginCheck Member member) {
+    public void read(Long id, Model model, @LoginCheck Member member) {
 
         ItemDTO itemDTO = itemService.getItem(id);
         model.addAttribute("dto", itemDTO);

@@ -56,5 +56,18 @@ class ItemServiceTest {
         itemService.modify(item);
     }
 
+    @Test
+    void categoryListTest() {
+
+        PageRequestDTO requestDTO = new PageRequestDTO();
+        Pageable pageable = requestDTO.getPageable(Sort.by("id").descending());
+
+
+//        PageResultDTO<ItemDTO, Object[]> list = itemService.getList(requestDTO, "MALE", "SPRING", "TOP");
+//        System.out.println("list = " + list);
+        PageResultDTO<ItemDTO, Object[]> list2 = itemService.getList(requestDTO, "MALE", "SPRING", null);
+        System.out.println("list = " + list2);
+    }
+
 
 }

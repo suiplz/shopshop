@@ -7,6 +7,8 @@ public interface BoardService {
 
     Long register(BoardDTO boardDTO);
 
+    void remove(Long itemId, Long boardId);
+
     default Board dtoToEntity(BoardDTO boardDTO) {
 
         Board board = Board.builder()

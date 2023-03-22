@@ -66,6 +66,23 @@ public class ItemServiceImpl implements ItemService{
     }
 
     @Override
+    public PageResultDTO<ItemDTO, Object[]> getList(PageRequestDTO requestDTO, String gender, String season, String clothType) {
+
+        Pageable pageable = requestDTO.getPageable(Sort.by("id").descending());
+
+        Page<Object[]> result = itemRepository.getItemByComponents(pageable, gender, season, clothType);
+
+        Function<Object[], ItemDTO> fn = (arr -> entitiesToDTO(
+                (Item)arr[0],
+                (List<ItemImage>)(Arrays.asList((ItemImage)arr[1])),
+                (Double) arr[2],
+                (Long) arr[3]));
+
+
+        return new PageResultDTO<>(result, fn);
+    }
+
+    @Override
     public ItemDTO getItem(Long id) {
 
         List<Object[]> result = itemRepository.getItemDetail(id);
