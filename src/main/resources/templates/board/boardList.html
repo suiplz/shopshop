@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{/layout/listLayout.html :: setContent(~{this::content} )}">
+  <th:block th:fragment="content">
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/sign-in/">
+    <head>
+      <meta charset="UTF-8">
+      <title>Title</title>
+    </head>
+    <body>
+
+    <div class="container container-fluid">
+      <div style="margin-top : 40px; margin-bottom: 30px;">
+        <h2> Q&A 페이지 </h2>
+      </div>
+      <div><img th:if="${itemDTO.imageDTOList[0] != null && itemDTO.imageDTOList[0].path != null}"
+                th:src="|/display?fileName=${itemDTO.imageDTOList[0].getThumbnailURL()}|"
+        title="image" height="300px" width="200px"/></div>
+      <div style="margin-top: 10px;">상품이름 : <span th:text="${itemDTO.itemName}"></span></div>
+      <table class="table table-hover">
+        <thead>
+        <tr>
+          <th scope="col">번호</th>
+          <th scope="col">제목</th>
+          <th scope="col">댓글 수</th>
+          <th scope="col">작성자</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="dto : ${result.dtoList}">
+          <td th:text="${dto.id}"></td>
+          <td><a th:href="@{/board/read(id=${dto.itemId})}">[[${dto.title}]]</a></td>
+          <td th:text="${dto.commentCount}"></td>
+          <td th:text="${dto.memberEmail}"></td>
+
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+
+
+    </script>
+    </body>
+  </th:block>
+</th:block>
+</html>

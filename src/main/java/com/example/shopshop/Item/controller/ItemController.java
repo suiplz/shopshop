@@ -99,17 +99,28 @@ public class ItemController {
     public String list(PageRequestDTO pageRequestDTO, Model model,
                        @RequestParam(value = "gender", required = false) String gender,
                        @RequestParam(value = "season", required = false) String season,
-                       @RequestParam(value = "clothType", required = false) String clothType) {
+                       @RequestParam(value = "clothType", required = false) String clothType,
+                       @RequestParam(value = "itemName", required = false) String itemName) {
         categoryAttribute(model);
 
         String isNull = "null";
 
         PageResultDTO<ItemDTO, Object[]> result;
+
+        if (itemName != null) {
+
+            result = itemService.getList(pageRequestDTO, itemName);
+            model.addAttribute("result", result);
+            return "item/list";
+
+        }
+
+
         if (gender == null && season == null && clothType == null) {
             result = itemService.getList(pageRequestDTO);
             log.info("result2: " + result);
 
-        } else {
+        } else { //else문 빼는것 고려
             if (gender.equals(isNull)) { // 쿼리스트링에 들어가는 null 을 받아서 String "null" 값을 null로 변경
                 gender = null;
             }

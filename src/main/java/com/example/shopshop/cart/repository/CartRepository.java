@@ -15,6 +15,7 @@ import java.util.List;
 public interface CartRepository extends JpaRepository<Cart, Long> {
 
 
+
     @Query("SELECT c, ci, i.id, i.itemName, i.price, ii FROM Cart c " +
             "INNER JOIN CartItem ci ON ci.cart = c " +
             "INNER JOIN Item i ON i.id = ci.item.id " +

@@ -156,4 +156,17 @@ class ItemRepositoryTest {
 
     }
 
+    @Test
+    void getLiteByItemNameTest() {
+        PageRequest pageRequest = PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC, "id"));
+        PageRequestDTO requestDTO = new PageRequestDTO();
+        Pageable pageable = requestDTO.getPageable(Sort.by("id").descending());
+        Page<Object[]> result = itemRepository.getListByItemName(pageable, "a");
+
+        for (Object[] objects : result) {
+            log.info("result : " + Arrays.toString(objects));
+        }
+
+    }
+
 }

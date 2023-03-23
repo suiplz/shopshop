@@ -12,7 +12,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Builder
 @Getter
-@ToString
+@ToString(exclude = {"item", "member"})
 public class Board extends BaseEntity {
 
     @Id

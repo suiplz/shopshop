@@ -49,6 +49,14 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
             "GROUP BY i.id")
     Page<Object[]> getListPage(Pageable pageable);
 
+    @EntityGraph(attributePaths = {"provider"}, type = EntityGraph.EntityGraphType.FETCH)
+    @Query("SELECT i, ii, avg(coalesce(r.grade, 0)), count(r) FROM Item i " +
+            "LEFT OUTER JOIN ItemImage ii on ii.item = i " +
+            "LEFT OUTER JOIN Review  r on r.item = i " +
+            "WHERE i.itemName LIKE %:itemName% " +
+            "GROUP BY i.id")
+    Page<Object[]> getListByItemName(Pageable pageable, @Param("itemName") String itemName);
+
 
     @EntityGraph(attributePaths = {"category"}, type = EntityGraph.EntityGraphType.FETCH)
     @Query("SELECT i, ii, avg(coalesce(r.grade, 0)), count(r) FROM Item i " +

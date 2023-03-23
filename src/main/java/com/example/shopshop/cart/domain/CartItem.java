@@ -31,7 +31,6 @@ public class CartItem extends BaseEntity {
     private Integer amount;
 
 
-
     public void setCart(Cart cart) {
         this.cart = cart;
     }

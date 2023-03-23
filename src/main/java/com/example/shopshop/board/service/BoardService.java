@@ -1,11 +1,18 @@
 package com.example.shopshop.board.service;
 
+import com.example.shopshop.Item.domain.ItemImage;
+import com.example.shopshop.Item.dto.ItemImageDTO;
 import com.example.shopshop.board.domain.Board;
 import com.example.shopshop.board.dto.BoardDTO;
+import com.example.shopshop.board.dto.BoardListDTO;
+import com.example.shopshop.page.dto.PageRequestDTO;
+import com.example.shopshop.page.dto.PageResultDTO;
 
 public interface BoardService {
 
     Long register(BoardDTO boardDTO);
+
+    PageResultDTO<BoardListDTO, Object[]> getListByItemId(PageRequestDTO pageRequestDTO, Long itemId);
 
     void remove(Long itemId, Long boardId);
 
@@ -21,16 +28,20 @@ public interface BoardService {
         return board;
     }
 
-    default BoardDTO entityToDTO(Board board) {
+    default BoardListDTO entityToDTO(Board board, Long itemId, String memberEmail, Long commentCount) {
 
-        BoardDTO boardDTO = BoardDTO.builder()
+
+        BoardListDTO boardListDTO = BoardListDTO.builder()
                 .id(board.getId())
                 .title(board.getTitle())
-                .content(board.getContent())
-                .item(board.getItem())
-                .member(board.getMember())
+                .itemId(itemId)
+                .memberEmail(memberEmail)
+                .commentCount(commentCount)
                 .build();
 
-        return boardDTO;
+
+        return boardListDTO;
     }
+
+
 }
