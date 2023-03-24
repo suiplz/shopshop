@@ -19,6 +19,16 @@
                     margin-top : 13em;
                     transform : translateY(-100%);
                 }
+
+                #cartForm {
+                    height: 5.5em;
+                    width : 7em;
+                }
+
+                #cartBtn {
+                    height : 5.5em;
+                    width : 7em;
+                }
             </style>
             <meta charset="utf-8"/>
             <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
@@ -79,12 +89,10 @@
                             </ul>
                         </li>
                     </ul>
-                    <form class="d-flex">
-                        <button class="btn btn-outline-dark" type="submit">
+                    <form class="d-flex" sec:authorize="isAuthenticated()" id="cartForm">
+                        <button class="btn btn-outline-dark" type="button" id="cartBtn" th:onclick="'window.location.href = \'' + @{/cart/cartList/{memberId}(memberId=${#authentication.getPrincipal().member.id})} + '\''">
                             <i class="bi-cart-fill me-1"></i>
-                            <a class="nav-link" th:href="@{/cart/list}"></a>
                             Cart
-                            <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
                         </button>
                     </form>
                 </div>

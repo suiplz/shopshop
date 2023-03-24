@@ -10,22 +10,11 @@
 <div class="container">
   <div class="my-4">
     <h2>홈</h2>
-    <div sec:authorize-urls="isAuthenticated()">
-      <ul>
-        <li th:text="|session.getId = ${#session.getId()}|"></li>
-        <li th:text="|session.getAttributeNames = ${#session.getAttributeNames()}|"></li>
-        <li th:text="|session.getCreationTime = ${#session.getCreationTime()}|"></li>
-      </ul>
-    </div>
-    <div class="btn">
-      <a th:href="@{/member/signup}">
-        <button class="btn btn-lg btn-secondary">회원가입</button>
-      </a>
-      <a th:href="@{/member/login}">
-        <button sec:authorize-urls="!isAuthenticated()" class="btn btn-lg btn-dark">로그인</button>
-      </a>
       <a th:href="@{/logout}">
         <button sec:authorize-urls="isAuthenticated()" class="btn btn-danger btn-lg">로그아웃</button>
+      </a>
+      <a th:href="@{/item/list}">
+        <button sec:authorize-urls="isAuthenticated()" class="btn btn-danger btn-lg">아이템리스트로 가기</button>
       </a>
 
 <!--      <hr class="my-4">-->

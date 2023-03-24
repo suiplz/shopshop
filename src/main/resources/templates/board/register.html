@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{/layout/listLayout.html :: setContent(~{this::content} )}">
+    <th:block th:fragment="content">
+
+        <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/sign-in/">
+        <head>
+            <meta charset="UTF-8">
+            <title>Title</title>
+        </head>
+        <style>
+            .text-bg-info {
+                margin-top : 2em;
+                margin-left : 5em;
+            }
+            .form-group {
+                margin-top: 3em;
+                margin-left: 5em;
+                width: 50%;
+            }
+            textarea {
+                resize: vertical;
+            }
+            #boardRegisterBtn {
+                resize : vertical;
+            }
+        </style>
+<body>
+
+<form th:action="@{/board/register/{id}(id=${itemId})}" th:object="${boardDTO}" th:method="post">
+
+    <h5 class="text-bg-info">Q&A 작성</h5>
+
+    <div class="form-group">
+        <label>제목</label>
+        <input type="text" class="form-control" name="title">
+    </div>
+
+    <div class="form-group">
+        <label>내용</label>
+        <textarea class="form-control" name="content" th:rows="6"></textarea>
+    </div>
+
+    <div class="form-group" style="display: flex; justify-content: flex-end;">
+        <button type="submit" class="btn btn-primary" id="boardRegisterBtn">등록</button>
+    </div>
+</form>
+
+
+</body>
+    </th:block>
+</th:block>
+</html>

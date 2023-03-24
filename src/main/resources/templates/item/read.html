@@ -69,6 +69,11 @@
                 <button name="likeButton">
                     <i class="fa fa-heart" id="likesIcon-${item.id}" onclick="toggleLike(${item.id})" style="color:red"></i>
                 </button>
+
+                <a class="btn btn-outline-secondary" th:href="@{/board/boardList/{id}(id=${dto.id})}">
+                    Q&A Page
+                </a>
+
                 <span class="like">[[${likesAmount}]]</span>
 
                 <div class="list-group reviewList">

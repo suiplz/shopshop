@@ -3,6 +3,7 @@ package com.example.shopshop.board.service;
 import com.example.shopshop.Item.domain.Item;
 import com.example.shopshop.board.dto.BoardDTO;
 import com.example.shopshop.board.dto.BoardListDTO;
+import com.example.shopshop.board.dto.BoardReadDTO;
 import com.example.shopshop.cart.dto.CartItemListDTO;
 import com.example.shopshop.member.domain.Member;
 import com.example.shopshop.page.dto.PageRequestDTO;
@@ -32,8 +33,8 @@ class BoardServiceTest {
         BoardDTO boardDTO = BoardDTO.builder()
                 .title("title2")
                 .content("content2")
-                .member(member)
-                .item(item)
+                .memberId(member.getId())
+                .itemId(item.getId())
                 .build();
 
         log.info("result" + boardDTO);
@@ -50,4 +51,12 @@ class BoardServiceTest {
         log.info("result : " + result);
 
     }
+
+    @Test
+    void getBoardTest() {
+        BoardReadDTO board = boardService.getBoard(1L);
+        log.info("result : " + board);
+    }
+
+
 }

@@ -1,24 +1,17 @@
 package com.example.shopshop.comment.dto;
 
-import com.example.shopshop.board.domain.Board;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class CommentDTO {
+public class CommentForBoardDTO {
 
     private Long id;
-
     private String text;
-
-    private Long boardId;
-
-    private Long memberId;
+    private String email;
 }

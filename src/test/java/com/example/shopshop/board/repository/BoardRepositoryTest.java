@@ -1,5 +1,6 @@
 package com.example.shopshop.board.repository;
 
+import com.example.shopshop.board.dto.BoardReadDTO;
 import com.example.shopshop.page.dto.PageRequestDTO;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -35,6 +37,20 @@ class BoardRepositoryTest {
 
 
 
+    }
+
+    @Test
+    void getBoardByIdTest() {
+        List<Object[]> result1 = boardRepository.getBoardById(1L);
+        List<Object[]> result2 = boardRepository.getBoardById(2L);
+
+        for (Object[] objects : result1) {
+            log.info("result : " + Arrays.toString(objects));
+        }
+
+        for (Object[] objects : result2) {
+            log.info("result : " + Arrays.toString(objects));
+        }
     }
 
 }

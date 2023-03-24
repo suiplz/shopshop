@@ -9,19 +9,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/board")
+@RequestMapping("/api/board")
 @RequiredArgsConstructor
 public class BoardApiController {
 
     private final BoardService boardService;
 
-    @GetMapping("/register/{itemId}")
-    public ResponseEntity<Long> register(@PathVariable Long itemId, BoardDTO boardDTO) {
-
-        Long result = boardService.register(boardDTO);
-        return new ResponseEntity<>(result, HttpStatus.OK);
-
-    }
 
     @DeleteMapping("/remove/{itemId}/{boardId}")
     public ResponseEntity remove(@PathVariable Long itemId, @PathVariable Long boardId) {

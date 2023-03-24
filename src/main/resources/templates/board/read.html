@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{/layout/listLayout.html :: setContent(~{this::content} )}">
+  <th:block th:fragment="content">
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/sign-in/">
+    <head>
+      <meta charset="UTF-8">
+      <title>Title</title>
+    </head>
+
+    <style>
+
+    </style>
+    <body>
+
+    <div class="container container-fluid">
+      <div style="margin-top : 40px; margin-bottom: 30px;">
+        <h2> Q&A 페이지 </h2>
+      </div>
+      <div th:text="${result.id}"></div>
+      <div th:text="${result.title}"></div>
+      <div th:text="${result.content}"></div>
+      <div th:text="${result.email}"></div>
+      <table class="table table-hover">
+        <thead>
+        <tr>
+          <th scope="col">내용</th>
+          <th scope="col">댓글 작성자</th>
+          <th scope="col">삭제</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="dto : ${result.commentList}">
+          <td th:text="${dto.text}"></td>
+          <td th:text="${dto.email}"></td>
+          <td><button class="btn btn-danger removeBtn" th:attr="data-id=${dto.id}">삭제</button></td>
+
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+
+    <script>
+
+
+
+    </script>
+    </body>
+  </th:block>
+</th:block>
+</html>
