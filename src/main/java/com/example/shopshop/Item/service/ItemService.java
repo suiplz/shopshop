@@ -68,7 +68,7 @@ public interface ItemService {
         return entityMap;
         }
 
-    default ItemDTO entitiesToDTO(Item item, List<ItemImage> itemImages, Double avgRate, Long reviewCnt) {
+    default ItemDTO entitiesToDTO(Item item, List<ItemImage> itemImages, Double avgRate, Long reviewCnt, Long likesCnt) {
 
         ItemDTO itemDTO = ItemDTO.builder()
                 .id(item.getId())
@@ -94,6 +94,7 @@ public interface ItemService {
         itemDTO.setImageDTOList(itemImageDTOList);
         itemDTO.setAvgRate(avgRate);
         itemDTO.setReviewCnt(reviewCnt.intValue());
+        itemDTO.setLikesCnt(likesCnt.intValue());
 
         return itemDTO;
     }

@@ -1,5 +1,5 @@
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf/extras/springsecurity">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
   <meta charset="UTF-8">
@@ -11,10 +11,13 @@
   <div class="my-4">
     <h2>홈</h2>
       <a th:href="@{/logout}">
-        <button sec:authorize-urls="isAuthenticated()" class="btn btn-danger btn-lg">로그아웃</button>
+        <button sec:authorize="isAuthenticated()" class="btn btn-danger btn-lg">로그아웃</button>
       </a>
+    <a th:href="@{/member/login}">
+      <button sec:authorize="isAnonymous()" class="btn btn-danger btn-lg">로그인</button>
+    </a>
       <a th:href="@{/item/list}">
-        <button sec:authorize-urls="isAuthenticated()" class="btn btn-danger btn-lg">아이템리스트로 가기</button>
+        <button class="btn btn-danger btn-lg">아이템리스트로 가기</button>
       </a>
 
 <!--      <hr class="my-4">-->

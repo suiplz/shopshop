@@ -7,10 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/likes/api")
@@ -21,12 +19,21 @@ public class LikesApiController {
 
     @PostMapping("/{memberId}/{itemId}")
     public ResponseEntity<String> pushLikes(@PathVariable("memberId") Long memberId, @PathVariable("itemId") Long itemId, @AuthenticationPrincipal Member member){
-        if (member.getId() == memberId) {
+//        if (member.getId() == memberId) {
             likesService.pushLikes(memberId, itemId);
+            return new ResponseEntity("Success to Push Likes", HttpStatus.OK);
+//        }
+//            return new ResponseEntity<>("Failed to Push Likes", HttpStatus.FORBIDDEN);
+    }
+
+    @DeleteMapping("/{memberId}/{itemId}")
+    public ResponseEntity<String> unPushLikes(@PathVariable("memberId") Long memberId, @PathVariable("itemId") Long itemId, @AuthenticationPrincipal Member member){
+//        if (member.getId() == memberId) {
+            likesService.unLikes(memberId, itemId);
 
             return new ResponseEntity("Success to Push Likes", HttpStatus.OK);
-        }
-            return new ResponseEntity<>("Failed to Push Likes", HttpStatus.FORBIDDEN);
+//        }
+//        return new ResponseEntity<>("Failed to Push Likes", HttpStatus.FORBIDDEN);
     }
 
 

@@ -75,25 +75,6 @@ public class ItemController {
 
     }
 
-//    @GetMapping("/list")
-//    public void list(PageRequestDTO pageRequestDTO, Model model, @RequestParam(value = "gender", required = false) String gender, @RequestParam(value = "season", required = false) String season, @RequestParam(value = "clothType", required = false) String clothType) {
-//        categoryAttribute(model);
-//
-//        model.addAttribute("result", itemService.getList(pageRequestDTO));
-//        log.info("result : " + itemService.getList(pageRequestDTO));
-//    }
-//
-//    @PostMapping("/list")
-//    public RedirectView list(PageRequestDTO pageRequestDTO, Model model, @RequestParam(value = "gender", required = false) String gender, @RequestParam(value = "season", required = false) String season, @RequestParam(value = "clothType", required = false) String clothType) {
-//        categoryAttribute(model);
-//
-//        log.info("category : {}, {}, {}", gender, season, clothType);
-//
-//        PageResultDTO<ItemDTO, Object[]> result = itemService.getList(pageRequestDTO, gender, season, clothType);
-//        model.addAttribute("result", result);
-//        log.info("result : " + itemService.getList(pageRequestDTO, gender, season, clothType));
-//        return new RedirectView("/item/list");
-//    }
 
     @GetMapping("/list")
     public String list(PageRequestDTO pageRequestDTO, Model model,
@@ -138,17 +119,13 @@ public class ItemController {
         return "item/list";
     }
 
-//    @PostMapping("/list")
-//    public void list(Model model, @RequestParam(value = "gender", required = false) String gender, @RequestParam(value = "season", required = false) String season, @RequestParam(value = "clothType", required = false) String clothType) {
-//        categoryAttribute(model);
-//
-//    }
 
     @GetMapping({"/read", "/modify"})
     public void read(Long id, Model model, @LoginCheck Member member) {
 
         ItemDTO itemDTO = itemService.getItem(id);
         model.addAttribute("dto", itemDTO);
+        log.info("result : " + itemDTO + " " + itemDTO.getId().getClass());
         boolean likesStates = false;
         boolean previousReviewStatus = false;
 
@@ -160,9 +137,9 @@ public class ItemController {
         }
 
         model.addAttribute("previousReviewStatus", previousReviewStatus);
-        Long likesCount = likesService.getLikesCount(itemDTO.getId());
+//        Long likesCount = likesService.getLikesCount(itemDTO.getId());
         model.addAttribute("likesStates", likesStates);
-        model.addAttribute("likesCount", likesCount);
+//        model.addAttribute("likesCount", likesCount);
 
 
     }

@@ -50,6 +50,8 @@ public class ItemDTO {
 
     private int reviewCnt;
 
+    private int likesCnt;
+
     @Builder.Default
     private List<ItemImageDTO> imageDTOList = new ArrayList<>();
 

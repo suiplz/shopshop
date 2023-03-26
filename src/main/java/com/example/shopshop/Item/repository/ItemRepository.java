@@ -30,9 +30,10 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
 //    List<Object[]> getItemDetail(@Param("id") Long id);
 //    @EntityGraph(attributePaths = {"provider"}, type = EntityGraph.EntityGraphType.FETCH)
 
-    @Query("SELECT i, ii, avg(coalesce(r.grade, 0)), count(r) FROM Item i " +
+    @Query("SELECT i, ii, avg(coalesce(r.grade, 0)), count(r), count(l) FROM Item i " +
             "LEFT OUTER JOIN ItemImage ii on ii.item = i " +
             "LEFT OUTER JOIN Review r on r.item = i " +
+            "LEFT OUTER JOIN Likes l on l.item = i " +
             "WHERE i.id = :id GROUP BY ii")
     List<Object[]> getItemDetail(@Param("id") Long id);
 
@@ -68,6 +69,11 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
             "AND (:clothType IS NULL OR c.clothType = :clothType)" +
             "GROUP BY i")
     Page<Object[]> getItemByComponents(Pageable pageable, @Param("gender") String gender, @Param("season") String season, @Param("clothType") String clothType);
+
+    @Query("SELECT count(l) From Item i " +
+            "LEFT OUTER JOIN Likes l ON l.item.id = i.id " +
+            "WHERE i.id = :itemId")
+    Long getLikesCountByItemId(@Param("itemId") Long itemId);
 
     @EntityGraph(attributePaths = {"category"}, type = EntityGraph.EntityGraphType.FETCH)
     @Query("SELECT i from Item i " +

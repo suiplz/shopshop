@@ -52,6 +52,8 @@ page처리 완료, 공통 오류 핸들러만 하면 진짜 끝난다.
 comment modal로?
 백엔드에서는 @LoginCheck 프론트에서는 authentication.principal.member.id 로 조건?
 
+likes 완료
+
 
 
 # CRUD / Test

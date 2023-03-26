@@ -7,6 +7,7 @@ import com.example.shopshop.Item.dto.ItemModifyDTO;
 import com.example.shopshop.Item.repository.ItemImageRepository;
 import com.example.shopshop.Item.repository.ItemRepository;
 import com.example.shopshop.category.repository.CategoryRepository;
+import com.example.shopshop.likes.repository.LikesRepository;
 import com.example.shopshop.page.dto.PageRequestDTO;
 import com.example.shopshop.page.dto.PageResultDTO;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +27,10 @@ import java.util.function.Function;
 public class ItemServiceImpl implements ItemService{
 
     private final ItemRepository itemRepository;
+
     private final ItemImageRepository itemImageRepository;
+
+    private final LikesRepository likesRepository;
 
 
     @Transactional
@@ -54,14 +58,7 @@ public class ItemServiceImpl implements ItemService{
 
         Page<Object[]> result = itemRepository.getListPage(pageable);
 
-        Function<Object[], ItemDTO> fn = (arr -> entitiesToDTO(
-                (Item)arr[0],
-                (List<ItemImage>)(Arrays.asList((ItemImage)arr[1])),
-                (Double) arr[2],
-                (Long) arr[3]));
-
-
-        return new PageResultDTO<>(result, fn);
+        return getItemDTOPageResultDTO(result);
 
     }
 
@@ -72,14 +69,7 @@ public class ItemServiceImpl implements ItemService{
 
         Page<Object[]> result = itemRepository.getListByItemName(pageable, itemName);
 
-        Function<Object[], ItemDTO> fn = (arr -> entitiesToDTO(
-                (Item)arr[0],
-                (List<ItemImage>)(Arrays.asList((ItemImage)arr[1])),
-                (Double) arr[2],
-                (Long) arr[3]));
-
-
-        return new PageResultDTO<>(result, fn);
+        return getItemDTOPageResultDTO(result);
 
     }
 
@@ -90,11 +80,17 @@ public class ItemServiceImpl implements ItemService{
 
         Page<Object[]> result = itemRepository.getItemByComponents(pageable, gender, season, clothType);
 
+        return getItemDTOPageResultDTO(result);
+    }
+
+    private PageResultDTO<ItemDTO, Object[]> getItemDTOPageResultDTO(Page<Object[]> result) {
         Function<Object[], ItemDTO> fn = (arr -> entitiesToDTO(
-                (Item)arr[0],
-                (List<ItemImage>)(Arrays.asList((ItemImage)arr[1])),
+                (Item) arr[0],
+                (List<ItemImage>) (Arrays.asList((ItemImage) arr[1])),
                 (Double) arr[2],
-                (Long) arr[3]));
+                (Long) arr[3],
+                itemRepository.getLikesCountByItemId(((Item) arr[0]).getId()))
+        );
 
 
         return new PageResultDTO<>(result, fn);
@@ -116,8 +112,9 @@ public class ItemServiceImpl implements ItemService{
 
         Double avgRate = (Double) result.get(0)[2];
         Long reviewCnt = (Long) result.get(0)[3];
+        Long likesCnt = (Long) result.get(0)[4];
 
-        return entitiesToDTO(item, itemImageList, avgRate, reviewCnt);
+        return entitiesToDTO(item, itemImageList, avgRate, reviewCnt, likesCnt);
 
 
     }

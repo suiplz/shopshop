@@ -19,12 +19,23 @@ class LikesServiceTest {
     @Test
     void likesRegisterTest(){
 
-        Long likes = likesService.pushLikes(1L, 1L);
+        Long likes = likesService.pushLikes(1L, 9L);
         log.info("Likes : " + likes);
-        boolean likeStates1 = likesService.getLikeStates(1L, 1L);
+        boolean likeStates1 = likesService.getLikeStates(1L, 9L);
         boolean likeStates2 = likesService.getLikeStates(null, 1L);
         log.info("LikesStates : {}, {}", likeStates1, likeStates2);
 
+    }
+
+    @Test
+    void likesDeleteTest() {
+        likesService.unLikes(1L,1L);
+        likesService.unLikes(1L,2L);
+        likesService.unLikes(1L,4L);
+        likesService.unLikes(1L,6L);
+        likesService.unLikes(1L,8L);
+        likesService.unLikes(1L,9L);
+        likesService.unLikes(1L,10L);
     }
 
 }

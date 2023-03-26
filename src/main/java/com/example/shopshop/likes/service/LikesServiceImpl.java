@@ -21,14 +21,17 @@ public class LikesServiceImpl implements LikesService{
         Likes likes = Likes.builder()
                 .member(Member.builder().id(memberId).build())
                 .item(Item.builder().id(itemId).build()).build();
-        likesRepository.save(likes);
+        boolean condition = likesRepository.existsByMemberIdAndItemId(memberId, itemId);
+        if (!condition) {
+            likesRepository.save(likes);
+        }
 
         return likes.getId();
     }
 
     @Transactional
     @Override
-    public void UnLikes(Long memberId, Long itemId) {
+    public void unLikes(Long memberId, Long itemId) {
 
         likesRepository.deleteByMemberIdAndItemId(memberId, itemId);
     }

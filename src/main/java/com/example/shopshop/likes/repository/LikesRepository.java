@@ -7,11 +7,20 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 public interface LikesRepository extends JpaRepository<Likes, Long> {
 
+    @Modifying
+    @Transactional
     void deleteByMemberIdAndItemId(Long memberId, Long itemId);
 
     boolean existsByMemberIdAndItemId(Long memberId, Long itemId);
+
+//    @Query("SELECT CASE WHEN COUNT(l) > 0 THEN true ELSE false END " +
+//            "FROM Likes l " +
+//            "WHERE l.member.id = :memberId AND l.item.id = :itemId")
+//    boolean existsByMemberIdAndItemId(Long memberId, Long itemId);
 
     Long countByMemberId(Long memberId);
 

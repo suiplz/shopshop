@@ -4,6 +4,18 @@
     <th:block th:fragment="content">
         <!-- Navigation-->
 
+        <style>
+
+            .fa-heart-o {
+                margin-top : 2px;
+                font-size: 1.5em;
+            }
+
+            .fa-heart {
+                margin-top : 2px;
+                font-size : 1.5em;
+            }
+        </style>
         <!-- Product section-->
         <section class="py-5">
             <div class="container px-4 px-lg-5 my-5">
@@ -57,24 +69,29 @@
                     </div>
                 </div>
 
+                <div id="optionButtons">
+                    <button type="button" class="btn btn-primary">
+                        Review amount <span class="badge badge-light">[[${dto.reviewCnt}]]</span>
+                    </button>
 
-                <button type="button" class="btn btn-primary">
-                    Review amount <span class="badge badge-light">[[${dto.reviewCnt}]]</span>
-                </button>
+                    <button type="button" class="btn btn-info addReviewBtn" th:attr="data-previous-review-status=${previousReviewStatus}">
+                        Review Register
+                    </button>
 
-                <button type="button" class="btn btn-info addReviewBtn" th:attr="data-previous-review-status=${previousReviewStatus}">
-                    Review Register
-                </button>
+                    <input type="hidden" id="itemId" th:value="${dto.id}">
+                    <th:block th:if="${member != null}">
+                        <input type="hidden" id="memberId" th:value="${member.id}">
+                    </th:block>
+                    <i class="fa" th:class="${likesStates} ? 'fa fa-heart' : 'fa fa-heart-o'" id="likesIcon-${dto.id}" onclick="toggleLikes(this)" th:attr="data-id=${dto.id}, data-likesCount=${dto.likesCnt}" style="color:red"></i>
 
-                <button name="likeButton">
-                    <i class="fa fa-heart" id="likesIcon-${item.id}" onclick="toggleLike(${item.id})" style="color:red"></i>
-                </button>
+                    <span class="like">[[${dto.likesCnt}]]</span>
 
-                <a class="btn btn-outline-secondary" th:href="@{/board/boardList/{id}(id=${dto.id})}">
-                    Q&A Page
-                </a>
+                    <a class="btn btn-outline-secondary" th:href="@{/board/boardList/{id}(id=${dto.id})}">
+                        Q&A Page
+                    </a>
 
-                <span class="like">[[${likesAmount}]]</span>
+
+                </div>
 
                 <div class="list-group reviewList">
 
@@ -128,7 +145,6 @@
 <!--        <script src="js/scripts.js"></script>-->
 
         <link th:href="@{/css/starrr.css}" rel="stylesheet">
-        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
         <script th:src="@{/vendor/starrr.js}"></script>
         <script>
             $(document).ready(function (e) {
@@ -356,8 +372,51 @@
                     reviewModal.modal('hide');
                 });
 
+            function toggleLikes(likesIcon) {
+                const itemId = likesIcon.getAttribute('data-id');
+                let likesCount = likesIcon.getAttribute('data-likesCount');
+                const memberId = document.getElementById("memberId")?.value;
+                if(memberId === null){
+                    alert("로그인 후 이용가능합니다.");
+                    return;
+                }
+                console.log(itemId, memberId, likesCount);
+
+                if (likesIcon.classList.contains("fa-heart-o")) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/likes/api/" + memberId + "/" + itemId,
+                        dataType: "text"
+                    }).done(res => {
+                        likesCount = parseInt(likesCount) + 1;
+                        $(`#storyLikeCount-${itemId}`).text(likesCount);
+
+                        likesIcon.classList.remove("fa-heart-o");
+                        likesIcon.classList.add("fa-heart");
+                    }).fail(error => {
+                        console.log("오류", error);
+                        alert("로그인 후 이용 가능합니다.");
+                    });
+                } else {
+                    $.ajax({
+                        type: "DELETE",
+                        url: "/likes/api/" + memberId + "/" + itemId,
+                        dataType: "text"
+                    }).done(res => {
+                        likesCount = parseInt(likesCount) - 1;
+                        $(`#storyLikeCount-${itemId}`).text(likesCount);
+
+                        likesIcon.classList.remove("fa-heart");
+                        likesIcon.classList.add("fa-heart-o");
+                    }).fail(error => {
+                        console.log("오류", error);
+                        alert("로그인 후 이용 가능합니다.");
+                    });
+                }
+            }
         </script>
 
     </th:block>
+
 </th:block>
 </html>
