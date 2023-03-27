@@ -54,6 +54,14 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
     @Query("SELECT i, ii, avg(coalesce(r.grade, 0)), count(r) FROM Item i " +
             "LEFT OUTER JOIN ItemImage ii on ii.item = i " +
             "LEFT OUTER JOIN Review  r on r.item = i " +
+            "GROUP BY i.id " +
+            "ORDER BY avg(coalesce(r.grade,0)) DESC")
+    Page<Object[]> getListPageByRating(Pageable pageable);
+
+    @EntityGraph(attributePaths = {"provider"}, type = EntityGraph.EntityGraphType.FETCH)
+    @Query("SELECT i, ii, avg(coalesce(r.grade, 0)), count(r) FROM Item i " +
+            "LEFT OUTER JOIN ItemImage ii on ii.item = i " +
+            "LEFT OUTER JOIN Review  r on r.item = i " +
             "WHERE i.itemName LIKE %:itemName% " +
             "GROUP BY i.id")
     Page<Object[]> getListByItemName(Pageable pageable, @Param("itemName") String itemName);
@@ -69,6 +77,12 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
             "AND (:clothType IS NULL OR c.clothType = :clothType)" +
             "GROUP BY i")
     Page<Object[]> getItemByComponents(Pageable pageable, @Param("gender") String gender, @Param("season") String season, @Param("clothType") String clothType);
+
+
+    @Query("SELECT count(r) From Item i " +
+            "LEFT OUTER JOIN Review r ON r.item.id = i.id " +
+            "WHERE i.id = :itemId")
+    Long getReviewCountByItemId(@Param("itemId") Long itemId);
 
     @Query("SELECT count(l) From Item i " +
             "LEFT OUTER JOIN Likes l ON l.item.id = i.id " +

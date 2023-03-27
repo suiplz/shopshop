@@ -1,6 +1,6 @@
 package com.example.shopshop.orders.dto;
 
-import com.example.shopshop.delivery.domain.Delivery;
+import com.example.shopshop.orders.domain.OrdersStatus;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -25,5 +25,4 @@ public class OrdersListDTO {
 
     private int grandTotal;
 
-    private Delivery delivery;
 }

@@ -8,6 +8,7 @@ import com.example.shopshop.cart.repository.CartRepository;
 import com.example.shopshop.member.domain.Member;
 import com.example.shopshop.orders.domain.Orders;
 import com.example.shopshop.orders.domain.OrdersItem;
+import com.example.shopshop.orders.domain.OrdersStatus;
 import com.example.shopshop.page.dto.PageRequestDTO;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
@@ -97,6 +98,19 @@ class OrdersRepositoryTest {
     }
 
     @Test
+    void getOrdersByProvider() {
+        PageRequestDTO requestDTO = new PageRequestDTO();
+        Pageable pageable = requestDTO.getPageable(Sort.by("id").ascending());
+
+        Page<Object[]> cartByMemberId = ordersRepository.getOrdersByProviderId(pageable, 2L);
+
+        for (Object[] objects : cartByMemberId) {
+            log.info("result : " + Arrays.toString(objects));
+        }
+
+    }
+
+    @Test
     @Transactional
     void getOrderItemsByMember() {
 
@@ -112,6 +126,20 @@ class OrdersRepositoryTest {
             System.out.println("toString = " + Arrays.toString(objects));
         }
 
+    }
+
+    @Test
+    void statusTest() {
+        OrdersStatus ordersStatus = OrdersStatus.fromValue("CANCEL");
+
+        Optional<OrdersItem> result = ordersItemRepository.findById(6L);
+        OrdersItem ordersItem = result.get();
+        log.info("result : " + ordersItem);
+        ordersItem.changeOrdersStatus(ordersStatus);
+
+        log.info("result : " + ordersItem);
+//
+//        log.info("result : " + ordersStatus);
     }
 
     @Test

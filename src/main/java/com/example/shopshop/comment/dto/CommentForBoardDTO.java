@@ -1,17 +1,20 @@
 package com.example.shopshop.comment.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+import java.time.LocalDateTime;
+
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class CommentForBoardDTO {
 
     private Long id;
+
+    private Long boardId;
     private String text;
     private String email;
+
 }

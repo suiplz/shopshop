@@ -4,9 +4,9 @@ public enum Gender {
 
     // Male, Female, Unisex
 
-    MALE("MALE"),
-    FEMALE("FEMALE"),
-    UNISEX("UNISEX");
+    남성("MALE"),
+    여성("FEMALE"),
+    혼용("UNISEX");
 
     private String value;
 

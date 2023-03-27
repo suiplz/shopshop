@@ -20,6 +20,8 @@ public interface ItemService {
 
     PageResultDTO<ItemDTO, Object[]> getList(PageRequestDTO requestDTO);
 
+    PageResultDTO<ItemDTO, Object[]> getListByRating(PageRequestDTO requestDTO);
+
     PageResultDTO<ItemDTO, Object[]> getList(PageRequestDTO requestDTO, String itemName);
 
     PageResultDTO<ItemDTO, Object[]> getList(PageRequestDTO requestDTO, String gender, String season, String clothType);

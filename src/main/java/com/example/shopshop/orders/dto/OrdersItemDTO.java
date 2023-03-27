@@ -4,6 +4,7 @@ import com.example.shopshop.Item.domain.Item;
 import com.example.shopshop.Item.domain.ItemImage;
 import com.example.shopshop.Item.dto.ItemImageDTO;
 import com.example.shopshop.orders.domain.Orders;
+import com.example.shopshop.orders.domain.OrdersStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -33,5 +34,6 @@ public class OrdersItemDTO {
 
     private ItemImageDTO itemImage;
 
+    private OrdersStatus ordersStatus;
 
 }

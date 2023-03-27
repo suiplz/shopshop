@@ -23,7 +23,7 @@ class LikesServiceTest {
         log.info("Likes : " + likes);
         boolean likeStates1 = likesService.getLikeStates(1L, 9L);
         boolean likeStates2 = likesService.getLikeStates(null, 1L);
-        log.info("LikesStates : {}, {}", likeStates1, likeStates2);
+        log.info("likesStatus : {}, {}", likeStates1, likeStates2);
 
     }
 

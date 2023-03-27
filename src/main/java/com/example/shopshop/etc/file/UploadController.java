@@ -54,8 +54,6 @@ public class UploadController {
             String fileName = originalName.substring(originalName.lastIndexOf("\\") + 1);
             String extension = fileName.substring(fileName.lastIndexOf(".") + 1);
 
-            log.info("fileName" + fileName);
-
             String folderPath = makeFolder();
 
             String uuid = UUID.randomUUID().toString();
@@ -68,8 +66,7 @@ public class UploadController {
                 String thumbnailSaveName = uploadPath + File.separator + folderPath + File.separator + "s_" + uuid + "_" + fileName;
                 File thumbnailFile = new File(thumbnailSaveName);
 
-                log.info("uploadPath = " + uploadPath);
-                log.info("thumbnailsaveName = " + thumbnailSaveName);
+
                 BufferedImage originalImage = ImageIO.read(savePath.toFile());
 
                 if (extension.equalsIgnoreCase("png")) {
@@ -99,7 +96,6 @@ public class UploadController {
 
         try {
             String srcFileName = URLDecoder.decode(fileName, "UTF-8");
-            log.info("fileName : " + srcFileName);
 
             File file = new File(uploadPath + File.separator + srcFileName);
 

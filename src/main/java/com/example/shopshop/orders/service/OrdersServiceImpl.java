@@ -6,8 +6,10 @@ import com.example.shopshop.cart.domain.CartItem;
 import com.example.shopshop.cart.dto.CartItemDTO;
 import com.example.shopshop.cart.repository.CartItemRepository;
 import com.example.shopshop.cart.repository.CartRepository;
+import com.example.shopshop.member.domain.Member;
 import com.example.shopshop.orders.domain.Orders;
 import com.example.shopshop.orders.domain.OrdersItem;
+import com.example.shopshop.orders.domain.OrdersStatus;
 import com.example.shopshop.orders.dto.OrdersItemDTO;
 import com.example.shopshop.orders.dto.OrdersItemListDTO;
 import com.example.shopshop.orders.dto.OrdersRegisterDTO;
@@ -24,10 +26,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 
 @Service
@@ -54,9 +53,6 @@ public class OrdersServiceImpl implements OrdersService {
         List<CartItem> cartItemList = new ArrayList<>();
         result.forEach(arr -> {
             CartItem cartItem = (CartItem) arr[2];
-            log.info("cartItem : " + cartItem);
-            log.info("cartItem.price : " + cartItem.getItem().getPrice());
-            log.info("total Price : " + cartItem.getAmount() * cartItem.getItem().getPrice());
             cartItemList.add(cartItem);
         });
 
@@ -64,8 +60,7 @@ public class OrdersServiceImpl implements OrdersService {
         Map<String, Object> entityMap = dtoToEntity(ordersRegisterDTO);
         Orders orders = (Orders) entityMap.get("orders");
         List<OrdersItem> ordersItemList = (List<OrdersItem>) entityMap.get("ordersItem");
-        log.info("result : " + ordersItemList);
-        log.info("result : " + ordersItemList.toString());
+
         ordersRepository.save(orders);
 
         ordersItemList.forEach(ordersItem -> {
@@ -96,6 +91,49 @@ public class OrdersServiceImpl implements OrdersService {
 
         return new PageResultDTO<>(result, fn);
 
+
+    }
+
+    @Override
+    public PageResultDTO<OrdersItemListDTO, Object[]> getOrdersByProvider(PageRequestDTO pageRequestDTO, Long memberId) {
+
+        Pageable pageable = pageRequestDTO.getPageable(Sort.by("id").ascending());
+
+        Page<Object[]> result = ordersRepository.getOrdersByProviderId(pageable, memberId);
+        Function<Object[], OrdersItemListDTO> fn = (arr -> entitiesToDTOForManage(
+                (OrdersItem) arr[0],
+                (Long) arr[1],
+                (String) arr[2],
+                (ItemImage) arr[3],
+                (Long) arr[4],
+                (LocalDateTime) arr[5]));
+
+        return new PageResultDTO<>(result, fn);
+
+
+    }
+
+
+
+    @Override
+    public void cancelRequest(Long id) {
+        Optional<OrdersItem> result = ordersItemRepository.findById(id);
+        OrdersItem ordersItem = result.get();
+        ordersItem.cancelRequestOrdersStatus();
+        log.info("ordersItem result : " + ordersItem);
+        ordersItemRepository.save(ordersItem);
+
+    }
+
+
+    @Override
+    public void manageOrdersStatus(Long id, String ordersStatus) {
+
+        Optional<OrdersItem> result = ordersItemRepository.findById(id);
+        OrdersItem ordersItem = result.get();
+        OrdersStatus newStatus = OrdersStatus.fromValue(ordersStatus);
+        ordersItem.changeOrdersStatus(newStatus);
+        ordersItemRepository.save(ordersItem);
 
     }
 

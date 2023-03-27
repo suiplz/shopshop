@@ -5,6 +5,7 @@ import com.example.shopshop.Item.domain.Gender;
 import com.example.shopshop.Item.domain.Season;
 import com.example.shopshop.category.domain.Category;
 import com.example.shopshop.member.domain.Member;
+import groovy.transform.Sortable;
 import lombok.*;
 
 import javax.persistence.EnumType;

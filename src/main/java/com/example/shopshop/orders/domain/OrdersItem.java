@@ -33,9 +33,19 @@ public class OrdersItem extends BaseEntity {
 
     private int totalPrice;
 
+    @Enumerated(EnumType.STRING)
+    private OrdersStatus ordersStatus;
+
 
     public void setOrders(Orders orders) {
         this.orders = orders;
+    }
+
+    public void cancelRequestOrdersStatus() {
+        this.ordersStatus = OrdersStatus.취소요청;
+    }
+    public void changeOrdersStatus(OrdersStatus ordersStatus) {
+        this.ordersStatus = ordersStatus;
     }
 
 }

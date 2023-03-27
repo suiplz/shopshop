@@ -34,6 +34,15 @@ class OrdersServiceTest {
     }
 
     @Test
+    void getManagePageByProviderIdTest() {
+        PageRequestDTO pageRequestDTO = new PageRequestDTO();
+
+        PageResultDTO<OrdersItemListDTO, Object[]> listByMember = ordersService.getOrdersByProvider(pageRequestDTO,2L);
+
+        log.info("result : " + listByMember);
+    }
+
+    @Test
     void insertOrdersTest() {
 
         ordersService.register(2L);

@@ -25,6 +25,14 @@ public interface OrdersRepository extends JpaRepository<Orders, Long>  {
     Page<Object[]> getOrdersByMemberId(Pageable pageable, @Param("memberId") Long memberId);
 
 
+    @Query("SELECT oi, i.id, i.itemName, ii,  m.id, oi.regDate FROM OrdersItem oi " +
+            "INNER JOIN Item i ON oi.item.id = i.id " +
+            "INNER JOIN ItemImage ii ON ii.item.id = i.id " +
+            "INNER JOIN Member m ON i.provider.id = m.id " +
+            "WHERE m.id = :memberId " +
+            "GROUP BY oi.id")
+    Page<Object[]> getOrdersByProviderId(Pageable pageable, @Param("memberId") Long memberId);
+
 //    @Query("SELECT o, oi, "
 //    Page<Object[]> getOrdersListByMemberId(Pageable pageable, @Param("memberId") Long memberId);
 

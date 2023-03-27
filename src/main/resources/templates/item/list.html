@@ -105,15 +105,34 @@
                                         <td>평점 : <td th:text="${dto.avgRate}"></td></td>
                                         <td>리뷰 수 : </td><td th:text="${dto.reviewCnt}"></td>
                                         <div><td><i class="fa fa-heart" style="color:red;"></i></td><td th:text="${dto.likesCnt}"></td><div>
-                                    </div>
-<!--                                    <div class="btn btn-outline-dark mt-auto" href="#">View options</div>-->
-                                </div>
 
+                                        </div>
+<!--                                    <div class="btn btn-outline-dark mt-auto" href="#">View options</div>-->
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                 </div>
             </div>
         </section>
+
+        <ul class="pagination h-100 justify-content-center align-items-center">
+
+            <li class="page-item " th:if="${result.prev}">
+                <a class="page-link" th:href="@{/item/list(page=${result.start - 1})}" tabindex="-1">Previous</a>
+            </li>
+
+            <li th:class=" 'page-item'  + ${result.page == page?'active':''} " th:each="page: ${result.pageList}">
+                <a class="page-link" th:href="@{/item/list(page=${page})}">
+                    [[${page}]]
+                </a>
+            </li>
+
+            <li class="page-item" th:if="${result.next}">
+                <a class="page-link" th:href="@{/item/list(page=${result.end + 1})}">Next</a>
+            </li>
+        </ul>
 
         <script>
             function getSelectedValue(name) {

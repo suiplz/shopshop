@@ -1,6 +1,7 @@
 package com.example.shopshop.orders.dto;
 
 import com.example.shopshop.Item.dto.ItemImageDTO;
+import com.example.shopshop.orders.domain.OrdersStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -33,5 +34,7 @@ public class OrdersItemListDTO {
     private ItemImageDTO itemImage;
 
     private LocalDateTime regDate;
+
+    private OrdersStatus ordersStatus;
 
 }

@@ -6,7 +6,6 @@ import com.example.shopshop.Item.dto.ItemDTO;
 import com.example.shopshop.Item.dto.ItemModifyDTO;
 import com.example.shopshop.Item.repository.ItemImageRepository;
 import com.example.shopshop.Item.repository.ItemRepository;
-import com.example.shopshop.category.repository.CategoryRepository;
 import com.example.shopshop.likes.repository.LikesRepository;
 import com.example.shopshop.page.dto.PageRequestDTO;
 import com.example.shopshop.page.dto.PageResultDTO;
@@ -63,6 +62,16 @@ public class ItemServiceImpl implements ItemService{
     }
 
     @Override
+    public PageResultDTO<ItemDTO, Object[]> getListByRating(PageRequestDTO requestDTO) {
+
+        Pageable pageable = requestDTO.getPageable();
+
+        Page<Object[]> result = itemRepository.getListPageByRating(pageable);
+
+        return getItemDTOPageResultDTO(result);
+    }
+
+    @Override
     public PageResultDTO<ItemDTO, Object[]> getList(PageRequestDTO requestDTO, String itemName) {
 
         Pageable pageable = requestDTO.getPageable(Sort.by("id").descending());
@@ -88,7 +97,7 @@ public class ItemServiceImpl implements ItemService{
                 (Item) arr[0],
                 (List<ItemImage>) (Arrays.asList((ItemImage) arr[1])),
                 (Double) arr[2],
-                (Long) arr[3],
+                itemRepository.getReviewCountByItemId(((Item) arr[0]).getId()),
                 itemRepository.getLikesCountByItemId(((Item) arr[0]).getId()))
         );
 

@@ -43,17 +43,19 @@ category 완료,
 ItemName으로 item 검색하는 기능 만들기 -완-
 
 user page user가 쓴 리뷰, Q&A, 좋아요, 구매 정보
-provider의 경우 자신이 등록한 아이템
+provider의 경우 자신이 등록한 아이템 -완-
 board read 구현
 comment 구현
-이후 like랑 getItemListByRating?
+이후 like랑 getItemListByRating? -완-
 page처리 완료, 공통 오류 핸들러만 하면 진짜 끝난다.
 
 comment modal로?
 백엔드에서는 @LoginCheck 프론트에서는 authentication.principal.member.id 로 조건?
 
 likes 완료
-
+OrdersHistory 별도의 테이블? OrdersStatus = Complete 상태에 따른 쿼리?
+OrdersStatus 완료, 취소 일 때 Orders Entity -> OrdersHistory Entity 구매자 판매자 전부 넣을 수 있나?
+결제
 
 
 # CRUD / Test

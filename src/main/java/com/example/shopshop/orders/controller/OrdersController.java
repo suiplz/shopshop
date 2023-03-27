@@ -2,6 +2,7 @@ package com.example.shopshop.orders.controller;
 
 import com.example.shopshop.aop.annotation.LoginCheck;
 import com.example.shopshop.member.domain.Member;
+import com.example.shopshop.orders.domain.OrdersStatus;
 import com.example.shopshop.orders.dto.OrdersItemListDTO;
 import com.example.shopshop.orders.service.OrdersService;
 import com.example.shopshop.page.dto.PageRequestDTO;
@@ -12,6 +13,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.Arrays;
+import java.util.List;
 
 @Controller
 @RequestMapping("/orders")
@@ -27,6 +31,19 @@ public class OrdersController {
         model.addAttribute("result", result);
 
         return "/orders/ordersList";
+
+
+    }
+
+    @GetMapping("/ordersManage/{providerId}")
+    public String getManagePage(PageRequestDTO pageRequestDTO, @PathVariable Long providerId, @LoginCheck Member member, Model model) {
+
+        List<OrdersStatus> ordersStatus = Arrays.asList(OrdersStatus.values());
+        model.addAttribute("ordersStatus", ordersStatus);
+        PageResultDTO<OrdersItemListDTO, Object[]> result = ordersService.getOrdersByProvider(pageRequestDTO, providerId);
+        model.addAttribute("result", result);
+
+        return "/orders/ordersManage";
 
 
     }

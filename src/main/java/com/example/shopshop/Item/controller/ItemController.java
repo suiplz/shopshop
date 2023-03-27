@@ -15,6 +15,8 @@ import com.example.shopshop.page.dto.PageResultDTO;
 import com.example.shopshop.review.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -43,38 +45,52 @@ public class ItemController {
 
 
     @GetMapping("/register")
-    public void register(Model model) {
-        categoryAttribute(model);
-        model.addAttribute("itemDTO", new ItemDTO());
+    public void register(Model model, @LoginCheck Member member) {
+        if (member != null) {
+            categoryAttribute(model);
+            model.addAttribute("itemDTO", new ItemDTO());
+        }
 
     }
 
     @PostMapping("/register")
-    public String register(@Validated @ModelAttribute ItemDTO itemDTO, BindingResult bindingResult, @RequestParam("gender") String gender, @RequestParam("season") String season, @RequestParam("clothType") String clothType, RedirectAttributes redirectAttributes, Model model) {
-        log.info("itemDTO : " + itemDTO);
-        log.info("gender : " + gender);
-        log.info("clothType : " + clothType);
-        log.info("season : " + season);
+    public String register(@Validated @ModelAttribute ItemDTO itemDTO, BindingResult bindingResult, @RequestParam("gender") String gender, @RequestParam("season") String season, @RequestParam("clothType") String clothType,
+                           RedirectAttributes redirectAttributes, Model model, @LoginCheck Member member) {
 
-        Category category = categoryService.getCategory(gender, season, clothType);
-        itemDTO.setCategory(category);
+        if (member != null) {
+            Category category = categoryService.getCategory(gender, season, clothType);
+            itemDTO.setCategory(category);
+            itemDTO.setProvider(member);
 
-        Long itemId = itemService.register(itemDTO);
+            Long itemId = itemService.register(itemDTO);
 
 
-        //검증에 실패하면 다시 입력 폼으로
-        if (bindingResult.hasErrors()) {
-            log.info("errors = {} ", bindingResult);
-            return "item/list";
-        }
+            //검증에 실패하면 다시 입력 폼으로
+            if (bindingResult.hasErrors()) {
+                log.info("errors = {} ", bindingResult);
+                return "item/list";
+            }
 //        redirectAttributes.addFlashAttribute("itemDTO", itemId);
-        redirectAttributes.addAttribute("itemId", itemId);
-        redirectAttributes.addAttribute("status", true);
+            redirectAttributes.addFlashAttribute("itemId", itemId);
+            redirectAttributes.addFlashAttribute("status", true);
 
+            return "redirect:/item/list";
+        }
         return "redirect:/item/list";
-
     }
 
+    @GetMapping("/listByRating")
+    public String listByRating(PageRequestDTO pageRequestDTO, Model model) {
+        categoryAttribute(model);
+        PageResultDTO<ItemDTO, Object[]> result = itemService.getListByRating(pageRequestDTO);
+        model.addAttribute("result", result);
+        return "item/list";
+    }
+
+//    @GetMapping("/listByLikesCnt")
+//    public String list(PageRequestDTO pageRequestDTO, Model model) {
+//        categoryAttribute(model);
+//    }
 
     @GetMapping("/list")
     public String list(PageRequestDTO pageRequestDTO, Model model,
@@ -87,6 +103,7 @@ public class ItemController {
         String isNull = "null";
 
         PageResultDTO<ItemDTO, Object[]> result;
+
 
         if (itemName != null) {
 
@@ -126,11 +143,11 @@ public class ItemController {
         ItemDTO itemDTO = itemService.getItem(id);
         model.addAttribute("dto", itemDTO);
         log.info("result : " + itemDTO + " " + itemDTO.getId().getClass());
-        boolean likesStates = false;
+        boolean likesStatus = false;
         boolean previousReviewStatus = false;
 
         if (member != null) {
-            likesStates = likesService.getLikeStates(member.getId(), itemDTO.getId());
+            likesStatus = likesService.getLikeStates(member.getId(), itemDTO.getId());
             previousReviewStatus = reviewService.previousReviewStatus(member.getId(), itemDTO.getId());
             model.addAttribute("member", member);
 
@@ -138,7 +155,7 @@ public class ItemController {
 
         model.addAttribute("previousReviewStatus", previousReviewStatus);
 //        Long likesCount = likesService.getLikesCount(itemDTO.getId());
-        model.addAttribute("likesStates", likesStates);
+        model.addAttribute("likesStatus", likesStatus);
 //        model.addAttribute("likesCount", likesCount);
 
 

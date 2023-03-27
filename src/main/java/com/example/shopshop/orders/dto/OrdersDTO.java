@@ -1,6 +1,6 @@
 package com.example.shopshop.orders.dto;
 
-import com.example.shopshop.delivery.domain.Delivery;
+import com.example.shopshop.orders.domain.OrdersStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,6 +15,4 @@ public class OrdersDTO {
     private Long id;
 
     private Long memberId;
-
-    private Delivery delivery;
 }

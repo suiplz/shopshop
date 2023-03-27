@@ -82,7 +82,7 @@
                     <th:block th:if="${member != null}">
                         <input type="hidden" id="memberId" th:value="${member.id}">
                     </th:block>
-                    <i class="fa" th:class="${likesStates} ? 'fa fa-heart' : 'fa fa-heart-o'" id="likesIcon-${dto.id}" onclick="toggleLikes(this)" th:attr="data-id=${dto.id}, data-likesCount=${dto.likesCnt}" style="color:red"></i>
+                    <i class="fa" th:class="${likesStatus} ? 'fa fa-heart' : 'fa fa-heart-o'" id="likesIcon-${dto.id}" onclick="toggleLikes(this)" th:attr="data-id=${dto.id}, data-likesCount=${dto.likesCnt}" style="color:red"></i>
 
                     <span class="like">[[${dto.likesCnt}]]</span>
 

@@ -5,10 +5,10 @@ import org.springframework.stereotype.Component;
 public enum ClothType {
 
 //    TOP, PANTS, OUTER, SHOES;
-    TOP("TOP"),
-    PANTS("PANTS"),
-    OUTER("OUTER"),
-    SHOES("SHOES");
+    상의("TOP"),
+    하의("PANTS"),
+    아우터("OUTER"),
+    신발("SHOES");
 
     private String value;
 

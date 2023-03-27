@@ -7,6 +7,7 @@ import com.example.shopshop.cart.domain.CartItem;
 import com.example.shopshop.member.domain.Member;
 import com.example.shopshop.orders.domain.Orders;
 import com.example.shopshop.orders.domain.OrdersItem;
+import com.example.shopshop.orders.domain.OrdersStatus;
 import com.example.shopshop.orders.dto.OrdersItemListDTO;
 import com.example.shopshop.orders.dto.OrdersListDTO;
 import com.example.shopshop.orders.dto.OrdersRegisterDTO;
@@ -26,6 +27,13 @@ public interface OrdersService {
 
     PageResultDTO<OrdersItemListDTO, Object[]> getOrdersByMember(PageRequestDTO pageRequestDTO, Long id);
 
+    PageResultDTO<OrdersItemListDTO, Object[]> getOrdersByProvider(PageRequestDTO pageRequestDTO, Long id);
+
+
+    void cancelRequest(Long id);
+
+    void manageOrdersStatus(Long id, String ordersStatus);
+
     void cancel(Long id);
 
 
@@ -37,7 +45,6 @@ public interface OrdersService {
                 .build();
 
         Orders orders = Orders.builder()
-                .delivery(ordersRegisterDTO.getDelivery())
                 .buyer(member)
                 .build();
 
@@ -52,6 +59,7 @@ public interface OrdersService {
                     .orders(orders)
                     .ordersCount(ordersItemDTO.getAmount())
                     .ordersPrice(ordersItemDTO.getItemPrice())
+                    .ordersStatus(OrdersStatus.배송준비중)
                     .size(ordersItemDTO.getSize())
                     .totalPrice(ordersItemDTO.getTotalPrice())
                     .item(item)
@@ -87,6 +95,7 @@ public interface OrdersService {
                     .amount(cartItem.getAmount())
                     .totalPrice(cartItem.getAmount() * cartItem.getItem().getPrice())
                     .itemImage(itemImageDTO)
+                    .ordersStatus(OrdersStatus.배송준비중)
                     .build();
 
         }).collect(Collectors.toList());
@@ -132,12 +141,40 @@ public interface OrdersService {
                         .totalPrice(ordersItem.getTotalPrice())
                         .size(ordersItem.getSize())
                         .itemImage(itemImageDTO)
+                        .ordersStatus(ordersItem.getOrdersStatus())
                         .regDate(regDate)
                         .build();
 
 
 
 //        ordersListDTO.setOrdersItem(ordersItemDTOS);
+
+        return ordersItemListDTO;
+    }
+
+    default OrdersItemListDTO entitiesToDTOForManage(OrdersItem ordersItem, Long itemId, String itemName, ItemImage itemImage, Long memberId, LocalDateTime regDate) {
+
+
+        ItemImageDTO itemImageDTO = new ItemImageDTO().builder()
+                .uuid(itemImage.getUuid())
+                .imgName(itemImage.getImgName())
+                .path(itemImage.getPath())
+                .build();
+
+        OrdersItemListDTO ordersItemListDTO =
+                OrdersItemListDTO.builder()
+                        .id(ordersItem.getId())
+                        .itemId(itemId)
+                        .itemName(itemName)
+                        .ordersPrice(ordersItem.getOrdersPrice())
+                        .ordersCount(ordersItem.getOrdersCount())
+                        .totalPrice(ordersItem.getTotalPrice())
+                        .size(ordersItem.getSize())
+                        .itemImage(itemImageDTO)
+                        .ordersStatus(ordersItem.getOrdersStatus())
+                        .regDate(regDate)
+                        .build();
+
 
         return ordersItemListDTO;
     }

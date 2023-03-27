@@ -25,7 +25,7 @@
                     <th scope="col">주문 숫자</th>
                     <th scope="col">총액</th>
                     <th scope="col">배송</th>
-                    <th scope="col">삭제</th>
+                    <th scope="col">주문상태 변경</th>
                     <th scope="col">주문날짜</th>
 
                 </tr>
@@ -45,8 +45,7 @@
                     <td th:text="${dto.totalPrice}" id="totalPrice"></td>
                     <td th:text="${dto.ordersStatus}"></td>
 <!--                    <td><button class="btn btn-success modifyBtn" th:attr="data-id=${dto.id}, data-cart-id=${dto.cartId}, data-item-id=${dto.itemId}, data-amount=${dto.amount}, data-size=${dto.size}">변경</button></td>-->
-                    <td><button class="btn btn-danger cancelBtn" th:attr="data-id=${dto.id}">주문 취소 요청</button></td>
-                    <td th:text="${dto.ordersId}" id="cartId" hidden="true"></td>
+                    <td><button class="btn btn-outline-primary modifyStatusBtn" th:attr="data-id=${dto.id}">주문상태 변경</button></td>
 <!--                    <td th:text="${dto.regDate}"></td>-->
                     <td th:text="${#temporals.format(dto.regDate, 'yyyy/MM/dd  HH:mm')}"></td>
 
@@ -54,38 +53,68 @@
                 </tbody>
             </table>
         </div>
+        <div class="statusModal modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">주문상태 변경</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="input-group w-50">
+                            <!--                                <input type="number" name="size" id="size" class="form-control" value="1" min="1">-->
+                            <label for="status">
+                                <span class="input-group-text">상태</span>
+                            </label>
+                            <select class="form-select" id="status" name="status">-->
+                                <th:block th:each="ordersStatus : ${ordersStatus}">
+                                <option th:value="${ordersStatus.getValue()}" th:text="${ordersStatus.name()}"></option>
+                                </th:block>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-success statusSubmitBtn" >Submit</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <script>
 
+            const inputStatus = $('select[name="status"]');
+            const statusModal = $(".statusModal");
             $(document).ready(function () {
-                $(".cancelBtn").on("click", function () {
+                $('.modifyStatusBtn').on('click', function () {
+                    window.ordersItemId = $(this).data('id');
 
-                    const id = $(this).data("id");
+                    statusModal.show();
+                });
 
-                    var data = {
-                        ordersItemId: id
-                    };
+                $('.statusSubmitBtn').on('click', function () {
+                    var param = inputStatus.val();
 
                     $.ajax({
-                        url: "/api/orders/cancelRequest/" + id,
+
+                        url: "/api/orders/manageOrdersItem/" + ordersItemId,
+                        data: param,
                         type: "POST",
-                        data: JSON.stringify(data),
                         contentType: "application/json; charset=utf-8",
                         dataType: "text",
-                        success: function (data) {
-                            console.log(data);
+                        success: function () {
                             self.location.reload();
                         },
                         error: function () {
                             alert("변경에 실패했습니다.");
                         }
                     });
-
                 });
             });
         </script>
 </body>
-
     </th:block>
 </th:block>
 </html>
