@@ -57,6 +57,16 @@ OrdersHistory 별도의 테이블? OrdersStatus = Complete 상태에 따른 쿼�
 OrdersStatus 완료, 취소 일 때 Orders Entity -> OrdersHistory Entity 구매자 판매자 전부 넣을 수 있나?
 결제
 
+User Page
+주문한 아이템, 좋아요한 아이템, 작성한 리뷰, 작성한 Q&A 보드, 멤버 정보 변경
+
+Provider Page
+등록한 아이템 -> item modify, remove
+, item manage(구현완료)
+
+자신이 쓴 글 자신만 지우기 성공 -> comment랑 board도 변경하기
+
+
 
 # CRUD / Test
 

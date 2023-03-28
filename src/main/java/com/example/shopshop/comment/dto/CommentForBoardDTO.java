@@ -16,5 +16,6 @@ public class CommentForBoardDTO {
     private Long boardId;
     private String text;
     private String email;
+    private Long memberId;
 
 }

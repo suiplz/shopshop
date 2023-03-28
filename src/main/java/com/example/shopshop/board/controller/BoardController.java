@@ -64,6 +64,7 @@ public class BoardController {
         model.addAttribute("itemDTO", itemDTO);
         model.addAttribute("result", result);
 
+
         return "board/boardList";
     }
 
@@ -72,6 +73,8 @@ public class BoardController {
 
         BoardReadDTO result = boardService.getBoard(boardId);
         model.addAttribute("result", result);
+
+        log.info("result : " + result);
 
         return "board/read";
     }

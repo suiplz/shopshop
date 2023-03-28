@@ -26,6 +26,8 @@ public class BoardReadDTO {
 
     private String email;
 
+    private Long memberId;
+
     @Builder.Default
     private List<CommentForBoardDTO> commentList = new ArrayList<>();
 

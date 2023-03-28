@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <th:block th:replace="~{/layout/listLayout.html :: setContent(~{this::content} )}">
     <th:block th:fragment="content">
         <!-- Navigation-->
@@ -74,7 +75,7 @@
                         Review amount <span class="badge badge-light">[[${dto.reviewCnt}]]</span>
                     </button>
 
-                    <button type="button" class="btn btn-info addReviewBtn" th:attr="data-previous-review-status=${previousReviewStatus}">
+                    <button type="button" class="btn btn-info addReviewBtn" sec:authorize="isAuthenticated()" th:attr="data-previous-review-status=${previousReviewStatus}">
                         Review Register
                     </button>
 
@@ -108,7 +109,7 @@
                             <div class="modal-body">
                                 <div class="form-group">
                                     <label> Reviewer Email</label>
-<!--                                    <input type="text" class="form-control" name="email" placeholder="${member.email}" readonly="true">-->
+                                    <input type="text" class="form-control" name="email" sec:authorize="isAuthenticated()" th:placeholder="${#authentication.getPrincipal().member.email}" readonly="true">
 <!--                                    <p><td th:text="${member.email}"></p>-->
                                 </div>
                                 <div class="form-group">
@@ -225,7 +226,7 @@
                     console.log("prevReviewStatus" + previousReviewStatus);
                     if (previousReviewStatus == true){
 
-                    alert("이미 댓글이 달려있습니다.");
+                    alert("이미 리뷰를 작성했습니다.");
                 } else {
 
                     inputEmail.val("");
@@ -293,8 +294,9 @@
 
                             str += ' <div class="card-body" data-reviewId=' + review.reviewId + '>';
                             str += ' <h5 class="card-title">' + review.title + '<span>' + "          " +review.grade + '</span></h5>';
-                            str += ' <h5 class="card-text">' + review.text + '</h5>';
+                            str += ' <h5 class="card-text" th:rows="6" th:style="\'white-space: pre-wrap;\'">' + review.text + '</h5>';
                             str += ' <h6 class="card-subtitle mb-2 text-muted">' + review.member.email + '</h6>';
+                            str += ' <input type="hidden" id="reviewMemberId_' + review.reviewId + '" value="' + review.member.id + '">';
                             str += ' <h6 class="card-subtitle mb-3 text-muted">' + formatTime(review.regDate) + '</h6>';
                             str += '</div>'
                         });
@@ -306,25 +308,34 @@
 
                 var reviewId;
                 $(".reviewList").on("click", ".card-body", function () {
-
-                    $(".reviewSaveBtn").hide();
-                    $(".removeBtn, .modifyBtn").show();
-
                     var targetReview = $(this);
-                    console.log(targetReview);
+                    var reviewMemberId = document.getElementById("reviewMemberId_" + targetReview.data("reviewid")).value;
+                    const memberId = document.getElementById("memberId")?.value;
+                    console.log("memberId : ", memberId);
+                    if (memberId === null || memberId === undefined) {
+                        alert("로그인 후 이용가능합니다.");
+                        return;
+                    } else if (memberId == reviewMemberId) {
 
-                    reviewId = targetReview.data("reviewid"); // reviewId라고 쓰면 에러
-                    console.log("reviewId: " + reviewId);
 
-                    inputTitle.val(targetReview.find('.card-title').clone().children().remove().end().text());
-                    inputText.val(targetReview.find('.card-text').clone().children().remove().end().text());
+                        $(".reviewSaveBtn").hide();
+                        $(".removeBtn, .modifyBtn").show();
+
+                        reviewId = targetReview.data("reviewid"); // reviewId라고 쓰면 에러
 
 
 
-                    var grade = targetReview.find('.card-title span').html();
-                    $(".starrr a:nth-child(" + grade + ")").trigger('click');
+                        inputTitle.val(targetReview.find('.card-title').clone().children().remove().end().text());
+                        inputText.val(targetReview.find('.card-text').clone().children().remove().end().text());
 
-                    $('.reviewModal').modal('show');
+
+                        var grade = targetReview.find('.card-title span').html();
+                        $(".starrr a:nth-child(" + grade + ")").trigger('click');
+
+                        $('.reviewModal').modal('show');
+                    } else {
+                        alert("본인의 리뷰만 수정할 수 있습니다.");
+                    }
                 });
             // <button type="button" className="btn btn-warning modifyBtn">Modify Review</button>
 
@@ -393,6 +404,7 @@
 
                         likesIcon.classList.remove("fa-heart-o");
                         likesIcon.classList.add("fa-heart");
+                        location.reload();
                     }).fail(error => {
                         console.log("오류", error);
                         alert("로그인 후 이용 가능합니다.");
@@ -408,6 +420,7 @@
 
                         likesIcon.classList.remove("fa-heart");
                         likesIcon.classList.add("fa-heart-o");
+                        location.reload();
                     }).fail(error => {
                         console.log("오류", error);
                         alert("로그인 후 이용 가능합니다.");

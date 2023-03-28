@@ -1,5 +1,6 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <th:block th:replace="~{/layout/listLayout.html :: setContent(~{this::content} )}">
   <th:block th:fragment="content">
 
@@ -11,39 +12,169 @@
 
     <style>
 
+      body {
+        background-color: #f1f1f1;
+        font-family: Arial, sans-serif;
+      }
+
+      /*.container {*/
+      /*  width: 80%;*/
+      /*  margin: auto;*/
+      /*  background-color: #fff;*/
+      /*  padding: 20px;*/
+      /*  border-radius: 10px;*/
+      /*  box-shadow: 0 0 10px rgba(0,0,0,0.2);*/
+      /*}*/
+      h2 {
+        text-align: center;
+        color: #333;
+        margin-top: 0;
+      }
+
+      .result {
+        margin-top: 20px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+      }
+
+      .result div {
+        margin-bottom: 10px;
+      }
+
+      .comment-text {
+        width: 80%;
+      }
+      .table td, .table th {
+        vertical-align: middle;
+      }
     </style>
     <body>
-
-    <div class="container container-fluid">
-      <div style="margin-top : 40px; margin-bottom: 30px;">
-        <h2> Q&A 페이지 </h2>
-      </div>
-      <div th:text="${result.id}"></div>
-      <div th:text="${result.title}"></div>
-      <div th:text="${result.content}"></div>
-      <div th:text="${result.email}"></div>
-      <table class="table table-hover">
-        <thead>
-        <tr>
-          <th scope="col">내용</th>
-          <th scope="col">댓글 작성자</th>
-          <th scope="col">삭제</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="dto : ${result.commentList}">
-          <td th:text="${dto.text}"></td>
-          <td th:text="${dto.email}"></td>
-          <td><button class="btn btn-danger removeBtn" th:attr="data-id=${dto.id}">삭제</button></td>
-
-        </tr>
-        </tbody>
-      </table>
+  <div class="container">
+    <h2>Q&A 페이지</h2>
+    <div class="result">
+      <div><strong>ID:</strong> <span th:text="${result.id}"></span></div>
+      <div><strong>제목 : </strong> <span th:text="${result.title}"></span></div>
+      <div><strong>작성자 : </strong> <span th:text="${result.email}"></span></div>
+      <div><strong>내용 : </strong> <span th:text="${result.content}"></span></div>
     </div>
+  </div>
+  <button class="btn btn-outline-success commentRegisterBtn" sec:authorize="isAuthenticated()">댓글 등록</button>
+  <table class="table table-hover">
+    <thead class="thead-dark">
+    <tr>
+      <th scope="col">댓글 작성자</th>
+      <th scope="col">내용</th>
+      <th scope="col">삭제</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="dto : ${result.commentList}">
+      <td th:text="${dto.email}"></td>
+      <td th:text="${dto.text}" class="comment-text" th:rows="6" th:style="'white-space: pre-wrap;'"></td>
+      <td>
+        <button class="btn btn-danger commentRemoveBtn" th:attr="data-id=${dto.id}, data-member-id=${dto.memberId}">삭제
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div class="commentModal modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Item Review</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label> Reviewer Email</label>
+            <input type="text" class="form-control" name="email" sec:authorize="isAuthenticated()" th:placeholder="${#authentication.getPrincipal().member.email}" readonly="true">
+<!--            <p><td th:text="${#authentication.getPrincipal().member.email()}"></p>-->
+          </div>
+
+          <div class="form-group">
+            <label>Review text</label>
+            <textarea type="text" class="form-control" name="text"  rows="6"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary commentSaveBtn">Submit</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  </div>
 
 
     <script>
 
+      $(document).ready(function (e) {
+        const commentModal = $(".commentModal");
+        const boardId = [[${result.id}]]
+        var inputText = $('textarea[name="text"]');
+
+
+        $(".commentRegisterBtn").click(function () {
+          commentModal.show();
+
+          inputText.val("");
+
+
+        });
+
+        $(".commentSaveBtn").click(function () {
+          let text = inputText.val()
+          let data = {
+            boardId: boardId,
+            text: text,
+          }
+
+          console.log(data);
+
+          $.ajax({
+            url: "/api/comment/" + boardId,
+            type: "POST",
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
+            dataType: "text",
+            success: function (result) {
+              console.log("result: " + result);
+              location.reload();
+            },
+            error: function (jqXHR, status, error) {
+
+              if (jqXHR.status == '500') {
+                alert("로그인 후 이용해주세요");
+                location.href = "/member/login";
+              }
+            }
+
+          })
+          commentModal.modal('hide');
+        });
+        $(".commentRemoveBtn").click(function () {
+          const commentId = $(this).data('id');
+          const memberId = $(this).data('member-id');
+
+
+          // $.ajax({
+          //   url: "/api/comment/" + commentId,
+          //   type: "DELETE",
+          //   contentType: "application/json; charset=utf-8",
+          //   dataType: "text",
+          //   success: function (result) {
+          //     location.reload();
+          //   }
+          // });
+        });
+      });
 
 
     </script>

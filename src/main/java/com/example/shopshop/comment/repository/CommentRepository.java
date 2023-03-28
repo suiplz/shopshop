@@ -14,7 +14,7 @@ import java.util.List;
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
 
-    @Query("SELECT new com.example.shopshop.comment.dto.CommentForBoardDTO(c.id, b.id, c.text, m.email) " +
+    @Query("SELECT new com.example.shopshop.comment.dto.CommentForBoardDTO(c.id, b.id, c.text, m.email, m.id) " +
             "FROM Comment c " +
             "INNER JOIN Board b ON b.id = c.board.id " +
             "INNER JOIN Member m ON c.member.id = m.id " +

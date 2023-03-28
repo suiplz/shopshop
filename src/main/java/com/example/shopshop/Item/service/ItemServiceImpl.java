@@ -121,7 +121,7 @@ public class ItemServiceImpl implements ItemService{
 
         Double avgRate = (Double) result.get(0)[2];
         Long reviewCnt = (Long) result.get(0)[3];
-        Long likesCnt = (Long) result.get(0)[4];
+        Long likesCnt = itemRepository.getLikesCountByItemId(item.getId());
 
         return entitiesToDTO(item, itemImageList, avgRate, reviewCnt, likesCnt);
 

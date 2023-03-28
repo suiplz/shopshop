@@ -77,6 +77,7 @@ public interface BoardService {
                         .id(comment.getId())
                         .text(comment.getText())
                         .email(comment.getMember().getEmail())
+                        .memberId(comment.getMember().getId())
                         .build();
             }).collect(Collectors.toList());
             boardReadDTO.setCommentList(commentList);

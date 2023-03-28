@@ -9,6 +9,8 @@ public interface CommentService {
 
     Long register(CommentDTO commentDTO);
 
+    void remove(Long id);
+
     default Comment dtoToEntity(CommentDTO commentDTO) {
 
         Board board = Board.builder()
