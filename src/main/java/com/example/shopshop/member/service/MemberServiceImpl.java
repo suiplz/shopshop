@@ -2,14 +2,17 @@ package com.example.shopshop.member.service;
 
 import com.example.shopshop.member.domain.Member;
 import com.example.shopshop.member.domain.MemberRole;
+import com.example.shopshop.member.domain.MemberRoleRequest;
 import com.example.shopshop.member.dto.MemberDTO;
 import com.example.shopshop.member.dto.SignupDTO;
 import com.example.shopshop.member.repository.MemberRepository;
+import com.example.shopshop.member.repository.MemberRoleRequestRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -17,6 +20,8 @@ import java.util.Optional;
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
+    private final MemberRoleRequestRepository memberRoleRequestRepository;
+
     private final PasswordEncoder passwordEncoder;
 
     @Override
@@ -61,6 +66,25 @@ public class MemberServiceImpl implements MemberService {
             memberRepository.save(member);
         }
 
+    }
+
+    @Override
+    public void requestRole(Long id, String role) {
+        Optional<Member> result = memberRepository.findById(id);
+        Member member = result.get();
+        MemberRole memberRole = MemberRole.fromValue(role);
+        MemberRoleRequest memberRoleRequest = MemberRoleRequest.builder().member(member).role(memberRole).build();
+        memberRoleRequestRepository.save(memberRoleRequest);
+
+
+    }
+
+    @Override
+    public void setMemberRole(Long id, String role) {
+        Optional<Member> result = memberRepository.findById(id);
+        Member member = result.get();
+        MemberRole memberRole = MemberRole.fromValue(role);
+        member.setMemberRole(memberRole);
     }
 
     @Override

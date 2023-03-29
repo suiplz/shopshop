@@ -16,6 +16,8 @@ public class BoardListDTO {
 
     private Long itemId;
 
+    private Long memberId;
+
     private String memberEmail;
 
     private Long commentCount;

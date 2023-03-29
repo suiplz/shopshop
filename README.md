@@ -64,9 +64,15 @@ Provider Page
 등록한 아이템 -> item modify, remove
 , item manage(구현완료)
 
-자신이 쓴 글 자신만 지우기 성공 -> comment랑 board도 변경하기
+자신이 쓴 글 자신만 지우기 성공 -> comment랑 board도 변경하기 -완-
 
+Orders -> OrdersHistory
+OrdersManage에서 주문 취소 or 주문 완료
+Orders -> (OrdersStatus = 취소 or 완료 설정) -> Orders에서 삭제, 데이터 그대로 OrdersHistory에 insert
+-완-
 
+권한 처리
+provider 권한, manager권한 -> item 삭제 로직 -> itemImage, content, board 등 연관관계 삭제
 
 # CRUD / Test
 

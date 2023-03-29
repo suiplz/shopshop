@@ -6,12 +6,10 @@ import com.example.shopshop.Item.dto.ItemImageDTO;
 import com.example.shopshop.cart.domain.CartItem;
 import com.example.shopshop.member.domain.Member;
 import com.example.shopshop.orders.domain.Orders;
+import com.example.shopshop.orders.domain.OrdersHistory;
 import com.example.shopshop.orders.domain.OrdersItem;
 import com.example.shopshop.orders.domain.OrdersStatus;
-import com.example.shopshop.orders.dto.OrdersItemListDTO;
-import com.example.shopshop.orders.dto.OrdersListDTO;
-import com.example.shopshop.orders.dto.OrdersRegisterDTO;
-import com.example.shopshop.orders.dto.OrdersItemDTO;
+import com.example.shopshop.orders.dto.*;
 import com.example.shopshop.page.dto.PageRequestDTO;
 import com.example.shopshop.page.dto.PageResultDTO;
 
@@ -29,10 +27,15 @@ public interface OrdersService {
 
     PageResultDTO<OrdersItemListDTO, Object[]> getOrdersByProvider(PageRequestDTO pageRequestDTO, Long id);
 
+    PageResultDTO<OrdersHistoryListDTO, Object[]> getOrdersHistoryByMember(PageRequestDTO pageRequestDTO, Long id);
+
+    PageResultDTO<OrdersHistoryListDTO, Object[]> getOrdersHistoryByProvider(PageRequestDTO pageRequestDTO, Long id);
 
     void cancelRequest(Long id);
 
     void manageOrdersStatus(Long id, String ordersStatus);
+
+    void complete(Long ordersItemId, String ordersStatus);
 
     void cancel(Long id);
 
@@ -107,28 +110,12 @@ public interface OrdersService {
 
     default OrdersItemListDTO entitiesToDTOForList(Orders orders, OrdersItem ordersItem, Long itemId, String itemName, ItemImage itemImage, LocalDateTime regDate) {
 
-//        OrdersListDTO ordersListDTO = OrdersListDTO.builder()
-//                .memberId(memberId)
-//                .grandTotal(grandTotal)
-//                .build();
-
         ItemImageDTO itemImageDTO = new ItemImageDTO().builder()
                 .uuid(itemImage.getUuid())
                 .imgName(itemImage.getImgName())
                 .path(itemImage.getPath())
                 .build();
 
-//        List<OrdersItemDTO> ordersItemDTOS = ordersItems.stream().map(ordersItem -> {
-//            return OrdersItemDTO.builder()
-//                    .itemId(itemId)
-//                    .itemName(itemName)
-//                    .size(ordersItem.getSize())
-//                    .amount(ordersItem.getOrdersCount())
-//                    .totalPrice(ordersItem.getTotalPrice())
-//                    .itemImage(itemImageDTO)
-//                    .build();
-//
-//        }).collect(Collectors.toList());
 
         OrdersItemListDTO ordersItemListDTO =
                 OrdersItemListDTO.builder()
@@ -166,6 +153,7 @@ public interface OrdersService {
                         .id(ordersItem.getId())
                         .itemId(itemId)
                         .itemName(itemName)
+                        .ordersId(ordersItem.getOrders().getId())
                         .ordersPrice(ordersItem.getOrdersPrice())
                         .ordersCount(ordersItem.getOrdersCount())
                         .totalPrice(ordersItem.getTotalPrice())
@@ -177,6 +165,33 @@ public interface OrdersService {
 
 
         return ordersItemListDTO;
+    }
+
+    default OrdersHistoryListDTO entitiesToDTOForHistory(OrdersHistory ordersHistory, Long itemId, String itemName, ItemImage itemImage, Long memberId, LocalDateTime regDate) {
+
+
+        ItemImageDTO itemImageDTO = new ItemImageDTO().builder()
+                .uuid(itemImage.getUuid())
+                .imgName(itemImage.getImgName())
+                .path(itemImage.getPath())
+                .build();
+
+        OrdersHistoryListDTO ordersHistoryListDTO = OrdersHistoryListDTO.builder()
+                .id(ordersHistory.getId())
+                .memberId(memberId)
+                .itemId(itemId)
+                .itemName(itemName)
+                .ordersPrice(ordersHistory.getOrdersPrice())
+                .ordersCount(ordersHistory.getOrdersCount())
+                .totalPrice(ordersHistory.getTotalPrice())
+                .size(ordersHistory.getSize())
+                .itemImage(itemImageDTO)
+                .ordersStatus(ordersHistory.getOrdersStatus())
+                .regDate(regDate)
+                .build();
+
+
+        return ordersHistoryListDTO;
     }
 
 

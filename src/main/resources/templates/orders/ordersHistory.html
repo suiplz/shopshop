@@ -13,7 +13,7 @@
 
         <div class="container container-fluid">
             <div style="margin-top : 40px; margin-bottom: 30px;">
-                <h2> 현재 주문 내역 </h2>
+                <h2> 역대 주문 내역 </h2>
             </div>
             <table class="table table-primary">
                 <thead>
@@ -25,7 +25,6 @@
                     <th scope="col">주문 숫자</th>
                     <th scope="col">총액</th>
                     <th scope="col">배송</th>
-                    <th scope="col">삭제</th>
                     <th scope="col">주문날짜</th>
 
                 </tr>
@@ -44,10 +43,6 @@
                     <td th:text="${dto.ordersCount}"></td>
                     <td th:text="${dto.totalPrice}" id="totalPrice"></td>
                     <td th:text="${dto.ordersStatus}"></td>
-<!--                    <td><button class="btn btn-success modifyBtn" th:attr="data-id=${dto.id}, data-cart-id=${dto.cartId}, data-item-id=${dto.itemId}, data-amount=${dto.amount}, data-size=${dto.size}">변경</button></td>-->
-                    <td><button class="btn btn-danger cancelBtn" th:attr="data-id=${dto.id}">주문 취소 요청</button></td>
-                    <td th:text="${dto.ordersId}" id="cartId" hidden="true"></td>
-<!--                    <td th:text="${dto.regDate}"></td>-->
                     <td th:text="${#temporals.format(dto.regDate, 'yyyy/MM/dd  HH:mm')}"></td>
 
                 </tr>
@@ -56,33 +51,6 @@
         </div>
 
         <script>
-
-            $(document).ready(function () {
-                $(".cancelBtn").on("click", function () {
-
-                    const id = $(this).data("id");
-
-                    var data = {
-                        ordersItemId: id
-                    };
-
-                    $.ajax({
-                        url: "/api/orders/cancelRequest/" + id,
-                        type: "POST",
-                        data: JSON.stringify(data),
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "text",
-                        success: function (data) {
-                            console.log(data);
-                            self.location.reload();
-                        },
-                        error: function () {
-                            alert("변경에 실패했습니다.");
-                        }
-                    });
-
-                });
-            });
         </script>
 </body>
 

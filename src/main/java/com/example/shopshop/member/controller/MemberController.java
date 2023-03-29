@@ -2,6 +2,7 @@ package com.example.shopshop.member.controller;
 
 import com.example.shopshop.aop.annotation.LoginCheck;
 import com.example.shopshop.member.domain.Member;
+import com.example.shopshop.member.domain.MemberRole;
 import com.example.shopshop.member.dto.MemberDTO;
 import com.example.shopshop.member.dto.SignupDTO;
 import com.example.shopshop.member.service.MemberService;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
+import java.util.List;
 
 @Controller
 @RequestMapping("/member")
@@ -55,15 +58,19 @@ public class MemberController {
 
     @GetMapping("/info/{id}")
     public String info(@PathVariable Long id, @LoginCheck Member member, Model model) {
+        List<MemberRole> memberRoles = Arrays.asList(MemberRole.values());
+        model.addAttribute("memberRoles", memberRoles);
         if (member.getId() == id) {
             MemberDTO memberDTO = memberService.get(member.getId());
             model.addAttribute("dto", memberDTO);
+
             return "/member/info";
         } else {
             return null;
         }
 
     }
+
 
 //    @GetMapping("/info/{id}")
 //    public String info(@PathVariable Long id, @AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
@@ -96,6 +103,15 @@ public class MemberController {
 
         return "redirect:/member/info/" + id;
 
+    }
+
+    @GetMapping("/memberRoleRequest/{memberId}")
+    public String memberRoleRequest(@PathVariable("memberId") Long memberId, @RequestParam("memberRole") String role) {
+
+        log.info("clicked" + role);
+        memberService.requestRole(memberId, role);
+
+        return "redirect:/member/info/" + memberId;
     }
 
 

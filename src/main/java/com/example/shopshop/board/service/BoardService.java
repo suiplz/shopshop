@@ -25,7 +25,7 @@ public interface BoardService {
 
     BoardReadDTO getBoard(Long boardId);
 
-    void remove(Long itemId, Long boardId);
+    void remove(Long boardId);
 
     default Board dtoToEntity(BoardDTO boardDTO) {
 
@@ -47,13 +47,14 @@ public interface BoardService {
         return board;
     }
 
-    default BoardListDTO entityToDTOForList(Board board, Long itemId, String memberEmail, Long commentCount) {
+    default BoardListDTO entityToDTOForList(Board board, Long itemId,Long memberId, String memberEmail, Long commentCount) {
 
 
         BoardListDTO boardListDTO = BoardListDTO.builder()
                 .id(board.getId())
                 .title(board.getTitle())
                 .itemId(itemId)
+                .memberId(memberId)
                 .memberEmail(memberEmail)
                 .commentCount(commentCount)
                 .build();

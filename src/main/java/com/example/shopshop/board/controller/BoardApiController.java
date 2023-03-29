@@ -16,10 +16,10 @@ public class BoardApiController {
     private final BoardService boardService;
 
 
-    @DeleteMapping("/remove/{itemId}/{boardId}")
-    public ResponseEntity remove(@PathVariable Long itemId, @PathVariable Long boardId) {
+    @DeleteMapping("/remove/{boardId}")
+    public ResponseEntity remove(@PathVariable Long boardId) {
 
-        boardService.remove(itemId, boardId);
+        boardService.remove(boardId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

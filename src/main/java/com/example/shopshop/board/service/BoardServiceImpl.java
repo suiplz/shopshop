@@ -47,8 +47,9 @@ public class BoardServiceImpl implements BoardService{
         Function<Object[], BoardListDTO> fn = (arr -> entityToDTOForList(
                 (Board) arr[0],
                 (Long) arr[1],
-                (String) arr[2],
-                (Long) arr[3]));
+                (Long) arr[2],
+                (String) arr[3],
+                (Long) arr[4]));
 
         return new PageResultDTO<>(result,fn);
         }
@@ -79,7 +80,7 @@ public class BoardServiceImpl implements BoardService{
 
 
     @Override
-    public void remove(Long itemId, Long boardId) {
+    public void remove(Long boardId) {
 
         commentRepository.deleteByBoardId(boardId);
         boardRepository.deleteById(boardId);

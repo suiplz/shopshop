@@ -1,5 +1,6 @@
 package com.example.shopshop.orders.service;
 
+import com.example.shopshop.Item.domain.Item;
 import com.example.shopshop.Item.domain.ItemImage;
 import com.example.shopshop.Item.repository.ItemRepository;
 import com.example.shopshop.cart.domain.CartItem;
@@ -8,11 +9,14 @@ import com.example.shopshop.cart.repository.CartItemRepository;
 import com.example.shopshop.cart.repository.CartRepository;
 import com.example.shopshop.member.domain.Member;
 import com.example.shopshop.orders.domain.Orders;
+import com.example.shopshop.orders.domain.OrdersHistory;
 import com.example.shopshop.orders.domain.OrdersItem;
 import com.example.shopshop.orders.domain.OrdersStatus;
+import com.example.shopshop.orders.dto.OrdersHistoryListDTO;
 import com.example.shopshop.orders.dto.OrdersItemDTO;
 import com.example.shopshop.orders.dto.OrdersItemListDTO;
 import com.example.shopshop.orders.dto.OrdersRegisterDTO;
+import com.example.shopshop.orders.repository.OrdersHistoryRepository;
 import com.example.shopshop.orders.repository.OrdersItemRepository;
 import com.example.shopshop.orders.repository.OrdersRepository;
 import com.example.shopshop.page.dto.PageRequestDTO;
@@ -41,6 +45,8 @@ public class OrdersServiceImpl implements OrdersService {
     private final CartRepository cartRepository;
 
     private final CartItemRepository cartItemRepository;
+
+    private final OrdersHistoryRepository ordersHistoryRepository;
 
     private final ItemRepository itemRepository;
 
@@ -110,10 +116,42 @@ public class OrdersServiceImpl implements OrdersService {
 
         return new PageResultDTO<>(result, fn);
 
+    }
+
+    @Override
+    public PageResultDTO<OrdersHistoryListDTO, Object[]> getOrdersHistoryByMember(PageRequestDTO pageRequestDTO, Long memberId) {
+        Pageable pageable = pageRequestDTO.getPageable(Sort.by("id").ascending());
+
+        Page<Object[]> result = ordersHistoryRepository.getOrdersHistoryByMemberId(pageable, memberId);
+
+        Function<Object[], OrdersHistoryListDTO> fn = (arr -> entitiesToDTOForHistory(
+                (OrdersHistory) arr[0],
+                (Long) arr[1],
+                (String) arr[2],
+                (ItemImage) arr[3],
+                (Long) arr[4],
+                (LocalDateTime) arr[5]));
+
+        return new PageResultDTO<>(result, fn);
 
     }
 
+    @Override
+    public PageResultDTO<OrdersHistoryListDTO, Object[]> getOrdersHistoryByProvider(PageRequestDTO pageRequestDTO, Long memberId) {
+        Pageable pageable = pageRequestDTO.getPageable(Sort.by("id").ascending());
 
+        Page<Object[]> result = ordersHistoryRepository.getOrdersHistoryByProviderId(pageable, memberId);
+
+        Function<Object[], OrdersHistoryListDTO> fn = (arr -> entitiesToDTOForHistory(
+                (OrdersHistory) arr[0],
+                (Long) arr[1],
+                (String) arr[2],
+                (ItemImage) arr[3],
+                (Long) arr[4],
+                (LocalDateTime) arr[5]));
+
+        return new PageResultDTO<>(result, fn);
+    }
 
     @Override
     public void cancelRequest(Long id) {
@@ -137,6 +175,36 @@ public class OrdersServiceImpl implements OrdersService {
 
     }
 
+    @Transactional
+    @Override
+    public void complete(Long ordersItemId, String ordersStatus) {
+
+        Optional<OrdersItem> result = ordersItemRepository.findById(ordersItemId);
+        OrdersItem ordersItem = result.get();
+
+        Optional<Orders> result2 = ordersRepository.findById(ordersItem.getOrders().getId());
+        Orders orders = result2.get();
+        Item item = Item.builder().id(ordersItem.getItem().getId()).build();
+        Member member = Member.builder().id(orders.getBuyer().getId()).build();
+        OrdersStatus ordersStatusValue = OrdersStatus.fromValue(ordersStatus);
+
+        OrdersHistory ordersHistory = OrdersHistory.builder()
+                .id(ordersItemId)
+                .member(member)
+                .item(item)
+                .ordersPrice(ordersItem.getOrdersPrice())
+                .ordersCount(ordersItem.getOrdersCount())
+                .size(ordersItem.getSize())
+                .totalPrice(ordersItem.getTotalPrice())
+                .ordersStatus(ordersStatusValue)
+                .build();
+
+
+        ordersHistoryRepository.save(ordersHistory);
+        ordersItemRepository.deleteById(ordersItem.getId());
+
+    }
+
     @Override
     @Transactional
     public void cancel(Long id) {
@@ -144,4 +212,6 @@ public class OrdersServiceImpl implements OrdersService {
         ordersItemRepository.deleteByOrdersId(id);
         ordersRepository.deleteById(id);
     }
+
+
 }

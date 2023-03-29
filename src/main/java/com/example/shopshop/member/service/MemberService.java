@@ -1,8 +1,11 @@
 package com.example.shopshop.member.service;
 
 import com.example.shopshop.member.domain.Member;
+import com.example.shopshop.member.domain.MemberRoleRequest;
 import com.example.shopshop.member.dto.MemberDTO;
 import com.example.shopshop.member.dto.SignupDTO;
+
+import java.util.List;
 
 public interface MemberService {
 
@@ -13,6 +16,10 @@ public interface MemberService {
     void modify(MemberDTO memberDTO);
 
     void remove(Long id);
+
+    void requestRole(Long id, String role);
+
+    void setMemberRole(Long id, String memberRole);
 
 
     default Member dtoToEntity(MemberDTO dto) {

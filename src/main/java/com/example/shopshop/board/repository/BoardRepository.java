@@ -16,7 +16,7 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 
 
     @EntityGraph(attributePaths = {"item"}, type = EntityGraph.EntityGraphType.FETCH)
-    @Query("SELECT b, i.id, m.email, COUNT(c) FROM Board b " +
+    @Query("SELECT b, i.id, m.id, m.email, COUNT(c) FROM Board b " +
             "INNER JOIN Item i ON i.id = b.item.id " +
             "INNER JOIN Member m ON m.id = b.member.id " +
             "LEFT OUTER JOIN Comment c ON c.board.id = b.id " +

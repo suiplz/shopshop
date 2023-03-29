@@ -11,6 +11,7 @@ import com.example.shopshop.member.domain.Member;
 import com.example.shopshop.page.dto.PageRequestDTO;
 import com.example.shopshop.page.dto.PageResultDTO;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -56,7 +57,11 @@ public class BoardController {
     }
 
     @GetMapping("/boardList/{itemId}")
-    public String boardList(PageRequestDTO pageRequestDTO, @PathVariable Long itemId, Model model) {
+    public String boardList(PageRequestDTO pageRequestDTO, @PathVariable Long itemId, Model model, @LoginCheck Member member) {
+
+        if (member != null) {
+            model.addAttribute("member", member);
+        }
 
         ItemDTO itemDTO = itemService.getItem(itemId);
         log.info("itemDTO" + itemDTO);
@@ -69,8 +74,11 @@ public class BoardController {
     }
 
     @GetMapping("/read/{boardId}")
-    public String getBoard(@PathVariable Long boardId, Model model) {
+    public String getBoard(@PathVariable Long boardId, Model model, @LoginCheck Member member) {
 
+        if (member != null) {
+            model.addAttribute("member", member);
+        }
         BoardReadDTO result = boardService.getBoard(boardId);
         model.addAttribute("result", result);
 

@@ -26,6 +26,8 @@
                     <th scope="col">총액</th>
                     <th scope="col">배송</th>
                     <th scope="col">주문상태 변경</th>
+                    <th scope="col">주문 완료</th>
+                    <th scope="col">주문 취소</th>
                     <th scope="col">주문날짜</th>
 
                 </tr>
@@ -46,6 +48,8 @@
                     <td th:text="${dto.ordersStatus}"></td>
 <!--                    <td><button class="btn btn-success modifyBtn" th:attr="data-id=${dto.id}, data-cart-id=${dto.cartId}, data-item-id=${dto.itemId}, data-amount=${dto.amount}, data-size=${dto.size}">변경</button></td>-->
                     <td><button class="btn btn-outline-primary modifyStatusBtn" th:attr="data-id=${dto.id}">주문상태 변경</button></td>
+                    <td><button class="btn btn-success-primary completeOrdersBtn" th:attr="data-id=${dto.id}, data-dto=${dto}">주문 완료</button></td>
+                    <td><button class="btn btn-danger-primary cancelOrdersBtn" th:attr="data-id=${dto.id}">주문 취소</button></td>
 <!--                    <td th:text="${dto.regDate}"></td>-->
                     <td th:text="${#temporals.format(dto.regDate, 'yyyy/MM/dd  HH:mm')}"></td>
 
@@ -58,7 +62,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">주문상태 변경</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <button type="button" class="close" onclick="modalClose()">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
@@ -77,7 +81,6 @@
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-success statusSubmitBtn" >Submit</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
@@ -87,6 +90,11 @@
 
             const inputStatus = $('select[name="status"]');
             const statusModal = $(".statusModal");
+            function modalClose() {
+                statusModal.modal('hide');
+                statusModal.hide();
+                $('.jquery-modal').hide();
+            }
             $(document).ready(function () {
                 $('.modifyStatusBtn').on('click', function () {
                     window.ordersItemId = $(this).data('id');
@@ -96,11 +104,55 @@
 
                 $('.statusSubmitBtn').on('click', function () {
                     var param = inputStatus.val();
+                    console.log("param : ", param);
 
                     $.ajax({
 
                         url: "/api/orders/manageOrdersItem/" + ordersItemId,
                         data: param,
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "text",
+                        success: function () {
+                            self.location.reload();
+                        },
+                        error: function () {
+                            alert("변경에 실패했습니다.");
+                        }
+                    });
+                });
+                $('.completeOrdersBtn').on('click', function () {
+
+                    const ordersItemId = $(this).data("id");
+                    var ordersStatus = "COMPLETE";
+
+
+
+                    $.ajax({
+
+                        url: "/api/orders/completeOrders/" + ordersItemId,
+                        data: ordersStatus,
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "text",
+                        success: function () {
+                            self.location.reload();
+                        },
+                        error: function () {
+                            alert("변경에 실패했습니다.");
+                        }
+                    });
+                });
+
+                $('.cancelOrdersBtn').on('click', function () {
+
+                    const ordersItemId = $(this).data("id");
+                    var ordersStatus = "CANCEL";
+
+                    $.ajax({
+
+                        url: "/api/orders/completeOrders/" + ordersItemId,
+                        data: ordersStatus,
                         type: "POST",
                         contentType: "application/json; charset=utf-8",
                         dataType: "text",

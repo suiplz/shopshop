@@ -31,9 +31,20 @@
                 <input type="text" class="form-control" name="Address" th:value="${dto.getAddress}" readonly>
             </div>
 
-            <a th:href="@{/member/modify/{id}(id=${dto.getId})}"><button type="button">Modify</button></a>
+
+            <a th:href="@{/member/modify/{id}(id=${dto.getId})}"><button class="btn-outline-secondary" type="button">회원 정보 변경</button></a>
+
 
         </div>
+
+        <form class="form-group" id="memberRoleForm">
+            <select id="memberRoleSelect" name="memberRoleSelect">
+                <th:block th:each="memberRole : ${memberRoles}">
+                    <option th:value="${memberRole.getValue()}" th:text="${memberRole.name()}"></option>
+                </th:block>
+            </select>
+            <a th:href="@{/member/memberRoleRequest/{memberId}(memberId=${dto.id}, memberRole=${memberRoleSelect})}" th:method="get"><button class="btn-outline-secondary" type="submit">권한 요청</button></a>
+        </form>
 
 
         <style>
@@ -81,6 +92,26 @@
                 });
             });
 
+            $('#memberRoleForm').submit(function(event) {
+                event.preventDefault();
+
+                var memberId = $(this).data('member-id');
+                var role = $('#memberRoleSelect').val();
+
+                $.ajax({
+                    url: '/member/memberRoleRequest/' + memberId,
+                    type: 'GET',
+                    data: {
+                        memberRole: role
+                    },
+                    success: function(response) {
+                        // 처리 결과에 따라 적절한 작업 수행
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+            });
         </script>
 
         </body>
