@@ -82,12 +82,13 @@
                             <a class="nav-link dropdown-toggle" id="memberPage" href="#" role="button"
                                data-bs-toggle="dropdown" aria-expanded="false">마이 페이지</a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item">모든 상품</a></li>
+                                <li><a class="dropdown-item"></a></li>
                                 <li>
                                     <hr class="dropdown-divider"/>
                                 </li>
                                 <li><a class="dropdown-item" th:onclick="'window.location.href = \'' + @{/orders/ordersList/{memberId}(memberId=${#authentication.getPrincipal().member.id})} + '\''">현재 주문 상태</a></li>
                                 <li><a class="dropdown-item" th:onclick="'window.location.href = \'' + @{/orders/ordersHistory/{memberId}(memberId=${#authentication.getPrincipal().member.id})} + '\''">주문 목록</a></li>
+                                <li><a class="dropdown-item" th:onclick="'window.location.href = \'' + @{/member/info/{memberId}(memberId=${#authentication.getPrincipal().member.id})} + '\''">회원 정보</a></li>
                             </ul>
                         </li>
                     </ul>

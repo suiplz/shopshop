@@ -72,6 +72,9 @@ Orders -> (OrdersStatus = 취소 or 완료 설정) -> Orders에서 삭제, 데�
 -완-
 
 권한 처리
+권한 바꾸기는 완료
+권한에 따른 접근 provider -> itemRegister, itemDelete myItem manager -> delete all admin -> 회원 정보 접근 제외한 모든 기능?
+member -> memberDelete?
 provider 권한, manager권한 -> item 삭제 로직 -> itemImage, content, board 등 연관관계 삭제
 
 # CRUD / Test

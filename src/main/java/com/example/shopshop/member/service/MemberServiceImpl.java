@@ -4,16 +4,23 @@ import com.example.shopshop.member.domain.Member;
 import com.example.shopshop.member.domain.MemberRole;
 import com.example.shopshop.member.domain.MemberRoleRequest;
 import com.example.shopshop.member.dto.MemberDTO;
+import com.example.shopshop.member.dto.MemberRoleRequestDTO;
 import com.example.shopshop.member.dto.SignupDTO;
 import com.example.shopshop.member.repository.MemberRepository;
 import com.example.shopshop.member.repository.MemberRoleRequestRepository;
+import com.example.shopshop.page.dto.PageRequestDTO;
+import com.example.shopshop.page.dto.PageResultDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 
 @Service
 @RequiredArgsConstructor
@@ -34,7 +41,7 @@ public class MemberServiceImpl implements MemberService {
 
             MemberDTO memberDTO = signupDTO.toEntity();
             Member member = dtoToEntity(memberDTO);
-            member.setMemberRole(MemberRole.MEMBER);
+            member.setMemberRole(MemberRole.MEMBER.getValue());
 //            member.addMemberRole(MemberRole.ROLE_MEMBER);
             memberRepository.save(member);
             return member.getId();
@@ -70,21 +77,49 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public void requestRole(Long id, String role) {
+
         Optional<Member> result = memberRepository.findById(id);
         Member member = result.get();
         MemberRole memberRole = MemberRole.fromValue(role);
-        MemberRoleRequest memberRoleRequest = MemberRoleRequest.builder().member(member).role(memberRole).build();
+        MemberRoleRequest memberRoleRequest = MemberRoleRequest.builder().member(member).role(memberRole.getValue()).build();
+        Optional<MemberRoleRequest> requestResult = memberRoleRequestRepository.findByMemberId(id);
+        if (requestResult.isPresent()) {
+            memberRoleRequest = requestResult.get();
+            memberRoleRequest.setRole(memberRole.getValue());
+        }
         memberRoleRequestRepository.save(memberRoleRequest);
 
 
     }
 
     @Override
-    public void setMemberRole(Long id, String role) {
-        Optional<Member> result = memberRepository.findById(id);
-        Member member = result.get();
-        MemberRole memberRole = MemberRole.fromValue(role);
-        member.setMemberRole(memberRole);
+    public void applyMemberRole(Long id, String role) {
+        Optional<MemberRoleRequest> result = memberRoleRequestRepository.findById(id);
+        MemberRoleRequest memberRoleRequest = result.get();
+        Long memberId = memberRoleRequest.getMember().getId();
+        Optional<Member> memberResult = memberRepository.findById(memberId);
+        Member member = memberResult.get();
+        member.setMemberRole(role);
+        memberRepository.save(member);
+        memberRoleRequestRepository.deleteById(id);
+    }
+
+    @Override
+    public PageResultDTO<MemberRoleRequestDTO, Object[]> getRequestMemberRoleList(PageRequestDTO requestDTO) {
+
+        Pageable pageable = requestDTO.getPageable();
+
+        Page<Object[]> result = memberRoleRequestRepository.getRoleRequestList(pageable);
+
+        Function<Object[], MemberRoleRequestDTO> fn = (arr -> {
+            return entityRequestToDTO(
+                    (Long) arr[0],
+                    (String) arr[1],
+                    (Long) arr[2],
+                    (String) arr[3],
+                    (LocalDateTime) arr[4]);
+        });
+            return new PageResultDTO<>(result, fn);
     }
 
     @Override

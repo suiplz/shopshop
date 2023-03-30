@@ -37,9 +37,7 @@ public class Member extends BaseEntity {
     @NotBlank
     private String address;
 
-
-    @Enumerated(EnumType.STRING)
-    private MemberRole role;
+    private String role;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
@@ -57,14 +55,16 @@ public class Member extends BaseEntity {
         this.address = address;
     }
 
-//    public String getRole() {/
-//        return this.role.value();
+//    @Enumerated(EnumType.STRING)
+//    private MemberRole role;
+//
+//    public MemberRole setMemberRole(MemberRole memberRole) {
+//        this.role = memberRole;
+//        return this.role;
 //    }
-    public MemberRole setMemberRole(MemberRole memberRole) {
+    public String setMemberRole(String memberRole) {
         this.role = memberRole;
         return this.role;
     }
-//    public void addMemberRole(MemberRole memberRole) {
-//        roleSet.add(memberRole);
-//    }
+
 }

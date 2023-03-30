@@ -44,7 +44,7 @@ public class PrincipalDetailsService implements UserDetailsService {
 
         PrincipalDetails principalDetails = PrincipalDetails.builder()
                 .member(member)
-                .role(member.getRole().getValue())
+                .role(member.getRole())
                 .build();
         return principalDetails;
     }

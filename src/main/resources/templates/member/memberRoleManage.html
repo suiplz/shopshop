@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{/layout/listLayout.html :: setContent(~{this::content} )}">
+    <th:block th:fragment="content">
+
+        <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/sign-in/">
+
+        <head>
+            <meta charset="UTF-8">
+            <title>Title</title>
+        </head>
+        <body>
+
+        <div class="container container-fluid">
+            <div style="margin-top : 40px; margin-bottom: 30px;">
+                <h2> 주문 내역 </h2>
+            </div>
+            <table class="table table-primary">
+                <thead>
+                <tr>
+                    <th scope="col">요청 아이디</th>
+                    <th scope="col">회원 이메일</th>
+                    <th scope="col">요청 권한</th>
+                    <th scope="col">요청 일시</th>
+                    <th scope="col">권한 적용</th>
+                    <th scope="col">요청 삭제</th>
+
+
+
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr th:each="dto : ${result.dtoList}">
+                    <td th:text="${dto.id}"></td>
+                    <td th:text="${dto.email}" ></td>
+                    <td th:text="${dto.role}"></td>
+                    <td th:text="${#temporals.format(dto.regDate, 'yyyy/MM/dd  HH:mm')}"></td>
+                    <td><button class="btn btn-success completeRoleBtn" th:attr="data-id=${dto.id}, data-role=${dto.role}">권한 적용</button></td>
+                    <td><button class="btn btn-danger cancelRoleBtn" th:attr="data-id=${dto.id}">요청 삭제</button></td>
+                    <!--                    <td th:text="${dto.regDate}"></td>-->
+
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+        <script>
+
+
+            $(document).ready(function () {
+
+                $('.completeRoleBtn').on('click', function () {
+                    const id = $(this).data("id");
+                    const role = $(this).data("role");
+                    console.log("result", id, role);
+
+                    $.ajax({
+
+                        url: "/member/memberRoleComplete/" + id,
+                        type: "POST",
+                        data: {role: role},
+                        // contentType: "application/json; charset=utf-8",
+                        // dataType: "text",
+                        success: function () {
+                            self.location.reload();
+                        },
+                        error: function () {
+                            alert("변경에 실패했습니다.");
+                        }
+                    });
+                });
+
+                // $('.cancelOrdersBtn').on('click', function () {
+                //
+                //     const ordersItemId = $(this).data("id");
+                //     var ordersStatus = "CANCEL";
+                //
+                //     $.ajax({
+                //
+                //         url: "/api/orders/completeOrders/" + ordersItemId,
+                //         data: ordersStatus,
+                //         type: "POST",
+                //         contentType: "application/json; charset=utf-8",
+                //         dataType: "text",
+                //         success: function () {
+                //             self.location.reload();
+                //         },
+                //         error: function () {
+                //             alert("변경에 실패했습니다.");
+                //         }
+                //     });
+                // });
+            });
+        </script>
+        </body>
+    </th:block>
+</th:block>
+</html>

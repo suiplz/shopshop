@@ -4,8 +4,11 @@ import com.example.shopshop.aop.annotation.LoginCheck;
 import com.example.shopshop.member.domain.Member;
 import com.example.shopshop.member.domain.MemberRole;
 import com.example.shopshop.member.dto.MemberDTO;
+import com.example.shopshop.member.dto.MemberRoleRequestDTO;
 import com.example.shopshop.member.dto.SignupDTO;
 import com.example.shopshop.member.service.MemberService;
+import com.example.shopshop.page.dto.PageRequestDTO;
+import com.example.shopshop.page.dto.PageResultDTO;
 import com.example.shopshop.security.auth.PrincipalDetails;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -63,6 +66,7 @@ public class MemberController {
         if (member.getId() == id) {
             MemberDTO memberDTO = memberService.get(member.getId());
             model.addAttribute("dto", memberDTO);
+            log.info("dto : " + memberDTO);
 
             return "/member/info";
         } else {
@@ -105,14 +109,37 @@ public class MemberController {
 
     }
 
-    @GetMapping("/memberRoleRequest/{memberId}")
-    public String memberRoleRequest(@PathVariable("memberId") Long memberId, @RequestParam("memberRole") String role) {
+    @PostMapping("/memberRoleRequest/{memberId}")
+    public String memberRoleRequest(@PathVariable("memberId") Long memberId, @RequestBody String role){
 
         log.info("clicked" + role);
         memberService.requestRole(memberId, role);
-
         return "redirect:/member/info/" + memberId;
     }
+
+    @PostMapping("/memberRoleComplete/{id}")
+    public String applyMemberRole(@PathVariable Long id, @RequestParam String role) {
+        try {
+            memberService.applyMemberRole(id, role);
+            return "redirect:/member/memberRoleManage";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "error"; // 예외 발생 시 error 페이지로 이동하도록 수정
+        }
+    }
+
+    @GetMapping("/memberRoleManage")
+    public String memberRoleManage(PageRequestDTO pageRequestDTO, Model model) {
+        List<MemberRole> memberRoles = Arrays.asList(MemberRole.values());
+        model.addAttribute("memberRoles", memberRoles);
+
+        PageResultDTO<MemberRoleRequestDTO, Object[]> result = memberService.getRequestMemberRoleList(pageRequestDTO);
+        model.addAttribute("result", result);
+
+        return "/member/memberRoleManage";
+
+    }
+
 
 
 //    @PostMapping("/login")

@@ -12,7 +12,7 @@
         <body class="text-center">
 
         <div class="form-signin w-100 m-auto">
-
+            
             <div class="form-group">
                 <label>Email</label>
                 <input type="text" class="form-control" name="Email" th:value="${dto.getEmail}" readonly>
@@ -37,14 +37,14 @@
 
         </div>
 
-        <form class="form-group" id="memberRoleForm">
+        <div>
             <select id="memberRoleSelect" name="memberRoleSelect">
                 <th:block th:each="memberRole : ${memberRoles}">
                     <option th:value="${memberRole.getValue()}" th:text="${memberRole.name()}"></option>
                 </th:block>
             </select>
-            <a th:href="@{/member/memberRoleRequest/{memberId}(memberId=${dto.id}, memberRole=${memberRoleSelect})}" th:method="get"><button class="btn-outline-secondary" type="submit">권한 요청</button></a>
-        </form>
+            <button class="btn-outline-secondary roleRequestBtn">권한 요청</button>
+        </div>
 
 
         <style>
@@ -86,31 +86,29 @@
         </style>
         <script>
             $(document).ready(function (e) {
-                $(".btn-primary").on("click", function (e) {
-                    e.preventDefault();
-                    $("form").submit();
-                });
-            });
 
-            $('#memberRoleForm').submit(function(event) {
-                event.preventDefault();
-
-                var memberId = $(this).data('member-id');
-                var role = $('#memberRoleSelect').val();
+            $('.roleRequestBtn').click(function() {
+                var memberId = [[${dto.getId()}]]
+                var memberRole = $('#memberRoleSelect').val();
+                console.log("memberRole : ", memberRole);
+                var data = {memberRole : memberRole }
+                console.log("role : ", memberRole, memberId);
+                var url =  '/member/memberRoleRequest/' + memberId;
 
                 $.ajax({
-                    url: '/member/memberRoleRequest/' + memberId,
-                    type: 'GET',
-                    data: {
-                        memberRole: role
+                    url: url,
+                    type: 'POST',
+                    data: memberRole,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "text",
+                    success: function (result) {
+                        location.reload();
                     },
-                    success: function(response) {
-                        // 처리 결과에 따라 적절한 작업 수행
-                    },
-                    error: function(error) {
+                    error: function (error) {
                         console.log(error);
                     }
                 });
+            });
             });
         </script>
 
