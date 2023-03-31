@@ -30,10 +30,14 @@ public class OrdersController {
     @GetMapping("/ordersList/{memberId}")
     public String getList(PageRequestDTO pageRequestDTO, @PathVariable Long memberId, @LoginCheck Member member, Model model) {
 
-        PageResultDTO<OrdersItemListDTO, Object[]> result = ordersService.getOrdersByMember(pageRequestDTO, memberId);
-        model.addAttribute("result", result);
+        if (member != null) {
+            PageResultDTO<OrdersItemListDTO, Object[]> result = ordersService.getOrdersByMember(pageRequestDTO, memberId);
+            model.addAttribute("result", result);
+            log.info("result : " + result);
 
-        return "/orders/ordersList";
+            return "/orders/ordersList";
+        }
+        return null;
 
 
     }

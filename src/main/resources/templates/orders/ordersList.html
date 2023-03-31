@@ -1,5 +1,6 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <th:block th:replace="~{/layout/listLayout.html :: setContent(~{this::content} )}">
     <th:block th:fragment="content">
 
@@ -54,6 +55,23 @@
                 </tbody>
             </table>
         </div>
+
+        <ul class="pagination h-100 justify-content-center align-items-center" sec:authroize="isAuthenticated()">
+
+            <li class="page-item " th:if="${result.prev}">
+                <a class="page-link" th:href="@{/orders/ordersList(page=${result.start - 1})}" tabindex="-1">Previous</a>
+            </li>
+
+            <li th:class=" 'page-item'  + ${result.page == page?'active':''} " th:each="page: ${result.pageList}">
+                <a class="page-link" th:href="@{/orders/ordersList(page=${page})}">
+                    [[${page}]]
+                </a>
+            </li>
+            <li class="page-item" th:if="${result.next}">
+                <a class="page-link" th:href="@{/orders/ordersList/{memberId}(memberId=${memberId}, pageRequestDTO.page=${result.end + 1})}">Next</a>
+
+            </li>
+        </ul>
 
         <script>
 

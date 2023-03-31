@@ -99,7 +99,6 @@ public class UploadController {
 
             File file = new File(uploadPath + File.separator + srcFileName);
 
-            log.info("file: " + file);
             HttpHeaders header = new HttpHeaders();
 
             header.add("Content-Type", Files.probeContentType(file.toPath()));

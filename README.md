@@ -77,6 +77,10 @@ Orders -> (OrdersStatus = 취소 or 완료 설정) -> Orders에서 삭제, 데�
 member -> memberDelete?
 provider 권한, manager권한 -> item 삭제 로직 -> itemImage, content, board 등 연관관계 삭제
 
+Commit하기 전에 apikey, secretkey 변경 필수
+
+memberId 받는 리스트에서 페이지 처리
+
 # CRUD / Test
 
 ### USER

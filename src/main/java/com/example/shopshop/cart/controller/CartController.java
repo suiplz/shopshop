@@ -27,20 +27,18 @@ public class CartController {
     @GetMapping("/cartList/{memberId}")
     public String getList(PageRequestDTO pageRequestDTO, @PathVariable Long memberId, @LoginCheck Member member, Model model) {
 //
-//        if (member.getId() == memberId) {
-//            PageResultDTO<CartItemListDTO, Object[]> result = cartService.getCartByMember(pageRequestDTO, memberId);
-//            model.addAttribute("result", result);
-//
-//            return "/cart/cartList";
-//        }
+        if (member.getId() == memberId) {
 
-        PageResultDTO<CartItemListDTO, Object[]> result = cartService.getCartByMember(pageRequestDTO, memberId);
-        int grandTotal = cartService.grandTotalOfCart(result.getDtoList());
-        model.addAttribute("grandTotal", grandTotal);
-        model.addAttribute("result", result);
 
-        return "/cart/cartList";
+            PageResultDTO<CartItemListDTO, Object[]> result = cartService.getCartByMember(pageRequestDTO, memberId);
+            int grandTotal = cartService.grandTotalOfCart(result.getDtoList());
+            model.addAttribute("grandTotal", grandTotal);
+            model.addAttribute("result", result);
+            model.addAttribute("member", member);
 
+            return "/cart/cartList";
+        }
+        return "redirect:/item/list";
 
     }
 
