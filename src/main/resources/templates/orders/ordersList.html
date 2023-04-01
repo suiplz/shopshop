@@ -59,11 +59,11 @@
         <ul class="pagination h-100 justify-content-center align-items-center" sec:authroize="isAuthenticated()">
 
             <li class="page-item " th:if="${result.prev}">
-                <a class="page-link" th:href="@{/orders/ordersList(page=${result.start - 1})}" tabindex="-1">Previous</a>
+                <a class="page-link" th:href="@{/orders/ordersList/{memberId}(memberId=${memberId},page=${result.start - 1})}" tabindex="-1">Previous</a>
             </li>
 
             <li th:class=" 'page-item'  + ${result.page == page?'active':''} " th:each="page: ${result.pageList}">
-                <a class="page-link" th:href="@{/orders/ordersList(page=${page})}">
+                <a class="page-link" th:href="@{/orders/ordersList/{memberId}(memberId=${memberId}, page=${page})}">
                     [[${page}]]
                 </a>
             </li>

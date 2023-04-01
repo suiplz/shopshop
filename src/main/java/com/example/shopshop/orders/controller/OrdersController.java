@@ -35,6 +35,8 @@ public class OrdersController {
             model.addAttribute("result", result);
             log.info("result : " + result);
 
+            model.addAttribute("memberId", memberId);
+
             return "/orders/ordersList";
         }
         return null;

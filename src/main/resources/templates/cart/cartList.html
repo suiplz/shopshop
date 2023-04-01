@@ -9,6 +9,7 @@
     <title>Title</title>
         </head>
 <body>
+<div id="buyerMemberInfo" th:data-email="${member.email}" th:data-name="${member.name}" hidden></div>
 
 <div class="container container-fluid">
     <div style="margin-top : 40px; margin-bottom: 30px;">
@@ -53,7 +54,7 @@
     <button class="btn btn-primary ordersRegisterCardBtn">
         카드 결제
     </button>
-    <button class="btn btn-primary ordersRegisterKakaoBtn">
+    <button class="btn btn-warning ordersRegisterKakaoBtn">
         카카오 결제
     </button>
 </div>
@@ -103,8 +104,8 @@
     const modifyModal = $(".modifyModal");
     const inputSize = $('select[name="size"]');
     const inputAmount = $('input[name="amount"]');
-    const buyerMemberEmail = "${member.email}";
-    const buyerMemberName = "${member.name}";
+    const buyerMemberEmail = document.getElementById("buyerMemberInfo").getAttribute("data-email");
+    const buyerMemberName = document.getElementById("buyerMemberInfo").getAttribute("data-name");
     const grandTotal = [[${grandTotal}]]
     // const cartId = parseInt(document.getElementById("cartId").textContent);
     const IMP = window.IMP;
@@ -116,13 +117,17 @@
     }
 
     $(document).ready(function () {
-        const btn = document.querySelector('.ordersRegisterKakaoBtn');
+        const kakaoBtn = document.querySelector('.ordersRegisterKakaoBtn');
+        const cardBtn = document.querySelector('.ordersRegisterCardBtn');
 
-        btn.addEventListener('click', function() {
+        kakaoBtn.addEventListener('click', function() {
             requestPayKaKao();
             // 이제 버튼을 클릭하면 requestPayKaKao() 함수가 실행됩니다.
             // 이 함수 내부의 코드도 실행됩니다.
         });
+        cardBtn.addEventListener('click', function() {
+            requestPayCard();
+        })
 
         $('.modifyBtn').on('click', function () {
             window.id = $(this).data('id');
@@ -146,34 +151,43 @@
             modifyModal.modal('show');
         });
 
-        // function requestPayCard() {
-        //
-        //     return new Promise(function (resolve, reject) {
-        //         IMP.request_pay({
-        //             pg: "kcp.T0000",
-        //             pay_method: "card",
-        //             merchant_uid: 'cart_' + new Date().getTime(),
-        //             name: "shopshop",
-        //             amount: grandTotal,
-        //             buyer_email: buyerMemberEmail,
-        //             buyer_name: buyerMemberName,
-        //         }, function (res) {
-        //             $.ajax({
-        //                 type: 'POST',
-        //                 url: '/payment/' + res.imp_uid,
-        //                 success: function () {
-        //                     resolve();
-        //                 },
-        //                 error: function() {
-        //                     reject();
-        //                 }
-        //                 // beforeSend: function (xhr) {
-        //                 //     xhr.setRequestHeader(header, token);
-        //                 // }
-        //             });
-        //         });
-        //     })
-        // };
+        function requestPayCard() {
+
+            console.log(buyerMemberEmail, buyerMemberName);
+            IMP.request_pay({
+                pg: "nice.nictest04m",
+                pay_method: "card",
+                merchant_uid: 'cart_' + new Date().getTime(),
+                name: "shopshop",
+                amount: grandTotal,
+                buyer_email: buyerMemberEmail,
+                buyer_name: buyerMemberName,
+            }, function (rsp) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/payment/' + rsp.imp_uid,
+                }).done(function (result) {
+                    if (rsp.paid_amount === result.response.amount) {
+                        $.ajax({
+                            url: "/api/orders/register/" + document.getElementById("cartId").textContent,
+                            type: "POST",
+                            contentType: "application/json",
+                            data: JSON.stringify(cartId),
+                            dataType: "text",
+                            cache: false,
+                        }).done(function () {
+                            window.location.reload();
+                        }).fail(function (error) {
+                            alert(JSON.stringify(error));
+                            console.log(JSON.stringify(error));
+                        })
+                    } else {
+                        alert("결제가 취소되었습니다.");
+                    }
+                });
+            });
+        }
+
         function requestPayKaKao() {
             const cartId = Number(document.getElementById("cartId").textContent);
             console.log("cartId = ", cartId);
@@ -206,7 +220,7 @@
                             console.log(JSON.stringify(error));
                         })
                     } else {
-                        alert("결제에 실패했습니다." + "에러코드 : " + rsp.error_code + "에러 메시지 : " + rsp.error_message);
+                        alert("결제가 취소되었습니다.");
                     }
                 });
             });
