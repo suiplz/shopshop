@@ -81,6 +81,33 @@ Commit하기 전에 apikey, secretkey 변경 필수
 
 memberId 받는 리스트에서 페이지 처리
 
+결제, 환불 완료
+orders -> ordersItem 변경하고 orders 전체 삭제
+int amount = paymentService.paymentInfo(ordersItem.getImpUid(), token); 대신
+int amount = ordersItemRepository.sumByImpUid(ordersItem.getImpUid());
+안전한가? 대안은?
+
+Item 제거시 OrdersItem, OrdersItemHistory까지 삭제해야하는 상황
+Item 제거 기능 X -> 또 별도의 enum으로 관리?
+
+남은거
+권한처리
+자신이 올린 리뷰-완- 보드, 코멘트, 좋아요 판매자 경우 아이템-완-
+삭제 로직, 아이템 판매중지1\
+payment amount issue
+A 100원 B 50원
+A 취소 후  B 취소 -> amount 150 grandTotal 150 ordersPrice 100 -> amount 50 grandTotal 50 ordersPrice 50 -> 문제 X
+A 완료 후 B 취소 -> amount 150 granTotal 150 ordersPrice 100 -> amount 150 granTotal 50 ordersPrice 50 -> 문제 
+
+a3 b2 c1
+
+a완료
+6 6 3 -> 6 3 2
+
+일단 취소 취소 O
+취소 완료 O
+완료 취소 X -> 이경우 iamport 직접 들어가서 환불
+
 # CRUD / Test
 
 ### USER

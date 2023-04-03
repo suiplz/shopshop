@@ -1,5 +1,6 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <th:block th:replace="~{/layout/listLayout.html :: setContent(~{this::content} )}">
     <th:block th:fragment="content">
 
@@ -48,8 +49,8 @@
                     <td th:text="${dto.ordersStatus}"></td>
 <!--                    <td><button class="btn btn-success modifyBtn" th:attr="data-id=${dto.id}, data-cart-id=${dto.cartId}, data-item-id=${dto.itemId}, data-amount=${dto.amount}, data-size=${dto.size}">변경</button></td>-->
                     <td><button class="btn btn-outline-primary modifyStatusBtn" th:attr="data-id=${dto.id}">주문상태 변경</button></td>
-                    <td><button class="btn btn-success-primary completeOrdersBtn" th:attr="data-id=${dto.id}, data-dto=${dto}">주문 완료</button></td>
-                    <td><button class="btn btn-danger-primary cancelOrdersBtn" th:attr="data-id=${dto.id}">주문 취소</button></td>
+                    <td><button class="btn btn-success completeOrdersBtn" th:attr="data-id=${dto.id}, data-dto=${dto}">주문 완료</button></td>
+                    <td><button class="btn btn-danger cancelOrdersBtn" th:attr="data-id=${dto.id}">주문 취소</button></td>
 <!--                    <td th:text="${dto.regDate}"></td>-->
                     <td th:text="${#temporals.format(dto.regDate, 'yyyy/MM/dd  HH:mm')}"></td>
 
@@ -86,6 +87,21 @@
             </div>
         </div>
 
+        <ul class="pagination h-100 justify-content-center align-items-center" sec:authroize="isAuthenticated()">
+
+            <li class="page-item " th:if="${result.prev}">
+                <a class="page-link" th:href="@{/orders/ordersManage/{providerId}(providerId=${providerId},page=${result.start - 1})}" tabindex="-1">Previous</a>
+            </li>
+
+            <li th:class=" 'page-item'  + ${result.page == page?'active':''} " th:each="page: ${result.pageList}">
+                <a class="page-link" th:href="@{/orders/ordersManage/{providerId}(providerId=${providerId}, page=${page})}">
+                    [[${page}]]
+                </a>
+            </li>
+            <li class="page-item" th:if="${result.next}">
+                <a class="page-link" th:href="@{/orders/ordersManage/{providerId}(providerId=${providerId}, pageRequestDTO.page=${result.end + 1})}">Next</a>
+
+            </li>
         <script>
 
             const inputStatus = $('select[name="status"]');
@@ -151,7 +167,7 @@
 
                     $.ajax({
 
-                        url: "/api/orders/completeOrders/" + ordersItemId,
+                        url: "/api/orders/cancelOrders/" + ordersItemId,
                         data: ordersStatus,
                         type: "POST",
                         contentType: "application/json; charset=utf-8",

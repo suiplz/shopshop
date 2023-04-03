@@ -106,6 +106,25 @@ public class ItemServiceImpl implements ItemService{
     }
 
     @Override
+    public PageResultDTO<ItemDTO, Object[]> getListByProvider(PageRequestDTO pageRequestDTO, Long providerId) {
+
+        Pageable pageable = pageRequestDTO.getPageable(Sort.by("id").descending());
+
+        Page<Object[]> result = itemRepository.getListByProviderId(pageable, providerId);
+
+        return getItemDTOPageResultDTO(result);
+    }
+
+    @Override
+    public PageResultDTO<ItemDTO, Object[]> getListByMemberLikes(PageRequestDTO pageRequestDTO, Long memberId) {
+        Pageable pageable = pageRequestDTO.getPageable(Sort.by("id").descending());
+
+        Page<Object[]> result = itemRepository.getListByMemberLikes(pageable, memberId);
+
+        return getItemDTOPageResultDTO(result);
+    }
+
+    @Override
     public ItemDTO getItem(Long id) {
 
         List<Object[]> result = itemRepository.getItemDetail(id);

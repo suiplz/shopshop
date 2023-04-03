@@ -88,9 +88,35 @@
                                 <li><a class="dropdown-item" th:onclick="'window.location.href = \'' + @{/orders/ordersList/{memberId}(memberId=${#authentication.getPrincipal().member.id})} + '\''">현재 주문 상태</a></li>
                                 <li><a class="dropdown-item" th:onclick="'window.location.href = \'' + @{/orders/ordersHistory/{memberId}(memberId=${#authentication.getPrincipal().member.id})} + '\''">주문 목록</a></li>
                                 <li><a class="dropdown-item" th:onclick="'window.location.href = \'' + @{/member/info/{memberId}(memberId=${#authentication.getPrincipal().member.id})} + '\''">회원 정보</a></li>
+                                <li><a class="dropdown-item" th:onclick="'window.location.href = \'' + @{/item/listByMemberLikes/{memberId}(memberId=${#authentication.getPrincipal().member.id})} + '\''">좋아요한 아이템</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown" sec:authorize="hasAuthority('ROLE_PROVIDER')">
+                            <a class="nav-link dropdown-toggle" id="providerPage" href="#" role="button"
+                               data-bs-toggle="dropdown" aria-expanded="false">판매자 정보</a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item"></a></li>
+                                <li>
+                                    <hr class="dropdown-divider"/>
+                                </li>
+                                <li><a class="dropdown-item" th:onclick="'window.location.href = \'' + @{/orders/ordersManage/{memberId}(memberId=${#authentication.getPrincipal().member.id})} + '\''">주문 관리</a></li>
+                                <li><a class="dropdown-item" th:onclick="'window.location.href = \'' + @{/item/listByProvider/{memberId}(memberId=${#authentication.getPrincipal().member.id})} + '\''">업로드한 아이템</a></li>
                             </ul>
                         </li>
                     </ul>
+                    <li class="nav-item dropdown" sec:authorize="hasAuthority('ROLE_MANAGER')">
+                        <a class="nav-link dropdown-toggle" id="managerPage" href="#" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">매니저 페이지</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item"></a></li>
+                            <li>
+                                <hr class="dropdown-divider"/>
+                            </li>
+                            <li><a class="dropdown-item" th:onclick="'window.location.href = \'' + @{/orders/ordersList/{memberId}(memberId=${#authentication.getPrincipal().member.id})} + '\''">현재 주문 상태</a></li>
+                            <li><a class="dropdown-item" th:onclick="'window.location.href = \'' + @{/orders/ordersHistory/{memberId}(memberId=${#authentication.getPrincipal().member.id})} + '\''">주문 목록</a></li>
+                            <li><a class="dropdown-item" th:onclick="'window.location.href = \'' + @{/member/info/{memberId}(memberId=${#authentication.getPrincipal().member.id})} + '\''">회원 정보</a></li>
+                        </ul>
+                    </li>
                     <form class="d-flex" sec:authorize="isAuthenticated()" id="cartForm">
                         <button class="btn btn-outline-dark" type="button" id="cartBtn" th:onclick="'window.location.href = \'' + @{/cart/cartList/{memberId}(memberId=${#authentication.getPrincipal().member.id})} + '\''">
                             <i class="bi-cart-fill me-1"></i>

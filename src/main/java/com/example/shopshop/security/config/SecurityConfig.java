@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,6 +19,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -65,7 +68,9 @@ public class SecurityConfig {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/item/test").hasRole("MEMBER")
-//                .antMatchers("/item/register").hasRole("PROVIDER")
+                .antMatchers("/orders/**", "/cart/**", "/review/**").hasAnyRole("MEMBER", "PROVIDER", "MANAGER", "ADMIN")
+//                .antMatchers("/member/memberRoleManage").hasRole("ADMIN")
+                .antMatchers("/item/register").hasAnyRole("PROVIDER", "MANAGER", "ADMIN")
                 .anyRequest()
                 .permitAll();
 
@@ -77,7 +82,10 @@ public class SecurityConfig {
 //                .failureHandler(customAuthenticationFailureHandler())
                 .usernameParameter("email")
                 .and()
-                .logout().logoutUrl("/logout");
+                .logout().logoutUrl("/logout")
+                .and().exceptionHandling()
+                .accessDeniedPage("/error-page/403.html") // 403 에러 페이지
+        ;
 
 
 

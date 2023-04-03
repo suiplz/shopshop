@@ -6,7 +6,6 @@ import com.example.shopshop.Item.repository.ItemRepository;
 import com.example.shopshop.cart.domain.CartItem;
 import com.example.shopshop.cart.repository.CartRepository;
 import com.example.shopshop.member.domain.Member;
-import com.example.shopshop.orders.domain.Orders;
 import com.example.shopshop.orders.domain.OrdersItem;
 import com.example.shopshop.orders.domain.OrdersStatus;
 import com.example.shopshop.page.dto.PageRequestDTO;
@@ -30,9 +29,6 @@ import java.util.stream.IntStream;
 class OrdersRepositoryTest {
 
     @Autowired
-    private OrdersRepository ordersRepository;
-
-    @Autowired
     private CartRepository cartRepository;
 
     @Autowired
@@ -53,12 +49,6 @@ class OrdersRepositoryTest {
 
             OrdersItem ordersItem = OrdersItem.builder().item(item).ordersPrice(item.getPrice()).ordersCount(3).build();
 
-            Orders orders = Orders.builder()
-                    .buyer(buyer)
-                    .build();
-
-
-            ordersRepository.save(orders);
         });
     }
 
@@ -89,7 +79,7 @@ class OrdersRepositoryTest {
         PageRequestDTO requestDTO = new PageRequestDTO();
         Pageable pageable = requestDTO.getPageable(Sort.by("id").ascending());
 
-        Page<Object[]> cartByMemberId = ordersRepository.getOrdersByMemberId(pageable, 1L);
+        Page<Object[]> cartByMemberId = ordersItemRepository.getOrdersByMemberId(pageable, 1L);
 
         for (Object[] objects : cartByMemberId) {
             log.info("result : " + Arrays.toString(objects));
@@ -102,7 +92,7 @@ class OrdersRepositoryTest {
         PageRequestDTO requestDTO = new PageRequestDTO();
         Pageable pageable = requestDTO.getPageable(Sort.by("id").ascending());
 
-        Page<Object[]> cartByMemberId = ordersRepository.getOrdersByProviderId(pageable, 2L);
+        Page<Object[]> cartByMemberId = ordersItemRepository.getOrdersByProviderId(pageable, 2L);
 
         for (Object[] objects : cartByMemberId) {
             log.info("result : " + Arrays.toString(objects));
@@ -120,7 +110,7 @@ class OrdersRepositoryTest {
 //            log.info("OrdersItem = " + ordersItem);
 //        }
 
-        List<Object[]> ordersItemByMemberId = ordersRepository.getOrdersItemByMemberId(3L);
+        List<Object[]> ordersItemByMemberId = ordersItemRepository.getOrdersItemByMemberId(3L);
         System.out.println("ordersItemByMemberId = " + ordersItemByMemberId);
         for (Object[] objects : ordersItemByMemberId) {
             System.out.println("toString = " + Arrays.toString(objects));
@@ -154,4 +144,12 @@ class OrdersRepositoryTest {
         ordersItemRepository.deleteById(15L);
     }
 
+
+    @Test
+    void sumByImpUidTest() {
+
+        int result = ordersItemRepository.sumByImpUid("imp_919712207855");
+        log.info("result : " + result);
+
+    }
 }

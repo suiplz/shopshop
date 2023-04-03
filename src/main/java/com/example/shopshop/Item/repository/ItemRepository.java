@@ -79,6 +79,25 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
     Page<Object[]> getItemByComponents(Pageable pageable, @Param("gender") String gender, @Param("season") String season, @Param("clothType") String clothType);
 
 
+    @EntityGraph(attributePaths = {"provider"}, type = EntityGraph.EntityGraphType.FETCH)
+    @Query("SELECT i, ii, avg(coalesce(r.grade, 0)), count(r) FROM Item i " +
+            "LEFT OUTER JOIN ItemImage ii on ii.item = i " +
+            "LEFT OUTER JOIN Review  r on r.item = i " +
+            "WHERE i.provider.id = :providerId " +
+            "GROUP BY i.id")
+    Page<Object[]> getListByProviderId(Pageable pageable, @Param("providerId") Long providerId);
+
+    @EntityGraph(attributePaths = {"provider"}, type = EntityGraph.EntityGraphType.FETCH)
+    @Query("SELECT i, ii, avg(coalesce(r.grade, 0)), count(r), l.id FROM Item i " +
+            "LEFT OUTER JOIN ItemImage ii on ii.item = i " +
+            "LEFT OUTER JOIN Review  r on r.item = i " +
+            "INNER JOIN Likes l on l.item.id = i.id " +
+            "WHERE l.member.id = :memberId " +
+            "GROUP BY i.id")
+    Page<Object[]> getListByMemberLikes(Pageable pageable, @Param("memberId") Long memberId);
+
+
+
     @Query("SELECT count(r) From Item i " +
             "LEFT OUTER JOIN Review r ON r.item.id = i.id " +
             "WHERE i.id = :itemId")

@@ -136,6 +136,40 @@ public class ItemController {
         return "item/list";
     }
 
+    @GetMapping("/listByProvider/{providerId}")
+    public String listByProvider(@PathVariable Long providerId, PageRequestDTO pageRequestDTO, Model model, @LoginCheck Member member) {
+
+        if (member.getId().equals(providerId)) {
+
+
+            PageResultDTO<ItemDTO, Object[]> result;
+
+            result = itemService.getListByProvider(pageRequestDTO, providerId);
+
+            model.addAttribute("result", result);
+            log.info("result : " + result);
+            return "item/listByProvider";
+        }
+        return "redirect:/item/list";
+    }
+
+    @GetMapping("/listByMemberLikes/{memberId}")
+    public String listByMemberLikes(@PathVariable Long memberId, PageRequestDTO pageRequestDTO, Model model, @LoginCheck Member member) {
+
+        if (member.getId().equals(memberId)) {
+
+
+            PageResultDTO<ItemDTO, Object[]> result;
+
+            result = itemService.getListByMemberLikes(pageRequestDTO, memberId);
+
+            model.addAttribute("result", result);
+            log.info("result : " + result);
+            return "item/listByMemberLikes";
+        }
+        return "redirect:/item/list";
+    }
+
 
     @GetMapping({"/read", "/modify"})
     public void read(Long id, Model model, @LoginCheck Member member) {

@@ -5,7 +5,6 @@ import com.example.shopshop.Item.domain.ItemImage;
 import com.example.shopshop.Item.dto.ItemImageDTO;
 import com.example.shopshop.cart.domain.CartItem;
 import com.example.shopshop.member.domain.Member;
-import com.example.shopshop.orders.domain.Orders;
 import com.example.shopshop.orders.domain.OrdersHistory;
 import com.example.shopshop.orders.domain.OrdersItem;
 import com.example.shopshop.orders.domain.OrdersStatus;
@@ -13,15 +12,16 @@ import com.example.shopshop.orders.dto.*;
 import com.example.shopshop.page.dto.PageRequestDTO;
 import com.example.shopshop.page.dto.PageResultDTO;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public interface OrdersService {
+public interface OrdersItemService {
 
-    void register(Long cartId);
+    void register(Long cartId, String impUid);
 
     PageResultDTO<OrdersItemListDTO, Object[]> getOrdersByMember(PageRequestDTO pageRequestDTO, Long id);
 
@@ -35,9 +35,9 @@ public interface OrdersService {
 
     void manageOrdersStatus(Long id, String ordersStatus);
 
-    void complete(Long ordersItemId, String ordersStatus);
+    void complete(Long ordersItemId, String ordersStatus) throws IOException;
 
-    void cancel(Long id);
+    void cancel(Long ordersItemId, String ordersStatus) throws IOException;
 
 
     default Map<String, Object> dtoToEntity(OrdersRegisterDTO ordersRegisterDTO) {
@@ -47,11 +47,6 @@ public interface OrdersService {
                 .id(ordersRegisterDTO.getMemberId())
                 .build();
 
-        Orders orders = Orders.builder()
-                .buyer(member)
-                .build();
-
-        entityMap.put("orders", orders);
 
         List<OrdersItemDTO> ordersItemDTOList = ordersRegisterDTO.getOrdersItem();
 
@@ -59,13 +54,14 @@ public interface OrdersService {
         List<OrdersItem> ordersItemList = ordersItemDTOList.stream().map(ordersItemDTO -> {
             Item item = Item.builder().id(ordersItemDTO.getItemId()).build();
             OrdersItem ordersItem = OrdersItem.builder()
-                    .orders(orders)
                     .ordersCount(ordersItemDTO.getAmount())
                     .ordersPrice(ordersItemDTO.getItemPrice())
                     .ordersStatus(OrdersStatus.배송준비중)
                     .size(ordersItemDTO.getSize())
+                    .buyer(member)
                     .totalPrice(ordersItemDTO.getTotalPrice())
                     .item(item)
+                    .impUid(ordersItemDTO.getImpUid())
                     .build();
             return ordersItem;
         }).collect(Collectors.toList());
@@ -76,7 +72,7 @@ public interface OrdersService {
         return entityMap;
     }
 
-    default OrdersRegisterDTO entitiesToDTOForRegister(Long cartId, Long memberId, List<CartItem> cartItems, ItemImage itemImage) {
+    default OrdersRegisterDTO entitiesToDTOForRegister(Long cartId, Long memberId, List<CartItem> cartItems, ItemImage itemImage, String impUid) {
 
         ItemImageDTO itemImageDTO = new ItemImageDTO().builder()
                 .uuid(itemImage.getUuid())
@@ -96,8 +92,10 @@ public interface OrdersService {
                     .itemPrice(cartItem.getItem().getPrice())
                     .size(cartItem.getSize())
                     .amount(cartItem.getAmount())
+                    .memberId(memberId)
                     .totalPrice(cartItem.getAmount() * cartItem.getItem().getPrice())
                     .itemImage(itemImageDTO)
+                    .impUid(impUid)
                     .ordersStatus(OrdersStatus.배송준비중)
                     .build();
 
@@ -108,7 +106,7 @@ public interface OrdersService {
         return ordersRegisterDTO;
     }
 
-    default OrdersItemListDTO entitiesToDTOForList(Orders orders, OrdersItem ordersItem, Long itemId, String itemName, ItemImage itemImage, LocalDateTime regDate) {
+    default OrdersItemListDTO entitiesToDTOForList(OrdersItem ordersItem, Long itemId, String itemName, ItemImage itemImage, LocalDateTime regDate) {
 
         ItemImageDTO itemImageDTO = new ItemImageDTO().builder()
                 .uuid(itemImage.getUuid())
@@ -120,7 +118,6 @@ public interface OrdersService {
         OrdersItemListDTO ordersItemListDTO =
                 OrdersItemListDTO.builder()
                         .id(ordersItem.getId())
-                        .ordersId(orders.getId())
                         .itemId(itemId)
                         .itemName(itemName)
                         .ordersPrice(ordersItem.getOrdersPrice())
@@ -153,7 +150,6 @@ public interface OrdersService {
                         .id(ordersItem.getId())
                         .itemId(itemId)
                         .itemName(itemName)
-                        .ordersId(ordersItem.getOrders().getId())
                         .ordersPrice(ordersItem.getOrdersPrice())
                         .ordersCount(ordersItem.getOrdersCount())
                         .totalPrice(ordersItem.getTotalPrice())

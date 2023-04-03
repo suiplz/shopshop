@@ -26,6 +26,10 @@ public interface ItemService {
 
     PageResultDTO<ItemDTO, Object[]> getList(PageRequestDTO requestDTO, String gender, String season, String clothType);
 
+    PageResultDTO<ItemDTO, Object[]> getListByProvider(PageRequestDTO pageRequestDTO, Long providerId);
+
+    PageResultDTO<ItemDTO, Object[]> getListByMemberLikes(PageRequestDTO pageRequestDTO, Long memberId);
+
     ItemDTO getItem(Long id);
 
     Item findItemById(Long id);

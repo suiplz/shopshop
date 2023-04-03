@@ -5,7 +5,7 @@ import com.example.shopshop.member.domain.Member;
 import com.example.shopshop.orders.domain.OrdersStatus;
 import com.example.shopshop.orders.dto.OrdersHistoryListDTO;
 import com.example.shopshop.orders.dto.OrdersItemListDTO;
-import com.example.shopshop.orders.service.OrdersService;
+import com.example.shopshop.orders.service.OrdersItemService;
 import com.example.shopshop.page.dto.PageRequestDTO;
 import com.example.shopshop.page.dto.PageResultDTO;
 import lombok.RequiredArgsConstructor;
@@ -25,13 +25,13 @@ import java.util.List;
 @Log4j2
 public class OrdersController {
 
-    private final OrdersService ordersService;
+    private final OrdersItemService ordersItemService;
 
     @GetMapping("/ordersList/{memberId}")
     public String getList(PageRequestDTO pageRequestDTO, @PathVariable Long memberId, @LoginCheck Member member, Model model) {
 
         if (member != null) {
-            PageResultDTO<OrdersItemListDTO, Object[]> result = ordersService.getOrdersByMember(pageRequestDTO, memberId);
+            PageResultDTO<OrdersItemListDTO, Object[]> result = ordersItemService.getOrdersByMember(pageRequestDTO, memberId);
             model.addAttribute("result", result);
             log.info("result : " + result);
 
@@ -49,8 +49,10 @@ public class OrdersController {
 
         List<OrdersStatus> ordersStatus = Arrays.asList(OrdersStatus.values());
         model.addAttribute("ordersStatus", ordersStatus);
-        PageResultDTO<OrdersItemListDTO, Object[]> result = ordersService.getOrdersByProvider(pageRequestDTO, providerId);
+        PageResultDTO<OrdersItemListDTO, Object[]> result = ordersItemService.getOrdersByProvider(pageRequestDTO, providerId);
         model.addAttribute("result", result);
+        model.addAttribute("providerId", providerId);
+
 
         return "/orders/ordersManage";
 
@@ -60,7 +62,7 @@ public class OrdersController {
     @GetMapping("/ordersHistory/{memberId}")
     public String getListByMember(PageRequestDTO pageRequestDTO, @PathVariable Long memberId, @LoginCheck Member member, Model model) {
 
-        PageResultDTO<OrdersHistoryListDTO, Object[]> result = ordersService.getOrdersHistoryByMember(pageRequestDTO, memberId);
+        PageResultDTO<OrdersHistoryListDTO, Object[]> result = ordersItemService.getOrdersHistoryByMember(pageRequestDTO, memberId);
         model.addAttribute("result", result);
 
         return "/orders/ordersHistory";
@@ -71,7 +73,7 @@ public class OrdersController {
     @GetMapping("/ordersHistoryProvider/{providerId}")
     public String getListByProvider(PageRequestDTO pageRequestDTO, @PathVariable Long providerId, @LoginCheck Member member, Model model) {
 
-        PageResultDTO<OrdersHistoryListDTO, Object[]> result = ordersService.getOrdersHistoryByProvider(pageRequestDTO, providerId);
+        PageResultDTO<OrdersHistoryListDTO, Object[]> result = ordersItemService.getOrdersHistoryByProvider(pageRequestDTO, providerId);
         log.info("result444  : " +  result);
         model.addAttribute("result", result);
 

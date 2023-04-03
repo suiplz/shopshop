@@ -172,12 +172,12 @@
                             url: "/api/orders/register/" + document.getElementById("cartId").textContent,
                             type: "POST",
                             contentType: "application/json",
-                            data: JSON.stringify(cartId),
+                            data: JSON.stringify(rsp.imp_uid),
                             dataType: "text",
                             cache: false,
                         }).done(function () {
                             window.location.reload();
-                        }).fail(function (error) {
+                        }).fail(function (error) {``
                             alert(JSON.stringify(error));
                             console.log(JSON.stringify(error));
                         })
@@ -210,7 +210,7 @@
                             url: "/api/orders/register/" + document.getElementById("cartId").textContent,
                             type: "POST",
                             contentType: "application/json",
-                            data: JSON.stringify(cartId),
+                            data: JSON.stringify(rsp.imp_uid),
                             dataType: "text",
                             cache: false,
                         }).done(function () {

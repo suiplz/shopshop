@@ -2,7 +2,7 @@ package com.example.shopshop.orders.domain;
 
 public enum OrdersStatus {
 
-    배송준비중("READY"), 배송중("DELIVERY"), 배송완료("COMPLETE"), 취소요청("CANCEL REQUEST"), 취소("CANCEL");
+    배송준비중("READY"), 배송중("DELIVERY"), 배송완료("DELIVERYSUCCESS"), 취소요청("CANCEL REQUEST"), 취소("CANCEL"), 완료("COMPLETE");
 
 
     private String value;

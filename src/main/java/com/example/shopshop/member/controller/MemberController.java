@@ -124,7 +124,7 @@ public class MemberController {
             return "redirect:/member/memberRoleManage";
         } catch (Exception e) {
             e.printStackTrace();
-            return "error"; // 예외 발생 시 error 페이지로 이동하도록 수정
+            return "error";
         }
     }
 

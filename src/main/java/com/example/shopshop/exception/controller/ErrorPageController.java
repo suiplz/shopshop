@@ -20,6 +20,13 @@ import static javax.servlet.RequestDispatcher.ERROR_STATUS_CODE;
 @Log4j2
 public class ErrorPageController {
 
+    @RequestMapping(value = "/error-page/403")
+    public String errorPage403() {
+
+
+        return "error-page/403";
+    }
+
     @RequestMapping(value = "/error-page/404")
     public String errorPage404() {
 

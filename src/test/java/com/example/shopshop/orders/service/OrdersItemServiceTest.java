@@ -8,15 +8,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.Arrays;
-import java.util.List;
-
 @SpringBootTest
 @Log4j2
-class OrdersServiceTest {
+class OrdersItemServiceTest {
 
     @Autowired
-    private OrdersService ordersService;
+    private OrdersItemService ordersItemService;
 
     @Test
     void insertOrders() {
@@ -28,7 +25,7 @@ class OrdersServiceTest {
     void readOrdersInfoByMemberId() {
         PageRequestDTO pageRequestDTO = new PageRequestDTO();
 
-        PageResultDTO<OrdersItemListDTO, Object[]> listByMember = ordersService.getOrdersByMember(pageRequestDTO,1L);
+        PageResultDTO<OrdersItemListDTO, Object[]> listByMember = ordersItemService.getOrdersByMember(pageRequestDTO,1L);
 
         log.info("result : " + listByMember);
     }
@@ -37,24 +34,24 @@ class OrdersServiceTest {
     void getManagePageByProviderIdTest() {
         PageRequestDTO pageRequestDTO = new PageRequestDTO();
 
-        PageResultDTO<OrdersItemListDTO, Object[]> listByMember = ordersService.getOrdersByProvider(pageRequestDTO,2L);
+        PageResultDTO<OrdersItemListDTO, Object[]> listByMember = ordersItemService.getOrdersByProvider(pageRequestDTO,2L);
 
         log.info("result : " + listByMember);
     }
 
-    @Test
-    void insertOrdersTest() {
+//    @Test
+//    void insertOrdersTest() {
+//
+//        ordersItemService.register(2L);
+//
+//    }
 
-        ordersService.register(2L);
-        
-    }
-
-    @Test
-    void cancelOrdersTest() {
-        ordersService.cancel(22L);
-        ordersService.cancel(23L);
-
-
-    }
+//    @Test
+//    void cancelOrdersTest() {
+//        ordersItemService.cancel(22L);
+//        ordersItemService.cancel(23L);
+//
+//
+//    }
 
 }

@@ -2,7 +2,6 @@ package com.example.shopshop.cart.domain;
 
 import com.example.shopshop.Item.domain.Item;
 import com.example.shopshop.etc.BaseEntity;
-import com.example.shopshop.orders.domain.Orders;
 import lombok.*;
 
 import javax.persistence.*;

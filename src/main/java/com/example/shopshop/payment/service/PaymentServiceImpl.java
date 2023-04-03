@@ -1,10 +1,12 @@
 package com.example.shopshop.payment.service;
 
 
+import com.example.shopshop.orders.repository.OrdersItemRepository;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import lombok.Getter;
 import lombok.ToString;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -13,11 +15,13 @@ import java.net.URL;
 import java.util.Map;
 
 @Service
-public class PaymentServiceImpl implements PaymentService{
+@Log4j2
+public class PaymentServiceImpl implements PaymentService {
 
-    private String impKey = "";
+    private String impKey = "4228841281505242";
 
-    private String impSecret = "";
+    private String impSecret = "CumIt8Nn2yVNmU54h22OxdXN2Qfu2wZ8BeUn4ysoCws8mVWqPsF3hu45GD6bbB8uQ1lOgyLq8W22GmJx";
+
 
     @Override
     public String getToken() throws IOException {
@@ -79,20 +83,55 @@ public class PaymentServiceImpl implements PaymentService{
         br.close();
         conn.disconnect();
 
-        return response.getPaymentInfo().getAmount();
+        return response.getResponse().getAmount();
 
     }
 
 
     @Override
-    public void paymentCancel(String access_token, String imp_uid, String amount, String reason) {
+    public void paymentCancel(String access_token, String imp_uid, int amount, int ordersPrice) throws IOException {
+
+        log.info("결제 취소");
+        log.info("access_token");
+        log.info("imp_uid");
+
+        HttpsURLConnection conn = null;
+
+        URL url = new URL("https://api.iamport.kr/payments/cancel");
+
+        conn = (HttpsURLConnection) url.openConnection();
+        conn.setRequestMethod("POST");
+
+        conn.setRequestProperty("Content-type", "application/json");
+        conn.setRequestProperty("Accept", "application/json");
+        conn.setRequestProperty("Authorization", access_token);
+
+        conn.setDoOutput(true);
+
+        JsonObject json = new JsonObject();
+
+
+        json.addProperty("imp_uid", imp_uid);
+        json.addProperty("amount", ordersPrice);
+        json.addProperty("checksum", amount);
+
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
+
+        bw.write(json.toString());
+        bw.flush();
+        bw.close();
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"));
+
+        br.close();
+        conn.disconnect();
 
     }
 
     @ToString
     @Getter
     private class Response {
-        private PaymentInfo paymentInfo;
+        private PaymentInfo response;
     }
 
     @ToString
