@@ -59,7 +59,7 @@ public interface CartService {
 //    }
 
 
-    default CartItemListDTO entitiesToDTO(Cart cart, CartItem cartItem, Long itemId, String itemName, int itemPrice, ItemImage itemImage) {
+    default CartItemListDTO entitiesToDTO(Cart cart, CartItem cartItem, Long itemId, String itemName, int itemPrice, int salePrice, ItemImage itemImage) {
 
 //        CartDTO cartDTO = CartDTO.builder()
 //                .id(cart.getId())
@@ -79,9 +79,10 @@ public interface CartService {
                         .itemId(itemId)
                         .itemName(itemName)
                         .itemPrice(itemPrice)
+                        .salePrice(salePrice)
                         .size(cartItem.getSize())
                         .amount(cartItem.getAmount())
-                        .totalPrice(cartItem.getAmount() * itemPrice)
+                        .totalPrice(cartItem.getAmount() * salePrice)
                         .itemImage(itemImageDTO)
                         .build();
 

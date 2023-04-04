@@ -23,4 +23,6 @@ public class MemberDTO {
 
     private String address;
 
+    private int point;
+
 }

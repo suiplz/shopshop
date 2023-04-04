@@ -7,7 +7,15 @@
         <head>
     <meta charset="UTF-8">
     <title>Title</title>
+
         </head>
+        <style>
+            #point::-webkit-inner-spin-button,
+            #point::-webkit-outer-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
+        </style>
 <body>
 <div id="buyerMemberInfo" th:data-email="${member.email}" th:data-name="${member.name}" hidden></div>
 
@@ -21,6 +29,7 @@
         <th scope="col">상품 이미지</th>
         <th scope="col">상품 이름</th>
         <th scope="col">가격</th>
+        <th scope="col">할인가</th>
         <th scope="col">사이즈</th>
         <th scope="col">주문 숫자</th>
         <th scope="col">총액</th>
@@ -38,6 +47,7 @@
 <!--    <td><a th:href="@{/item/read/{itemId}(itemId=${dto.getItemId})}">[[${dto.itemName}]]</a></td>-->
     <td><a th:href="@{/item/read(id=${dto.itemId})}">[[${dto.itemName}]]</a></td>
     <td th:text="${dto.itemPrice}"></td>
+    <td th:text="${dto.salePrice}"></td>
     <td th:text="${dto.size}"></td>
     <td th:text="${dto.amount}"></td>
     <td th:text="${dto.totalPrice}" id="totalPrice"></td>
@@ -48,16 +58,27 @@
 </tr>
     </tbody>
 </table>
-<div style="text-align: right; margin-top : 40px; margin-bottom: 80px;">
-    <h3>총 결제 금액: <span th:text="${grandTotal}"></span></h3>
-    <h4>결제</h4>
-    <button class="btn btn-primary ordersRegisterCardBtn">
-        카드 결제
-    </button>
-    <button class="btn btn-warning ordersRegisterKakaoBtn">
-        카카오 결제
-    </button>
 </div>
+<div style="margin-right: 100px;">
+    <div class="text-black" style="overflow: hidden; margin-bottom: 20px; margin-top:20px">
+  <span style="float:right; display: flex; align-items: center">
+    <span class="input-group-prepend">
+      <span class="input-group-text" style="width:150px;">포인트</span>
+        <input type="number" id="point" name="point" value="0" min="0" max="[[${member.point}]]" onchange="updateGrandTotal()" style="width: 150px;">
+        <div style="float:right;"><button class="btn btn-outline-primary" onclick="updateGrandTotal()" id="pointBtn">포인트 적용</button></div>
+    </span>
+    <div style="margin-left: 10px;">현재 포인트 : <div class="text-black" th:text="${member.point}" id="memberPoint"></div></div>
+  </span>
+    </div>
+
+    <div style="float:right; margin-left:10px">
+        <h3>총 결제 금액 : <span id="grandTotal" th:text="${grandTotal}"></span></h3>
+        <h4>결제</h4>
+        <button class="btn btn-primary ordersRegisterCardBtn">카드 결제</button>
+        <button class="btn btn-warning ordersRegisterKakaoBtn">카카오 결제</button>
+    </div>
+</div>
+
 
 <div class="modifyModal modal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
@@ -94,19 +115,55 @@
         </div>
     </div>
 </div>
-</div>
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.8.js"></script>
 <script>
+    var newGrandTotal;
+    var point = 0;
+    function updateGrandTotal() {
+        var grandTotal = Number($("#grandTotal").text());
+        point = $("#point").val() || 0;
+        var memberPoint = Number($("#memberPoint").text());
+        var newMemberPoint = memberPoint - point;
+        if (point > grandTotal) {
+            point = grandTotal; // 입력값이 총 결제 금액보다 크면 입력값을 총 결제 금액으로 제한
+            newMemberPoint = memberPoint - point;
+        }
+        newGrandTotal = grandTotal - point;
+        $("#grandTotal").html(newGrandTotal.toLocaleString());
+        $("#memberPoint").html(newMemberPoint.toLocaleString());
+
+
+        if (isNaN(point)) {
+        alert("올바른 숫자를 입력하세요.");
+        return;
+    }
+
+    if (point > memberPoint) {
+        alert("보유한 포인트 이상 사용할 수 없습니다.");
+        return;
+    }
+
+
+        $("#point").prop("disabled", true); // 입력 필드 비활성화
+        $("#pointBtn").prop("disabled", true);
+
+        // grandTotal 업데이트
+    // document.getElementById("grandTotal").innerText = newGrandTotal;
+
+    // member.point 업데이트
+    // document.getElementById("memberPoint").innerText = memberPoint - point;
+}
+
     const modifyModal = $(".modifyModal");
     const inputSize = $('select[name="size"]');
     const inputAmount = $('input[name="amount"]');
     const buyerMemberEmail = document.getElementById("buyerMemberInfo").getAttribute("data-email");
     const buyerMemberName = document.getElementById("buyerMemberInfo").getAttribute("data-name");
-    const grandTotal = [[${grandTotal}]]
+
     // const cartId = parseInt(document.getElementById("cartId").textContent);
     const IMP = window.IMP;
     IMP.init("imp33727326");
@@ -152,7 +209,8 @@
         });
 
         function requestPayCard() {
-
+            const grandTotal = newGrandTotal || [[${grandTotal}]];
+            const usedPoint = point || 0;
             console.log(buyerMemberEmail, buyerMemberName);
             IMP.request_pay({
                 pg: "nice.nictest04m",
@@ -172,7 +230,7 @@
                             url: "/api/orders/register/" + document.getElementById("cartId").textContent,
                             type: "POST",
                             contentType: "application/json",
-                            data: JSON.stringify(rsp.imp_uid),
+                            data: JSON.stringify({imp_uid: rsp.imp_uid, point: usedPoint}),
                             dataType: "text",
                             cache: false,
                         }).done(function () {
@@ -189,6 +247,13 @@
         }
 
         function requestPayKaKao() {
+
+            // const grandTotal = newGrandTotal || document.getElementById("grandTotal").textContent;
+            const grandTotal = newGrandTotal || [[${grandTotal}]];
+            const usedPoint = point || 0;
+
+            console.log("grandTotal val : ",grandTotal);
+            console.log("usedPoint val : ", usedPoint);
             const cartId = Number(document.getElementById("cartId").textContent);
             console.log("cartId = ", cartId);
             console.log("cartId = ", typeof cartId);
@@ -210,7 +275,7 @@
                             url: "/api/orders/register/" + document.getElementById("cartId").textContent,
                             type: "POST",
                             contentType: "application/json",
-                            data: JSON.stringify(rsp.imp_uid),
+                            data: JSON.stringify({imp_uid: rsp.imp_uid, point: usedPoint}),
                             dataType: "text",
                             cache: false,
                         }).done(function () {

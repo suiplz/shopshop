@@ -3,6 +3,7 @@ package com.example.shopshop.Item.dto;
 import com.example.shopshop.Item.domain.ClothType;
 import com.example.shopshop.Item.domain.Gender;
 import com.example.shopshop.Item.domain.Season;
+import com.example.shopshop.category.domain.Category;
 import com.example.shopshop.member.domain.Member;
 import lombok.*;
 
@@ -35,5 +36,9 @@ public class ItemModifyDTO {
     private Season season;
 
     private Gender gender;
+
+    private Category category;
+
+    private Member provider;
 
 }

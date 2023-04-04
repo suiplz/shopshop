@@ -39,6 +39,8 @@ public class Member extends BaseEntity {
 
     private String role;
 
+    private int point;
+
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
     private Set<MemberRole> roleSet = new HashSet<>();
@@ -53,6 +55,10 @@ public class Member extends BaseEntity {
     }
     public void changeAddress(String address) {
         this.address = address;
+    }
+
+    public void reducePoint(int point) {
+        this.point -= point;
     }
 
 //    @Enumerated(EnumType.STRING)

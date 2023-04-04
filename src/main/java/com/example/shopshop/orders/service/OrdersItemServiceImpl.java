@@ -7,6 +7,7 @@ import com.example.shopshop.cart.domain.CartItem;
 import com.example.shopshop.cart.repository.CartItemRepository;
 import com.example.shopshop.cart.repository.CartRepository;
 import com.example.shopshop.member.domain.Member;
+import com.example.shopshop.member.repository.MemberRepository;
 import com.example.shopshop.orders.domain.OrdersHistory;
 import com.example.shopshop.orders.domain.OrdersItem;
 import com.example.shopshop.orders.domain.OrdersStatus;
@@ -45,15 +46,22 @@ public class OrdersItemServiceImpl implements OrdersItemService {
 
     private final OrdersHistoryRepository ordersHistoryRepository;
 
+    private final MemberRepository memberRepository;
     private final ItemRepository itemRepository;
 
     private final PaymentService paymentService;
 
     @Transactional
     @Override
-    public void register(Long cartId, String impUid) {
+    public void register(Long cartId, String impUid, int point) {
         List<Object[]> result = cartRepository.findCartByCartId(cartId);
         Long memberId = (Long) result.get(0)[1];
+
+        Optional<Member> memberOptional = memberRepository.findById(memberId);
+        Member member = memberOptional.get();
+        member.reducePoint(point);
+        memberRepository.save(member);
+
 
         List<CartItem> cartItemList = new ArrayList<>();
         result.forEach(arr -> {
@@ -71,6 +79,7 @@ public class OrdersItemServiceImpl implements OrdersItemService {
         cartItemList.forEach(cartItem -> {
             cartItemRepository.deleteById(cartItem.getId());
         });
+
 
     }
 

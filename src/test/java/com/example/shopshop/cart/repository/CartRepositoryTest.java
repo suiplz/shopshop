@@ -88,4 +88,5 @@ class CartRepositoryTest {
         CartItem cartItem = result.get();
         log.info("result : " + cartItem.getAmount() * cartItem.getItem().getPrice());
     }
+
 }

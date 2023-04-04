@@ -4,6 +4,7 @@ import com.example.shopshop.Item.domain.ClothType;
 import com.example.shopshop.Item.domain.Gender;
 import com.example.shopshop.Item.domain.Season;
 import com.example.shopshop.Item.dto.ItemDTO;
+import com.example.shopshop.Item.dto.ItemModifyDTO;
 import com.example.shopshop.Item.service.ItemService;
 import com.example.shopshop.aop.annotation.LoginCheck;
 import com.example.shopshop.category.domain.Category;
@@ -171,7 +172,7 @@ public class ItemController {
     }
 
 
-    @GetMapping({"/read", "/modify"})
+    @GetMapping("/read")
     public void read(Long id, Model model, @LoginCheck Member member) {
 
         ItemDTO itemDTO = itemService.getItem(id);
@@ -195,6 +196,43 @@ public class ItemController {
 
     }
 
+    @GetMapping("/modify/{itemId}")
+    public String modify(@PathVariable("itemId") Long itemId, Model model, @LoginCheck Member member) {
+        if (member != null) {
+            categoryAttribute(model);
+            ItemModifyDTO itemModifyDTO = new ItemModifyDTO();
+            itemModifyDTO.setId(itemId);
+            model.addAttribute("itemModifyDTO", itemModifyDTO);
+            return "/item/modify";
+        }
+
+        return "redirect:/item/list";
+    }
+    @PostMapping("/modify/{itemId}")
+    public String modify(@PathVariable("itemId") Long itemId, @Validated @ModelAttribute ItemModifyDTO itemModifyDTO, BindingResult bindingResult, @RequestParam("gender") String gender, @RequestParam("season") String season, @RequestParam("clothType") String clothType,
+                         RedirectAttributes redirectAttributes, Model model, @LoginCheck Member member) {
+
+        if (member != null) {
+            Category category = categoryService.getCategory(gender, season, clothType);
+            itemModifyDTO.setId(itemId);
+            itemModifyDTO.setCategory(category);
+            itemModifyDTO.setProvider(member);
+
+            itemService.modify(itemModifyDTO);
+
+
+            //검증에 실패하면 다시 입력 폼으로
+            if (bindingResult.hasErrors()) {
+                log.info("errors = {} ", bindingResult);
+                return "redirect:/item/list";
+            }
+//        redirectAttributes.addFlashAttribute("itemDTO", itemId);
+            redirectAttributes.addFlashAttribute("status", true);
+
+            return "redirect:/item/list";
+        }
+        return "redirect:/item/list";
+    }
     @GetMapping("/test")
     public void test(Model model) {
         model.addAttribute("itemDTO", new ItemDTO());

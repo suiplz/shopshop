@@ -107,7 +107,8 @@ public class CartServiceImpl implements CartService{
                 (Long) arr[2],
                 (String) arr[3],
                 (Integer) arr[4],
-                (ItemImage) arr[5])
+                (Integer) arr[5],
+                (ItemImage) arr[6])
         );
 
         return new PageResultDTO<>(result, fn);

@@ -113,6 +113,45 @@ public class PaymentServiceImpl implements PaymentService {
 
         json.addProperty("imp_uid", imp_uid);
         json.addProperty("amount", ordersPrice);
+
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
+
+        bw.write(json.toString());
+        bw.flush();
+        bw.close();
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"));
+
+        br.close();
+        conn.disconnect();
+
+    }
+
+    @Override
+    public void paymentComplete(String access_token, String imp_uid, int amount, int ordersPrice) throws IOException {
+
+        log.info("결제 완료");
+        log.info("access_token");
+        log.info("imp_uid");
+
+        HttpsURLConnection conn = null;
+
+        URL url = new URL("https://api.iamport.kr/payments/complete");
+
+        conn = (HttpsURLConnection) url.openConnection();
+        conn.setRequestMethod("POST");
+
+        conn.setRequestProperty("Content-type", "application/json");
+        conn.setRequestProperty("Accept", "application/json");
+        conn.setRequestProperty("Authorization", access_token);
+
+        conn.setDoOutput(true);
+
+        JsonObject json = new JsonObject();
+
+
+        json.addProperty("imp_uid", imp_uid);
+        json.addProperty("amount", ordersPrice);
         json.addProperty("checksum", amount);
 
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));

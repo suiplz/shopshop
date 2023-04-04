@@ -130,6 +130,7 @@
                         contentType: "application/json; charset=utf-8",
                         dataType: "text",
                         success: function () {
+
                             self.location.reload();
                         },
                         error: function () {
@@ -152,6 +153,7 @@
                         contentType: "application/json; charset=utf-8",
                         dataType: "text",
                         success: function () {
+                            alert("주문 완료");
                             self.location.reload();
                         },
                         error: function () {
@@ -173,6 +175,7 @@
                         contentType: "application/json; charset=utf-8",
                         dataType: "text",
                         success: function () {
+                            alert("주문 취소 완료.");
                             self.location.reload();
                         },
                         error: function () {

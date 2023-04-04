@@ -46,6 +46,8 @@ public class Item extends BaseEntity {
     @NotNull
     private Integer saleRate;
 
+    private Integer salePrice;
+
 //    private List<String> imageUrl = new ArrayList<>();
 
     @OneToOne(fetch = FetchType.LAZY)
@@ -57,13 +59,14 @@ public class Item extends BaseEntity {
 //    private int reviewCnt;
     //    private ItemImage itemImage;
 
-    public void changeItem(String itemName, Integer price, Integer sizeS, Integer sizeM, Integer sizeL, Integer saleRate) {
+    public void changeItem(String itemName, Integer price, Integer sizeS, Integer sizeM, Integer sizeL, Integer saleRate, Integer salePrice) {
         this.itemName = itemName;
         this.price = price;
         this.sizeS = sizeS;
         this.sizeM = sizeM;
         this.sizeL = sizeL;
         this.saleRate = saleRate;
+        this.salePrice = salePrice;
     }
 
 

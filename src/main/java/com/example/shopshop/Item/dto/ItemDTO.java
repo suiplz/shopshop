@@ -45,6 +45,8 @@ public class ItemDTO {
 
     private Integer saleRate;
 
+    private Integer salePrice;
+
     private Member provider;
 
     private double avgRate;

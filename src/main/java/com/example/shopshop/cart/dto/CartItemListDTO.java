@@ -25,6 +25,8 @@ public class CartItemListDTO {
 
     private int itemPrice;
 
+    private int salePrice;
+
     private String size;
 
     private int amount;
@@ -34,7 +36,7 @@ public class CartItemListDTO {
     private ItemImageDTO itemImage;
 
     public int totalPrice() {
-        return this.itemPrice * this.amount;
+        return this.salePrice * this.amount;
     }
 
 

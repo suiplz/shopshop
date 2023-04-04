@@ -26,14 +26,14 @@
                         <h1 class="display-5 fw-bolder" ><td th:text="${dto.getItemName}"></h1>
                         <div class="fs-5 mb-5">
                             <span class="text-decoration-line-through">$<td th:text="${dto.getPrice}"></span>
-                            <span>$<td th:text="${dto.getPrice}"></span>
+                            <span>$<td th:text="${dto.getSalePrice}"></span>
                         </div>
 
                         <p class="lead">Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium at dolorem quidem modi. Nam sequi consequatur obcaecati excepturi alias magni, accusamus eius blanditiis delectus ipsam minima ea iste laborum vero?</p>
 
                         <div class="d-flex" id="addToCart">
 
-                            <input type="hidden" th:value="${dto.getPrice}" id="price" name="price">
+                            <input type="hidden" th:value="${dto.getSalePrice}" id="salePrice" name="salePrice">
                             <div class="input-group w-50 mx-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">수량</span>
@@ -165,8 +165,8 @@
 
             function calculateTotalPrice() {
                 var amount = $("#amount").val();
-                var price = $("#price").val();
-                var totalPrice = price * amount;
+                var salePrice = $("#salePrice").val();
+                var totalPrice = salePrice * amount;
                 $("#totalPrice").html(totalPrice + '원');
             }
 

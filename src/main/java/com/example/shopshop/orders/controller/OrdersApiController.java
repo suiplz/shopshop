@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/orders")
@@ -18,13 +19,15 @@ public class OrdersApiController {
     private final OrdersItemService ordersItemService;
 
     @PostMapping("/register/{cartId}")
-    public ResponseEntity register(@PathVariable Long cartId, @RequestBody  String impUid){
+    public ResponseEntity register(@PathVariable Long cartId, @RequestBody Map<String, Object> requestData){
 
-        impUid = impUid.replace("\"", ""); // 큰 따옴표 제거
+        String impUid = (String) requestData.get("imp_uid");
+        int point = Integer.parseInt(requestData.get("point").toString());
 
         log.info("impUid result : " + impUid);
+        log.info("point result : " + point);
 
-        ordersItemService.register(cartId, impUid);
+        ordersItemService.register(cartId, impUid, point);
         return new ResponseEntity(HttpStatus.OK);
 
     }

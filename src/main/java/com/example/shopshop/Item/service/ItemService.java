@@ -50,6 +50,7 @@ public interface ItemService {
                 .sizeL(itemDTO.getSizeL())
                 .category(itemDTO.getCategory())
                 .saleRate(itemDTO.getSaleRate())
+                .salePrice(Math.round(itemDTO.getPrice() * (100 - itemDTO.getSaleRate())/100))
                 .provider(itemDTO.getProvider())
                 .build();
         entityMap.put("item", item);
@@ -84,6 +85,7 @@ public interface ItemService {
                 .sizeM(item.getSizeM())
                 .sizeL(item.getSizeL())
                 .saleRate(item.getSaleRate())
+                .salePrice(item.getSalePrice())
                 .provider(item.getProvider())
                 .regDate(item.getRegDate())
                 .modDate(item.getModDate())

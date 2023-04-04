@@ -38,6 +38,7 @@ public interface MemberService {
                 .name(dto.getName())
                 .phone(dto.getPhone())
                 .address(dto.getAddress())
+                .point(1000)
                 .build();
 
         return member;
@@ -52,6 +53,7 @@ public interface MemberService {
                 .name(member.getName())
                 .phone(member.getPhone())
                 .address(member.getAddress())
+                .point(member.getPoint())
                 .build();
 
         return dto;

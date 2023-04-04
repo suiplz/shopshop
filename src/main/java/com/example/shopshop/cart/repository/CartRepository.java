@@ -1,6 +1,7 @@
 package com.example.shopshop.cart.repository;
 
 import com.example.shopshop.cart.domain.Cart;
+import com.example.shopshop.member.domain.Member;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
@@ -16,7 +17,7 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
 
 
 
-    @Query("SELECT c, ci, i.id, i.itemName, i.price, ii FROM Cart c " +
+    @Query("SELECT c, ci, i.id, i.itemName, i.price, i.salePrice, ii FROM Cart c " +
             "INNER JOIN CartItem ci ON ci.cart = c " +
             "INNER JOIN Item i ON i.id = ci.item.id " +
             "INNER JOIN ItemImage ii ON ii.item.id = ci.item.id " +
@@ -33,6 +34,7 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
             "GROUP BY ci.id")
     List<Object[]> findCartByCartId(@Param("cartId") Long cartId);
 
+
     @EntityGraph(attributePaths = {"buyer"}, type = EntityGraph.EntityGraphType.FETCH)
     @Query("SELECT c FROM Cart c " +
             "WHERE c.buyer.id = :memberId")
@@ -48,7 +50,7 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
 
 
 
-    @Query("SELECT sum(ci.item.price * ci.amount) FROM CartItem ci " +
+    @Query("SELECT sum(ci.item.salePrice * ci.amount) FROM CartItem ci " +
             "INNER JOIN Cart c ON ci.cart = c " +
             "WHERE c.buyer.id = :id")
     Integer getGrandTotalByMemberId(@Param("id") Long id);

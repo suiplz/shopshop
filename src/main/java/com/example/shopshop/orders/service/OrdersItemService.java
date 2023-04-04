@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 
 public interface OrdersItemService {
 
-    void register(Long cartId, String impUid);
+    void register(Long cartId, String impUid, int point);
 
     PageResultDTO<OrdersItemListDTO, Object[]> getOrdersByMember(PageRequestDTO pageRequestDTO, Long id);
 
@@ -89,11 +89,11 @@ public interface OrdersItemService {
             return OrdersItemDTO.builder()
                     .itemId(cartItem.getItem().getId())
                     .itemName(cartItem.getItem().getItemName())
-                    .itemPrice(cartItem.getItem().getPrice())
+                    .itemPrice(cartItem.getItem().getSalePrice())
                     .size(cartItem.getSize())
                     .amount(cartItem.getAmount())
                     .memberId(memberId)
-                    .totalPrice(cartItem.getAmount() * cartItem.getItem().getPrice())
+                    .totalPrice(cartItem.getAmount() * cartItem.getItem().getSalePrice())
                     .itemImage(itemImageDTO)
                     .impUid(impUid)
                     .ordersStatus(OrdersStatus.배송준비중)

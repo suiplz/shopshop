@@ -49,7 +49,6 @@ class ItemServiceTest {
                 .sizeS(dto.getSizeS())
                 .sizeM(dto.getSizeM())
                 .sizeL(100)
-                .saleRate(dto.getSaleRate())
                 .build();
 
 
