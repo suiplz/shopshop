@@ -26,7 +26,7 @@ public interface ReviewService {
 
     boolean previousReviewStatus(Long memberId, Long itemId);
 
-    default Review dtoToEntity(ReviewDTO reviewDTO){
+    default Review dtoToEntity(ReviewDTO reviewDTO) {
         Review review = Review.builder()
                 .title(reviewDTO.getTitle())
                 .text(reviewDTO.getText())

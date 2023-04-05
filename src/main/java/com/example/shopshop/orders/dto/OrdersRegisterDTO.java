@@ -1,7 +1,6 @@
 package com.example.shopshop.orders.dto;
 
 
-import com.example.shopshop.orders.domain.OrdersStatus;
 import lombok.*;
 
 import java.util.ArrayList;

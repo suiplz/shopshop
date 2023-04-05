@@ -1,9 +1,6 @@
 package com.example.shopshop.board.dto;
 
-import com.example.shopshop.Item.domain.Item;
-import com.example.shopshop.comment.domain.Comment;
 import com.example.shopshop.comment.dto.CommentForBoardDTO;
-import com.example.shopshop.member.domain.Member;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

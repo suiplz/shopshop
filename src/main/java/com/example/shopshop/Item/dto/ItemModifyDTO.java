@@ -7,9 +7,6 @@ import com.example.shopshop.category.domain.Category;
 import com.example.shopshop.member.domain.Member;
 import lombok.*;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

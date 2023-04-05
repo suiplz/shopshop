@@ -38,7 +38,7 @@ class OrdersRepositoryTest {
     private OrdersItemRepository ordersItemRepository;
 
     @Test
-    void insertOrders(){
+    void insertOrders() {
 
         Member provider = Member.builder().id(22L).build();
         IntStream.rangeClosed(1, 20).forEach(i -> {

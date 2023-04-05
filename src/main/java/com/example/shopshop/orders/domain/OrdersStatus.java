@@ -11,10 +11,6 @@ public enum OrdersStatus {
         this.value = value;
     }
 
-    public String getValue() {
-        return value;
-    }
-
     public static OrdersStatus fromValue(String value) {
         for (OrdersStatus status : OrdersStatus.values()) {
             if (status.getValue().equals(value)) {
@@ -22,6 +18,10 @@ public enum OrdersStatus {
             }
         }
         throw new IllegalArgumentException("찾을 수 없습니다.");
+    }
+
+    public String getValue() {
+        return value;
     }
 
 

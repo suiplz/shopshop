@@ -5,8 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @SpringBootTest
 @Log4j2
 class LikesServiceTest {
@@ -17,7 +15,7 @@ class LikesServiceTest {
 
 
     @Test
-    void likesRegisterTest(){
+    void likesRegisterTest() {
 
         Long likes = likesService.pushLikes(1L, 9L);
         log.info("Likes : " + likes);
@@ -29,13 +27,13 @@ class LikesServiceTest {
 
     @Test
     void likesDeleteTest() {
-        likesService.unLikes(1L,1L);
-        likesService.unLikes(1L,2L);
-        likesService.unLikes(1L,4L);
-        likesService.unLikes(1L,6L);
-        likesService.unLikes(1L,8L);
-        likesService.unLikes(1L,9L);
-        likesService.unLikes(1L,10L);
+        likesService.unLikes(1L, 1L);
+        likesService.unLikes(1L, 2L);
+        likesService.unLikes(1L, 4L);
+        likesService.unLikes(1L, 6L);
+        likesService.unLikes(1L, 8L);
+        likesService.unLikes(1L, 9L);
+        likesService.unLikes(1L, 10L);
     }
 
 }

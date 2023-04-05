@@ -2,8 +2,6 @@ package com.example.shopshop.comment.dto;
 
 import lombok.*;
 
-import java.time.LocalDateTime;
-
 @Getter
 @Setter
 @Builder

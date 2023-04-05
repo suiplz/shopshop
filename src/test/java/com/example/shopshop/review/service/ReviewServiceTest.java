@@ -1,27 +1,19 @@
 package com.example.shopshop.review.service;
 
-import com.example.shopshop.Item.domain.Item;
-import com.example.shopshop.Item.dto.ItemDTO;
 import com.example.shopshop.Item.repository.ItemRepository;
 import com.example.shopshop.Item.service.ItemService;
 import com.example.shopshop.member.domain.Member;
-import com.example.shopshop.member.dto.MemberDTO;
 import com.example.shopshop.member.repository.MemberRepository;
 import com.example.shopshop.member.service.MemberService;
 import com.example.shopshop.review.domain.Review;
 import com.example.shopshop.review.dto.ReviewDTO;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Log4j2
@@ -88,6 +80,7 @@ class ReviewServiceTest {
         reviewService.register(reviewDTO);
 
     }
+
     @Test
     void getReviews() {
 

@@ -1,7 +1,5 @@
 package com.example.shopshop.orders.dto;
 
-import com.example.shopshop.Item.domain.Item;
-import com.example.shopshop.Item.domain.ItemImage;
 import com.example.shopshop.Item.dto.ItemImageDTO;
 import com.example.shopshop.orders.domain.OrdersStatus;
 import lombok.AllArgsConstructor;
@@ -36,5 +34,9 @@ public class OrdersItemDTO {
     private OrdersStatus ordersStatus;
 
     private String impUid;
+
+    private int usedPoint;
+
+    private int grandTotal;
 
 }

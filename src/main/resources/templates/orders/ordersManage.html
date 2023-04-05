@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org">
 <th:block th:replace="~{/layout/listLayout.html :: setContent(~{this::content} )}">
     <th:block th:fragment="content">
 
-        <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/sign-in/">
+        <link href="https://getbootstrap.com/docs/5.2/examples/sign-in/" rel="canonical">
 
         <head>
             <meta charset="UTF-8">
@@ -36,34 +36,43 @@
 
                 <tbody>
                 <tr th:each="dto : ${result.dtoList}">
-                    <td><img th:if="${dto.itemImage != null && dto.itemImage.path != null}"
-                             th:src="|/display?fileName=${dto.itemImage.getThumbnailURL()}|"
-                             title="image" height="100px" width="80px"/></td>
+                    <td><img height="100px"
+                             th:if="${dto.itemImage != null && dto.itemImage.path != null}"
+                             th:src="|/display?fileName=${dto.itemImage.getThumbnailURL()}|" title="image" width="80px"/></td>
                     <!--    <td th:text="${dto.itemName}"></td>-->
                     <!--    <td><a th:href="@{/item/read/{itemId}(itemId=${dto.getItemId})}">[[${dto.itemName}]]</a></td>-->
                     <td><a th:href="@{/item/read(id=${dto.itemId})}">[[${dto.itemName}]]</a></td>
                     <td th:text="${dto.ordersPrice}"></td>
                     <td th:text="${dto.size}"></td>
                     <td th:text="${dto.ordersCount}"></td>
-                    <td th:text="${dto.totalPrice}" id="totalPrice"></td>
+                    <td id="totalPrice" th:text="${dto.totalPrice}"></td>
                     <td th:text="${dto.ordersStatus}"></td>
-<!--                    <td><button class="btn btn-success modifyBtn" th:attr="data-id=${dto.id}, data-cart-id=${dto.cartId}, data-item-id=${dto.itemId}, data-amount=${dto.amount}, data-size=${dto.size}">변경</button></td>-->
-                    <td><button class="btn btn-outline-primary modifyStatusBtn" th:attr="data-id=${dto.id}">주문상태 변경</button></td>
-                    <td><button class="btn btn-success completeOrdersBtn" th:attr="data-id=${dto.id}, data-dto=${dto}">주문 완료</button></td>
-                    <td><button class="btn btn-danger cancelOrdersBtn" th:attr="data-id=${dto.id}">주문 취소</button></td>
-<!--                    <td th:text="${dto.regDate}"></td>-->
+                    <!--                    <td><button class="btn btn-success modifyBtn" th:attr="data-id=${dto.id}, data-cart-id=${dto.cartId}, data-item-id=${dto.itemId}, data-amount=${dto.amount}, data-size=${dto.size}">변경</button></td>-->
+                    <td>
+                        <button class="btn btn-outline-primary modifyStatusBtn" th:attr="data-id=${dto.id}">주문상태 변경
+                        </button>
+                    </td>
+                    <td>
+                        <button class="btn btn-success completeOrdersBtn" th:attr="data-id=${dto.id}, data-dto=${dto}">
+                            주문 완료
+                        </button>
+                    </td>
+                    <td>
+                        <button class="btn btn-danger cancelOrdersBtn" th:attr="data-id=${dto.id}">주문 취소</button>
+                    </td>
+                    <!--                    <td th:text="${dto.regDate}"></td>-->
                     <td th:text="${#temporals.format(dto.regDate, 'yyyy/MM/dd  HH:mm')}"></td>
 
                 </tr>
                 </tbody>
             </table>
         </div>
-        <div class="statusModal modal" tabindex="-1" role="dialog">
+        <div class="statusModal modal" role="dialog" tabindex="-1">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">주문상태 변경</h5>
-                        <button type="button" class="close" onclick="modalClose()">
+                        <button class="close" onclick="modalClose()" type="button">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
@@ -75,13 +84,14 @@
                             </label>
                             <select class="form-select" id="status" name="status">-->
                                 <th:block th:each="ordersStatus : ${ordersStatus}">
-                                <option th:value="${ordersStatus.getValue()}" th:text="${ordersStatus.name()}"></option>
+                                    <option th:text="${ordersStatus.name()}"
+                                            th:value="${ordersStatus.getValue()}"></option>
                                 </th:block>
                             </select>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-success statusSubmitBtn" >Submit</button>
+                        <button class="btn btn-success statusSubmitBtn">Submit</button>
                     </div>
                 </div>
             </div>
@@ -90,102 +100,107 @@
         <ul class="pagination h-100 justify-content-center align-items-center" sec:authroize="isAuthenticated()">
 
             <li class="page-item " th:if="${result.prev}">
-                <a class="page-link" th:href="@{/orders/ordersManage/{providerId}(providerId=${providerId},page=${result.start - 1})}" tabindex="-1">Previous</a>
+                <a class="page-link"
+                   tabindex="-1"
+                   th:href="@{/orders/ordersManage/{providerId}(providerId=${providerId},page=${result.start - 1})}">Previous</a>
             </li>
 
             <li th:class=" 'page-item'  + ${result.page == page?'active':''} " th:each="page: ${result.pageList}">
-                <a class="page-link" th:href="@{/orders/ordersManage/{providerId}(providerId=${providerId}, page=${page})}">
+                <a class="page-link"
+                   th:href="@{/orders/ordersManage/{providerId}(providerId=${providerId}, page=${page})}">
                     [[${page}]]
                 </a>
             </li>
             <li class="page-item" th:if="${result.next}">
-                <a class="page-link" th:href="@{/orders/ordersManage/{providerId}(providerId=${providerId}, pageRequestDTO.page=${result.end + 1})}">Next</a>
+                <a class="page-link"
+                   th:href="@{/orders/ordersManage/{providerId}(providerId=${providerId}, pageRequestDTO.page=${result.end + 1})}">Next</a>
 
             </li>
-        <script>
+            <script>
 
-            const inputStatus = $('select[name="status"]');
-            const statusModal = $(".statusModal");
-            function modalClose() {
-                statusModal.modal('hide');
-                statusModal.hide();
-                $('.jquery-modal').hide();
-            }
-            $(document).ready(function () {
-                $('.modifyStatusBtn').on('click', function () {
-                    window.ordersItemId = $(this).data('id');
+                const inputStatus = $('select[name="status"]');
+                const statusModal = $(".statusModal");
 
-                    statusModal.show();
-                });
+                function modalClose() {
+                    statusModal.modal('hide');
+                    statusModal.hide();
+                    $('.jquery-modal').hide();
+                }
 
-                $('.statusSubmitBtn').on('click', function () {
-                    var param = inputStatus.val();
-                    console.log("param : ", param);
+                $(document).ready(function () {
+                    $('.modifyStatusBtn').on('click', function () {
+                        window.ordersItemId = $(this).data('id');
 
-                    $.ajax({
+                        statusModal.show();
+                    });
 
-                        url: "/api/orders/manageOrdersItem/" + ordersItemId,
-                        data: param,
-                        type: "POST",
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "text",
-                        success: function () {
+                    $('.statusSubmitBtn').on('click', function () {
+                        var param = inputStatus.val();
+                        console.log("param : ", param);
 
-                            self.location.reload();
-                        },
-                        error: function () {
-                            alert("변경에 실패했습니다.");
-                        }
+                        $.ajax({
+
+                            url: "/api/orders/manageOrdersItem/" + ordersItemId,
+                            data: param,
+                            type: "POST",
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "text",
+                            success: function () {
+
+                                self.location.reload();
+                            },
+                            error: function () {
+                                alert("변경에 실패했습니다.");
+                            }
+                        });
+                    });
+                    $('.completeOrdersBtn').on('click', function () {
+
+                        const ordersItemId = $(this).data("id");
+                        var ordersStatus = "COMPLETE";
+
+
+                        $.ajax({
+
+                            url: "/api/orders/completeOrders/" + ordersItemId,
+                            data: ordersStatus,
+                            type: "POST",
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "text",
+                            success: function () {
+                                alert("주문 완료");
+                                self.location.reload();
+                            },
+                            error: function () {
+                                alert("변경에 실패했습니다.");
+                            }
+                        });
+                    });
+
+                    $('.cancelOrdersBtn').on('click', function () {
+
+                        const ordersItemId = $(this).data("id");
+                        var ordersStatus = "CANCEL";
+
+                        $.ajax({
+
+                            url: "/api/orders/cancelOrders/" + ordersItemId,
+                            data: ordersStatus,
+                            type: "POST",
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "text",
+                            success: function () {
+                                alert("주문 취소 완료.");
+                                self.location.reload();
+                            },
+                            error: function () {
+                                alert("변경에 실패했습니다.");
+                            }
+                        });
                     });
                 });
-                $('.completeOrdersBtn').on('click', function () {
-
-                    const ordersItemId = $(this).data("id");
-                    var ordersStatus = "COMPLETE";
-
-
-
-                    $.ajax({
-
-                        url: "/api/orders/completeOrders/" + ordersItemId,
-                        data: ordersStatus,
-                        type: "POST",
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "text",
-                        success: function () {
-                            alert("주문 완료");
-                            self.location.reload();
-                        },
-                        error: function () {
-                            alert("변경에 실패했습니다.");
-                        }
-                    });
-                });
-
-                $('.cancelOrdersBtn').on('click', function () {
-
-                    const ordersItemId = $(this).data("id");
-                    var ordersStatus = "CANCEL";
-
-                    $.ajax({
-
-                        url: "/api/orders/cancelOrders/" + ordersItemId,
-                        data: ordersStatus,
-                        type: "POST",
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "text",
-                        success: function () {
-                            alert("주문 취소 완료.");
-                            self.location.reload();
-                        },
-                        error: function () {
-                            alert("변경에 실패했습니다.");
-                        }
-                    });
-                });
-            });
-        </script>
-</body>
+            </script>
+        </body>
     </th:block>
 </th:block>
 </html>

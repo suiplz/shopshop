@@ -1,7 +1,9 @@
 package com.example.shopshop.Item.dto;
 
-import com.example.shopshop.Item.domain.Item;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;

@@ -1,37 +1,39 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="utf-8">
-  <title>403 오류 화면</title>
-  <style>
-    .container {
-      max-width: 600px;
-      margin: 0 auto;
-    }
-    .py-5 {
-      padding-top: 5rem;
-      padding-bottom: 5rem;
-    }
-    hr {
-      margin-top: 2rem;
-      margin-bottom: 2rem;
-      border: 0;
-      border-top: 1px solid rgba(0, 0, 0, 0.1);
-    }
-  </style>
+    <meta charset="utf-8">
+    <title>403 오류 화면</title>
+    <style>
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .py-5 {
+            padding-top: 5rem;
+            padding-bottom: 5rem;
+        }
+
+        hr {
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+            border: 0;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+    </style>
 </head>
 <body>
 <div class="container">
-  <div class="py-5 text-center">
-    <h2>500 오류 화면</h2>
-  </div>
-  <div>
-    <p>로그인 상태나 회원정보를 확인해주세요.</p>
+    <div class="py-5 text-center">
+        <h2>500 오류 화면</h2>
+    </div>
+    <div>
+        <p>로그인 상태나 회원정보를 확인해주세요.</p>
 
-  </div>
+    </div>
 
-  <button class="btn-primary"><a class="nav-link" th:href="@{/member/login}">로그인 하러가기</a></button>
-  <hr>
+    <button class="btn-primary"><a class="nav-link" th:href="@{/member/login}">로그인 하러가기</a></button>
+    <hr>
 </div> <!-- /container -->
 </body>
 </html>

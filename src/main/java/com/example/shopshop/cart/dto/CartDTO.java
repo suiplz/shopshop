@@ -1,10 +1,10 @@
 package com.example.shopshop.cart.dto;
 
-import com.example.shopshop.Item.domain.Item;
 import com.example.shopshop.Item.domain.ItemImage;
-import com.example.shopshop.cart.domain.CartItem;
-import com.example.shopshop.member.domain.Member;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +25,6 @@ public class CartDTO {
     private ItemImage itemImage;
 
     private Long memberId;
-
 
 
 }

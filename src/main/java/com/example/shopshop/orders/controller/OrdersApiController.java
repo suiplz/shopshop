@@ -19,15 +19,16 @@ public class OrdersApiController {
     private final OrdersItemService ordersItemService;
 
     @PostMapping("/register/{cartId}")
-    public ResponseEntity register(@PathVariable Long cartId, @RequestBody Map<String, Object> requestData){
+    public ResponseEntity register(@PathVariable Long cartId, @RequestBody Map<String, Object> requestData) {
 
         String impUid = (String) requestData.get("imp_uid");
         int point = Integer.parseInt(requestData.get("point").toString());
+        int grandTotal = Integer.parseInt(requestData.get("grandTotal").toString());
 
         log.info("impUid result : " + impUid);
         log.info("point result : " + point);
 
-        ordersItemService.register(cartId, impUid, point);
+        ordersItemService.register(cartId, impUid, point, grandTotal);
         return new ResponseEntity(HttpStatus.OK);
 
     }
@@ -40,7 +41,7 @@ public class OrdersApiController {
 
     @PostMapping("/manageOrdersItem/{ordersItemId}")
     public ResponseEntity manageOrdersItem(@PathVariable Long ordersItemId, @RequestBody String status) {
-        log.info("result : "+ status + " " + status.getClass());
+        log.info("result : " + status + " " + status.getClass());
         ordersItemService.manageOrdersStatus(ordersItemId, status);
         return new ResponseEntity(HttpStatus.OK);
     }

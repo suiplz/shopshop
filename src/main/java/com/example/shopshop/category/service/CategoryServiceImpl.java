@@ -7,9 +7,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class CategoryServiceImpl implements CategoryService{
+public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
+
     @Override
     public Category getCategory(String gender, String season, String clothType) {
         Category category = categoryRepository.getCategoriesByComponents(gender, season, clothType);

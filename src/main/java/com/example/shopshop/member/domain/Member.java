@@ -5,9 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.time.LocalDateTime;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -18,7 +16,8 @@ import java.util.Set;
 @ToString
 public class Member extends BaseEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank
@@ -53,15 +52,20 @@ public class Member extends BaseEntity {
     public void changePhone(String phone) {
         this.phone = phone;
     }
+
     public void changeAddress(String address) {
         this.address = address;
+    }
+
+    public void addPoint(int point) {
+        this.point += point;
     }
 
     public void reducePoint(int point) {
         this.point -= point;
     }
 
-//    @Enumerated(EnumType.STRING)
+    //    @Enumerated(EnumType.STRING)
 //    private MemberRole role;
 //
 //    public MemberRole setMemberRole(MemberRole memberRole) {

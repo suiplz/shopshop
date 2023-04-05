@@ -18,8 +18,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @SpringBootTest
 @Log4j2
 class ItemRepositoryTest {
@@ -34,7 +32,7 @@ class ItemRepositoryTest {
     private MemberRepository memberRepository;
 
     @Test
-    void insertItem(){
+    void insertItem() {
 
         IntStream.rangeClosed(1, 100).forEach(i -> {
             Optional<Member> result = memberRepository.findById((long) i);
@@ -133,10 +131,10 @@ class ItemRepositoryTest {
         PageRequestDTO requestDTO = new PageRequestDTO();
         Pageable pageable = requestDTO.getPageable(Sort.by("id").descending());
 
-        Page<Object[]> itemByComponents = itemRepository.getItemByComponents(pageable,"MALE", "SPRING", "TOP");
-        Page<Object[]> itemByComponents1 = itemRepository.getItemByComponents(pageable,null, null, "OUTER");
-        Page<Object[]> itemByComponents2 = itemRepository.getItemByComponents(pageable,null, null, null);
-        Page<Object[]> itemByComponents3 = itemRepository.getItemByComponents(pageable,"MALE", "SPRING", null);
+        Page<Object[]> itemByComponents = itemRepository.getItemByComponents(pageable, "MALE", "SPRING", "TOP");
+        Page<Object[]> itemByComponents1 = itemRepository.getItemByComponents(pageable, null, null, "OUTER");
+        Page<Object[]> itemByComponents2 = itemRepository.getItemByComponents(pageable, null, null, null);
+        Page<Object[]> itemByComponents3 = itemRepository.getItemByComponents(pageable, "MALE", "SPRING", null);
 
         for (Object[] objects : itemByComponents) {
             log.info("result1 : " + Arrays.toString(objects));

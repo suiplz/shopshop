@@ -1,7 +1,5 @@
 package com.example.shopshop.member.domain;
 
-import com.example.shopshop.orders.domain.OrdersStatus;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
@@ -18,6 +16,10 @@ public enum MemberRole {
 
     private String value;
 
+    MemberRole(String value) {
+        this.value = value;
+    }
+
     public static MemberRole fromValue(String value) {
         for (MemberRole role : MemberRole.values()) {
             if (role.getValue().equals(value)) {
@@ -25,10 +27,6 @@ public enum MemberRole {
             }
         }
         throw new IllegalArgumentException("찾을 수 없습니다.");
-    }
-
-    MemberRole(String value) {
-        this.value = value;
     }
 
     public String getValue() {

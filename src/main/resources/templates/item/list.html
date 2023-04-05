@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf/extras/springsecurity">
+>
 
 <th:block th:replace="~{/layout/listLayout.html :: setContent(~{this::content} )}">
     <th:block th:fragment="content">
@@ -10,36 +10,40 @@
             }
 
             #categoryRadio {
-                margin-left : 16em;
+                margin-left: 16em;
             }
+
             #categoryBtn {
-                margin-top :8px;
-                margin-left : 15em;
+                margin-top: 8px;
+                margin-left: 15em;
             }
+
             #cancelBtn {
-                margin-top :8px;
+                margin-top: 8px;
             }
 
             #itemNameSearch {
                 float: right;
-                marting-top : 3em;
+                marting-top: 3em;
             }
+
             .card-img-top {
                 width: 100%;
                 height: 250px;
             }
+
             .fa-heart-o {
-                margin-top : 2px;
+                margin-top: 2px;
                 font-size: 1.5em;
             }
 
             .fa-heart {
-                margin-top : 2px;
-                font-size : 1.5em;
+                margin-top: 2px;
+                font-size: 1.5em;
             }
         </style>
         <div id="itemNameSearch">
-            <input type="text" name="itemName" id="itemName" placeholder="상품이름">
+            <input id="itemName" name="itemName" placeholder="상품이름" type="text">
             <button class="btn btn-primary" id="itemNameBtn">
                 검색
             </button>
@@ -51,7 +55,8 @@
                     <label>성별 :</label>
                     <th:block th:each="gender : ${genders}">
                         <label>
-                            <input class="form-check-input" type="radio" name="gender" th:value="${gender.getValue()}" th:text="${gender.name()}">
+                            <input class="form-check-input" name="gender" th:text="${gender.name()}" th:value="${gender.getValue()}"
+                                   type="radio">
                         </label>
                     </th:block>
                 </div>
@@ -60,7 +65,8 @@
                     <label>계절 :</label>
                     <th:block th:each="season : ${seasons}">
                         <label>
-                            <input class="form-check-input" type="radio" name="season" th:value="${season.getValue()}" th:text="${season.name()}">
+                            <input class="form-check-input" name="season" th:text="${season.name()}" th:value="${season.getValue()}"
+                                   type="radio">
                         </label>
                     </th:block>
 
@@ -70,7 +76,8 @@
                     <label>종류 :</label>
                     <th:block th:each="clothType : ${clothTypes}">
                         <label>
-                            <input class="form-check-input" type="radio" name="clothType" th:value="${clothType.getValue()}" th:text="${clothType.name()}">
+                            <input class="form-check-input" name="clothType" th:text="${clothType.name()}"
+                                   th:value="${clothType.getValue()}" type="radio">
                         </label>
                     </th:block>
                 </div>
@@ -78,42 +85,55 @@
                 <button class="btn btn-primary" id="categoryBtn">
                     검색
                 </button>
-                <button class="btn btn-warning" onclick="deselect()" id="cancelBtn">선택해제</button>
+                <button class="btn btn-warning" id="cancelBtn" onclick="deselect()">선택해제</button>
             </div>
             <div class="container px-4 px-lg-5 mt-5">
 
                 <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-                        <div class="col mb-6" th:each="dto : ${result.dtoList}">
-                            <div class="card h-100" th:onclick="|location.href='@{/item/read(id = ${dto.id})}'|">
-                                <!-- Product image-->
-<!--                                <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />-->
-<!--                                <img class="card-img-top"  th:if="${dto.itemImageDTO.path != null}" th:src="|/display?fileName=${movieImage.getThumbnailURL()}|">-->
+                    <div class="col mb-6" th:each="dto : ${result.dtoList}">
+                        <div class="card h-100" th:onclick="|location.href='@{/item/read(id = ${dto.id})}'|">
+                            <!-- Product image-->
+                            <!--                                <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />-->
+                            <!--                                <img class="card-img-top"  th:if="${dto.itemImageDTO.path != null}" th:src="|/display?fileName=${movieImage.getThumbnailURL()}|">-->
 
-<!--                                    <ul >-->
-                                        <div th:each="itemImage: ${dto.imageDTOList}" th:data-file="${itemImage.getThumbnailURL()}">
-                                            <img class="card-img-top"  th:if="${itemImage.path != null}" th:src="|/display?fileName=${itemImage.getThumbnailURL()}|">
-                                        </div>
-<!--                                    </ul>-->
+                            <!--                                    <ul >-->
+                            <div th:data-file="${itemImage.getThumbnailURL()}" th:each="itemImage: ${dto.imageDTOList}">
+                                <img class="card-img-top" th:if="${itemImage.path != null}"
+                                     th:src="|/display?fileName=${itemImage.getThumbnailURL()}|">
+                            </div>
+                            <!--                                    </ul>-->
 
-                                <!-- Product details-->
-                                <div class="card-body p-4" >
-                                    <div class="text-center">
-                                        <!-- Product name-->
-                                        <h5 class="fw-bolder"><td th:text="${dto.getItemName}"></td></h5>
-                                        <!-- Product price-->
-                                        <h6 class="text-decoration-line-through">가격 :<td th:text="${dto.getPrice}"></td></h6>
-                                        <h6 class="fw-light">할인가 :<td th:text="${dto.getSalePrice}"></td></h6>
-                                        <td>평점 : <td th:text="${dto.avgRate}"></td></td>
-                                        <td>리뷰 수 : </td><td th:text="${dto.reviewCnt}"></td>
-                                        <div><td><i class="fa fa-heart" style="color:red;"></i></td><td th:text="${dto.likesCnt}"></td><div>
+                            <!-- Product details-->
+                            <div class="card-body p-4">
+                                <div class="text-center">
+                                    <!-- Product name-->
+                                    <h5 class="fw-bolder">
+                                        <td th:text="${dto.getItemName}"></td>
+                                    </h5>
+                                    <!-- Product price-->
+                                    <h6 class="text-decoration-line-through">가격 :
+                                        <td th:text="${dto.getPrice}"></td>
+                                    </h6>
+                                    <h6 class="fw-light">할인가 :
+                                        <td th:text="${dto.getSalePrice}"></td>
+                                    </h6>
+                                    <td>평점 :
+                                    <td th:text="${dto.avgRate}"></td>
+                                    </td>
+                                    <td>리뷰 수 :</td>
+                                    <td th:text="${dto.reviewCnt}"></td>
+                                    <div>
+                                        <td><i class="fa fa-heart" style="color:red;"></i></td>
+                                        <td th:text="${dto.likesCnt}"></td>
+                                        <div>
 
                                         </div>
-<!--                                    <div class="btn btn-outline-dark mt-auto" href="#">View options</div>-->
-                                        </div>
+                                        <!--                                    <div class="btn btn-outline-dark mt-auto" href="#">View options</div>-->
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -121,7 +141,7 @@
         <ul class="pagination h-100 justify-content-center align-items-center">
 
             <li class="page-item " th:if="${result.prev}">
-                <a class="page-link" th:href="@{/item/list(page=${result.start - 1})}" tabindex="-1">Previous</a>
+                <a class="page-link" tabindex="-1" th:href="@{/item/list(page=${result.start - 1})}">Previous</a>
             </li>
 
             <li th:class=" 'page-item'  + ${result.page == page?'active':''} " th:each="page: ${result.pageList}">
@@ -151,8 +171,8 @@
                 $("input:radio[name='clothType']").prop("checked", false);
             }
 
-            $(document).ready(function() {
-                $("#categoryBtn").click(function() {
+            $(document).ready(function () {
+                $("#categoryBtn").click(function () {
                     var genderValue = getSelectedValue("gender") || null;
                     var seasonValue = getSelectedValue("season") || null;
                     var clothTypeValue = getSelectedValue("clothType") || null;
@@ -185,11 +205,11 @@
                             season: seasonValue,
                             clothType: clothTypeValue
                         },
-                        success: function(data) {
+                        success: function (data) {
                             window.location.href = url;
                             // Handle success response from backend
                         },
-                        error: function(jqXHR, textStatus, errorThrown) {
+                        error: function (jqXHR, textStatus, errorThrown) {
                             // Handle error response from backend
                         }
                     });

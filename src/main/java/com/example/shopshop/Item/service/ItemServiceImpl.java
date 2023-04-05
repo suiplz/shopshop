@@ -23,7 +23,7 @@ import java.util.function.Function;
 @Service
 @RequiredArgsConstructor
 @Log4j2
-public class ItemServiceImpl implements ItemService{
+public class ItemServiceImpl implements ItemService {
 
     private final ItemRepository itemRepository;
 
@@ -158,7 +158,7 @@ public class ItemServiceImpl implements ItemService{
         Optional<Item> result = itemRepository.findById(dto.getId());
         if (result.isPresent()) {
             Item item = result.get();
-            int salePrice = Math.round(dto.getPrice() * (100 - dto.getSaleRate())/100);
+            int salePrice = Math.round(dto.getPrice() * (100 - dto.getSaleRate()) / 100);
             item.changeItem(dto.getItemName(), dto.getPrice(), dto.getSizeS(), dto.getSizeM(), dto.getSizeL(), dto.getSaleRate(), salePrice);
             itemRepository.save(item);
         }
@@ -169,7 +169,6 @@ public class ItemServiceImpl implements ItemService{
     public void remove(Long id) {
         itemRepository.deleteById(id);
     }
-
 
 
 }

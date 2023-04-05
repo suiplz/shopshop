@@ -29,7 +29,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 
 @Service
@@ -47,13 +50,14 @@ public class OrdersItemServiceImpl implements OrdersItemService {
     private final OrdersHistoryRepository ordersHistoryRepository;
 
     private final MemberRepository memberRepository;
+
     private final ItemRepository itemRepository;
 
     private final PaymentService paymentService;
 
     @Transactional
     @Override
-    public void register(Long cartId, String impUid, int point) {
+    public void register(Long cartId, String impUid, int point, int grandTotal) {
         List<Object[]> result = cartRepository.findCartByCartId(cartId);
         Long memberId = (Long) result.get(0)[1];
 
@@ -69,13 +73,13 @@ public class OrdersItemServiceImpl implements OrdersItemService {
             cartItemList.add(cartItem);
         });
 
-        OrdersRegisterDTO ordersRegisterDTO = entitiesToDTOForRegister((Long) result.get(0)[0], (Long) result.get(0)[1], cartItemList, (ItemImage) result.get(0)[3], (String) impUid);
+        OrdersRegisterDTO ordersRegisterDTO = entitiesToDTOForRegister((Long) result.get(0)[0], (Long) result.get(0)[1], cartItemList, (ItemImage) result.get(0)[3], (String) impUid, (int) point, (int) grandTotal);
         Map<String, Object> entityMap = dtoToEntity(ordersRegisterDTO);
         List<OrdersItem> ordersItemList = (List<OrdersItem>) entityMap.get("ordersItem");
 
         ordersItemList.forEach(ordersItem -> {
-                    ordersItemRepository.save(ordersItem);
-                });
+            ordersItemRepository.save(ordersItem);
+        });
         cartItemList.forEach(cartItem -> {
             cartItemRepository.deleteById(cartItem.getId());
         });
@@ -178,13 +182,14 @@ public class OrdersItemServiceImpl implements OrdersItemService {
 
     @Transactional
     @Override
-    public void complete(Long ordersItemId, String ordersStatus) throws IOException{
+    public void complete(Long ordersItemId, String ordersStatus) throws IOException {
 
         Optional<OrdersItem> result = ordersItemRepository.findById(ordersItemId);
         OrdersItem ordersItem = result.get();
 
         Item item = Item.builder().id(ordersItem.getItem().getId()).build();
-        Member member = Member.builder().id(ordersItem.getBuyer().getId()).build();
+//        Member member = Member.builder().id(ordersItem.getBuyer().getId()).build();
+        Member member = memberRepository.findById(ordersItem.getBuyer().getId()).orElseThrow(() -> new IllegalArgumentException("찾을 수 없습니다."));
         OrdersStatus ordersStatusValue = OrdersStatus.fromValue(ordersStatus);
 
         OrdersHistory ordersHistory = OrdersHistory.builder()
@@ -198,21 +203,26 @@ public class OrdersItemServiceImpl implements OrdersItemService {
                 .ordersStatus(ordersStatusValue)
                 .build();
 
+        member.addPoint(Math.round((ordersItem.getTotalPrice()) / 20));
 
+
+        memberRepository.save(member);
         ordersHistoryRepository.save(ordersHistory);
+
         ordersItemRepository.deleteById(ordersItem.getId());
 
     }
 
     @Transactional
     @Override
-    public void cancel(Long ordersItemId, String ordersStatus) throws IOException{
+    public void cancel(Long ordersItemId, String ordersStatus) throws IOException {
 
         Optional<OrdersItem> result = ordersItemRepository.findById(ordersItemId);
         OrdersItem ordersItem = result.get();
 
         Item item = Item.builder().id(ordersItem.getItem().getId()).build();
-        Member member = Member.builder().id(ordersItem.getBuyer().getId()).build();
+//        Member member = Member.builder().id(ordersItem.getBuyer().getId()).build();
+        Member member = memberRepository.findById(ordersItem.getBuyer().getId()).orElseThrow(() -> new IllegalArgumentException());
         OrdersStatus ordersStatusValue = OrdersStatus.fromValue(ordersStatus);
 
         OrdersHistory ordersHistory = OrdersHistory.builder()
@@ -231,11 +241,27 @@ public class OrdersItemServiceImpl implements OrdersItemService {
             String token = paymentService.getToken();
             log.info("payment result : " + token + " & " + ordersItem.getImpUid());
 //                int paymentInfoAmount = paymentService.paymentInfo(ordersItem.getImpUid(), token);
-            int amount = ordersItemRepository.sumByImpUid(ordersItem.getImpUid());
+//            int amount = ordersItemRepository.sumByImpUid(ordersItem.getImpUid()) - ordersItem.getUsedPoint();
+
+            int amount = ordersItem.getGrandTotal();
             log.info("repository amount : " + amount);
 //                log.info("paymentInfo amount : " + paymentInfoAmount);
             int ordersPrice = ordersItem.getTotalPrice();
-//                log.info("payment amount : " + amount);
+
+            if (ordersPrice > amount) {
+                log.info("member : " + member);
+                int rePoint = ordersPrice - amount;
+                log.info("rePoint value : " + rePoint);
+                member.addPoint(rePoint);
+                log.info("member : " + member);
+                memberRepository.save(member);
+                ordersPrice = amount;
+                amount = 0;
+                ordersItemRepository.updateGranTotalByImpUid(ordersItem.getImpUid(), amount);
+
+            } else {
+                ordersItemRepository.updateGranTotalByImpUid(ordersItem.getImpUid(), amount - ordersPrice);
+            }
             paymentService.paymentCancel(token, ordersItem.getImpUid(), amount, ordersPrice);
         }
         ordersHistoryRepository.save(ordersHistory);

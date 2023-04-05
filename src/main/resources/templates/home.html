@@ -1,30 +1,30 @@
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org">
 
 <head>
-  <meta charset="UTF-8">
-  <title>Home</title>
-  <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
 </head>
 <body>
 <div class="container">
-  <div class="my-4">
-    <h2>홈</h2>
-      <a th:href="@{/logout}">
-        <button sec:authorize="isAuthenticated()" class="btn btn-danger btn-lg">로그아웃</button>
-      </a>
-    <a th:href="@{/member/login}">
-      <button sec:authorize="isAnonymous()" class="btn btn-danger btn-lg">로그인</button>
-    </a>
-      <a th:href="@{/item/list}">
-        <button class="btn btn-danger btn-lg">아이템리스트로 가기</button>
-      </a>
+    <div class="my-4">
+        <h2>홈</h2>
+        <a th:href="@{/logout}">
+            <button class="btn btn-danger btn-lg" sec:authorize="isAuthenticated()">로그아웃</button>
+        </a>
+        <a th:href="@{/member/login}">
+            <button class="btn btn-danger btn-lg" sec:authorize="isAnonymous()">로그인</button>
+        </a>
+        <a th:href="@{/item/list}">
+            <button class="btn btn-danger btn-lg">아이템리스트로 가기</button>
+        </a>
 
-<!--      <hr class="my-4">-->
-<!--&lt;!&ndash;      <a th:href="@{/admin/home}"><button class="btn btn-lg btn-dark">ADMIN page 접근 </button></a>&ndash;&gt;-->
-<!--&lt;!&ndash;      <a th:href="@{/manager/home}"><button class="btn btn-lg btn-dark">MANAGER page 접근</button></a>&ndash;&gt;-->
+        <!--      <hr class="my-4">-->
+        <!--&lt;!&ndash;      <a th:href="@{/admin/home}"><button class="btn btn-lg btn-dark">ADMIN page 접근 </button></a>&ndash;&gt;-->
+        <!--&lt;!&ndash;      <a th:href="@{/manager/home}"><button class="btn btn-lg btn-dark">MANAGER page 접근</button></a>&ndash;&gt;-->
     </div>
-  </div>
+</div>
 </div>
 </body>
 </html>

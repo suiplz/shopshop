@@ -1,10 +1,8 @@
 package com.example.shopshop.Item.domain;
 
-import org.springframework.stereotype.Component;
-
 public enum ClothType {
 
-//    TOP, PANTS, OUTER, SHOES;
+    //    TOP, PANTS, OUTER, SHOES;
     상의("TOP"),
     하의("PANTS"),
     아우터("OUTER"),

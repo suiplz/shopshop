@@ -1,7 +1,8 @@
 package com.example.shopshop.Item.domain;
+
 public enum Season {
 
-//    SPRING, SUMMER, AUTUMN, WINTER
+    //    SPRING, SUMMER, AUTUMN, WINTER
     봄("SPRING"),
     여름("SUMMER"),
     가을("AUTUMN"),

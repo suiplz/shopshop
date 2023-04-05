@@ -15,7 +15,8 @@ import javax.persistence.*;
 @ToString(exclude = {"buyer", "item"})
 public class OrdersItem extends BaseEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -39,6 +40,10 @@ public class OrdersItem extends BaseEntity {
     private OrdersStatus ordersStatus;
 
     private String impUid;
+
+    private int usedPoint;
+
+    private int grandTotal;
 
 
     public void cancelRequestOrdersStatus() {

@@ -1,81 +1,85 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org">
 
 <th:block th:replace="~{/layout/listLayout.html :: setContent(~{this::content} )}">
-  <th:block th:fragment="content">
+    <th:block th:fragment="content">
 
-    <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/sign-in/">
-    <head>
-      <meta charset="UTF-8">
-      <title>Title</title>
-    </head>
+        <link href="https://getbootstrap.com/docs/5.2/examples/sign-in/" rel="canonical">
+        <head>
+            <meta charset="UTF-8">
+            <title>Title</title>
+        </head>
 
-    <style>
+        <style>
 
-      #boardRegisterBtn {
-        float: right;
-        /*marting-top : 3em;*/
+            #boardRegisterBtn {
+                float: right;
+                /*marting-top : 3em;*/
 
-      }
-    </style>
-    <body>
+            }
+        </style>
+        <body>
 
-    <div class="container container-fluid">
-      <div style="margin-top : 40px; margin-bottom: 30px;">
-        <h2> 내가 쓴 리뷰 </h2>
-      </div>
-      <table class="table table-hover">
-        <thead>
-        <tr>
-          <th scope="col">상품이미지</th>
-          <th scope="col">상품 이름</th>
-          <th scope="col">번호</th>
-          <th scope="col">제목</th>
-          <th scope="col">내용</th>
-          <th scope="col">평점</th>
-        </tr>
-        </thead>
-        <tbody>
+        <div class="container container-fluid">
+            <div style="margin-top : 40px; margin-bottom: 30px;">
+                <h2> 내가 쓴 리뷰 </h2>
+            </div>
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">상품이미지</th>
+                    <th scope="col">상품 이름</th>
+                    <th scope="col">번호</th>
+                    <th scope="col">제목</th>
+                    <th scope="col">내용</th>
+                    <th scope="col">평점</th>
+                </tr>
+                </thead>
+                <tbody>
 
-        <tr th:each="dto : ${result.dtoList}">
-          <td><img th:if="${dto.itemImage != null && dto.itemImage.path != null}"
-                   th:src="|/display?fileName=${dto.itemImage.getThumbnailURL()}|"
-                   title="image" height="100px" width="80px"/></td>
-          <td><a th:href="@{/item/read(id=${dto.itemId})}">[[${dto.itemName}]]</a></td>
-          <td th:text="${dto.reviewId}"></td>
-          <td th:text="${dto.title}"></td>
-          <td th:text="${dto.text}"></td>
-          <td th:text="${dto.grade}"></td>
+                <tr th:each="dto : ${result.dtoList}">
+                    <td><img height="100px"
+                             th:if="${dto.itemImage != null && dto.itemImage.path != null}"
+                             th:src="|/display?fileName=${dto.itemImage.getThumbnailURL()}|" title="image" width="80px"/></td>
+                    <td><a th:href="@{/item/read(id=${dto.itemId})}">[[${dto.itemName}]]</a></td>
+                    <td th:text="${dto.reviewId}"></td>
+                    <td th:text="${dto.title}"></td>
+                    <td th:text="${dto.text}"></td>
+                    <td th:text="${dto.grade}"></td>
 
-        </tr>
-        </tbody>
-      </table>
-    </div>
+                </tr>
+                </tbody>
+            </table>
+        </div>
 
-    <ul class="pagination h-100 justify-content-center align-items-center" sec:authroize="isAuthenticated()">
+        <ul class="pagination h-100 justify-content-center align-items-center" sec:authroize="isAuthenticated()">
 
-      <li class="page-item " th:if="${result.prev}">
-        <a class="page-link" th:href="@{/review/reviewListByMember/{memberId}(memberId=${memberId},page=${result.start - 1})}" tabindex="-1">Previous</a>
-      </li>
+            <li class="page-item " th:if="${result.prev}">
+                <a class="page-link"
+                   tabindex="-1"
+                   th:href="@{/review/reviewListByMember/{memberId}(memberId=${memberId},page=${result.start - 1})}">Previous</a>
+            </li>
 
-      <li th:class=" 'page-item'  + ${result.page == page?'active':''} " th:each="page: ${result.pageList}">
-        <a class="page-link" th:href="@{/review/reviewListByMember/{memberId}(memberId=${memberId}, page=${page})}">
-          [[${page}]]
-        </a>
-      </li>
-      <li class="page-item" th:if="${result.next}">
-        <a class="page-link" th:href="@{/review/reviewListByMember/{memberId}(memberId=${memberId}, pageRequestDTO.page=${result.end + 1})}">Next</a>
+            <li th:class=" 'page-item'  + ${result.page == page?'active':''} " th:each="page: ${result.pageList}">
+                <a class="page-link"
+                   th:href="@{/review/reviewListByMember/{memberId}(memberId=${memberId}, page=${page})}">
+                    [[${page}]]
+                </a>
+            </li>
+            <li class="page-item" th:if="${result.next}">
+                <a class="page-link"
+                   th:href="@{/review/reviewListByMember/{memberId}(memberId=${memberId}, pageRequestDTO.page=${result.end + 1})}">Next</a>
 
-      </li>
-    </ul>
+            </li>
+        </ul>
 
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
 
-    </script>
-    </body>
-  </th:block>
+        </script>
+        </body>
+    </th:block>
 </th:block>
 </html>

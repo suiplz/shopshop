@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class LikesServiceImpl implements LikesService{
+public class LikesServiceImpl implements LikesService {
 
     private final LikesRepository likesRepository;
 

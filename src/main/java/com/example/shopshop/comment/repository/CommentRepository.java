@@ -2,7 +2,6 @@ package com.example.shopshop.comment.repository;
 
 import com.example.shopshop.comment.domain.Comment;
 import com.example.shopshop.comment.dto.CommentForBoardDTO;
-import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

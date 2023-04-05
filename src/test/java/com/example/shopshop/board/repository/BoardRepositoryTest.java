@@ -1,6 +1,5 @@
 package com.example.shopshop.board.repository;
 
-import com.example.shopshop.board.dto.BoardReadDTO;
 import com.example.shopshop.page.dto.PageRequestDTO;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
@@ -12,9 +11,6 @@ import org.springframework.data.domain.Sort;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.IntStream;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Log4j2
@@ -34,7 +30,6 @@ class BoardRepositoryTest {
         for (Object[] objects : result) {
             log.info("result : " + Arrays.toString(objects));
         }
-
 
 
     }

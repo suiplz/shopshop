@@ -1,14 +1,10 @@
 package com.example.shopshop.cart.domain;
 
-import com.example.shopshop.Item.domain.Item;
 import com.example.shopshop.etc.BaseEntity;
 import com.example.shopshop.member.domain.Member;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Builder
@@ -18,7 +14,8 @@ import java.util.List;
 @ToString(exclude = "buyer")
 public class Cart extends BaseEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
 //    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
@@ -38,7 +35,7 @@ public class Cart extends BaseEntity {
 //    }
 
     public void setTotalPrice(Integer totalPrice) {
-        if ( this.totalPrice == null) {
+        if (this.totalPrice == null) {
             this.totalPrice = 0;
         }
         this.totalPrice = totalPrice;

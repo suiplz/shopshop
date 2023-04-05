@@ -72,7 +72,7 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
     private void clearSession(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
-        if(session != null) {
+        if (session != null) {
             session.removeAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
         }
     }

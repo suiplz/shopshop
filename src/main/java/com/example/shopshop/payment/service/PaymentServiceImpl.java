@@ -1,7 +1,6 @@
 package com.example.shopshop.payment.service;
 
 
-import com.example.shopshop.orders.repository.OrdersItemRepository;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import lombok.Getter;

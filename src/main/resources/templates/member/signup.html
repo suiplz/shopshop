@@ -2,103 +2,106 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <th:block th:replace="~{/layout/listLayout.html :: setContent(~{this::content} )}">
-  <th:block th:fragment="content">
+    <th:block th:fragment="content">
 
-    <title>Signin Template · Bootstrap v5.2</title>
+        <title>Signin Template · Bootstrap v5.2</title>
 
-    <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/sign-in/">
-
-    
-    <!-- Custom styles for this template -->
-    <body class="text-center">
-    
-<div class="form-signin w-100 m-auto">
-<!--    <img class="mb-4" src="../assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">-->
-    <h1 class="h3 mb-3 fw-normal">회원가입 페이지</h1>
-
-      <form th:action="@{/member/signup}" th:method="post">
-          <div class="form-floating" id="form-email">
-              <input type="email" class="form-control" id="floatingEmail" name="email" placeholder="name@example.com">
-              <label for="floatingEmail">회원 ID (이메일)</label>
-          </div>
-          <div class="form-floating">
-              <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Password">
-              <label for="floatingPassword">비밀번호</label>
-          </div>
-
-          <div class="form-floating">
-              <input type="password" class="form-control" id="floatingPasswordCheck" name="passwordCheck" placeholder="PasswordCheck">
-              <label for="floatingPasswordCheck">비밀번호 체크</label>
-          </div>
-
-          <div class="form-floating">
-              <input type="text" class="form-control" id="floatingName" name="name" placeholder="Name">
-              <label for="floatingName">이름</label>
-          </div>
-          <div class="form-floating">
-              <input type="text" class="form-control" id="floatingPhone" name="phone" placeholder="Phone">
-              <label for="floatingPhone">전화번호</label>
-          </div>
-          <div class="form-floating">
-              <input type="text" class="form-control" id="floatingAddress" name="address" placeholder="Address">
-              <label for="floatingAddress">주소</label>
-          </div>
-          <div class="form-group m-0">
-              <button class="btn btn-primary" type="button">회원가입</button>
-          </div>
-      </form>
-
-</div>
+        <link href="https://getbootstrap.com/docs/5.2/examples/sign-in/" rel="canonical">
 
 
-<style>
+        <!-- Custom styles for this template -->
+        <body class="text-center">
+
+        <div class="form-signin w-100 m-auto">
+            <!--    <img class="mb-4" src="../assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">-->
+            <h1 class="h3 mb-3 fw-normal">회원가입 페이지</h1>
+
+            <form th:action="@{/member/signup}" th:method="post">
+                <div class="form-floating" id="form-email">
+                    <input class="form-control" id="floatingEmail" name="email" placeholder="name@example.com"
+                           type="email">
+                    <label for="floatingEmail">회원 ID (이메일)</label>
+                </div>
+                <div class="form-floating">
+                    <input class="form-control" id="floatingPassword" name="password" placeholder="Password"
+                           type="password">
+                    <label for="floatingPassword">비밀번호</label>
+                </div>
+
+                <div class="form-floating">
+                    <input class="form-control" id="floatingPasswordCheck" name="passwordCheck" placeholder="PasswordCheck"
+                           type="password">
+                    <label for="floatingPasswordCheck">비밀번호 체크</label>
+                </div>
+
+                <div class="form-floating">
+                    <input class="form-control" id="floatingName" name="name" placeholder="Name" type="text">
+                    <label for="floatingName">이름</label>
+                </div>
+                <div class="form-floating">
+                    <input class="form-control" id="floatingPhone" name="phone" placeholder="Phone" type="text">
+                    <label for="floatingPhone">전화번호</label>
+                </div>
+                <div class="form-floating">
+                    <input class="form-control" id="floatingAddress" name="address" placeholder="Address" type="text">
+                    <label for="floatingAddress">주소</label>
+                </div>
+                <div class="form-group m-0">
+                    <button class="btn btn-primary" type="button">회원가입</button>
+                </div>
+            </form>
+
+        </div>
 
 
-  .nav-scroller .nav {
-    display: flex;
-    flex-wrap: nowrap;
-    padding-bottom: 1rem;
-    margin-top: -1px;
-    overflow-x: auto;
-    text-align: center;
-    white-space: nowrap;
-    -webkit-overflow-scrolling: touch;
-  }
+        <style>
 
 
-  .form-signin {
-    max-width: 330px;
-    padding: 15px;
-  }
+            .nav-scroller .nav {
+                display: flex;
+                flex-wrap: nowrap;
+                padding-bottom: 1rem;
+                margin-top: -1px;
+                overflow-x: auto;
+                text-align: center;
+                white-space: nowrap;
+                -webkit-overflow-scrolling: touch;
+            }
 
-  .form-signin .form-floating:focus-within {
-    z-index: 2;
-  }
 
-  .form-signin input[type="email"] {
-    margin-bottom: -1px;
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
-  }
+            .form-signin {
+                max-width: 330px;
+                padding: 15px;
+            }
 
-  .form-signin input[type="password"] {
-    margin-bottom: 10px;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-  }
+            .form-signin .form-floating:focus-within {
+                z-index: 2;
+            }
 
-</style>
-<script>
-$(document).ready(function (e) {
-    $(".btn-primary").on("click", function (e) {
-        e.preventDefault();
-        $("form").submit();
-    });
-});
+            .form-signin input[type="email"] {
+                margin-bottom: -1px;
+                border-bottom-right-radius: 0;
+                border-bottom-left-radius: 0;
+            }
 
-</script>
+            .form-signin input[type="password"] {
+                margin-bottom: 10px;
+                border-top-left-radius: 0;
+                border-top-right-radius: 0;
+            }
 
-  </body>
-  </th:block>
+        </style>
+        <script>
+            $(document).ready(function (e) {
+                $(".btn-primary").on("click", function (e) {
+                    e.preventDefault();
+                    $("form").submit();
+                });
+            });
+
+        </script>
+
+        </body>
+    </th:block>
 </th:block>
 </html>

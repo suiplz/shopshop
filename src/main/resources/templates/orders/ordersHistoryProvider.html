@@ -3,7 +3,7 @@
 <th:block th:replace="~{/layout/listLayout.html :: setContent(~{this::content} )}">
     <th:block th:fragment="content">
 
-        <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/sign-in/">
+        <link href="https://getbootstrap.com/docs/5.2/examples/sign-in/" rel="canonical">
 
         <head>
             <meta charset="UTF-8">
@@ -32,16 +32,16 @@
 
                 <tbody>
                 <tr th:each="dto : ${result.dtoList}">
-                    <td><img th:if="${dto.itemImage != null && dto.itemImage.path != null}"
-                             th:src="|/display?fileName=${dto.itemImage.getThumbnailURL()}|"
-                             title="image" height="100px" width="80px"/></td>
+                    <td><img height="100px"
+                             th:if="${dto.itemImage != null && dto.itemImage.path != null}"
+                             th:src="|/display?fileName=${dto.itemImage.getThumbnailURL()}|" title="image" width="80px"/></td>
                     <!--    <td th:text="${dto.itemName}"></td>-->
                     <!--    <td><a th:href="@{/item/read/{itemId}(itemId=${dto.getItemId})}">[[${dto.itemName}]]</a></td>-->
                     <td><a th:href="@{/item/read(id=${dto.itemId})}">[[${dto.itemName}]]</a></td>
                     <td th:text="${dto.ordersPrice}"></td>
                     <td th:text="${dto.size}"></td>
                     <td th:text="${dto.ordersCount}"></td>
-                    <td th:text="${dto.totalPrice}" id="totalPrice"></td>
+                    <td id="totalPrice" th:text="${dto.totalPrice}"></td>
                     <td th:text="${dto.ordersStatus}"></td>
                     <td th:text="${#temporals.format(dto.regDate, 'yyyy/MM/dd  HH:mm')}"></td>
 

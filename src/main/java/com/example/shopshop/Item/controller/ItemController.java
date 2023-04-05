@@ -16,15 +16,12 @@ import com.example.shopshop.page.dto.PageResultDTO;
 import com.example.shopshop.review.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.Arrays;
 import java.util.List;
@@ -208,6 +205,7 @@ public class ItemController {
 
         return "redirect:/item/list";
     }
+
     @PostMapping("/modify/{itemId}")
     public String modify(@PathVariable("itemId") Long itemId, @Validated @ModelAttribute ItemModifyDTO itemModifyDTO, BindingResult bindingResult, @RequestParam("gender") String gender, @RequestParam("season") String season, @RequestParam("clothType") String clothType,
                          RedirectAttributes redirectAttributes, Model model, @LoginCheck Member member) {
@@ -233,13 +231,14 @@ public class ItemController {
         }
         return "redirect:/item/list";
     }
+
     @GetMapping("/test")
     public void test(Model model) {
         model.addAttribute("itemDTO", new ItemDTO());
     }
 
     @PostMapping("/test")
-    public void test(@Validated  @ModelAttribute("itemDTO") ItemDTO itemDTO, RedirectAttributes redirectAttributes){
+    public void test(@Validated @ModelAttribute("itemDTO") ItemDTO itemDTO, RedirectAttributes redirectAttributes) {
 
         redirectAttributes.addAttribute("itemId", itemService.register(itemDTO));
         redirectAttributes.addAttribute("status", true);

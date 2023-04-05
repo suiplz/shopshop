@@ -1,8 +1,6 @@
 package com.example.shopshop.board.repository;
 
 import com.example.shopshop.board.domain.Board;
-import com.example.shopshop.board.dto.BoardDTO;
-import com.example.shopshop.board.dto.BoardReadDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
@@ -25,7 +23,7 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
     Page<Object[]> findListByItemId(Pageable pageable, @Param("itemId") Long itemId);
 
 
-//    @EntityGraph(attributePaths = {"comment"}, type = EntityGraph.EntityGraphType.FETCH)
+    //    @EntityGraph(attributePaths = {"comment"}, type = EntityGraph.EntityGraphType.FETCH)
     @Query("SELECT b.id, b.title, b.content, m.email, c FROM Board b " +
             "INNER JOIN Member m on b.member.id = m.id " +
             "LEFT OUTER JOIN Comment c on c.board.id = b.id " +

@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -33,7 +34,7 @@ public interface OrdersItemRepository extends JpaRepository<OrdersItem, Long> {
 //    @Query("SELECT o, oi, "
 //    Page<Object[]> getOrdersListByMemberId(Pageable pageable, @Param("memberId") Long memberId);
 
-//    @EntityGraph(attributePaths = {"item"}, type = EntityGraph.EntityGraphType.FETCH)
+    //    @EntityGraph(attributePaths = {"item"}, type = EntityGraph.EntityGraphType.FETCH)
     @Query("SELECT oi.buyer.id, i FROM OrdersItem oi " +
             "INNER JOIN Item i ON i.id = oi.item.id " +
             "WHERE oi.buyer.id = :memberId")
@@ -42,6 +43,13 @@ public interface OrdersItemRepository extends JpaRepository<OrdersItem, Long> {
     @Query("SELECT SUM(totalPrice) FROM OrdersItem " +
             "WHERE impUid = :impUid")
     int sumByImpUid(@Param("impUid") String impUid);
+
+
+    @Modifying
+    @Query("UPDATE OrdersItem oi SET oi.grandTotal =:grandTotal " +
+            "WHERE oi.impUid = :impUid")
+    int updateGranTotalByImpUid(@Param("impUid") String impUid, @Param("grandTotal") int grandTotal);
+
 
 //    @EntityGraph(attributePaths = {"ordersItem.item"}, type = EntityGraph.EntityGraphType.FETCH)
 //    @Query("SELECT oi.item FROM Orders o " +

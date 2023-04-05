@@ -11,8 +11,6 @@ import org.springframework.data.domain.Sort;
 
 import java.util.Arrays;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @SpringBootTest
 @Log4j2
 class MemberRoleRequestRepositoryTest {

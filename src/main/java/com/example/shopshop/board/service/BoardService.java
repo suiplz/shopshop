@@ -1,8 +1,6 @@
 package com.example.shopshop.board.service;
 
 import com.example.shopshop.Item.domain.Item;
-import com.example.shopshop.Item.domain.ItemImage;
-import com.example.shopshop.Item.dto.ItemImageDTO;
 import com.example.shopshop.board.domain.Board;
 import com.example.shopshop.board.dto.BoardDTO;
 import com.example.shopshop.board.dto.BoardListDTO;
@@ -13,7 +11,6 @@ import com.example.shopshop.member.domain.Member;
 import com.example.shopshop.page.dto.PageRequestDTO;
 import com.example.shopshop.page.dto.PageResultDTO;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,7 +44,7 @@ public interface BoardService {
         return board;
     }
 
-    default BoardListDTO entityToDTOForList(Board board, Long itemId,Long memberId, String memberEmail, Long commentCount) {
+    default BoardListDTO entityToDTOForList(Board board, Long itemId, Long memberId, String memberEmail, Long commentCount) {
 
 
         BoardListDTO boardListDTO = BoardListDTO.builder()

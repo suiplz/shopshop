@@ -3,10 +3,10 @@
 <th:block th:replace="~{/layout/listLayout.html :: setContent(~{this::content} )}">
     <th:block th:fragment="content">
 
-        <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/sign-in/">
+        <link href="https://getbootstrap.com/docs/5.2/examples/sign-in/" rel="canonical">
         <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+            <meta charset="UTF-8">
+            <title>Title</title>
 
         </head>
         <style>
@@ -16,403 +16,426 @@
                 margin: 0;
             }
         </style>
-<body>
-<div id="buyerMemberInfo" th:data-email="${member.email}" th:data-name="${member.name}" hidden></div>
+        <body>
+        <div hidden id="buyerMemberInfo" th:data-email="${member.email}" th:data-name="${member.name}"></div>
 
-<div class="container container-fluid">
-    <div style="margin-top : 40px; margin-bottom: 30px;">
-        <h2> 장바구니 페이지 </h2>
-    </div>
-<table class="table table-hover">
-    <thead>
-    <tr>
-        <th scope="col">상품 이미지</th>
-        <th scope="col">상품 이름</th>
-        <th scope="col">가격</th>
-        <th scope="col">할인가</th>
-        <th scope="col">사이즈</th>
-        <th scope="col">주문 숫자</th>
-        <th scope="col">총액</th>
-        <th scope="col">사이즈,수량 변경</th>
-        <th scope="col">삭제</th>
-        <th scope="col" hidden="true">카트 아이디</th>
-    </tr>
-    </thead>
-    <tbody>
-<tr th:each="dto : ${result.dtoList}">
-    <td><img th:if="${dto.itemImage != null && dto.itemImage.path != null}"
-             th:src="|/display?fileName=${dto.itemImage.getThumbnailURL()}|"
-    title="image" height="100px" width="80px"/></td>
-<!--    <td th:text="${dto.itemName}"></td>-->
-<!--    <td><a th:href="@{/item/read/{itemId}(itemId=${dto.getItemId})}">[[${dto.itemName}]]</a></td>-->
-    <td><a th:href="@{/item/read(id=${dto.itemId})}">[[${dto.itemName}]]</a></td>
-    <td th:text="${dto.itemPrice}"></td>
-    <td th:text="${dto.salePrice}"></td>
-    <td th:text="${dto.size}"></td>
-    <td th:text="${dto.amount}"></td>
-    <td th:text="${dto.totalPrice}" id="totalPrice"></td>
-    <td><button class="btn btn-success modifyBtn" th:attr="data-id=${dto.id}, data-cart-id=${dto.cartId}, data-item-id=${dto.itemId}, data-amount=${dto.amount}, data-size=${dto.size}">변경</button></td>
-    <td><button class="btn btn-danger removeBtn" th:attr="data-id=${dto.id}">삭제</button></td>
-    <td th:text="${dto.cartId}" id="cartId" hidden="true"></td>
+        <div class="container container-fluid">
+            <div style="margin-top : 40px; margin-bottom: 30px;">
+                <h2> 장바구니 페이지 </h2>
+            </div>
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">상품 이미지</th>
+                    <th scope="col">상품 이름</th>
+                    <th scope="col">가격</th>
+                    <th scope="col">할인가</th>
+                    <th scope="col">사이즈</th>
+                    <th scope="col">주문 숫자</th>
+                    <th scope="col">총액</th>
+                    <th scope="col">사이즈,수량 변경</th>
+                    <th scope="col">삭제</th>
+                    <th hidden="true" scope="col">카트 아이디</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="dto : ${result.dtoList}">
+                    <td><img height="100px"
+                             th:if="${dto.itemImage != null && dto.itemImage.path != null}"
+                             th:src="|/display?fileName=${dto.itemImage.getThumbnailURL()}|" title="image" width="80px"/></td>
+                    <!--    <td th:text="${dto.itemName}"></td>-->
+                    <!--    <td><a th:href="@{/item/read/{itemId}(itemId=${dto.getItemId})}">[[${dto.itemName}]]</a></td>-->
+                    <td><a th:href="@{/item/read(id=${dto.itemId})}">[[${dto.itemName}]]</a></td>
+                    <td th:text="${dto.itemPrice}"></td>
+                    <td th:text="${dto.salePrice}"></td>
+                    <td th:text="${dto.size}"></td>
+                    <td th:text="${dto.amount}"></td>
+                    <td id="totalPrice" th:text="${dto.totalPrice}"></td>
+                    <td>
+                        <button class="btn btn-success modifyBtn"
+                                th:attr="data-id=${dto.id}, data-cart-id=${dto.cartId}, data-item-id=${dto.itemId}, data-amount=${dto.amount}, data-size=${dto.size}">
+                            변경
+                        </button>
+                    </td>
+                    <td>
+                        <button class="btn btn-danger removeBtn" th:attr="data-id=${dto.id}">삭제</button>
+                    </td>
+                    <td hidden="true" id="cartId" th:text="${dto.cartId}"></td>
 
-</tr>
-    </tbody>
-</table>
-</div>
-<div style="margin-right: 100px;">
-    <div class="text-black" style="overflow: hidden; margin-bottom: 20px; margin-top:20px">
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="margin-right: 100px; margin-top: 30px; margin-bottom: 30px;">
+            <div class="text-black" style="overflow: hidden; margin-bottom: 20px; margin-top:20px">
   <span style="float:right; display: flex; align-items: center">
     <span class="input-group-prepend">
       <span class="input-group-text" style="width:150px;">포인트</span>
-        <input type="number" id="point" name="point" value="0" min="0" max="[[${member.point}]]" onchange="updateGrandTotal()" style="width: 150px;">
-        <div style="float:right;"><button class="btn btn-outline-primary" onclick="updateGrandTotal()" id="pointBtn">포인트 적용</button></div>
+        <input id="point" max="[[${member.point}]]" min="0" name="point" onchange="updateGrandTotal()" style="width: 150px;"
+               type="number" value="0">
+        <div style="float:right;"><button class="btn btn-outline-primary" id="pointBtn" onclick="updateGrandTotal()">포인트 적용</button></div>
     </span>
-    <div style="margin-left: 10px;">현재 포인트 : <div class="text-black" th:text="${member.point}" id="memberPoint"></div></div>
+    <div style="margin-left: 10px;">현재 포인트 : <div class="text-black" id="memberPoint"
+                                                  th:text="${member.point}"></div></div>
   </span>
-    </div>
-
-    <div style="float:right; margin-left:10px">
-        <h3>총 결제 금액 : <span id="grandTotal" th:text="${grandTotal}"></span></h3>
-        <h4>결제</h4>
-        <button class="btn btn-primary ordersRegisterCardBtn">카드 결제</button>
-        <button class="btn btn-warning ordersRegisterKakaoBtn">카카오 결제</button>
-    </div>
-</div>
-
-
-<div class="modifyModal modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Modify</h5>
-                <button type="button" class="close" onclick="modalClose()">
-                    <span aria-hidden="true">&times;</span>
-                </button>
             </div>
-            <div class="modal-body">
-            <div class="input-group w-50">
-                <label for="amount">
-                    <span class="input-group-text">수량</span>
-                </label>
-                <input type="number" name="amount" id="amount" class="form-control" value="1" min="1">
-            </div>
-            <div class="input-group w-50">
-                <!--                                <input type="number" name="size" id="size" class="form-control" value="1" min="1">-->
-                <label for="size">
-                    <span class="input-group-text">사이즈</span>
-                </label>
-                <select class="form-select" id="size" name="size">-->
-                    <option value="S"> S 95 </option>
-                    <option value="M"> M 100 </option>
-                    <option value="L"> L 105 </option>
-                </select>
+
+            <div style="float:right; margin-left:10px;">
+                <h3>총 결제 금액 : <span id="grandTotal" th:text="${grandTotal}"></span></h3>
+                <h4>결제</h4>
+                <button class="btn btn-primary ordersRegisterCardBtn">카드 결제</button>
+                <button class="btn btn-warning ordersRegisterKakaoBtn">카카오 결제</button>
+                <h6>카드 결제는 총 결제금액이 100원 이상,</h6>
+                <h6> 카카오 결제는 총 결제금액이 1원 이상일 때 결제 가능합니다.</h6>
             </div>
         </div>
 
-            <div class="modal-footer">
-                <button class="btn btn-success modifySubmitBtn" >Submit</button>
+
+        <div class="modifyModal modal" role="dialog" tabindex="-1">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Modify</h5>
+                        <button class="close" onclick="modalClose()" type="button">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="input-group w-50">
+                            <label for="amount">
+                                <span class="input-group-text">수량</span>
+                            </label>
+                            <input class="form-control" id="amount" min="1" name="amount" type="number" value="1">
+                        </div>
+                        <div class="input-group w-50">
+                            <!--                                <input type="number" name="size" id="size" class="form-control" value="1" min="1">-->
+                            <label for="size">
+                                <span class="input-group-text">사이즈</span>
+                            </label>
+                            <select class="form-select" id="size" name="size">-->
+                                <option value="S"> S 95</option>
+                                <option value="M"> M 100</option>
+                                <option value="L"> L 105</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button class="btn btn-success modifySubmitBtn">Submit</button>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
 
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
-<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.8.js"></script>
-<script>
-    var newGrandTotal;
-    var point = 0;
-    function updateGrandTotal() {
-        var grandTotal = Number($("#grandTotal").text());
-        point = $("#point").val() || 0;
-        var memberPoint = Number($("#memberPoint").text());
-        var newMemberPoint = memberPoint - point;
-        if (point > grandTotal) {
-            point = grandTotal; // 입력값이 총 결제 금액보다 크면 입력값을 총 결제 금액으로 제한
-            newMemberPoint = memberPoint - point;
-        }
-        newGrandTotal = grandTotal - point;
-        $("#grandTotal").html(newGrandTotal.toLocaleString());
-        $("#memberPoint").html(newMemberPoint.toLocaleString());
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://code.jquery.com/jquery-1.12.4.min.js" type="text/javascript"></script>
+        <script src="https://cdn.iamport.kr/js/iamport.payment-1.1.8.js" type="text/javascript"></script>
+        <script>
+            var newGrandTotal;
+            var point = 0;
 
-
-        if (isNaN(point)) {
-        alert("올바른 숫자를 입력하세요.");
-        return;
-    }
-
-    if (point > memberPoint) {
-        alert("보유한 포인트 이상 사용할 수 없습니다.");
-        return;
-    }
-
-
-        $("#point").prop("disabled", true); // 입력 필드 비활성화
-        $("#pointBtn").prop("disabled", true);
-
-        // grandTotal 업데이트
-    // document.getElementById("grandTotal").innerText = newGrandTotal;
-
-    // member.point 업데이트
-    // document.getElementById("memberPoint").innerText = memberPoint - point;
-}
-
-    const modifyModal = $(".modifyModal");
-    const inputSize = $('select[name="size"]');
-    const inputAmount = $('input[name="amount"]');
-    const buyerMemberEmail = document.getElementById("buyerMemberInfo").getAttribute("data-email");
-    const buyerMemberName = document.getElementById("buyerMemberInfo").getAttribute("data-name");
-
-    // const cartId = parseInt(document.getElementById("cartId").textContent);
-    const IMP = window.IMP;
-    IMP.init("imp33727326");
-    function modalClose() {
-        modifyModal.modal('hide');
-        modifyModal.hide();
-        $('.jquery-modal').hide();
-    }
-
-    $(document).ready(function () {
-        const kakaoBtn = document.querySelector('.ordersRegisterKakaoBtn');
-        const cardBtn = document.querySelector('.ordersRegisterCardBtn');
-
-        kakaoBtn.addEventListener('click', function() {
-            requestPayKaKao();
-            // 이제 버튼을 클릭하면 requestPayKaKao() 함수가 실행됩니다.
-            // 이 함수 내부의 코드도 실행됩니다.
-        });
-        cardBtn.addEventListener('click', function() {
-            requestPayCard();
-        })
-
-        $('.modifyBtn').on('click', function () {
-            window.id = $(this).data('id');
-            const itemId = $(this).data('item-id');
-            const amount = $(this).data('amount');
-            const size = $(this).data('size');
-            const cartId = $(this).data('cartId');
-
-            //    <td><button class="btn btn-success modifyBtn" th:attr="data-id=${dto.id}, data-cart-id=${dto.cartId}, data-item-id=${dto.itemId}, data-amount=${dto.amount}, data-size=${dto.size}">변경</button></td>
-
-
-            console.log("1 : ", id, itemId, amount, size, cartId);
-
-            $('#id').val(id);
-            $('#itemId').val(itemId);
-            $('#amount').val(amount);
-            $('#size').val(size);
-
-            console.log("2 : ", id, itemId, amount, size);
-
-            modifyModal.modal('show');
-        });
-
-        function requestPayCard() {
-            const grandTotal = newGrandTotal || [[${grandTotal}]];
-            const usedPoint = point || 0;
-            console.log(buyerMemberEmail, buyerMemberName);
-            IMP.request_pay({
-                pg: "nice.nictest04m",
-                pay_method: "card",
-                merchant_uid: 'cart_' + new Date().getTime(),
-                name: "shopshop",
-                amount: grandTotal,
-                buyer_email: buyerMemberEmail,
-                buyer_name: buyerMemberName,
-            }, function (rsp) {
-                $.ajax({
-                    type: 'POST',
-                    url: '/payment/' + rsp.imp_uid,
-                }).done(function (result) {
-                    if (rsp.paid_amount === result.response.amount) {
-                        $.ajax({
-                            url: "/api/orders/register/" + document.getElementById("cartId").textContent,
-                            type: "POST",
-                            contentType: "application/json",
-                            data: JSON.stringify({imp_uid: rsp.imp_uid, point: usedPoint}),
-                            dataType: "text",
-                            cache: false,
-                        }).done(function () {
-                            window.location.reload();
-                        }).fail(function (error) {``
-                            alert(JSON.stringify(error));
-                            console.log(JSON.stringify(error));
-                        })
-                    } else {
-                        alert("결제가 취소되었습니다.");
-                    }
-                });
-            });
-        }
-
-        function requestPayKaKao() {
-
-            // const grandTotal = newGrandTotal || document.getElementById("grandTotal").textContent;
-            const grandTotal = newGrandTotal || [[${grandTotal}]];
-            const usedPoint = point || 0;
-
-            console.log("grandTotal val : ",grandTotal);
-            console.log("usedPoint val : ", usedPoint);
-            const cartId = Number(document.getElementById("cartId").textContent);
-            console.log("cartId = ", cartId);
-            console.log("cartId = ", typeof cartId);
-            IMP.request_pay({
-                pg: "kakaopay.TC0ONETIME",
-                pay_method: "card",
-                merchant_uid: 'cart_' + new Date().getTime(),
-                name: "shopshop",
-                amount: grandTotal,
-                buyer_email: buyerMemberEmail,
-                buyer_name: buyerMemberName,
-            }, function (rsp) {
-                $.ajax({
-                    type: 'POST',
-                    url: '/payment/' + rsp.imp_uid,
-                }).done(function (result) {
-                    if (rsp.paid_amount === result.response.amount) {
-                        $.ajax({
-                            url: "/api/orders/register/" + document.getElementById("cartId").textContent,
-                            type: "POST",
-                            contentType: "application/json",
-                            data: JSON.stringify({imp_uid: rsp.imp_uid, point: usedPoint}),
-                            dataType: "text",
-                            cache: false,
-                        }).done(function () {
-                            window.location.reload();
-                        }).fail(function (error) {
-                            alert(JSON.stringify(error));
-                            console.log(JSON.stringify(error));
-                        })
-                    } else {
-                        alert("결제가 취소되었습니다.");
-                    }
-                });
-            });
-        }
-
-        $('.modifySubmitBtn').on("click", function () {
-            console.log("버튼이 클릭되었습니다.");
-            alert("버튼이 클릭되었습니다.");
-
-            var data = {
-                amount: inputAmount.val(),
-                size: inputSize.val(),
-            };
-            console.log("data : ", data, id);
-
-            $.ajax({
-                url: '/api/cart/' + id,
-                type: 'PUT',
-                data: JSON.stringify(data),
-                contentType: "application/json; charset=utf-8",
-                dataType: "text",
-                success: function (data) {
-                    console.log(data);
-                    self.location.reload();
-                },
-                error: function () {
-                    alert("변경에 실패했습니다.");
+            function updateGrandTotal() {
+                var grandTotal = Number($("#grandTotal").text());
+                point = $("#point").val() || 0;
+                var memberPoint = Number($("#memberPoint").text());
+                var newMemberPoint = memberPoint - point;
+                if (point > grandTotal) {
+                    point = grandTotal; // 입력값이 총 결제 금액보다 크면 입력값을 총 결제 금액으로 제한
+                    newMemberPoint = memberPoint - point;
+                    $("#point").val(point); // 화면의 point 값을 업데이트
                 }
-            });
-            // modifyModal.modal.hide();
-        });
-        // $('.ordersRegisterCardBtn').on("click", function () {
-        //
-        //     requestPayCard().then(function () {
-        //         const cartId = document.getElementById("cartId").textContent;
-        //         console.log(cartId);
-        //
-        //         var url = "/api/orders/register/" + cartId;
-        //         var param = JSON.stringify(cartId);
-        //
-        //         $.ajax({
-        //             url: url,
-        //             type: "POST",
-        //             contentType: "application/json",
-        //             data: param,
-        //             dataType: "json",
-        //             cache: false,
-        //             success: function (result, status) {
-        //                 alert("상품을 주문했습니다.");
-        //                 location.href = '/';
-        //                 window.location.reload();
-        //             },
-        //
-        //             error: function (jqXHR, status, error) {
-        //
-        //                 if (jqXHR.status == '401') {
-        //                     alert("로그인 후 이용해주세요");
-        //                     location.href = "/members/login";
-        //                 } else {
-        //                     alert(jqXHR.responseText);
-        //                 }
-        //             }
-        //         });
-        //     }).catch(function (error){
-        //         console.log(error);
-        //     });
-        // });
-
-        // $('.ordersRegisterKakaoBtn').on("click", function () {
-        //
-        //     const cartId = document.getElementById("cartId").textContent;
-        //     var url = "/api/orders/register/" + cartId;
-        //
-        //     console.log(cartId);
-        //     var param = JSON.stringify(cartId);
-        //
-        //     $.ajax({
-        //         url: url,
-        //         type: "POST",
-        //         contentType: "application/json",
-        //         data: param,
-        //         dataType: "json",
-        //         cache: false,
-        //         success: function (result, status) {
-        //             alert("상품을 주문했습니다.");
-        //             location.href = '/';
-        //             window.location.reload();
-        //         },
-        //
-        //         error: function (jqXHR, status, error) {
-        //
-        //             if (jqXHR.status == '401') {
-        //                 alert("로그인 후 이용해주세요");
-        //                 location.href = "/members/login";
-        //             } else {
-        //                 alert(jqXHR.responseText);
-        //             }
-        //         }
-        //     });
-        // });
-    });
+                newGrandTotal = grandTotal - point;
+                $("#grandTotal").html(newGrandTotal.toLocaleString());
+                $("#memberPoint").html(newMemberPoint.toLocaleString());
 
 
-    $(document).on("click", ".removeBtn", function () {
-            const cartItemId = $(this).data('id');
-            console.log("item ID is : " + cartItemId);
-
-            $.ajax({
-                url: '/api/cart/' + cartItemId,
-                type: "DELETE",
-                contentType: "application/json; charset=utf-8",
-                dataType: "text",
-                success: function (result) {
-
-                    console.log("result: " + result);
-                    self.location.reload();
-                },
-                error: function () {
-                    alert("삭제에 실패했습니다.");
+                if (isNaN(point)) {
+                    alert("올바른 숫자를 입력하세요.");
+                    return;
                 }
+
+                if (point > memberPoint) {
+                    alert("보유한 포인트 이상 사용할 수 없습니다.");
+                    return;
+                }
+
+
+                $("#point").prop("disabled", true); // 입력 필드 비활성화
+                $("#pointBtn").prop("disabled", true);
+
+                // grandTotal 업데이트
+                // document.getElementById("grandTotal").innerText = newGrandTotal;
+
+                // member.point 업데이트
+                // document.getElementById("memberPoint").innerText = memberPoint - point;
+            }
+
+            const modifyModal = $(".modifyModal");
+            const inputSize = $('select[name="size"]');
+            const inputAmount = $('input[name="amount"]');
+            const buyerMemberEmail = document.getElementById("buyerMemberInfo").getAttribute("data-email");
+            const buyerMemberName = document.getElementById("buyerMemberInfo").getAttribute("data-name");
+
+            // const cartId = parseInt(document.getElementById("cartId").textContent);
+            const IMP = window.IMP;
+            IMP.init("imp33727326");
+
+            function modalClose() {
+                modifyModal.modal('hide');
+                modifyModal.hide();
+                $('.jquery-modal').hide();
+            }
+
+            $(document).ready(function () {
+                const kakaoBtn = document.querySelector('.ordersRegisterKakaoBtn');
+                const cardBtn = document.querySelector('.ordersRegisterCardBtn');
+
+                kakaoBtn.addEventListener('click', function () {
+                    requestPayKaKao();
+                    // 이제 버튼을 클릭하면 requestPayKaKao() 함수가 실행됩니다.
+                    // 이 함수 내부의 코드도 실행됩니다.
+                });
+                cardBtn.addEventListener('click', function () {
+                    requestPayCard();
+                })
+
+                $('.modifyBtn').on('click', function () {
+                    window.id = $(this).data('id');
+                    const itemId = $(this).data('item-id');
+                    const amount = $(this).data('amount');
+                    const size = $(this).data('size');
+                    const cartId = $(this).data('cartId');
+
+                    //    <td><button class="btn btn-success modifyBtn" th:attr="data-id=${dto.id}, data-cart-id=${dto.cartId}, data-item-id=${dto.itemId}, data-amount=${dto.amount}, data-size=${dto.size}">변경</button></td>
+
+
+                    console.log("1 : ", id, itemId, amount, size, cartId);
+
+                    $('#id').val(id);
+                    $('#itemId').val(itemId);
+                    $('#amount').val(amount);
+                    $('#size').val(size);
+
+                    console.log("2 : ", id, itemId, amount, size);
+
+                    modifyModal.modal('show');
+                });
+
+                function requestPayCard() {
+                    const grandTotal = newGrandTotal || [[${grandTotal}]];
+                    const usedPoint = point || 0;
+                    console.log(buyerMemberEmail, buyerMemberName);
+                    IMP.request_pay({
+                        pg: "nice.nictest04m",
+                        pay_method: "card",
+                        merchant_uid: 'cart_' + new Date().getTime(),
+                        name: "shopshop",
+                        amount: grandTotal,
+                        buyer_email: buyerMemberEmail,
+                        buyer_name: buyerMemberName,
+                    }, function (rsp) {
+                        $.ajax({
+                            type: 'POST',
+                            url: '/payment/' + rsp.imp_uid,
+                        }).done(function (result) {
+                            if (rsp.paid_amount === result.response.amount) {
+                                $.ajax({
+                                    url: "/api/orders/register/" + document.getElementById("cartId").textContent,
+                                    type: "POST",
+                                    contentType: "application/json",
+                                    data: JSON.stringify({
+                                        imp_uid: rsp.imp_uid,
+                                        point: usedPoint,
+                                        grandTotal: grandTotal
+                                    }),
+                                    dataType: "text",
+                                    cache: false,
+                                }).done(function () {
+                                    window.location.reload();
+                                }).fail(function (error) {
+                                    ``
+                                    alert(JSON.stringify(error));
+                                    console.log(JSON.stringify(error));
+                                })
+                            } else {
+                                alert("결제가 취소되었습니다.");
+                            }
+                        });
+                    });
+                }
+
+                function requestPayKaKao() {
+
+                    // const grandTotal = newGrandTotal || document.getElementById("grandTotal").textContent;
+                    const usedPoint = point || 0;
+                    const grandTotal = newGrandTotal || [[${grandTotal}]] - point;
+
+                    console.log("grandTotal val : ", grandTotal);
+                    console.log("usedPoint val : ", usedPoint);
+                    const cartId = Number(document.getElementById("cartId").textContent);
+                    console.log("cartId = ", cartId);
+                    console.log("cartId = ", typeof cartId);
+                    IMP.request_pay({
+                        pg: "kakaopay.TC0ONETIME",
+                        pay_method: "card",
+                        merchant_uid: 'cart_' + new Date().getTime(),
+                        name: "shopshop",
+                        amount: grandTotal,
+                        buyer_email: buyerMemberEmail,
+                        buyer_name: buyerMemberName,
+                    }, function (rsp) {
+                        $.ajax({
+                            type: 'POST',
+                            url: '/payment/' + rsp.imp_uid,
+                        }).done(function (result) {
+                            if (rsp.paid_amount === result.response.amount) {
+                                $.ajax({
+                                    url: "/api/orders/register/" + document.getElementById("cartId").textContent,
+                                    type: "POST",
+                                    contentType: "application/json",
+                                    data: JSON.stringify({
+                                        imp_uid: rsp.imp_uid,
+                                        point: usedPoint,
+                                        grandTotal: grandTotal
+                                    }),
+                                    dataType: "text",
+                                    cache: false,
+                                }).done(function () {
+                                    window.location.reload();
+                                }).fail(function (error) {
+                                    alert(JSON.stringify(error));
+                                    console.log(JSON.stringify(error));
+                                })
+                            } else {
+                                alert("결제가 취소되었습니다.");
+                            }
+                        });
+                    });
+                }
+
+                $('.modifySubmitBtn').on("click", function () {
+                    console.log("버튼이 클릭되었습니다.");
+                    alert("버튼이 클릭되었습니다.");
+
+                    var data = {
+                        amount: inputAmount.val(),
+                        size: inputSize.val(),
+                    };
+                    console.log("data : ", data, id);
+
+                    $.ajax({
+                        url: '/api/cart/' + id,
+                        type: 'PUT',
+                        data: JSON.stringify(data),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "text",
+                        success: function (data) {
+                            console.log(data);
+                            self.location.reload();
+                        },
+                        error: function () {
+                            alert("변경에 실패했습니다.");
+                        }
+                    });
+                    // modifyModal.modal.hide();
+                });
+                // $('.ordersRegisterCardBtn').on("click", function () {
+                //
+                //     requestPayCard().then(function () {
+                //         const cartId = document.getElementById("cartId").textContent;
+                //         console.log(cartId);
+                //
+                //         var url = "/api/orders/register/" + cartId;
+                //         var param = JSON.stringify(cartId);
+                //
+                //         $.ajax({
+                //             url: url,
+                //             type: "POST",
+                //             contentType: "application/json",
+                //             data: param,
+                //             dataType: "json",
+                //             cache: false,
+                //             success: function (result, status) {
+                //                 alert("상품을 주문했습니다.");
+                //                 location.href = '/';
+                //                 window.location.reload();
+                //             },
+                //
+                //             error: function (jqXHR, status, error) {
+                //
+                //                 if (jqXHR.status == '401') {
+                //                     alert("로그인 후 이용해주세요");
+                //                     location.href = "/members/login";
+                //                 } else {
+                //                     alert(jqXHR.responseText);
+                //                 }
+                //             }
+                //         });
+                //     }).catch(function (error){
+                //         console.log(error);
+                //     });
+                // });
+
+                // $('.ordersRegisterKakaoBtn').on("click", function () {
+                //
+                //     const cartId = document.getElementById("cartId").textContent;
+                //     var url = "/api/orders/register/" + cartId;
+                //
+                //     console.log(cartId);
+                //     var param = JSON.stringify(cartId);
+                //
+                //     $.ajax({
+                //         url: url,
+                //         type: "POST",
+                //         contentType: "application/json",
+                //         data: param,
+                //         dataType: "json",
+                //         cache: false,
+                //         success: function (result, status) {
+                //             alert("상품을 주문했습니다.");
+                //             location.href = '/';
+                //             window.location.reload();
+                //         },
+                //
+                //         error: function (jqXHR, status, error) {
+                //
+                //             if (jqXHR.status == '401') {
+                //                 alert("로그인 후 이용해주세요");
+                //                 location.href = "/members/login";
+                //             } else {
+                //                 alert(jqXHR.responseText);
+                //             }
+                //         }
+                //     });
+                // });
             });
-        }
-    );
 
 
-</script>
-</body>
+            $(document).on("click", ".removeBtn", function () {
+                    const cartItemId = $(this).data('id');
+                    console.log("item ID is : " + cartItemId);
+
+                    $.ajax({
+                        url: '/api/cart/' + cartItemId,
+                        type: "DELETE",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "text",
+                        success: function (result) {
+
+                            console.log("result: " + result);
+                            self.location.reload();
+                        },
+                        error: function () {
+                            alert("삭제에 실패했습니다.");
+                        }
+                    });
+                }
+            );
+
+
+        </script>
+        </body>
     </th:block>
 </th:block>
 </html>

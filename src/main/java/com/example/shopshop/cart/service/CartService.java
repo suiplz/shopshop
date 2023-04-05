@@ -1,11 +1,9 @@
 package com.example.shopshop.cart.service;
 
-import com.example.shopshop.Item.domain.Item;
 import com.example.shopshop.Item.domain.ItemImage;
 import com.example.shopshop.Item.dto.ItemImageDTO;
 import com.example.shopshop.cart.domain.Cart;
 import com.example.shopshop.cart.domain.CartItem;
-import com.example.shopshop.cart.dto.CartDTO;
 import com.example.shopshop.cart.dto.CartItemDTO;
 import com.example.shopshop.cart.dto.CartItemListDTO;
 import com.example.shopshop.cart.dto.CartItemModifyDTO;
@@ -13,10 +11,7 @@ import com.example.shopshop.member.domain.Member;
 import com.example.shopshop.page.dto.PageRequestDTO;
 import com.example.shopshop.page.dto.PageResultDTO;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 public interface CartService {
 
@@ -91,7 +86,7 @@ public interface CartService {
 //        cartDTO.setItemImage(itemImage);
 
         return cartItemListDTO;
-        }
+    }
 
     void remove(Long cartItemId);
 

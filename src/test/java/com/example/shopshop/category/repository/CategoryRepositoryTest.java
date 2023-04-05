@@ -1,15 +1,13 @@
 package com.example.shopshop.category.repository;
 
-import com.example.shopshop.category.domain.Category;
 import com.example.shopshop.Item.domain.ClothType;
 import com.example.shopshop.Item.domain.Gender;
 import com.example.shopshop.Item.domain.Season;
-import lombok.RequiredArgsConstructor;
+import com.example.shopshop.category.domain.Category;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +26,7 @@ class CategoryRepositoryTest {
 
         List<String> categoryList = new ArrayList<>();
 
-        for(ClothType c : ClothType.values()) {
+        for (ClothType c : ClothType.values()) {
             for (Season s : Season.values()) {
                 for (Gender g : Gender.values()) {
                     Category category = Category.builder().clothType(c.getValue()).season(s.getValue()).gender(g.getValue()).build();

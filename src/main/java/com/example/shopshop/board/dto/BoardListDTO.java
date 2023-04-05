@@ -1,7 +1,9 @@
 package com.example.shopshop.board.dto;
 
-import com.example.shopshop.Item.dto.ItemImageDTO;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 @Data

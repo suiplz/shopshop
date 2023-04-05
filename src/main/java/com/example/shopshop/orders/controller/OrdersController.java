@@ -74,7 +74,7 @@ public class OrdersController {
     public String getListByProvider(PageRequestDTO pageRequestDTO, @PathVariable Long providerId, @LoginCheck Member member, Model model) {
 
         PageResultDTO<OrdersHistoryListDTO, Object[]> result = ordersItemService.getOrdersHistoryByProvider(pageRequestDTO, providerId);
-        log.info("result444  : " +  result);
+        log.info("result444  : " + result);
         model.addAttribute("result", result);
 
         return "/orders/ordersHistoryProvider";

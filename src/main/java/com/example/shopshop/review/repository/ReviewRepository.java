@@ -1,10 +1,7 @@
 package com.example.shopshop.review.repository;
 
 import com.example.shopshop.Item.domain.Item;
-import com.example.shopshop.page.dto.PageRequestDTO;
 import com.example.shopshop.review.domain.Review;
-import com.example.shopshop.review.dto.ReviewDTO;
-import com.example.shopshop.review.dto.ReviewListDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;

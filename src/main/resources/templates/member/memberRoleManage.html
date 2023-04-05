@@ -3,7 +3,7 @@
 <th:block th:replace="~{/layout/listLayout.html :: setContent(~{this::content} )}">
     <th:block th:fragment="content">
 
-        <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/sign-in/">
+        <link href="https://getbootstrap.com/docs/5.2/examples/sign-in/" rel="canonical">
 
         <head>
             <meta charset="UTF-8">
@@ -26,18 +26,23 @@
                     <th scope="col">요청 삭제</th>
 
 
-
                 </tr>
                 </thead>
 
                 <tbody>
                 <tr th:each="dto : ${result.dtoList}">
                     <td th:text="${dto.id}"></td>
-                    <td th:text="${dto.email}" ></td>
+                    <td th:text="${dto.email}"></td>
                     <td th:text="${dto.role}"></td>
                     <td th:text="${#temporals.format(dto.regDate, 'yyyy/MM/dd  HH:mm')}"></td>
-                    <td><button class="btn btn-success completeRoleBtn" th:attr="data-id=${dto.id}, data-role=${dto.role}">권한 적용</button></td>
-                    <td><button class="btn btn-danger cancelRoleBtn" th:attr="data-id=${dto.id}">요청 삭제</button></td>
+                    <td>
+                        <button class="btn btn-success completeRoleBtn"
+                                th:attr="data-id=${dto.id}, data-role=${dto.role}">권한 적용
+                        </button>
+                    </td>
+                    <td>
+                        <button class="btn btn-danger cancelRoleBtn" th:attr="data-id=${dto.id}">요청 삭제</button>
+                    </td>
                     <!--                    <td th:text="${dto.regDate}"></td>-->
 
                 </tr>

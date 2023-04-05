@@ -5,7 +5,6 @@ import com.example.shopshop.Item.domain.ItemImage;
 import com.example.shopshop.Item.repository.ItemRepository;
 import com.example.shopshop.cart.domain.Cart;
 import com.example.shopshop.cart.domain.CartItem;
-import com.example.shopshop.cart.dto.CartDTO;
 import com.example.shopshop.cart.dto.CartItemDTO;
 import com.example.shopshop.cart.dto.CartItemListDTO;
 import com.example.shopshop.cart.dto.CartItemModifyDTO;
@@ -21,18 +20,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StreamUtils;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 import java.util.function.Function;
 
 @Service
 @RequiredArgsConstructor
 @Log4j2
-public class CartServiceImpl implements CartService{
+public class CartServiceImpl implements CartService {
 
     private final CartRepository cartRepository;
 
@@ -41,7 +36,7 @@ public class CartServiceImpl implements CartService{
     private final ItemRepository itemRepository;
 
     @Override
-    public void register(Member member, Long itemId, CartItemDTO cartItemDTO) throws Exception{
+    public void register(Member member, Long itemId, CartItemDTO cartItemDTO) throws Exception {
 
         Cart cart = cartRepository.findCartByMemberId(member.getId());
         Item item = itemRepository.findById(itemId).orElseThrow(() -> new IllegalArgumentException());
@@ -75,7 +70,7 @@ public class CartServiceImpl implements CartService{
 
     @Transactional
     @Override
-    public void modify(Long cartItemId, CartItemModifyDTO dto) throws Exception{
+    public void modify(Long cartItemId, CartItemModifyDTO dto) throws Exception {
         CartItem cartItem = cartItemRepository.findById(cartItemId).orElseThrow(() -> new IllegalArgumentException("없는 카트 정보입니다."));
 
         Item item = itemRepository.findById(cartItem.getItem().getId()).orElseThrow(() -> new IllegalArgumentException());

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org">
 <th:block th:replace="~{/layout/listLayout.html :: setContent(~{this::content} )}">
     <th:block th:fragment="content">
         <!-- Navigation-->
@@ -8,13 +8,13 @@
         <style>
 
             .fa-heart-o {
-                margin-top : 2px;
+                margin-top: 2px;
                 font-size: 1.5em;
             }
 
             .fa-heart {
-                margin-top : 2px;
-                font-size : 1.5em;
+                margin-top: 2px;
+                font-size: 1.5em;
             }
         </style>
         <!-- Product section-->
@@ -22,40 +22,45 @@
             <div class="container px-4 px-lg-5 my-5">
                 <div class="row gx-4 gx-lg-5 align-items-center">
                     <div class="col-md-8">
-<!--                        <div class="small mb-1" ><td th:text="${dto.id}"></div>-->
-                        <h1 class="display-5 fw-bolder" ><td th:text="${dto.getItemName}"></h1>
+                        <!--                        <div class="small mb-1" ><td th:text="${dto.id}"></div>-->
+                        <h1 class="display-5 fw-bolder">
+                            <td th:text="${dto.getItemName}">
+                        </h1>
                         <div class="fs-5 mb-5">
                             <span class="text-decoration-line-through">$<td th:text="${dto.getPrice}"></span>
                             <span>$<td th:text="${dto.getSalePrice}"></span>
                         </div>
 
-                        <p class="lead">Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium at dolorem quidem modi. Nam sequi consequatur obcaecati excepturi alias magni, accusamus eius blanditiis delectus ipsam minima ea iste laborum vero?</p>
+                        <p class="lead">Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium at dolorem
+                            quidem modi. Nam sequi consequatur obcaecati excepturi alias magni, accusamus eius
+                            blanditiis delectus ipsam minima ea iste laborum vero?</p>
 
                         <div class="d-flex" id="addToCart">
 
-                            <input type="hidden" th:value="${dto.getSalePrice}" id="salePrice" name="salePrice">
+                            <input id="salePrice" name="salePrice" th:value="${dto.getSalePrice}" type="hidden">
                             <div class="input-group w-50 mx-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">수량</span>
                                 </div>
-                                <input type="number" name="amount" id="amount" class="form-control" value="1" min="1">
+                                <input class="form-control" id="amount" min="1" name="amount" type="number" value="1">
                             </div>
                             <div class="input-group w-50 mx-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">사이즈</span>
                                 </div>
-<!--                                <input type="number" name="size" id="size" class="form-control" value="1" min="1">-->
+                                <!--                                <input type="number" name="size" id="size" class="form-control" value="1" min="1">-->
                                 <select class="form-select" id="size" name="size">-->
-                                                                    <option value="S"> S 95 </option>
-                                                                    <option value="M"> M 100 </option>
-                                                                    <option value="L"> L 105 </option>
-                                                                </select>
+                                    <option value="S"> S 95</option>
+                                    <option value="M"> M 100</option>
+                                    <option value="L"> L 105</option>
+                                </select>
                             </div>
                             <div class="text mgt-50">
                                 <h5>결제 금액</h5>
-                                <h3 name="totalPrice" id="totalPrice" class="font-weight-bold"></h3>
+                                <h3 class="font-weight-bold" id="totalPrice" name="totalPrice"></h3>
                             </div>
-                            <button class="btn btn-outline-dark flex-shrink-0 mx-3" type="button" name="addCart" onclick="addCart()">
+                            <button class="btn btn-outline-dark flex-shrink-0 mx-3" name="addCart" onclick="addCart()"
+                                    type="button">
                                 <i class="bi-cart-fill me-1"></i>
                                 카트에 상품 담기
                             </button>
@@ -63,27 +68,31 @@
                         </div>
                     </div>
                     <div class="uploadResult" style="text-align : center;">
-                        <div th:each="itemImage: ${dto.imageDTOList}" th:data-file="${itemImage.getThumbnailURL()}">
-                            <img  th:if="${itemImage.path != null}" th:src="|/display?fileName=${itemImage.getThumbnailURL()}|"
-                                  width = 600px height = 800px>
+                        <div th:data-file="${itemImage.getThumbnailURL()}" th:each="itemImage: ${dto.imageDTOList}">
+                            <img height=800px
+                                 th:if="${itemImage.path != null}"
+                                 th:src="|/display?fileName=${itemImage.getThumbnailURL()}|" width=600px>
                         </div>
                     </div>
                 </div>
 
                 <div id="optionButtons">
-                    <button type="button" class="btn btn-primary">
+                    <button class="btn btn-primary" type="button">
                         Review amount <span class="badge badge-light">[[${dto.reviewCnt}]]</span>
                     </button>
 
-                    <button type="button" class="btn btn-info addReviewBtn" sec:authorize="isAuthenticated()" th:attr="data-previous-review-status=${previousReviewStatus}">
+                    <button class="btn btn-info addReviewBtn" sec:authorize="isAuthenticated()" th:attr="data-previous-review-status=${previousReviewStatus}"
+                            type="button">
                         Review Register
                     </button>
 
-                    <input type="hidden" id="itemId" th:value="${dto.id}">
+                    <input id="itemId" th:value="${dto.id}" type="hidden">
                     <th:block th:if="${member != null}">
-                        <input type="hidden" id="memberId" th:value="${member.id}">
+                        <input id="memberId" th:value="${member.id}" type="hidden">
                     </th:block>
-                    <i class="fa" th:class="${likesStatus} ? 'fa fa-heart' : 'fa fa-heart-o'" id="likesIcon-${dto.id}" onclick="toggleLikes(this)" th:attr="data-id=${dto.id}, data-likesCount=${dto.likesCnt}" style="color:red"></i>
+                    <i class="fa" id="likesIcon-${dto.id}" onclick="toggleLikes(this)"
+                       style="color:red" th:attr="data-id=${dto.id}, data-likesCount=${dto.likesCnt}"
+                       th:class="${likesStatus} ? 'fa fa-heart' : 'fa fa-heart-o'"></i>
 
                     <span class="like">[[${dto.likesCnt}]]</span>
 
@@ -97,20 +106,23 @@
                 <div class="list-group reviewList">
 
                 </div>
-                <div class="reviewModal modal" tabindex="-1" role="dialog">
+                <div class="reviewModal modal" role="dialog" tabindex="-1">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title">Item Review</h5>
-                                <button type="button" class="close" onclick="modalClose()">
-                                <span aria-hidden="true">&times;</span>
+                                <button class="close" onclick="modalClose()" type="button">
+                                    <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
                             <div class="modal-body">
                                 <div class="form-group">
                                     <label> Reviewer Email</label>
-                                    <input type="text" class="form-control" name="email" sec:authorize="isAuthenticated()" th:placeholder="${#authentication.getPrincipal().member.email}" readonly="true">
-<!--                                    <p><td th:text="${member.email}"></p>-->
+                                    <input class="form-control" name="email" readonly="true"
+                                           sec:authorize="isAuthenticated()"
+                                           th:placeholder="${#authentication.getPrincipal().member.email}"
+                                           type="text">
+                                    <!--                                    <p><td th:text="${member.email}"></p>-->
                                 </div>
                                 <div class="form-group">
                                     <label>Grade <span class="grade"></span></label>
@@ -118,17 +130,18 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Review Title</label>
-                                    <input type="text" class="form-control" name="title" placeholder="Item GOOD">
+                                    <input class="form-control" name="title" placeholder="Item GOOD" type="text">
                                 </div>
                                 <div class="form-group">
                                     <label>Review text</label>
-                                    <textarea type="text" class="form-control" name="text" placeholder="love it" rows="6"></textarea>
+                                    <textarea class="form-control" name="text" placeholder="love it" rows="6"
+                                              type="text"></textarea>
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-primary reviewSaveBtn">Save Review</button>
-                                <button type="button" class="btn btn-warning modifyBtn" >Modify Review</button>
-                                <button type="button" class="btn btn-danger removeBtn" >Remove</button>
+                                <button class="btn btn-primary reviewSaveBtn" type="button">Save Review</button>
+                                <button class="btn btn-warning modifyBtn" type="button">Modify Review</button>
+                                <button class="btn btn-danger removeBtn" type="button">Remove</button>
                             </div>
                         </div>
                     </div>
@@ -142,9 +155,9 @@
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
-<!--        <script src="js/scripts.js"></script>-->
+        <!--        <script src="js/scripts.js"></script>-->
 
-        <link th:href="@{/css/starrr.css}" rel="stylesheet">
+        <link rel="stylesheet" th:href="@{/css/starrr.css}">
         <script th:src="@{/vendor/starrr.js}"></script>
         <script>
 
@@ -174,9 +187,9 @@
 
                 var url = "/api/cart/register/" + itemId;
                 var paramData = {
-                    size : $("#size").val(),
-                    itemId : $("#itemId").val(),
-                    amount : $("#amount").val()
+                    size: $("#size").val(),
+                    itemId: $("#itemId").val(),
+                    amount: $("#amount").val()
                 };
 
                 console.log(paramData);
@@ -205,32 +218,31 @@
                     }
                 });
             }
-                var grade = 0;
-                var itemId = [[${dto.id}]];
 
-                $('.starrr').starrr({
-                    rating: grade,
-                    change: function (e, value) {
-                        if (value) {
-                            console.log(value);
-                            grade = value;
-                        }
+            var grade = 0;
+            var itemId = [[${dto.id}]];
+
+            $('.starrr').starrr({
+                rating: grade,
+                change: function (e, value) {
+                    if (value) {
+                        console.log(value);
+                        grade = value;
                     }
-                });
+                }
+            });
 
-                var reviewModal = $(".reviewModal");
-                var inputEmail = $('input[name="email"]');
-                var inputTitle = $('input[name="title"]');
-                var inputText = $('textarea[name="text"]');
+            var reviewModal = $(".reviewModal");
+            var inputEmail = $('input[name="email"]');
+            var inputTitle = $('input[name="title"]');
+            var inputText = $('textarea[name="text"]');
 
 
+            $(".addReviewBtn").click(function () {
 
-
-                $(".addReviewBtn").click(function () {
-
-                    var previousReviewStatus = $(this).data("previous-review-status");
-                    console.log("prevReviewStatus" + previousReviewStatus);
-                    if (previousReviewStatus == true){
+                var previousReviewStatus = $(this).data("previous-review-status");
+                console.log("prevReviewStatus" + previousReviewStatus);
+                if (previousReviewStatus == true) {
 
                     alert("이미 리뷰를 작성했습니다.");
                 } else {
@@ -247,153 +259,152 @@
             });
 
 
-                $(".reviewSaveBtn").click(function () {
-                    var data = {
-                        itemId: itemId,
-                        grade: grade,
-                        title: inputTitle.val(),
-                        text: inputText.val(),
-                    };
+            $(".reviewSaveBtn").click(function () {
+                var data = {
+                    itemId: itemId,
+                    grade: grade,
+                    title: inputTitle.val(),
+                    text: inputText.val(),
+                };
 
-                    console.log(data);
+                console.log(data);
 
-                    $.ajax({
-                        url: '/review/' + itemId,
-                        type: "POST",
-                        data: JSON.stringify(data),
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "text",
-                        success: function (result) {
-                            alert("리뷰 등록 성공");
-                            console.log("result: " + result);
-                            self.location.reload();
-                        },
-                        error: function (jqXHR, status, error){
+                $.ajax({
+                    url: '/review/' + itemId,
+                    type: "POST",
+                    data: JSON.stringify(data),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "text",
+                    success: function (result) {
+                        alert("리뷰 등록 성공");
+                        console.log("result: " + result);
+                        self.location.reload();
+                    },
+                    error: function (jqXHR, status, error) {
 
-                            if(jqXHR.status == '500'){
-                                alert("로그인 후 이용해주세요");
-                                location.href = "/member/login";
-                            }
+                        if (jqXHR.status == '500') {
+                            alert("로그인 후 이용해주세요");
+                            location.href = "/member/login";
                         }
-
-                    })
-                    reviewModal.modal('hide');
-                });
-
-                function getItemReviews() {
-                    function formatTime(str) {
-                        var date = new Date(str);
-
-                        return date.getFullYear() + '/' +
-                            (date.getMonth() + 1) + '/' +
-                            date.getDate() + ' ' +
-                            date.getHours() + ':' +
-                            date.getMinutes();
                     }
 
-                    $.getJSON("/review/" + itemId + "/all", function (arr) {
-                        var str = "";
+                })
+                reviewModal.modal('hide');
+            });
 
-                        $.each(arr, function (idx, review) {
+            function getItemReviews() {
+                function formatTime(str) {
+                    var date = new Date(str);
 
-                            console.log(review);
-
-                            str += ' <div class="card-body" data-reviewId=' + review.reviewId + '>';
-                            str += ' <h5 class="card-title">' + review.title + '<span>' + "          " +review.grade + '</span></h5>';
-                            str += ' <h5 class="card-text" th:rows="6" th:style="\'white-space: pre-wrap;\'">' + review.text + '</h5>';
-                            str += ' <h6 class="card-subtitle mb-2 text-muted">' + review.member.email + '</h6>';
-                            str += ' <input type="hidden" id="reviewMemberId_' + review.reviewId + '" value="' + review.member.id + '">';
-                            str += ' <h6 class="card-subtitle mb-3 text-muted">' + formatTime(review.regDate) + '</h6>';
-                            str += '</div>'
-                        });
-                        $(".reviewList").html(str);
-                    });
+                    return date.getFullYear() + '/' +
+                        (date.getMonth() + 1) + '/' +
+                        date.getDate() + ' ' +
+                        date.getHours() + ':' +
+                        date.getMinutes();
                 }
 
-                getItemReviews();
+                $.getJSON("/review/" + itemId + "/all", function (arr) {
+                    var str = "";
 
-                var reviewId;
-                $(".reviewList").on("click", ".card-body", function () {
-                    var targetReview = $(this);
-                    var reviewMemberId = document.getElementById("reviewMemberId_" + targetReview.data("reviewid")).value;
-                    const memberId = document.getElementById("memberId")?.value;
-                    console.log("memberId : ", memberId);
-                    if (memberId === null || memberId === undefined) {
-                        alert("로그인 후 이용가능합니다.");
-                        return;
-                    } else if (memberId == reviewMemberId) {
+                    $.each(arr, function (idx, review) {
 
+                        console.log(review);
 
-                        $(".reviewSaveBtn").hide();
-                        $(".removeBtn, .modifyBtn").show();
-
-                        reviewId = targetReview.data("reviewid"); // reviewId라고 쓰면 에러
-
-
-
-                        inputTitle.val(targetReview.find('.card-title').clone().children().remove().end().text());
-                        inputText.val(targetReview.find('.card-text').clone().children().remove().end().text());
-
-
-                        var grade = targetReview.find('.card-title span').html();
-                        $(".starrr a:nth-child(" + grade + ")").trigger('click');
-
-                        $('.reviewModal').modal('show');
-                    } else {
-                        alert("본인의 리뷰만 수정할 수 있습니다.");
-                    }
+                        str += ' <div class="card-body" data-reviewId=' + review.reviewId + '>';
+                        str += ' <h5 class="card-title">' + review.title + '<span>' + "          " + review.grade + '</span></h5>';
+                        str += ' <h5 class="card-text" th:rows="6" th:style="\'white-space: pre-wrap;\'">' + review.text + '</h5>';
+                        str += ' <h6 class="card-subtitle mb-2 text-muted">' + review.member.email + '</h6>';
+                        str += ' <input type="hidden" id="reviewMemberId_' + review.reviewId + '" value="' + review.member.id + '">';
+                        str += ' <h6 class="card-subtitle mb-3 text-muted">' + formatTime(review.regDate) + '</h6>';
+                        str += '</div>'
+                    });
+                    $(".reviewList").html(str);
                 });
+            }
+
+            getItemReviews();
+
+            var reviewId;
+            $(".reviewList").on("click", ".card-body", function () {
+                var targetReview = $(this);
+                var reviewMemberId = document.getElementById("reviewMemberId_" + targetReview.data("reviewid")).value;
+                const memberId = document.getElementById("memberId")?.value;
+                console.log("memberId : ", memberId);
+                if (memberId === null || memberId === undefined) {
+                    alert("로그인 후 이용가능합니다.");
+                    return;
+                } else if (memberId == reviewMemberId) {
+
+
+                    $(".reviewSaveBtn").hide();
+                    $(".removeBtn, .modifyBtn").show();
+
+                    reviewId = targetReview.data("reviewid"); // reviewId라고 쓰면 에러
+
+
+                    inputTitle.val(targetReview.find('.card-title').clone().children().remove().end().text());
+                    inputText.val(targetReview.find('.card-text').clone().children().remove().end().text());
+
+
+                    var grade = targetReview.find('.card-title span').html();
+                    $(".starrr a:nth-child(" + grade + ")").trigger('click');
+
+                    $('.reviewModal').modal('show');
+                } else {
+                    alert("본인의 리뷰만 수정할 수 있습니다.");
+                }
+            });
             // <button type="button" className="btn btn-warning modifyBtn">Modify Review</button>
 
             $(".modifyBtn").on("click", function () {
 
-                    var data = {
-                        reviewId: reviewId,
-                        itemId: itemId,
-                        grade: grade,
-                        title: inputTitle.val(),
-                        text: inputText.val(),
-                    };
+                var data = {
+                    reviewId: reviewId,
+                    itemId: itemId,
+                    grade: grade,
+                    title: inputTitle.val(),
+                    text: inputText.val(),
+                };
 
-                    console.log(data);
+                console.log(data);
 
-                    $.ajax({
-                        url: '/review/' + itemId + "/" + reviewId,
-                        type: "PUT",
-                        data: JSON.stringify(data),
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "text",
-                        success: function (result) {
-                            console.log("result: " + result);
-                            self.location.reload();
+                $.ajax({
+                    url: '/review/' + itemId + "/" + reviewId,
+                    type: "PUT",
+                    data: JSON.stringify(data),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "text",
+                    success: function (result) {
+                        console.log("result: " + result);
+                        self.location.reload();
 
-                        }
-                    })
-                    reviewModal.modal('hide');
-                });
+                    }
+                })
+                reviewModal.modal('hide');
+            });
 
-                $(".removeBtn").on("click", function () {
-                    var data = {reviewId: reviewId};
-                    console.log(data);
+            $(".removeBtn").on("click", function () {
+                var data = {reviewId: reviewId};
+                console.log(data);
 
-                    $.ajax({
-                        url: '/review/' + itemId + "/" + reviewId,
-                        type: "DELETE",
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "text",
-                        success: function (result) {
-                            console.log("result: " + result);
-                            self.location.reload();
-                        }
-                    })
-                    reviewModal.modal('hide');
-                });
+                $.ajax({
+                    url: '/review/' + itemId + "/" + reviewId,
+                    type: "DELETE",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "text",
+                    success: function (result) {
+                        console.log("result: " + result);
+                        self.location.reload();
+                    }
+                })
+                reviewModal.modal('hide');
+            });
 
             function toggleLikes(likesIcon) {
                 const itemId = likesIcon.getAttribute('data-id');
                 let likesCount = likesIcon.getAttribute('data-likesCount');
                 const memberId = document.getElementById("memberId")?.value;
-                if(memberId === null){
+                if (memberId === null) {
                     alert("로그인 후 이용가능합니다.");
                     return;
                 }

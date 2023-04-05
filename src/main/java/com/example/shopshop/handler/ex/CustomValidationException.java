@@ -2,7 +2,7 @@ package com.example.shopshop.handler.ex;
 
 import java.util.Map;
 
-public class CustomValidationException extends RuntimeException{
+public class CustomValidationException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
 
@@ -13,7 +13,7 @@ public class CustomValidationException extends RuntimeException{
         this.errorMap = errorMap;
     }
 
-    public Map<String, String> getErrorMap(){
+    public Map<String, String> getErrorMap() {
         return errorMap;
     }
 }

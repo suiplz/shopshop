@@ -24,14 +24,11 @@ import java.io.IOException;
 @Log4j2
 public class PaymentController {
 
+    private final IamportClient iamportClient;
     private String impKey = "4228841281505242";
-
     private String impSecret = "CumIt8Nn2yVNmU54h22OxdXN2Qfu2wZ8BeUn4ysoCws8mVWqPsF3hu45GD6bbB8uQ1lOgyLq8W22GmJx";
-
     @Autowired
     private PaymentService paymentService;
-
-    private final IamportClient iamportClient;
 
 
     public PaymentController() {

@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 
 @Entity
 @Builder
@@ -17,7 +16,8 @@ import javax.validation.constraints.NotBlank;
 @ToString(exclude = {"item", "member"})
 public class Review extends BaseEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long reviewId;
 
     private String title;
@@ -37,7 +37,7 @@ public class Review extends BaseEntity {
     private Member member;
 
 
-    public void changeTitle(String title){
+    public void changeTitle(String title) {
         this.title = title;
     }
 

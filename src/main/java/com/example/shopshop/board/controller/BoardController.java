@@ -11,10 +11,7 @@ import com.example.shopshop.member.domain.Member;
 import com.example.shopshop.page.dto.PageRequestDTO;
 import com.example.shopshop.page.dto.PageResultDTO;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.java.Log;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +27,7 @@ public class BoardController {
     private final ItemService itemService;
 
     @GetMapping("/register/{itemId}")
-    public String register(@LoginCheck Member member, @PathVariable Long itemId){
+    public String register(@LoginCheck Member member, @PathVariable Long itemId) {
 
         if (member != null) {
             return "board/register";

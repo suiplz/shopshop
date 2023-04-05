@@ -1,6 +1,5 @@
 package com.example.shopshop.cart.dto;
 
-import com.example.shopshop.Item.domain.Item;
 import com.example.shopshop.cart.domain.Cart;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

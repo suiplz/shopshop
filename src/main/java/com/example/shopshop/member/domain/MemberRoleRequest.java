@@ -13,7 +13,8 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class MemberRoleRequest extends BaseEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY)

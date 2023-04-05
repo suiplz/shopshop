@@ -1,80 +1,80 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <th:block th:replace="~{/layout/listLayout.html :: setContent(~{this::content} )}">
-  <th:block th:fragment="content">
+    <th:block th:fragment="content">
 
-    <title>Signin Template · Bootstrap v5.2</title>
+        <title>Signin Template · Bootstrap v5.2</title>
 
-    <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/sign-in/">
-
-
-    <!-- Custom styles for this template -->
-    <body class="text-center">
-
-<div class="form-signin w-100 m-auto">
-  <form action="/member/login" method="POST">
-<!--    <img class="mb-4" src="../assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">-->
-    <h1 class="h3 mb-3 fw-normal">로그인 페이지</h1>
-
-    <div class="form-floating">
-      <input type="email" name="email" class="form-control" id="email" placeholder="name@example.com">
-      <label for="email">회원 ID (이메일)</label>
-    </div>
-    <div class="form-floating">
-      <input type="password" name="password" class="form-control" id="password" placeholder="Password">
-      <label for="password">비밀번호</label>
-    </div>
-
-    <div class="checkbox mb-3">
-      <label>
-        <input type="checkbox" value="remember-me"> Remember me
-      </label>
-    </div>
-    <button class="w-100 btn btn-lg btn-primary" id="btn_login" type="submit">로그인</button>
-<!--    <p class="mt-5 mb-3 text-muted">&copy; 2017–2022</p>-->
-  </form>
-    <a href="/member/signup">회원가입을 아직 하지 않으셨나요?</a>
-</div>
+        <link href="https://getbootstrap.com/docs/5.2/examples/sign-in/" rel="canonical">
 
 
-<style>
+        <!-- Custom styles for this template -->
+        <body class="text-center">
+
+        <div class="form-signin w-100 m-auto">
+            <form action="/member/login" method="POST">
+                <!--    <img class="mb-4" src="../assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">-->
+                <h1 class="h3 mb-3 fw-normal">로그인 페이지</h1>
+
+                <div class="form-floating">
+                    <input class="form-control" id="email" name="email" placeholder="name@example.com" type="email">
+                    <label for="email">회원 ID (이메일)</label>
+                </div>
+                <div class="form-floating">
+                    <input class="form-control" id="password" name="password" placeholder="Password" type="password">
+                    <label for="password">비밀번호</label>
+                </div>
+
+                <div class="checkbox mb-3">
+                    <label>
+                        <input type="checkbox" value="remember-me"> Remember me
+                    </label>
+                </div>
+                <button class="w-100 btn btn-lg btn-primary" id="btn_login" type="submit">로그인</button>
+                <!--    <p class="mt-5 mb-3 text-muted">&copy; 2017–2022</p>-->
+            </form>
+            <a href="/member/signup">회원가입을 아직 하지 않으셨나요?</a>
+        </div>
 
 
-  .nav-scroller .nav {
-    display: flex;
-    flex-wrap: nowrap;
-    padding-bottom: 1rem;
-    margin-top: -1px;
-    overflow-x: auto;
-    text-align: center;
-    white-space: nowrap;
-    -webkit-overflow-scrolling: touch;
-  }
+        <style>
 
 
-  .form-signin {
-    max-width: 330px;
-    padding: 15px;
-  }
+            .nav-scroller .nav {
+                display: flex;
+                flex-wrap: nowrap;
+                padding-bottom: 1rem;
+                margin-top: -1px;
+                overflow-x: auto;
+                text-align: center;
+                white-space: nowrap;
+                -webkit-overflow-scrolling: touch;
+            }
 
-  .form-signin .form-floating:focus-within {
-    z-index: 2;
-  }
 
-  .form-signin input[type="email"] {
-    margin-bottom: -1px;
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
-  }
+            .form-signin {
+                max-width: 330px;
+                padding: 15px;
+            }
 
-  .form-signin input[type="password"] {
-    margin-bottom: 10px;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-  }
+            .form-signin .form-floating:focus-within {
+                z-index: 2;
+            }
 
-</style>
-  </body>
-  </th:block>
+            .form-signin input[type="email"] {
+                margin-bottom: -1px;
+                border-bottom-right-radius: 0;
+                border-bottom-left-radius: 0;
+            }
+
+            .form-signin input[type="password"] {
+                margin-bottom: 10px;
+                border-top-left-radius: 0;
+                border-top-right-radius: 0;
+            }
+
+        </style>
+        </body>
+    </th:block>
 </th:block>
 </html>

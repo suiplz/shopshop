@@ -1,9 +1,6 @@
 package com.example.shopshop.Item.repository;
 
-import com.example.shopshop.Item.domain.ClothType;
-import com.example.shopshop.Item.domain.Gender;
 import com.example.shopshop.Item.domain.Item;
-import com.example.shopshop.Item.domain.Season;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
@@ -95,7 +92,6 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
             "WHERE l.member.id = :memberId " +
             "GROUP BY i.id")
     Page<Object[]> getListByMemberLikes(Pageable pageable, @Param("memberId") Long memberId);
-
 
 
     @Query("SELECT count(r) From Item i " +

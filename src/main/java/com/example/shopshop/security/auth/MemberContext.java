@@ -15,7 +15,7 @@ public class MemberContext extends User {
         this.member = member;
     }
 
-    public Member getMember(){
+    public Member getMember() {
         return this.member;
     }
 }

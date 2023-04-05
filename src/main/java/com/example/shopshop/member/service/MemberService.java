@@ -1,9 +1,6 @@
 package com.example.shopshop.member.service;
 
-import com.example.shopshop.Item.dto.ItemDTO;
 import com.example.shopshop.member.domain.Member;
-import com.example.shopshop.member.domain.MemberRole;
-import com.example.shopshop.member.domain.MemberRoleRequest;
 import com.example.shopshop.member.dto.MemberDTO;
 import com.example.shopshop.member.dto.MemberRoleRequestDTO;
 import com.example.shopshop.member.dto.SignupDTO;
@@ -11,7 +8,6 @@ import com.example.shopshop.page.dto.PageRequestDTO;
 import com.example.shopshop.page.dto.PageResultDTO;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 public interface MemberService {
 
@@ -59,7 +55,7 @@ public interface MemberService {
         return dto;
     }
 
-    default MemberRoleRequestDTO entityRequestToDTO(Long id, String role, Long memberId, String email, LocalDateTime regDate){
+    default MemberRoleRequestDTO entityRequestToDTO(Long id, String role, Long memberId, String email, LocalDateTime regDate) {
 
         MemberRoleRequestDTO memberRoleRequestDTO = MemberRoleRequestDTO
                 .builder()

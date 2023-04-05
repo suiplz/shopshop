@@ -21,7 +21,7 @@ class PrincipalDetailsTest {
     private MemberRepository memberRepository;
 
     @Test
-    void memberRoleSetTest(){
+    void memberRoleSetTest() {
 
         Optional<Member> result = memberRepository.findByEmail("asd@asd");
         if (result.isPresent()) {

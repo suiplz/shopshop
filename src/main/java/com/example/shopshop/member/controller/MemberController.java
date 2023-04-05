@@ -9,11 +9,8 @@ import com.example.shopshop.member.dto.SignupDTO;
 import com.example.shopshop.member.service.MemberService;
 import com.example.shopshop.page.dto.PageRequestDTO;
 import com.example.shopshop.page.dto.PageResultDTO;
-import com.example.shopshop.security.auth.PrincipalDetails;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.http.HttpRequest;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -53,7 +50,7 @@ public class MemberController {
         log.info("principal = " + principal);
 
         String uri = request.getHeader("Referer");
-        if ( uri != null && !uri.contains("/login")) {
+        if (uri != null && !uri.contains("/login")) {
             request.getSession().setAttribute("prevPage", uri);
         }
         return "/member/login";
@@ -110,7 +107,7 @@ public class MemberController {
     }
 
     @PostMapping("/memberRoleRequest/{memberId}")
-    public String memberRoleRequest(@PathVariable("memberId") Long memberId, @RequestBody String role){
+    public String memberRoleRequest(@PathVariable("memberId") Long memberId, @RequestBody String role) {
 
         log.info("clicked" + role);
         memberService.requestRole(memberId, role);
@@ -139,7 +136,6 @@ public class MemberController {
         return "/member/memberRoleManage";
 
     }
-
 
 
 //    @PostMapping("/login")

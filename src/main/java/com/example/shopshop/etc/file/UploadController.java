@@ -2,7 +2,6 @@ package com.example.shopshop.etc.file;
 
 
 import lombok.extern.log4j.Log4j2;
-import net.coobird.thumbnailator.Thumbnailator;
 import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -35,7 +34,6 @@ public class UploadController {
 
     @Value("${shopshop.upload.path}")
     private String uploadPath;
-
 
 
     @PostMapping("/uploadAjax")
@@ -134,19 +132,19 @@ public class UploadController {
         }
     }
 
-        private String makeFolder () {
+    private String makeFolder() {
 
-            String str = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+        String str = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
 
-            String folderPath = str.replace("/", File.separator);
+        String folderPath = str.replace("/", File.separator);
 
-            File uploadPathFolder = new File(uploadPath, folderPath);
+        File uploadPathFolder = new File(uploadPath, folderPath);
 
-            if (uploadPathFolder.exists() == false) {
-                uploadPathFolder.mkdirs();
-            }
-
-            return folderPath;
+        if (uploadPathFolder.exists() == false) {
+            uploadPathFolder.mkdirs();
         }
+
+        return folderPath;
+    }
 
 }

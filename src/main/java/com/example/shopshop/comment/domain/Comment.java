@@ -15,7 +15,8 @@ import javax.persistence.*;
 @ToString(exclude = "board")
 public class Comment extends BaseEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String text;

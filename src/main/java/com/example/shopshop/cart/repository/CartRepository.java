@@ -1,20 +1,16 @@
 package com.example.shopshop.cart.repository;
 
 import com.example.shopshop.cart.domain.Cart;
-import com.example.shopshop.member.domain.Member;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 public interface CartRepository extends JpaRepository<Cart, Long> {
-
 
 
     @Query("SELECT c, ci, i.id, i.itemName, i.price, i.salePrice, ii FROM Cart c " +
@@ -47,7 +43,6 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
 //            "INNER JOIN CartItem ci ON ci.cart = c " +
 //            "WHERE c.buyer.id = :buyerId AND ci.item.id = :itemId ")
 //    Boolean isAlreadyInCart(@Param("buyerId") Long buyerId, @Param("itemId") Long itemId);
-
 
 
     @Query("SELECT sum(ci.item.salePrice * ci.amount) FROM CartItem ci " +

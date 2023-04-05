@@ -15,7 +15,8 @@ import javax.persistence.*;
 @ToString(exclude = {"member", "item"})
 public class Likes extends BaseEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)

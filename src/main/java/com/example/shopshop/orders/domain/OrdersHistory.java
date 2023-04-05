@@ -6,7 +6,6 @@ import com.example.shopshop.member.domain.Member;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Builder
@@ -16,7 +15,8 @@ import javax.validation.constraints.NotNull;
 @ToString(exclude = {"member", "item"})
 public class OrdersHistory extends BaseEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -42,10 +42,10 @@ public class OrdersHistory extends BaseEntity {
     public void cancelRequestOrdersStatus() {
         this.ordersStatus = OrdersStatus.취소요청;
     }
+
     public void changeOrdersStatus(OrdersStatus ordersStatus) {
         this.ordersStatus = ordersStatus;
     }
-
 
 
 }

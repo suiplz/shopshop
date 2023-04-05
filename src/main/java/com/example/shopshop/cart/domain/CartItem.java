@@ -14,7 +14,8 @@ import javax.persistence.*;
 @ToString(exclude = {"cart", "item"})
 public class CartItem extends BaseEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)

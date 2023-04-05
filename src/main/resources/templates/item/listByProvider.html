@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf/extras/springsecurity">
+>
 
 <th:block th:replace="~{/layout/listLayout.html :: setContent(~{this::content} )}">
     <th:block th:fragment="content">
@@ -10,32 +10,36 @@
             }
 
             #categoryRadio {
-                margin-left : 16em;
+                margin-left: 16em;
             }
+
             #categoryBtn {
-                margin-top :8px;
-                margin-left : 15em;
+                margin-top: 8px;
+                margin-left: 15em;
             }
+
             #cancelBtn {
-                margin-top :8px;
+                margin-top: 8px;
             }
 
             #itemNameSearch {
                 float: right;
-                marting-top : 3em;
+                marting-top: 3em;
             }
+
             .card-img-top {
                 width: 100%;
                 height: 250px;
             }
+
             .fa-heart-o {
-                margin-top : 2px;
+                margin-top: 2px;
                 font-size: 1.5em;
             }
 
             .fa-heart {
-                margin-top : 2px;
-                font-size : 1.5em;
+                margin-top: 2px;
+                font-size: 1.5em;
             }
         </style>
 
@@ -43,36 +47,47 @@
             <h3>내가 업로드한 아이템들</h3>
             <div class="container px-4 px-lg-5 mt-5">
                 <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-                        <div class="col mb-6" th:each="dto : ${result.dtoList}">
-                            <div class="card h-100" th:onclick="|location.href='@{/item/read(id = ${dto.id})}'|">
-                                <!-- Product image-->
-<!--                                <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />-->
-<!--                                <img class="card-img-top"  th:if="${dto.itemImageDTO.path != null}" th:src="|/display?fileName=${movieImage.getThumbnailURL()}|">-->
+                    <div class="col mb-6" th:each="dto : ${result.dtoList}">
+                        <div class="card h-100" th:onclick="|location.href='@{/item/read(id = ${dto.id})}'|">
+                            <!-- Product image-->
+                            <!--                                <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />-->
+                            <!--                                <img class="card-img-top"  th:if="${dto.itemImageDTO.path != null}" th:src="|/display?fileName=${movieImage.getThumbnailURL()}|">-->
 
-<!--                                    <ul >-->
-                                        <div th:each="itemImage: ${dto.imageDTOList}" th:data-file="${itemImage.getThumbnailURL()}">
-                                            <img class="card-img-top"  th:if="${itemImage.path != null}" th:src="|/display?fileName=${itemImage.getThumbnailURL()}|">
-                                        </div>
-<!--                                    </ul>-->
+                            <!--                                    <ul >-->
+                            <div th:data-file="${itemImage.getThumbnailURL()}" th:each="itemImage: ${dto.imageDTOList}">
+                                <img class="card-img-top" th:if="${itemImage.path != null}"
+                                     th:src="|/display?fileName=${itemImage.getThumbnailURL()}|">
+                            </div>
+                            <!--                                    </ul>-->
 
-                                <!-- Product details-->
-                                <div class="card-body p-4" >
-                                    <div class="text-center">
-                                        <!-- Product name-->
-                                        <h5 class="fw-bolder"><td th:text="${dto.getItemName}"></td></h5>
-                                        <!-- Product price-->
-                                        <h6 class="fw-light">가격 :<td th:text="${dto.getPrice}"></td></h6>
-                                        <td>평점 : <td th:text="${dto.avgRate}"></td></td>
-                                        <td>리뷰 수 : </td><td th:text="${dto.reviewCnt}"></td>
-                                        <div><td><i class="fa fa-heart" style="color:red;"></i></td><td th:text="${dto.likesCnt}"></td><div>
+                            <!-- Product details-->
+                            <div class="card-body p-4">
+                                <div class="text-center">
+                                    <!-- Product name-->
+                                    <h5 class="fw-bolder">
+                                        <td th:text="${dto.getItemName}"></td>
+                                    </h5>
+                                    <!-- Product price-->
+                                    <h6 class="fw-light">가격 :
+                                        <td th:text="${dto.getPrice}"></td>
+                                    </h6>
+                                    <td>평점 :
+                                    <td th:text="${dto.avgRate}"></td>
+                                    </td>
+                                    <td>리뷰 수 :</td>
+                                    <td th:text="${dto.reviewCnt}"></td>
+                                    <div>
+                                        <td><i class="fa fa-heart" style="color:red;"></i></td>
+                                        <td th:text="${dto.likesCnt}"></td>
+                                        <div>
 
                                         </div>
-<!--                                    <div class="btn btn-outline-dark mt-auto" href="#">View options</div>-->
-                                        </div>
+                                        <!--                                    <div class="btn btn-outline-dark mt-auto" href="#">View options</div>-->
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -80,16 +95,20 @@
         <ul class="pagination h-100 justify-content-center align-items-center">
 
             <li class="page-item " th:if="${result.prev}">
-                <a class="page-link" th:href="@{/item/listByProvider/{providerId}(providerId=${providerId}, page=${result.start - 1})}" tabindex="-1">Previous</a>
+                <a class="page-link"
+                   tabindex="-1"
+                   th:href="@{/item/listByProvider/{providerId}(providerId=${providerId}, page=${result.start - 1})}">Previous</a>
             </li>
 
             <li th:class=" 'page-item'  + ${result.page == page?'active':''} " th:each="page: ${result.pageList}">
-                <a class="page-link" th:href="@{/item/listByProvider/{providerId}(providerId=${providerId}, page=${page})}">
+                <a class="page-link"
+                   th:href="@{/item/listByProvider/{providerId}(providerId=${providerId}, page=${page})}">
                     [[${page}]]
                 </a>
             </li>
             <li class="page-item" th:if="${result.next}">
-                <a class="page-link" th:href="@{/item/listByProvider/{providerId}(providerId=${providerId}, pageRequestDTO.page=${result.end + 1})}">Next</a>
+                <a class="page-link"
+                   th:href="@{/item/listByProvider/{providerId}(providerId=${providerId}, pageRequestDTO.page=${result.end + 1})}">Next</a>
 
             </li>
 

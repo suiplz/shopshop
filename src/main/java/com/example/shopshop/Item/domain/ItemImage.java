@@ -4,7 +4,6 @@ import com.example.shopshop.etc.BaseEntity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.UUID;
 
 @Entity
 @Builder
@@ -14,7 +13,8 @@ import java.util.UUID;
 @ToString(exclude = "item")
 public class ItemImage extends BaseEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String uuid;
@@ -26,8 +26,6 @@ public class ItemImage extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id")
     private Item item;
-
-
 
 
 }

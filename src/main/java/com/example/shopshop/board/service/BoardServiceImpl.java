@@ -1,13 +1,11 @@
 package com.example.shopshop.board.service;
 
-import com.example.shopshop.Item.domain.ItemImage;
 import com.example.shopshop.board.domain.Board;
 import com.example.shopshop.board.dto.BoardDTO;
 import com.example.shopshop.board.dto.BoardListDTO;
 import com.example.shopshop.board.dto.BoardReadDTO;
 import com.example.shopshop.board.repository.BoardRepository;
 import com.example.shopshop.comment.domain.Comment;
-import com.example.shopshop.comment.dto.CommentForBoardDTO;
 import com.example.shopshop.comment.repository.CommentRepository;
 import com.example.shopshop.page.dto.PageRequestDTO;
 import com.example.shopshop.page.dto.PageResultDTO;
@@ -25,7 +23,7 @@ import java.util.function.Function;
 @Service
 @RequiredArgsConstructor
 @Log4j2
-public class BoardServiceImpl implements BoardService{
+public class BoardServiceImpl implements BoardService {
 
     private final BoardRepository boardRepository;
 
@@ -51,8 +49,8 @@ public class BoardServiceImpl implements BoardService{
                 (String) arr[3],
                 (Long) arr[4]));
 
-        return new PageResultDTO<>(result,fn);
-        }
+        return new PageResultDTO<>(result, fn);
+    }
 
 
     @Override
@@ -73,7 +71,6 @@ public class BoardServiceImpl implements BoardService{
         String email = (String) result.get(0)[3];
 
         return entityToDTO(boardId, title, text, email, commentList);
-
 
 
     }

@@ -1,8 +1,6 @@
 package com.example.shopshop.member.repository;
 
 import com.example.shopshop.member.domain.Member;
-import com.example.shopshop.member.domain.MemberRole;
-import com.example.shopshop.member.dto.SignupDTO;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,10 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.IntStream;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Log4j2
@@ -28,7 +23,7 @@ class MemberRepositoryTest {
         IntStream.rangeClosed(0, 100).forEach(i -> {
             Member member = Member.builder()
                     .name("member" + i)
-                    .email("member" +i + "@xmail.com")
+                    .email("member" + i + "@xmail.com")
                     .password("1231")
                     .name("name" + i)
                     .build();
@@ -37,22 +32,32 @@ class MemberRepositoryTest {
     }
 
     @Test
-    void findMembers(){
+    void findMembers() {
 
         Optional<Member> result = memberRepository.findById(1L);
-        if (result.isPresent()){
-            Member member= result.get();
+        if (result.isPresent()) {
+            Member member = result.get();
             log.info("member = " + member);
         }
     }
 
     @Test
-    void findMemberByEmailTest(){
+    void findMemberByEmailTest() {
 
         Member member = memberRepository.findByEmail("fwe@fea").orElseThrow(() -> new UsernameNotFoundException("Check Your Email"));
 
         System.out.println("member = " + member);
 
+    }
+
+    @Test
+    void testForOrder() {
+
+        Optional<Member> result = memberRepository.findById(3L);
+        Member member = result.get();
+
+        member.addPoint(100000);
+        memberRepository.save(member);
     }
 
 }

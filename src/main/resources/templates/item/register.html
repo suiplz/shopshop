@@ -1,261 +1,262 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <style>
-    .field-error {
-      border-color: #dc3545;
-      color: #dc3545;
-    }
+    <style>
+        .field-error {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
 
-    .uploadResult {
-      width: 100%;
-      background-color: gray;
-      margin-top: 10px;
-    }
+        .uploadResult {
+            width: 100%;
+            background-color: gray;
+            margin-top: 10px;
+        }
 
-    .uploadResult ul {
-      display: flex;
-      flex-flow: row;
-      justify-content: center;
-      align-items: center;
-      vertical-align: top;
-      overflow: auto;
-    }
+        .uploadResult ul {
+            display: flex;
+            flex-flow: row;
+            justify-content: center;
+            align-items: center;
+            vertical-align: top;
+            overflow: auto;
+        }
 
-    .uploadResult ul li {
-      list-style: none;
-      padding: 10px;
-      margin-left: 2em;
-    }
+        .uploadResult ul li {
+            list-style: none;
+            padding: 10px;
+            margin-left: 2em;
+        }
 
-    .uploadResult ul li img {
-      width: 100%;
+        .uploadResult ul li img {
+            width: 100%;
 
-    }
+        }
 
-    #seasonSelect {
-      width : 100px;
-    }
-  </style>
+        #seasonSelect {
+            width: 100px;
+        }
+    </style>
 </head>
 <th:block th:replace="~{/layout/registerLayout.html :: setContent(~{this::content} )}">
-  <th:block th:fragment="content">
+    <th:block th:fragment="content">
 
 
-    <form th:action="@{/item/register}" th:object="${itemDTO}" th:method="post">
-      <div th:if="${#fields.hasGlobalErrors()}">
-        <p class="field-error" th:each="err : ${#fields.globalErrors()}"
-           th:text="${err}">글로벌 오류 메시지</p>
-      </div>
-      <div class="form-group">
-        <label th:text="#{label.item.itemName}">Item Name</label>
-        <input type="text" class="form-control" name="itemName" placeholder="Enter Name"
-        th:field="*{itemName}" th:errorclass="field-error">
-        <div class="field-error" th:errors="*{itemName}">상품 오류</div>
-  <!--        <input type="text" class="form-control" name="itemName" placeholder="Enter Name">-->
-      </div>
-      <div class="form-group">
-        <label th:text="#{label.item.price}">Item Price</label>
-        <input type="text" class="form-control" name="price" placeholder="Enter Price">
-      </div>
-      <div class="form-group">
-        <label th:text="#{label.item.sizeS}">Item SizeS</label>
-        <input type="text" class="form-control" name="sizeS" placeholder="Enter Quantity">
-      </div>
-      <div class="form-group">
-        <label th:text="#{label.item.sizeM}">item SizeM</label>
-        <input type="text" class="form-control" name="sizeM" placeholder="Enter Quantity">
-      </div>
-      <div class="form-group">
-        <label th:text="#{label.item.sizeL}">Item SizeL</label>
-        <input type="text" class="form-control" name="sizeL" placeholder="Enter Quantity">
-      </div>
+        <form th:action="@{/item/register}" th:method="post" th:object="${itemDTO}">
+            <div th:if="${#fields.hasGlobalErrors()}">
+                <p class="field-error" th:each="err : ${#fields.globalErrors()}"
+                   th:text="${err}">글로벌 오류 메시지</p>
+            </div>
+            <div class="form-group">
+                <label th:text="#{label.item.itemName}">Item Name</label>
+                <input class="form-control" name="itemName" placeholder="Enter Name" th:errorclass="field-error"
+                       th:field="*{itemName}" type="text">
+                <div class="field-error" th:errors="*{itemName}">상품 오류</div>
+                <!--        <input type="text" class="form-control" name="itemName" placeholder="Enter Name">-->
+            </div>
+            <div class="form-group">
+                <label th:text="#{label.item.price}">Item Price</label>
+                <input class="form-control" name="price" placeholder="Enter Price" type="text">
+            </div>
+            <div class="form-group">
+                <label th:text="#{label.item.sizeS}">Item SizeS</label>
+                <input class="form-control" name="sizeS" placeholder="Enter Quantity" type="text">
+            </div>
+            <div class="form-group">
+                <label th:text="#{label.item.sizeM}">item SizeM</label>
+                <input class="form-control" name="sizeM" placeholder="Enter Quantity" type="text">
+            </div>
+            <div class="form-group">
+                <label th:text="#{label.item.sizeL}">Item SizeL</label>
+                <input class="form-control" name="sizeL" placeholder="Enter Quantity" type="text">
+            </div>
 
-        <div class="form-group">
-          <div>상품 종류</div>
-          <select id="genderSelect" name="gender">
-            <th:block th:each="gender : ${genders}">
-              <option th:value="${gender.getValue()}" th:text="${gender.name()}"></option>
-            </th:block>
-          </select>
-          <select id="seasonSelect" name="season">
-            <th:block th:each="season : ${seasons}">
-              <option th:value="${season.getValue()}" th:text="${season.name()}"></option>
-            </th:block>
-          </select>
-          <select id="clothTypeSelect" name="clothType">
-            <th:block th:each="clothType : ${clothTypes}">
-              <option th:value="${clothType.getValue()}" th:text="${clothType.name()}"></option>
-            </th:block>
-          </select>
-        </div>
-      <div class="form-group">
-        <label th:text="#{label.item.saleRate}">Item saleRate</label>
-        <input type="text" class="form-control" name="saleRate" placeholder="Enter Quantity">
-      </div>
+            <div class="form-group">
+                <div>상품 종류</div>
+                <select id="genderSelect" name="gender">
+                    <th:block th:each="gender : ${genders}">
+                        <option th:text="${gender.name()}" th:value="${gender.getValue()}"></option>
+                    </th:block>
+                </select>
+                <select id="seasonSelect" name="season">
+                    <th:block th:each="season : ${seasons}">
+                        <option th:text="${season.name()}" th:value="${season.getValue()}"></option>
+                    </th:block>
+                </select>
+                <select id="clothTypeSelect" name="clothType">
+                    <th:block th:each="clothType : ${clothTypes}">
+                        <option th:text="${clothType.name()}" th:value="${clothType.getValue()}"></option>
+                    </th:block>
+                </select>
+            </div>
+            <div class="form-group">
+                <label th:text="#{label.item.saleRate}">Item saleRate</label>
+                <input class="form-control" name="saleRate" placeholder="Enter Quantity" type="text">
+            </div>
 
-      <div class="form-group fileForm">
-        <label >Image Files</label>
-        <div class="custom-file">
-          <input type="file"  class="custom-file-input files" id="fileInput" multiple>
-          <label class="custom-file-label" data-browse="Browse"></label>
-        </div>
-      </div>
+            <div class="form-group fileForm">
+                <label>Image Files</label>
+                <div class="custom-file">
+                    <input class="custom-file-input files" id="fileInput" multiple type="file">
+                    <label class="custom-file-label" data-browse="Browse"></label>
+                </div>
+            </div>
 
-      <div class="box">
+            <div class="box">
 
-      </div>
+            </div>
 
-      <div class="uploadResult">
-        <ul>
+            <div class="uploadResult">
+                <ul>
 
-        </ul>
-      </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-  </form>
-
-
-<script>
-  $(document).ready(function(e) {
-
-    var regex = new RegExp("(.*?)\.(exe|sh|zip|alz|tiff)$");
-    var maxSize = 10485760; //10MB
-
-    function checkExtension(fileName, fileSize){
-
-      if(fileSize >= maxSize){
-        alert("파일 사이즈 초과");
-        return false;
-      }
-
-      if(regex.test(fileName)){
-        alert("해당 종류의 파일은 업로드할 수 없습니다.");
-        return false;
-      }
-      return true;
-    }
-
-    $(".custom-file-input").on("change", function() {
-
-      var fileName = $(this).val().split("\\").pop();
-      $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
-
-      var formData = new FormData();
-
-      var inputFile = $(this);
-
-      var files = inputFile[0].files;
-
-      var appended = false;
-
-      for (var i = 0; i < files.length; i++) {
-
-        if(!checkExtension(files[i].name, files[i].size) ){
-          return false;
-        }
-
-        console.log(files[i]);
-        formData.append("uploadFiles", files[i]);
-        appended = true;
-      }
-
-      //upload를 하지 않는다.
-      if (!appended) {return;}
-
-      for (var value of formData.values()) {
-        console.log(value);
-      }
-
-      //실제 업로드 부분
-      //upload ajax
-      $.ajax({
-        url: '/uploadAjax',
-        processData: false,
-        contentType: false,
-        data: formData,
-        type: 'POST',
-        dataType:'json',
-        success: function(result){
-          console.log(result);
-          showResult(result);
-        },
-        error: function(jqXHR, textStatus, errorThrown){
-          console.log(textStatus);
-        }
-      }); //$.ajax
-    }); //end change event
+                </ul>
+            </div>
+            <button class="btn btn-primary" type="submit">Submit</button>
+        </form>
 
 
-    function showResult(uploadResultArr){
+        <script>
+            $(document).ready(function (e) {
 
-      var uploadUL = $(".uploadResult ul");
+                var regex = new RegExp("(.*?)\.(exe|sh|zip|alz|tiff)$");
+                var maxSize = 10485760; //10MB
 
-      var str ="";
+                function checkExtension(fileName, fileSize) {
 
-      $(uploadResultArr).each(function(i, obj) {
+                    if (fileSize >= maxSize) {
+                        alert("파일 사이즈 초과");
+                        return false;
+                    }
 
-        str += "<li data-name='" + obj.fileName + "' data-path='"+obj.folderPath+"' data-uuid='"+obj.uuid+"'>";
-        str + " <div>";
-        str += "<button type='button' data-file=\'" + obj.imageURL + "\' "
-        str += "class='btn-warning btn-sm'>X</button><br>";
-        str += "<img src='/display?fileName=" + obj.thumbnailURL + "'>";
-        str += "</div>";
-        str + "</li>";
-      });
+                    if (regex.test(fileName)) {
+                        alert("해당 종류의 파일은 업로드할 수 없습니다.");
+                        return false;
+                    }
+                    return true;
+                }
 
-      uploadUL.append(str);
-    }
+                $(".custom-file-input").on("change", function () {
 
-    $(".uploadResult ").on("click", "li button", function(e){
+                    var fileName = $(this).val().split("\\").pop();
+                    $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
 
-      console.log("delete file");
+                    var formData = new FormData();
 
-      var targetFile = $(this).data("file");
+                    var inputFile = $(this);
 
-      var targetLi = $(this).closest("li");
+                    var files = inputFile[0].files;
 
-      $.ajax({
-        url: '/removeFile',
-        data: {fileName: targetFile},
-        dataType:'text',
-        type: 'POST',
-        success: function(result){
-          alert(result);
+                    var appended = false;
 
-          targetLi.remove();
-        }
-      }); //$.ajax
-    });
+                    for (var i = 0; i < files.length; i++) {
+
+                        if (!checkExtension(files[i].name, files[i].size)) {
+                            return false;
+                        }
+
+                        console.log(files[i]);
+                        formData.append("uploadFiles", files[i]);
+                        appended = true;
+                    }
+
+                    //upload를 하지 않는다.
+                    if (!appended) {
+                        return;
+                    }
+
+                    for (var value of formData.values()) {
+                        console.log(value);
+                    }
+
+                    //실제 업로드 부분
+                    //upload ajax
+                    $.ajax({
+                        url: '/uploadAjax',
+                        processData: false,
+                        contentType: false,
+                        data: formData,
+                        type: 'POST',
+                        dataType: 'json',
+                        success: function (result) {
+                            console.log(result);
+                            showResult(result);
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            console.log(textStatus);
+                        }
+                    }); //$.ajax
+                }); //end change event
 
 
-    //prevent submit
-    $(".btn-primary").on("click", function(e) {
-      e.preventDefault();
+                function showResult(uploadResultArr) {
 
-      var str = "";
+                    var uploadUL = $(".uploadResult ul");
 
-      $(".uploadResult li").each(function(i,obj){
-        var target = $(obj);
+                    var str = "";
 
-        str += "<input type='hidden' name='imageDTOList["+i+"].imgName' value='"+target.data('name') +"'>";
+                    $(uploadResultArr).each(function (i, obj) {
 
-        str += "<input type='hidden' name='imageDTOList["+i+"].path' value='"+target.data('path')+"'>";
+                        str += "<li data-name='" + obj.fileName + "' data-path='" + obj.folderPath + "' data-uuid='" + obj.uuid + "'>";
+                        str + " <div>";
+                        str += "<button type='button' data-file=\'" + obj.imageURL + "\' "
+                        str += "class='btn-warning btn-sm'>X</button><br>";
+                        str += "<img src='/display?fileName=" + obj.thumbnailURL + "'>";
+                        str += "</div>";
+                        str + "</li>";
+                    });
 
-        str += "<input type='hidden' name='imageDTOList["+i+"].uuid' value='"+target.data('uuid')+"'>";
+                    uploadUL.append(str);
+                }
 
-      });
+                $(".uploadResult ").on("click", "li button", function (e) {
 
-      //태그들이 추가된 것을 확인한 후에 comment를 제거
-      $(".box").html(str);
+                    console.log("delete file");
 
-      $("form").submit();
+                    var targetFile = $(this).data("file");
 
-    });
+                    var targetLi = $(this).closest("li");
+
+                    $.ajax({
+                        url: '/removeFile',
+                        data: {fileName: targetFile},
+                        dataType: 'text',
+                        type: 'POST',
+                        success: function (result) {
+                            alert(result);
+
+                            targetLi.remove();
+                        }
+                    }); //$.ajax
+                });
 
 
+                //prevent submit
+                $(".btn-primary").on("click", function (e) {
+                    e.preventDefault();
 
-  }); //document ready
-</script>
-  </th:block>
+                    var str = "";
+
+                    $(".uploadResult li").each(function (i, obj) {
+                        var target = $(obj);
+
+                        str += "<input type='hidden' name='imageDTOList[" + i + "].imgName' value='" + target.data('name') + "'>";
+
+                        str += "<input type='hidden' name='imageDTOList[" + i + "].path' value='" + target.data('path') + "'>";
+
+                        str += "<input type='hidden' name='imageDTOList[" + i + "].uuid' value='" + target.data('uuid') + "'>";
+
+                    });
+
+                    //태그들이 추가된 것을 확인한 후에 comment를 제거
+                    $(".box").html(str);
+
+                    $("form").submit();
+
+                });
+
+
+            }); //document ready
+        </script>
+    </th:block>
 </th:block>
 </html>

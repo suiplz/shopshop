@@ -25,7 +25,7 @@ class OrdersItemServiceTest {
     void readOrdersInfoByMemberId() {
         PageRequestDTO pageRequestDTO = new PageRequestDTO();
 
-        PageResultDTO<OrdersItemListDTO, Object[]> listByMember = ordersItemService.getOrdersByMember(pageRequestDTO,1L);
+        PageResultDTO<OrdersItemListDTO, Object[]> listByMember = ordersItemService.getOrdersByMember(pageRequestDTO, 1L);
 
         log.info("result : " + listByMember);
     }
@@ -34,7 +34,7 @@ class OrdersItemServiceTest {
     void getManagePageByProviderIdTest() {
         PageRequestDTO pageRequestDTO = new PageRequestDTO();
 
-        PageResultDTO<OrdersItemListDTO, Object[]> listByMember = ordersItemService.getOrdersByProvider(pageRequestDTO,2L);
+        PageResultDTO<OrdersItemListDTO, Object[]> listByMember = ordersItemService.getOrdersByProvider(pageRequestDTO, 2L);
 
         log.info("result : " + listByMember);
     }

@@ -9,8 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @SpringBootTest
 class MemberServiceTest {
 
@@ -26,7 +24,7 @@ class MemberServiceTest {
     private MemberRoleRequestRepository memberRoleRequestRepository;
 
     @Test
-    void deleteRequest(){
+    void deleteRequest() {
         memberRoleRequestRepository.deleteById(3L);
     }
 

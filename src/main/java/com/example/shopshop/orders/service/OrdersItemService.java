@@ -8,7 +8,10 @@ import com.example.shopshop.member.domain.Member;
 import com.example.shopshop.orders.domain.OrdersHistory;
 import com.example.shopshop.orders.domain.OrdersItem;
 import com.example.shopshop.orders.domain.OrdersStatus;
-import com.example.shopshop.orders.dto.*;
+import com.example.shopshop.orders.dto.OrdersHistoryListDTO;
+import com.example.shopshop.orders.dto.OrdersItemDTO;
+import com.example.shopshop.orders.dto.OrdersItemListDTO;
+import com.example.shopshop.orders.dto.OrdersRegisterDTO;
 import com.example.shopshop.page.dto.PageRequestDTO;
 import com.example.shopshop.page.dto.PageResultDTO;
 
@@ -21,7 +24,7 @@ import java.util.stream.Collectors;
 
 public interface OrdersItemService {
 
-    void register(Long cartId, String impUid, int point);
+    void register(Long cartId, String impUid, int point, int grandTotal);
 
     PageResultDTO<OrdersItemListDTO, Object[]> getOrdersByMember(PageRequestDTO pageRequestDTO, Long id);
 
@@ -62,6 +65,8 @@ public interface OrdersItemService {
                     .totalPrice(ordersItemDTO.getTotalPrice())
                     .item(item)
                     .impUid(ordersItemDTO.getImpUid())
+                    .usedPoint(ordersItemDTO.getUsedPoint())
+                    .grandTotal(ordersItemDTO.getGrandTotal())
                     .build();
             return ordersItem;
         }).collect(Collectors.toList());
@@ -72,7 +77,7 @@ public interface OrdersItemService {
         return entityMap;
     }
 
-    default OrdersRegisterDTO entitiesToDTOForRegister(Long cartId, Long memberId, List<CartItem> cartItems, ItemImage itemImage, String impUid) {
+    default OrdersRegisterDTO entitiesToDTOForRegister(Long cartId, Long memberId, List<CartItem> cartItems, ItemImage itemImage, String impUid, int point, int grandTotal) {
 
         ItemImageDTO itemImageDTO = new ItemImageDTO().builder()
                 .uuid(itemImage.getUuid())
@@ -95,7 +100,9 @@ public interface OrdersItemService {
                     .memberId(memberId)
                     .totalPrice(cartItem.getAmount() * cartItem.getItem().getSalePrice())
                     .itemImage(itemImageDTO)
+                    .usedPoint(point)
                     .impUid(impUid)
+                    .grandTotal(grandTotal)
                     .ordersStatus(OrdersStatus.배송준비중)
                     .build();
 
@@ -128,7 +135,6 @@ public interface OrdersItemService {
                         .ordersStatus(ordersItem.getOrdersStatus())
                         .regDate(regDate)
                         .build();
-
 
 
 //        ordersListDTO.setOrdersItem(ordersItemDTOS);

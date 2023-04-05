@@ -50,7 +50,7 @@ public interface ItemService {
                 .sizeL(itemDTO.getSizeL())
                 .category(itemDTO.getCategory())
                 .saleRate(itemDTO.getSaleRate())
-                .salePrice(Math.round(itemDTO.getPrice() * (100 - itemDTO.getSaleRate())/100))
+                .salePrice(Math.round(itemDTO.getPrice() * (100 - itemDTO.getSaleRate()) / 100))
                 .provider(itemDTO.getProvider())
                 .build();
         entityMap.put("item", item);
@@ -71,9 +71,9 @@ public interface ItemService {
 
             entityMap.put("imgList", itemImageList);
 
-            }
-        return entityMap;
         }
+        return entityMap;
+    }
 
     default ItemDTO entitiesToDTO(Item item, List<ItemImage> itemImages, Double avgRate, Long reviewCnt, Long likesCnt) {
 
