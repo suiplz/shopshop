@@ -73,16 +73,6 @@ public class MemberController {
     }
 
 
-//    @GetMapping("/info/{id}")
-//    public String info(@PathVariable Long id, @AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
-//        if (principalDetails.isAuthenticated(id)) {
-//            MemberDTO memberDTO = memberService.get(id);
-//            model.addAttribute("dto", memberDTO);
-//            return "/member/info";
-//        }
-//        return null;
-//
-//    }
 
     @GetMapping("/modify/{id}")
     public String modify(@PathVariable Long id, @LoginCheck Member member, Model model) {
@@ -138,8 +128,4 @@ public class MemberController {
     }
 
 
-//    @PostMapping("/login")
-//    public String login(RedirectAttributes redirectAttributes) {
-//        return "redirect:/item/list";
-//    }
 }

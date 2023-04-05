@@ -12,21 +12,6 @@ import java.util.List;
 
 public interface ItemRepository extends JpaRepository<Item, Long> {
 
-//    @EntityGraph(attributePaths = {"provider"}, type = EntityGraph.EntityGraphType.FETCH)
-//    @Query("SELECT i, ii FROM Item i " +
-//            "LEFT OUTER JOIN ItemImage ii on ii.item = i " +
-//            "GROUP BY i.id")
-//    Page<Object[]> getListPage(Pageable pageable);
-
-
-//    @EntityGraph(attributePaths = {"provider"}, type = EntityGraph.EntityGraphType.FETCH)
-//    @Query("SELECT i, ii, avg(coalesce(r.grade, 0)), count(r) FROM Item i " +
-//            "LEFT OUTER JOIN ItemImage ii on ii.item = i " +
-//            "LEFT OUTER JOIN Review r on r.item = i " +
-//            "WHERE i.id = :id")
-//    List<Object[]> getItemDetail(@Param("id") Long id);
-//    @EntityGraph(attributePaths = {"provider"}, type = EntityGraph.EntityGraphType.FETCH)
-
     @Query("SELECT i, ii, avg(coalesce(r.grade, 0)), count(r), count(l) FROM Item i " +
             "LEFT OUTER JOIN ItemImage ii on ii.item = i " +
             "LEFT OUTER JOIN Review r on r.item = i " +
@@ -103,24 +88,5 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
             "LEFT OUTER JOIN Likes l ON l.item.id = i.id " +
             "WHERE i.id = :itemId")
     Long getLikesCountByItemId(@Param("itemId") Long itemId);
-
-    @EntityGraph(attributePaths = {"category"}, type = EntityGraph.EntityGraphType.FETCH)
-    @Query("SELECT i from Item i " +
-            "INNER JOIN Category c ON c.id = i.category.id " +
-            "WHERE c.gender = :gender")
-    List<Item> getItemByGender(@Param("gender") String gender);
-
-    @EntityGraph(attributePaths = {"category"}, type = EntityGraph.EntityGraphType.FETCH)
-    @Query("SELECT i from Item i " +
-            "INNER JOIN Category c ON c.id = i.category.id " +
-            "WHERE c.season = :season")
-    List<Item> getItemBySeason(@Param("season") String season);
-
-    @EntityGraph(attributePaths = {"category"}, type = EntityGraph.EntityGraphType.FETCH)
-    @Query("SELECT i from Item i " +
-            "INNER JOIN Category c ON c.id = i.category.id " +
-            "WHERE c.clothType = :clothType")
-    List<Item> getItemByClothType(@Param("clothType") String clothType);
-
 
 }

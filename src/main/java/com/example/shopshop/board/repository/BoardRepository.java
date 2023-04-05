@@ -22,22 +22,11 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
             "GROUP BY b.id")
     Page<Object[]> findListByItemId(Pageable pageable, @Param("itemId") Long itemId);
 
-
-    //    @EntityGraph(attributePaths = {"comment"}, type = EntityGraph.EntityGraphType.FETCH)
     @Query("SELECT b.id, b.title, b.content, m.email, c FROM Board b " +
             "INNER JOIN Member m on b.member.id = m.id " +
             "LEFT OUTER JOIN Comment c on c.board.id = b.id " +
             "LEFT OUTER JOIN FETCH c.member " +
             "WHERE b.id = :boardId")
     List<Object[]> getBoardById(@Param("boardId") Long boardId);
-
-//
-//    @Query("SELECT c, ci, i.id, i.itemName, i.price, ii FROM Cart c " +
-//            "INNER JOIN CartItem ci ON ci.cart = c " +
-//            "INNER JOIN Item i ON i.id = ci.item.id " +
-//            "INNER JOIN ItemImage ii ON ii.item.id = ci.item.id " +
-//            "WHERE c.buyer.id = :memberId " +
-//            "GROUP BY ci.id")
-//    Page<Object[]> getCartByMemberId(Pageable pageable, @Param("memberId") Long memberId);
 
 }

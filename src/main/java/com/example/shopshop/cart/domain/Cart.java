@@ -18,9 +18,6 @@ public class Cart extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
-//    @Builder.Default
-//    private List<CartItem> cartItems = new ArrayList<>();
 
 
     @OneToOne(fetch = FetchType.LAZY)
@@ -28,11 +25,6 @@ public class Cart extends BaseEntity {
     private Member buyer;
 
     private Integer totalPrice;
-
-//    public void setCartItems(CartItem cartItem) {
-//        this.cartItems.add(cartItem);
-//        cartItem.setCart(this);
-//    }
 
     public void setTotalPrice(Integer totalPrice) {
         if (this.totalPrice == null) {

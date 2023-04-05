@@ -17,41 +17,12 @@ public interface CartService {
 
     void register(Member member, Long ItemId, CartItemDTO cartItemDTO) throws Exception;
 
-//    void register(Member member, CartItemDTO cartItemDTO) throws Exception;
-
     PageResultDTO<CartItemListDTO, Object[]> getCartByMember(PageRequestDTO pageRequestDTO, Long memberId);
 
     Cart findByMemberId(Long memberId);
 
     void modify(Long cartItemId, CartItemModifyDTO cartModifyDTO) throws Exception;
 
-
-//    default Map<String, Object> dtoToEntity(CartDTO cartDTO) {
-//        Map<String, Object> entityMap = new HashMap<>();
-//
-//        Cart cart = Cart.builder()
-//                .buyer(cartDTO.getBuyer())
-//                .build();
-//        entityMap.put("cart", cart);
-//
-////        List<CartItemDTO> cartItemDTOList = cartDTO.getCartItemListDTOS();
-//
-//        if (cartItemDTOList != null && cartItemDTOList.size() > 0 ) {
-//            List<CartItem> cartItemList = cartItemDTOList.stream().map(cartItemDTO -> {
-//                CartItem cartItem = CartItem.builder()
-//                        .item(Item.builder().id(cartItemDTO.getItemId()).build())
-//                        .amount(cartItemDTO.getAmount())
-//                        .size(cartItemDTO.getSize())
-//                        .cart(cart)
-//                        .build();
-//                return cartItem;
-//            }).collect(Collectors.toList());
-//
-//            entityMap.put("cartItemList", cartItemList);
-//        }
-
-//        return entityMap;
-//    }
 
 
     default CartItemListDTO entitiesToDTO(Cart cart, CartItem cartItem, Long itemId, String itemName, int itemPrice, int salePrice, ItemImage itemImage) {
@@ -81,9 +52,6 @@ public interface CartService {
                         .itemImage(itemImageDTO)
                         .build();
 
-//        cartDTO.setCartItemListDTOS(cartItemListDTO);
-
-//        cartDTO.setItemImage(itemImage);
 
         return cartItemListDTO;
     }

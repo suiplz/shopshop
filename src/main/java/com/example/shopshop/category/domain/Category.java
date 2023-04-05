@@ -20,14 +20,6 @@ public class Category extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //    @Enumerated(EnumType.STRING)
-//    private ClothType clothType;
-//
-//    @Enumerated(EnumType.STRING)
-//    private Season season;
-//
-//    @Enumerated(EnumType.STRING)
-//    private Gender gender;
     private String clothType;
 
     private String season;

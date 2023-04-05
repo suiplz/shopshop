@@ -65,13 +65,7 @@ public class Member extends BaseEntity {
         this.point -= point;
     }
 
-    //    @Enumerated(EnumType.STRING)
-//    private MemberRole role;
-//
-//    public MemberRole setMemberRole(MemberRole memberRole) {
-//        this.role = memberRole;
-//        return this.role;
-//    }
+
     public String setMemberRole(String memberRole) {
         this.role = memberRole;
         return this.role;

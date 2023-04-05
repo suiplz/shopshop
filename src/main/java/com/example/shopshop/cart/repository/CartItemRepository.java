@@ -21,9 +21,4 @@ public interface CartItemRepository extends JpaRepository<CartItem, Long> {
     CartItem findCartItemByComp(@Param("cartId") Long cartId, @Param("itemId") Long itemId, @Param("dtoSize") String dtoSize);
 
 
-    @Transactional
-    @Modifying
-    @Query("UPDATE CartItem ci set ci.size = :size, ci.amount = :amount WHERE ci.id = :id")
-    void updateCartItem(@Param("id") Long id, @Param("size") String size, @Param("amount") int amount);
-
 }

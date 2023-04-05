@@ -47,16 +47,11 @@ public class Item extends BaseEntity {
 
     private Integer salePrice;
 
-//    private List<String> imageUrl = new ArrayList<>();
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     @JsonIgnore
     private Member provider;
-
-
-//    private int reviewCnt;
-    //    private ItemImage itemImage;
 
     public void changeItem(String itemName, Integer price, Integer sizeS, Integer sizeM, Integer sizeL, Integer saleRate, Integer salePrice) {
         this.itemName = itemName;
