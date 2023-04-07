@@ -24,25 +24,20 @@ public class Item extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
+    @Column(unique = true)
     private String itemName;
 
-    @NotNull
     private Integer price;
 
-    @NotNull
     private Integer sizeS;
 
-    @NotNull
     private Integer sizeM;
 
-    @NotNull
     private Integer sizeL;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Category category;
 
-    @NotNull
     private Integer saleRate;
 
     private Integer salePrice;

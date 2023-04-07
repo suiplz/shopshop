@@ -14,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -27,9 +29,10 @@ public class BoardController {
     private final ItemService itemService;
 
     @GetMapping("/register/{itemId}")
-    public String register(@LoginCheck Member member, @PathVariable Long itemId) {
+    public String register(@LoginCheck Member member, @PathVariable Long itemId, Model model) {
 
         if (member != null) {
+            model.addAttribute("boardDTO", new BoardDTO());
             return "board/register";
         }
 
@@ -39,12 +42,19 @@ public class BoardController {
 
 
     @PostMapping("/register/{itemId}")
-    public String register(@ModelAttribute BoardDTO boardDTO, @LoginCheck Member member, @PathVariable Long itemId, Model model) {
+    public String register(@Validated @ModelAttribute BoardDTO boardDTO, BindingResult bindingResult, @LoginCheck Member member, @PathVariable Long itemId, Model model) {
 
         if (member != null) {
             Long memberId = member.getId();
             boardDTO.setMemberId(memberId);
             boardDTO.setItemId(itemId);
+
+            if (bindingResult.hasErrors()) {
+                log.info("errors = {} ", bindingResult);
+
+                model.addAttribute("boardDTO", boardDTO); // 다시 폼으로 돌아갈 때 기존에 입력한 데이터를 유지하기 위해
+                return "board/register";
+            }
             Long result = boardService.register(boardDTO);
             model.addAttribute("itemId", itemId);
             return "redirect:/board/boardList/" + itemId;

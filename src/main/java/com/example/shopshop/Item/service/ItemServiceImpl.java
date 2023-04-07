@@ -6,6 +6,7 @@ import com.example.shopshop.Item.dto.ItemDTO;
 import com.example.shopshop.Item.dto.ItemModifyDTO;
 import com.example.shopshop.Item.repository.ItemImageRepository;
 import com.example.shopshop.Item.repository.ItemRepository;
+import com.example.shopshop.category.repository.CategoryRepository;
 import com.example.shopshop.likes.repository.LikesRepository;
 import com.example.shopshop.page.dto.PageRequestDTO;
 import com.example.shopshop.page.dto.PageResultDTO;
@@ -26,6 +27,8 @@ import java.util.function.Function;
 public class ItemServiceImpl implements ItemService {
 
     private final ItemRepository itemRepository;
+
+    private final CategoryRepository categoryRepository;
 
     private final ItemImageRepository itemImageRepository;
 
@@ -155,13 +158,12 @@ public class ItemServiceImpl implements ItemService {
     @Transactional
     @Override
     public void modify(ItemModifyDTO dto) {
-        Optional<Item> result = itemRepository.findById(dto.getId());
-        if (result.isPresent()) {
-            Item item = result.get();
-            int salePrice = Math.round(dto.getPrice() * (100 - dto.getSaleRate()) / 100);
-            item.changeItem(dto.getItemName(), dto.getPrice(), dto.getSizeS(), dto.getSizeM(), dto.getSizeL(), dto.getSaleRate(), salePrice);
-            itemRepository.save(item);
-        }
+
+        Item item = itemRepository.findById(dto.getId()).orElseThrow(() -> new IllegalArgumentException());
+
+        int salePrice = Math.round(dto.getPrice() * (100 - dto.getSaleRate()) / 100);
+        item.changeItem(dto.getItemName(), dto.getPrice(), dto.getSizeS(), dto.getSizeM(), dto.getSizeL(), dto.getSaleRate(), salePrice);
+        itemRepository.save(item);
 
     }
 

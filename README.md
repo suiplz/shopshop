@@ -96,7 +96,23 @@ a완료 6 6 3 -> 6 3 2
 
 포인트 적용한 결제, 환불 완료
 
-# CRUD / Tesgt
+구현은 전부 완료
+etc, exception, handler 확인
+@Validation member, item에만 적용하면 될 것
+에러 메시지
+보안 로직
+배포
+더 구현필요한 것 있는지 찾아보기
+코드 획일화하기 
+1 Optional<Item> item = itemRepository.findById(itemId)
+  Item item = itemRepository.findById(itemId).orElseThrow(() -> new IllegalArgumentsException());
+2 @LoginCheck
+3 Exception 처리 확실하게 하기 SpringSecurity 권한 OR error-page OR 공통 Exception handler
+@Validation을 DAO 아닌 DTO에 설정하는것으로 변경
+@Logincheck interceptor로 처리
+
+
+# CRUD / Test
 
 ### USER
 

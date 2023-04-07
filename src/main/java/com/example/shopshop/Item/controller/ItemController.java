@@ -58,16 +58,18 @@ public class ItemController {
         if (member != null) {
             Category category = categoryService.getCategory(gender, season, clothType);
             itemDTO.setCategory(category);
+            log.info("category : " + category);
             itemDTO.setProvider(member);
-
-            Long itemId = itemService.register(itemDTO);
-
 
             //검증에 실패하면 다시 입력 폼으로
             if (bindingResult.hasErrors()) {
                 log.info("errors = {} ", bindingResult);
-                return "item/list";
+                categoryAttribute(model);
+                return "item/register";
             }
+
+            Long itemId = itemService.register(itemDTO);
+
 //        redirectAttributes.addFlashAttribute("itemDTO", itemId);
             redirectAttributes.addFlashAttribute("itemId", itemId);
             redirectAttributes.addFlashAttribute("status", true);

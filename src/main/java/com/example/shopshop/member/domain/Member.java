@@ -20,20 +20,15 @@ public class Member extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
     @Column(unique = true)
     private String email;
 
-    @NotBlank
     private String password;
 
-    @NotBlank
     private String name;
 
-    @NotBlank
     private String phone;
 
-    @NotBlank
     private String address;
 
     private String role;

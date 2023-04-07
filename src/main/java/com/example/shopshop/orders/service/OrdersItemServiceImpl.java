@@ -58,11 +58,11 @@ public class OrdersItemServiceImpl implements OrdersItemService {
     @Transactional
     @Override
     public void register(Long cartId, String impUid, int point, int grandTotal) {
+
         List<Object[]> result = cartRepository.findCartByCartId(cartId);
         Long memberId = (Long) result.get(0)[1];
 
-        Optional<Member> memberOptional = memberRepository.findById(memberId);
-        Member member = memberOptional.get();
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException());
         member.reducePoint(point);
         memberRepository.save(member);
 

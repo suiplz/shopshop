@@ -4,6 +4,12 @@
 <th:block th:replace="~{/layout/listLayout.html :: setContent(~{this::content} )}">
     <th:block th:fragment="content">
 
+        <style>
+            .field-error {
+                border-color: #dc3545;
+                color: #dc3545;
+            }
+        </style>
         <title>Signin Template · Bootstrap v5.2</title>
 
         <link href="https://getbootstrap.com/docs/5.2/examples/sign-in/" rel="canonical">
@@ -16,36 +22,45 @@
             <!--    <img class="mb-4" src="../assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">-->
             <h1 class="h3 mb-3 fw-normal">회원가입 페이지</h1>
 
-            <form th:action="@{/member/signup}" th:method="post">
-                <div class="form-floating" id="form-email">
-                    <input class="form-control" id="floatingEmail" name="email" placeholder="name@example.com"
-                           type="email">
-                    <label for="floatingEmail">회원 ID (이메일)</label>
+            <form th:action="@{/member/signup}" th:method="post" th:object="${signupDTO}">
+                <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">글로벌 오류 메시지</p>
+
+                <div class="form-group" id="form-email">
+                    <label for="form-email">회원 ID (이메일)</label>
+                    <input class="form-control" id="email" name="email" placeholder="name@example.com" type="text" th:errorclass="field-error" th:field="*{email}">
+                    <div class="field-error" th:errors="*{email}">상품 오류</div>
                 </div>
-                <div class="form-floating">
-                    <input class="form-control" id="floatingPassword" name="password" placeholder="Password"
-                           type="password">
-                    <label for="floatingPassword">비밀번호</label>
+                <div class="form-group" id="form-password">
+                    <label for="form-password">비밀번호</label>
+                    <input class="form-control" id="password" name="password" placeholder="Password" type="password" th:errorclass="field-error" th:field="*{password}">
+                    <div class="field-error" th:errors="*{password}">상품 오류</div>
                 </div>
 
-                <div class="form-floating">
-                    <input class="form-control" id="floatingPasswordCheck" name="passwordCheck" placeholder="PasswordCheck"
-                           type="password">
-                    <label for="floatingPasswordCheck">비밀번호 체크</label>
+                <div class="form-group" id="form-passwordCheck">
+                    <label for="form-passwordCheck">비밀번호 확인</label>
+                    <input class="form-control" id="passwordCheck" name="password" placeholder="passwordCheck" type="password" th:errorclass="field-error" th:field="*{passwordCheck}">
+                    <div class="field-error" th:errors="*{passwordCheck}">패스워드와 일치하지 않습니다.</div>
                 </div>
 
-                <div class="form-floating">
-                    <input class="form-control" id="floatingName" name="name" placeholder="Name" type="text">
-                    <label for="floatingName">이름</label>
+
+
+                <div class="form-group" id="form-name">
+                    <label for="form-passwordCheck">이름</label>
+                    <input class="form-control" id="name" name="name" placeholder="name" type="text" th:errorclass="field-error" th:field="*{name}">
+                    <div class="field-error" th:errors="*{name}">상품 오류</div>
                 </div>
-                <div class="form-floating">
-                    <input class="form-control" id="floatingPhone" name="phone" placeholder="Phone" type="text">
-                    <label for="floatingPhone">전화번호</label>
+
+                <div class="form-group" id="form-phone">
+                    <label for="form-passwordCheck">전화번호</label>
+                    <input class="form-control" id="phone" name="phone" placeholder="phone" type="text" th:errorclass="field-error" th:field="*{phone}">
+                    <div class="field-error" th:errors="*{phone}">상품 오류</div>
                 </div>
-                <div class="form-floating">
-                    <input class="form-control" id="floatingAddress" name="address" placeholder="Address" type="text">
-                    <label for="floatingAddress">주소</label>
+                <div class="form-group" id="form-address">
+                    <label for="form-passwordCheck">주소</label>
+                    <input class="form-control" id="address" name="address" placeholder="address" type="text" th:errorclass="field-error" th:field="*{address}">
+                    <div class="field-error" th:errors="*{address}">상품 오류</div>
                 </div>
+
                 <div class="form-group m-0">
                     <button class="btn btn-primary" type="button">회원가입</button>
                 </div>

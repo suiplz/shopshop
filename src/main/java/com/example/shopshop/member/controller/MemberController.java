@@ -1,5 +1,6 @@
 package com.example.shopshop.member.controller;
 
+import com.example.shopshop.Item.dto.ItemDTO;
 import com.example.shopshop.aop.annotation.LoginCheck;
 import com.example.shopshop.member.domain.Member;
 import com.example.shopshop.member.domain.MemberRole;
@@ -14,6 +15,8 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -30,12 +33,18 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping("/signup")
-    public void signup() {
+    public void signup(Model model) {
+        model.addAttribute("signupDTO", new SignupDTO());
 
     }
 
     @PostMapping("/signup")
-    public String signup(@ModelAttribute("signupDTO") SignupDTO signupDTO, RedirectAttributes redirectAttributes) {
+    public String signup(@Validated @ModelAttribute("signupDTO") SignupDTO signupDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+
+        if (bindingResult.hasErrors()) {
+            log.info("errors = {} ", bindingResult);
+            return "member/signup";
+        }
 
         Long register = memberService.register(signupDTO);
         redirectAttributes.addFlashAttribute("signupDTO", register);

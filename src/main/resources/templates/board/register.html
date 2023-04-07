@@ -9,6 +9,11 @@
             <title>Title</title>
         </head>
         <style>
+            .field-error {
+                border-color: #dc3545;
+                color: #dc3545;
+            }
+
             .text-bg-info {
                 margin-top: 2em;
                 margin-left: 5em;
@@ -34,14 +39,19 @@
 
             <h5 class="text-bg-info">Q&A 작성</h5>
 
-            <div class="form-group">
-                <label>제목</label>
-                <input class="form-control" name="title" type="text">
+            <div th:if="${#fields.hasGlobalErrors()}">
+                <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">글로벌 오류 메시지</p>
             </div>
 
             <div class="form-group">
+                <label>제목</label>
+                <input class="form-control" name="title" th:errorclass="field-error" th:field="*{title}" type="text">
+                <div class="field-error" th:errors="*{title}">상품 오류</div>
+            </div>
+            <div class="form-group">
                 <label>내용</label>
-                <textarea class="form-control" name="content" th:rows="6"></textarea>
+                <textarea class="form-control" name="content" th:errorclass="field-error" th:field="*{content}" type="text" th:rows="6"></textarea>
+                <div class="field-error" th:errors="*{content}">상품 오류</div>
             </div>
 
             <div class="form-group" style="display: flex; justify-content: flex-end;">
