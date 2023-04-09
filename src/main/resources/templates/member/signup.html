@@ -28,12 +28,26 @@
                 <div class="form-group" id="form-email">
                     <label for="form-email">회원 ID (이메일)</label>
                     <input class="form-control" id="email" name="email" placeholder="name@example.com" type="text" th:errorclass="field-error" th:field="*{email}">
-                    <div class="field-error" th:errors="*{email}">상품 오류</div>
+                    <div class="field-error" th:errors="*{email}">이메일오류</div>
                 </div>
+                <span>
+                    <button id="sendCheckNumBtn" type="button">인증번호 보내기</button>
+                </span>
+
+                <div class="form-group" id="form-emailCheck">
+                    <label for="form-email">이메일 인증번호</label>
+                    <input class="form-control" id="emailCheck" name="emailCheck"  type="text" th:errorclass="field-error" th:field="*{emailCheck}">
+                    <div class="field-error" th:errors="*{emailCheck}">이메일오류</div>
+                </div>
+
+                <span>
+                    <button id="checkNumCheckBtn" type="button">인증번호 확인</button>
+                </span>
+
                 <div class="form-group" id="form-password">
                     <label for="form-password">비밀번호</label>
                     <input class="form-control" id="password" name="password" placeholder="Password" type="password" th:errorclass="field-error" th:field="*{password}">
-                    <div class="field-error" th:errors="*{password}">상품 오류</div>
+                    <div class="field-error" th:errors="*{password}">패스워드 오류</div>
                 </div>
 
                 <div class="form-group" id="form-passwordCheck">
@@ -47,22 +61,22 @@
                 <div class="form-group" id="form-name">
                     <label for="form-passwordCheck">이름</label>
                     <input class="form-control" id="name" name="name" placeholder="name" type="text" th:errorclass="field-error" th:field="*{name}">
-                    <div class="field-error" th:errors="*{name}">상품 오류</div>
+                    <div class="field-error" th:errors="*{name}">이름 오류</div>
                 </div>
 
                 <div class="form-group" id="form-phone">
                     <label for="form-passwordCheck">전화번호</label>
                     <input class="form-control" id="phone" name="phone" placeholder="phone" type="text" th:errorclass="field-error" th:field="*{phone}">
-                    <div class="field-error" th:errors="*{phone}">상품 오류</div>
+                    <div class="field-error" th:errors="*{phone}">전화번호 오류</div>
                 </div>
                 <div class="form-group" id="form-address">
                     <label for="form-passwordCheck">주소</label>
                     <input class="form-control" id="address" name="address" placeholder="address" type="text" th:errorclass="field-error" th:field="*{address}">
-                    <div class="field-error" th:errors="*{address}">상품 오류</div>
+                    <div class="field-error" th:errors="*{address}">주소 오류</div>
                 </div>
 
                 <div class="form-group m-0">
-                    <button class="btn btn-primary" type="button">회원가입</button>
+                    <button class="btn btn-primary signupSubmitBtn" type="button">회원가입</button>
                 </div>
             </form>
 
@@ -106,13 +120,47 @@
             }
 
         </style>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
         <script>
-            $(document).ready(function (e) {
-                $(".btn-primary").on("click", function (e) {
-                    e.preventDefault();
+            $(document).ready(function () {
+                $("#sendCheckNumBtn").on("click", function () {
+                    var email = $("#email").val();
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/api/email/emailCheck",
+                        data: JSON.stringify(email),
+                        contentType: "application/json; charset=utf-8"
+                    }).done(function (response) {
+                        alert("해당 이메일에 인증번호를 전송했습니다.");
+                        window.emailCheckNumber = response;
+
+                    }).fail(function () {
+                        alert("메일 전송에 실패했습니다.");
+                    });
+                });
+                $("#checkNumCheckBtn").on("click", function () {
+                    window.numberCheck = false;
+                    var inputNum = $("#emailCheck").val();
+
+                    if (inputNum == emailCheckNumber) {
+                        window.numberCheck = true;
+                    }
+
+
+                });
+
+                $(".signupSubmitBtn").on("click", function () {
+                    if (numberCheck == true){
                     $("form").submit();
+                }
+                    else{
+                        alert("인증번호가 틀렸습니다.");
+                    }
                 });
             });
+
 
         </script>
 

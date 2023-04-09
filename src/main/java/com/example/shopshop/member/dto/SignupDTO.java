@@ -16,6 +16,9 @@ public class SignupDTO {
     @NotEmpty(message = "유효하지 않은 이메일입니다.")
     private String email;
 
+    @NotEmpty(message = "인증번호를 입력해주세요.")
+    private String emailCheck;
+
     @NotNull(message = "패스워드를 입력해주세요")
     @Size(min = 3, max =20, message = "3자에서 20자까지 가능합니다.")
     private String password;

@@ -111,6 +111,19 @@ etc, exception, handler 확인
 @Validation을 DAO 아닌 DTO에 설정하는것으로 변경
 @Logincheck interceptor로 처리
 
+domain
+쿠폰, 주소 api, 이메일 보내기?
+
+이메일 구현 완료
+회원 가입시 -> 이메일 입력창 밑 버튼
+랜덤 문자열 -> 이메일로 보내기
+밑에 문자열 작성창에서 비교 후 맞으면 로직 실행 아니면 취소
+
+비밀 번호 찾기 ->
+이메일 입력하면 이메일로 랜덤한 문자열을 비밀번호로 설정
+
+사이즈표 이미지, 기본설명 이미지 만들어서 백엔드단에서 item Register시 default로 이미지 저장
+
 
 # CRUD / Test
 

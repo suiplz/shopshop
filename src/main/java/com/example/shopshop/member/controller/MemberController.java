@@ -1,12 +1,12 @@
 package com.example.shopshop.member.controller;
 
-import com.example.shopshop.Item.dto.ItemDTO;
 import com.example.shopshop.aop.annotation.LoginCheck;
 import com.example.shopshop.member.domain.Member;
 import com.example.shopshop.member.domain.MemberRole;
 import com.example.shopshop.member.dto.MemberDTO;
 import com.example.shopshop.member.dto.MemberRoleRequestDTO;
 import com.example.shopshop.member.dto.SignupDTO;
+import com.example.shopshop.member.dto.SignupMailDTO;
 import com.example.shopshop.member.service.MemberService;
 import com.example.shopshop.page.dto.PageRequestDTO;
 import com.example.shopshop.page.dto.PageResultDTO;
@@ -20,9 +20,11 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 @Controller
 @RequestMapping("/member")
@@ -52,6 +54,7 @@ public class MemberController {
 
         return "redirect:/item/list";
     }
+
 
     @GetMapping("/login")
     public String login(HttpServletRequest request) {

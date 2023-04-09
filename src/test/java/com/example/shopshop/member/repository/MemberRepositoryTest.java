@@ -60,4 +60,9 @@ class MemberRepositoryTest {
         memberRepository.save(member);
     }
 
+
+    @Test
+    void memberRemove(){
+        memberRepository.deleteById(8L);
+    }
 }

@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.Random;
 import java.util.function.Function;
 
 @Service
@@ -36,6 +37,15 @@ public class MemberServiceImpl implements MemberService {
             String rawPassword = signupDTO.getPassword();
             String encPassword = passwordEncoder.encode(rawPassword);
             signupDTO.setPassword(encPassword);
+
+//            Random random = new Random();
+//            StringBuilder sb = new StringBuilder();
+//
+//            for (int i = 0; i < 5; i++) {
+//                sb.append(CHARACTERS.charAt(random.nextInt(CHARACTERS.length())));
+//            }
+//            String randomString = sb.toString();
+
 
             MemberDTO memberDTO = signupDTO.toEntity();
             Member member = dtoToEntity(memberDTO);
