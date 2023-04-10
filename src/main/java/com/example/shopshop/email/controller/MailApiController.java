@@ -20,13 +20,24 @@ import java.util.Random;
 public class MailApiController {
 
     private final MailService mailService;
+
     @PostMapping("/emailCheck")
     public ResponseEntity<String> emailCheck(@RequestBody String email) throws MessagingException {
 
         Random random = new Random();
         Integer emailCheckNumber  = random.nextInt(888888) + 111111;
         String body = "인증번호는 " +  emailCheckNumber + " 입니다.";
-        mailService.sendEmail(email, "shopshop 회원가입 인증번호", body);
+        mailService.sendEmail(email, "shopshop 인증번호", body);
         return ResponseEntity.ok().body(emailCheckNumber.toString());
+    }
+
+    @PostMapping("/newPassword")
+    public ResponseEntity<String> newPassword(@RequestBody String email) throws MessagingException {
+
+        Random random = new Random();
+        Integer newPassword  = random.nextInt(88888888) + 11111111;
+        String body = "새 비밀번호는 " +  newPassword + " 입니다. 로그인 후 바로 변경해주세요";
+        mailService.sendEmail(email, "shopshop 새 비밀번호", body);
+        return ResponseEntity.ok().body(newPassword.toString());
     }
 }

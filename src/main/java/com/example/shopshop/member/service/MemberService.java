@@ -23,6 +23,8 @@ public interface MemberService {
 
     void applyMemberRole(Long id, String memberRole);
 
+    void makeNewPassword(String email, String newPassword);
+
     PageResultDTO<MemberRoleRequestDTO, Object[]> getRequestMemberRoleList(PageRequestDTO requestDTO);
 
 

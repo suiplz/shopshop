@@ -24,6 +24,7 @@ import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 @Controller
@@ -137,6 +138,19 @@ public class MemberController {
 
         return "/member/memberRoleManage";
 
+    }
+
+    @GetMapping("/makeNewPassword")
+    public void makeNewPassword(){
+
+    }
+
+    @PostMapping("/makeNewPassword")
+    public void makeNewPassword(@RequestBody Map<String, Object> requestData){
+
+        String email = requestData.get("email").toString();
+        String newPassword = requestData.get("newPassword").toString();
+        memberService.makeNewPassword(email, newPassword);
     }
 
 

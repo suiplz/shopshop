@@ -35,7 +35,7 @@
                 </span>
 
                 <div class="form-group" id="form-emailCheck">
-                    <label for="form-email">이메일 인증번호</label>
+                    <label for="form-emailCheck">이메일 인증번호</label>
                     <input class="form-control" id="emailCheck" name="emailCheck"  type="text" th:errorclass="field-error" th:field="*{emailCheck}">
                     <div class="field-error" th:errors="*{emailCheck}">이메일오류</div>
                 </div>
@@ -146,13 +146,17 @@
 
                     if (inputNum == emailCheckNumber) {
                         window.numberCheck = true;
+                        alert("인증이 완료되었습니다.");
+                    }
+                    else {
+                        alert("인증번호가 틀렸습니다.")
                     }
 
 
                 });
 
                 $(".signupSubmitBtn").on("click", function () {
-                    if (numberCheck == true){
+                    if (window.numberCheck == true){
                     $("form").submit();
                 }
                     else{

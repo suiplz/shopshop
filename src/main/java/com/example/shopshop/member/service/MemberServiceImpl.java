@@ -135,5 +135,14 @@ public class MemberServiceImpl implements MemberService {
 
         memberRepository.deleteById(id);
     }
+
+    @Override
+    public void makeNewPassword(String email, String newPassword) {
+        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException());
+        String encPassword = passwordEncoder.encode(newPassword);
+        member.changePassword(encPassword);
+        memberRepository.save(member);
+
+    }
 }
 
