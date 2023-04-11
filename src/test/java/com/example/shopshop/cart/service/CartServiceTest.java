@@ -39,7 +39,9 @@ class CartServiceTest {
                 .id(memberDTO.getId())
                 .email(memberDTO.getEmail())
                 .password(memberDTO.getPassword())
-                .address(memberDTO.getAddress())
+                .address1(memberDTO.getAddress1())
+                .address2(memberDTO.getAddress2())
+                .address3(memberDTO.getAddress3())
                 .phone(memberDTO.getPhone())
                 .name(memberDTO.getName())
                 .build();

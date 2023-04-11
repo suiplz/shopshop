@@ -63,6 +63,8 @@ class MemberRepositoryTest {
 
     @Test
     void memberRemove(){
-        memberRepository.deleteById(8L);
+
+        Member member = memberRepository.findByEmail("spade231@naver.com").orElseThrow(() -> new IllegalArgumentException());
+        memberRepository.deleteById(member.getId());
     }
 }

@@ -15,43 +15,37 @@
             <div style="margin-top : 40px; margin-bottom: 30px;">
                 <h2> 역대 주문 내역 </h2>
             </div>
-            <table class="table table-primary">
-                <thead>
-                <tr>
-                    <th scope="col">상품 이미지</th>
-                    <th scope="col">상품 이름</th>
-                    <th scope="col">가격</th>
-                    <th scope="col">사이즈</th>
-                    <th scope="col">주문 숫자</th>
-                    <th scope="col">총액</th>
-                    <th scope="col">배송</th>
-                    <th scope="col">주문날짜</th>
+            <div class="row">
+                <div class="col-md-3">상품 이미지</div>
+                <div class="col-md-2">상품 이름</div>
+                <div class="col-md-1">가격</div>
+                <div class="col-md-1">사이즈</div>
+                <div class="col-md-1">주문 숫자</div>
+                <div class="col-md-1">총액</div>
+                <div class="col-md-2">배송</div>
+                <div class="col-md-1">주문날짜</div>
+            </div>
 
-                </tr>
-                </thead>
-
-                <tbody>
-                <tr th:each="dto : ${result.dtoList}">
-                    <td><img height="100px"
-                             th:if="${dto.itemImage != null && dto.itemImage.path != null}"
-                             th:src="|/display?fileName=${dto.itemImage.getThumbnailURL()}|" title="image" width="80px"/></td>
-                    <!--    <td th:text="${dto.itemName}"></td>-->
-                    <!--    <td><a th:href="@{/item/read/{itemId}(itemId=${dto.getItemId})}">[[${dto.itemName}]]</a></td>-->
-                    <td><a th:href="@{/item/read(id=${dto.itemId})}">[[${dto.itemName}]]</a></td>
-                    <td th:text="${dto.ordersPrice}"></td>
-                    <td th:text="${dto.size}"></td>
-                    <td th:text="${dto.ordersCount}"></td>
-                    <td id="totalPrice" th:text="${dto.totalPrice}"></td>
-                    <td th:text="${dto.ordersStatus}"></td>
-                    <td th:text="${#temporals.format(dto.regDate, 'yyyy/MM/dd  HH:mm')}"></td>
-
-                </tr>
-                </tbody>
-            </table>
+            <div th:each="dto : ${result.dtoList}">
+                <div class="row mt-2 mb-2">
+                    <div class="col-md-3">
+                        <img th:if="${dto.itemImage != null && dto.itemImage.path != null}"
+                             th:src="|/display?fileName=${dto.itemImage.getThumbnailURL()}|" title="image"
+                             width="120px" height="160px">
+                    </div>
+                    <div class="col-md-2">
+                        <a th:href="@{/item/read(id=${dto.itemId})}" th:text="${dto.itemName}"></a>
+                    </div>
+                    <div class="col-md-1" th:text="${dto.ordersPrice}"></div>
+                    <div class="col-md-1" th:text="${dto.size}"></div>
+                    <div class="col-md-1" th:text="${dto.ordersCount}"></div>
+                    <div class="col-md-1" th:text="${dto.totalPrice}"></div>
+                    <div class="col-md-2" th:text="${dto.ordersStatus}"></div>
+                    <div class="col-md-1" th:text="${#temporals.format(dto.regDate, 'yyyy/MM/dd  HH:mm')}"></div>
+                </div>
+            </div>
         </div>
 
-        <script>
-        </script>
         </body>
 
     </th:block>

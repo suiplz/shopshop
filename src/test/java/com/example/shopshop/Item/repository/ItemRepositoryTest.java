@@ -35,8 +35,7 @@ class ItemRepositoryTest {
     void insertItem() {
 
         IntStream.rangeClosed(1, 100).forEach(i -> {
-            Optional<Member> result = memberRepository.findById((long) i);
-            Member member = result.get();
+            Member member = memberRepository.findById((long) i).orElseThrow(() -> new IllegalArgumentException());
             Item item = Item.builder()
                     .itemName("itemName" + i)
                     .price(10 * i)
@@ -87,8 +86,8 @@ class ItemRepositoryTest {
     void getByMember() {
 
         IntStream.rangeClosed(1, 10).forEach(i -> {
-            Optional<Member> result = memberRepository.findById(1L);
-            Member member = result.get();
+            Member member = memberRepository.findById(1L).orElseThrow(() -> new IllegalArgumentException());
+
             Item item = Item.builder()
                     .itemName("itemName" + i)
                     .price(10 * i)
@@ -110,8 +109,8 @@ class ItemRepositoryTest {
     @Test
     void changeStockTest() {
 
-        Optional<Item> findItem = itemRepository.findById(2L);
-        Item item = findItem.get();
+        Item item = itemRepository.findById(2L).orElseThrow(() -> new IllegalArgumentException());
+
 
         log.info("Before : " + item.getSizeS());
         int stock = 1;

@@ -72,17 +72,14 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public void modify(ReviewDTO dto) {
-        Optional<Review> result = reviewRepository.findById(dto.getReviewId());
+        Review review = reviewRepository.findById(dto.getReviewId()).orElseThrow(() -> new IllegalArgumentException());
 
-        if (result.isPresent()) {
+        review.changeTitle(dto.getTitle());
+        review.changeText(dto.getText());
+        review.changeGrade(dto.getGrade());
 
-            Review review = result.get();
-            review.changeTitle(dto.getTitle());
-            review.changeText(dto.getText());
-            review.changeGrade(dto.getGrade());
+        reviewRepository.save(review);
 
-            reviewRepository.save(review);
-        }
     }
 
     @Override

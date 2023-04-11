@@ -32,7 +32,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.function.Function;
 
 @Service
@@ -160,8 +159,7 @@ public class OrdersItemServiceImpl implements OrdersItemService {
 
     @Override
     public void cancelRequest(Long id) {
-        Optional<OrdersItem> result = ordersItemRepository.findById(id);
-        OrdersItem ordersItem = result.get();
+        OrdersItem ordersItem = ordersItemRepository.findById(id).orElseThrow(() -> new IllegalArgumentException());
         ordersItem.cancelRequestOrdersStatus();
         log.info("ordersItem result : " + ordersItem);
         ordersItemRepository.save(ordersItem);
@@ -172,8 +170,8 @@ public class OrdersItemServiceImpl implements OrdersItemService {
     @Override
     public void manageOrdersStatus(Long id, String ordersStatus) {
 
-        Optional<OrdersItem> result = ordersItemRepository.findById(id);
-        OrdersItem ordersItem = result.get();
+        OrdersItem ordersItem = ordersItemRepository.findById(id).orElseThrow(() -> new IllegalArgumentException());
+
         OrdersStatus newStatus = OrdersStatus.fromValue(ordersStatus);
         ordersItem.changeOrdersStatus(newStatus);
         ordersItemRepository.save(ordersItem);
@@ -184,8 +182,7 @@ public class OrdersItemServiceImpl implements OrdersItemService {
     @Override
     public void complete(Long ordersItemId, String ordersStatus) throws IOException {
 
-        Optional<OrdersItem> result = ordersItemRepository.findById(ordersItemId);
-        OrdersItem ordersItem = result.get();
+        OrdersItem ordersItem = ordersItemRepository.findById(ordersItemId).orElseThrow(() -> new IllegalArgumentException());
 
         Item item = Item.builder().id(ordersItem.getItem().getId()).build();
 //        Member member = Member.builder().id(ordersItem.getBuyer().getId()).build();
@@ -217,8 +214,8 @@ public class OrdersItemServiceImpl implements OrdersItemService {
     @Override
     public void cancel(Long ordersItemId, String ordersStatus) throws IOException {
 
-        Optional<OrdersItem> result = ordersItemRepository.findById(ordersItemId);
-        OrdersItem ordersItem = result.get();
+        OrdersItem ordersItem = ordersItemRepository.findById(ordersItemId).orElseThrow(() -> new IllegalArgumentException());
+
 
         Item item = Item.builder().id(ordersItem.getItem().getId()).build();
 //        Member member = Member.builder().id(ordersItem.getBuyer().getId()).build();

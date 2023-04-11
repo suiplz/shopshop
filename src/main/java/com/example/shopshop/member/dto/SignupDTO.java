@@ -39,7 +39,13 @@ public class SignupDTO {
     private String phone;
 
     @NotBlank(message = "공백일 수 없습니다.")
-    private String address;
+    private String address1;
+
+    @NotBlank(message = "공백일 수 없습니다.")
+    private String address2;
+
+    @NotBlank(message = "공백일 수 없습니다.")
+    private String address3;
 
     public MemberDTO toEntity() {
 
@@ -48,7 +54,9 @@ public class SignupDTO {
                 .password(this.password)
                 .name(this.name)
                 .phone(this.phone)
-                .address(this.address)
+                .address1(this.address1)
+                .address2(this.address2)
+                .address3(this.address3)
                 .build();
         return memberDTO;
     }

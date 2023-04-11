@@ -35,7 +35,9 @@ public interface MemberService {
                 .password(dto.getPassword())
                 .name(dto.getName())
                 .phone(dto.getPhone())
-                .address(dto.getAddress())
+                .address1(dto.getAddress1())
+                .address2(dto.getAddress2())
+                .address3(dto.getAddress3())
                 .point(1000)
                 .build();
 
@@ -50,7 +52,9 @@ public interface MemberService {
                 .password(member.getPassword())
                 .name(member.getName())
                 .phone(member.getPhone())
-                .address(member.getAddress())
+                .address1(member.getAddress1())
+                .address2(member.getAddress2())
+                .address3(member.getAddress3())
                 .point(member.getPoint())
                 .build();
 

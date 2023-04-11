@@ -60,8 +60,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public MemberDTO get(Long id) {
-        Optional<Member> result = memberRepository.findById(id);
-        Member member = result.get();
+        Member member = memberRepository.findById(id).orElseThrow(() -> new IllegalArgumentException());
         MemberDTO memberDTO = entityToDTO(member);
         return memberDTO;
     }
@@ -70,12 +69,13 @@ public class MemberServiceImpl implements MemberService {
     public void modify(MemberDTO memberDTO) {
         if (memberDTO.getPassword().equals(memberDTO.getPasswordCheck())) {
 
-            Optional<Member> result = memberRepository.findById(memberDTO.getId());
-            Member member = result.get();
+            Member member = memberRepository.findById(memberDTO.getId()).orElseThrow(() -> new IllegalArgumentException());
             String rawPassword = memberDTO.getPassword();
             String encPassword = passwordEncoder.encode(rawPassword);
             member.changePassword(encPassword);
-            member.changeAddress(memberDTO.getAddress());
+            member.changeAddress1(memberDTO.getAddress1());
+            member.changeAddress2(memberDTO.getAddress2());
+            member.changeAddress3(memberDTO.getAddress3());
             member.changePhone(memberDTO.getPhone());
 
             memberRepository.save(member);
@@ -86,8 +86,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public void requestRole(Long id, String role) {
 
-        Optional<Member> result = memberRepository.findById(id);
-        Member member = result.get();
+        Member member = memberRepository.findById(id).orElseThrow(() -> new IllegalArgumentException());
         MemberRole memberRole = MemberRole.fromValue(role);
         MemberRoleRequest memberRoleRequest = MemberRoleRequest.builder().member(member).role(memberRole.getValue()).build();
         Optional<MemberRoleRequest> requestResult = memberRoleRequestRepository.findByMemberId(id);
@@ -102,11 +101,10 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public void applyMemberRole(Long id, String role) {
-        Optional<MemberRoleRequest> result = memberRoleRequestRepository.findById(id);
-        MemberRoleRequest memberRoleRequest = result.get();
+        MemberRoleRequest memberRoleRequest = memberRoleRequestRepository.findById(id).orElseThrow(() -> new IllegalArgumentException());
         Long memberId = memberRoleRequest.getMember().getId();
-        Optional<Member> memberResult = memberRepository.findById(memberId);
-        Member member = memberResult.get();
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException());
+
         member.setMemberRole(role);
         memberRepository.save(member);
         memberRoleRequestRepository.deleteById(id);

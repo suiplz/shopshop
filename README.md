@@ -109,10 +109,11 @@ etc, exception, handler 확인
 2 @LoginCheck
 3 Exception 처리 확실하게 하기 SpringSecurity 권한 OR error-page OR 공통 Exception handler
 @Validation을 DAO 아닌 DTO에 설정하는것으로 변경
-@Logincheck interceptor로 처리
+@Logincheck interceptor로 처리 -> 
+member를 모델로 받아야 할 경우, securityConfig 실행이 interceptor prehandle보다 우선인 경우 감안해서 일단 현상태 유지
 
 domain
-쿠폰, 주소 api, 이메일 보내기?
+주소 api, 이메일 보내기?
 
 이메일 구현 완료
 회원 가입시 -> 이메일 입력창 밑 버튼

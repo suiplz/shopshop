@@ -152,7 +152,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public Item findItemById(Long id) {
-        return itemRepository.findById(id).get();
+        return itemRepository.findById(id).orElseThrow(() -> new IllegalArgumentException());
     }
 
     @Transactional

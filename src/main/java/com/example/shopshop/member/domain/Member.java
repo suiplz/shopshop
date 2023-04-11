@@ -29,7 +29,11 @@ public class Member extends BaseEntity {
 
     private String phone;
 
-    private String address;
+    private String address1;
+
+    private String address2;
+
+    private String address3;
 
     private String role;
 
@@ -48,8 +52,16 @@ public class Member extends BaseEntity {
         this.phone = phone;
     }
 
-    public void changeAddress(String address) {
-        this.address = address;
+    public void changeAddress1(String address1) {
+        this.address1 = address1;
+    }
+
+    public void changeAddress2(String address2) {
+        this.address2 = address2;
+    }
+
+    public void changeAddress3(String address3) {
+        this.address3 = address3;
     }
 
     public void addPoint(int point) {

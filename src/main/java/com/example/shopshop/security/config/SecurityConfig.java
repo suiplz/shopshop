@@ -64,7 +64,7 @@ public class SecurityConfig {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/item/test").hasRole("MEMBER")
-                .antMatchers("/orders/**", "/cart/**", "/review/**").hasAnyRole("MEMBER", "PROVIDER", "MANAGER", "ADMIN")
+//                .antMatchers("/orders/**", "/cart/**", "/review/**").hasAnyRole("MEMBER", "PROVIDER", "MANAGER", "ADMIN")
 //                .antMatchers("/member/memberRoleManage").hasRole("ADMIN")
                 .antMatchers("/item/register").hasAnyRole("PROVIDER", "MANAGER", "ADMIN")
                 .anyRequest()
