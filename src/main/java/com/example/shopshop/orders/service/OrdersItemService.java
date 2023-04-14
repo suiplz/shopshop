@@ -42,6 +42,7 @@ public interface OrdersItemService {
 
     void cancel(Long ordersItemId, String ordersStatus) throws IOException;
 
+    boolean previousOrderedStatus(Long memberId, Long itemId);
 
     default Map<String, Object> dtoToEntity(OrdersRegisterDTO ordersRegisterDTO) {
 

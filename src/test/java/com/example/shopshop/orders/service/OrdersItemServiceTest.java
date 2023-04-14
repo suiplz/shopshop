@@ -15,6 +15,7 @@ class OrdersItemServiceTest {
     @Autowired
     private OrdersItemService ordersItemService;
 
+
     @Test
     void insertOrders() {
 
@@ -53,5 +54,20 @@ class OrdersItemServiceTest {
 //
 //
 //    }
+
+    @Test
+    void previousOrderedStatusTest() {
+        log.info("result : " + ordersItemService.previousOrderedStatus(3L, 11L));
+        log.info("result : " + ordersItemService.previousOrderedStatus(3L, 12L));
+        log.info("result : " + ordersItemService.previousOrderedStatus(3L, 13L));
+        log.info("result : " + ordersItemService.previousOrderedStatus(3L, 14L));
+        log.info("result : " + ordersItemService.previousOrderedStatus(3L, 15L));
+        log.info("result : " + ordersItemService.previousOrderedStatus(3L, 16L));
+        log.info("result : " + ordersItemService.previousOrderedStatus(3L, 10L));
+        log.info("result : " + ordersItemService.previousOrderedStatus(33L, 10L));
+        log.info("result : " + ordersItemService.previousOrderedStatus(44L, 10L));
+
+
+    }
 
 }

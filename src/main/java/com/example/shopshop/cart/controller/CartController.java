@@ -4,6 +4,7 @@ import com.example.shopshop.aop.annotation.LoginCheck;
 import com.example.shopshop.cart.dto.CartItemListDTO;
 import com.example.shopshop.cart.service.CartService;
 import com.example.shopshop.member.domain.Member;
+import com.example.shopshop.member.repository.MemberRepository;
 import com.example.shopshop.page.dto.PageRequestDTO;
 import com.example.shopshop.page.dto.PageResultDTO;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class CartController {
 
     private final CartService cartService;
+
+    private final MemberRepository memberRepository;
 
 
 //    @GetMapping("/cartList/{memberId}")
@@ -45,12 +48,13 @@ public class CartController {
 //
         if (member.getId() == memberId) {
 
+            Member member1 = memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException());
 
             PageResultDTO<CartItemListDTO, Object[]> result = cartService.getCartByMember(pageRequestDTO, memberId);
             int grandTotal = cartService.grandTotalOfCart(result.getDtoList());
             model.addAttribute("grandTotal", grandTotal);
             model.addAttribute("result", result);
-            model.addAttribute("member", member);
+            model.addAttribute("member", member1);
 
             return "/cart/cartList";
         }

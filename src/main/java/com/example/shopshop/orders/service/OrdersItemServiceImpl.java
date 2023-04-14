@@ -166,6 +166,10 @@ public class OrdersItemServiceImpl implements OrdersItemService {
 
     }
 
+    @Override
+    public boolean previousOrderedStatus(Long memberId, Long itemId) {
+        return ordersHistoryRepository.previousOrderedStatus(memberId, itemId);
+    }
 
     @Override
     public void manageOrdersStatus(Long id, String ordersStatus) {

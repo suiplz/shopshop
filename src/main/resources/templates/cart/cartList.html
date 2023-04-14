@@ -145,6 +145,11 @@
                     newMemberPoint = memberPoint - point;
                     $("#point").val(point); // 화면의 point 값을 업데이트
                 }
+                if(point > memberPoint) {
+                    point = memberPoint;
+                    newMemberPoint = 0;
+                    $("#point").val(point);
+                }
                 newGrandTotal = grandTotal - point;
                 $("#grandTotal").html(newGrandTotal.toLocaleString());
                 $("#memberPoint").html(newMemberPoint.toLocaleString());

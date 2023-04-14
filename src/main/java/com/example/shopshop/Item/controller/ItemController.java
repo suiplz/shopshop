@@ -11,6 +11,7 @@ import com.example.shopshop.category.domain.Category;
 import com.example.shopshop.category.service.CategoryService;
 import com.example.shopshop.likes.service.LikesService;
 import com.example.shopshop.member.domain.Member;
+import com.example.shopshop.orders.service.OrdersItemService;
 import com.example.shopshop.page.dto.PageRequestDTO;
 import com.example.shopshop.page.dto.PageResultDTO;
 import com.example.shopshop.review.service.ReviewService;
@@ -40,6 +41,8 @@ public class ItemController {
     private final ReviewService reviewService;
 
     private final CategoryService categoryService;
+
+    private final OrdersItemService ordersItemService;
 
 
     @GetMapping("/register")
@@ -179,15 +182,19 @@ public class ItemController {
         log.info("result : " + itemDTO + " " + itemDTO.getId().getClass());
         boolean likesStatus = false;
         boolean previousReviewStatus = false;
+        boolean previousOrderedStatus = false;
 
         if (member != null) {
             likesStatus = likesService.getLikeStates(member.getId(), itemDTO.getId());
             previousReviewStatus = reviewService.previousReviewStatus(member.getId(), itemDTO.getId());
+            previousOrderedStatus = ordersItemService.previousOrderedStatus(member.getId(), itemDTO.getId());
             model.addAttribute("member", member);
 
         }
 
         model.addAttribute("previousReviewStatus", previousReviewStatus);
+        log.info("previousOrderedStatus : " + previousOrderedStatus);
+        model.addAttribute("previousOrderedStatus", previousOrderedStatus);
 //        Long likesCount = likesService.getLikesCount(itemDTO.getId());
         model.addAttribute("likesStatus", likesStatus);
 //        model.addAttribute("likesCount", likesCount);

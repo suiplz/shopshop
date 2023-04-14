@@ -81,7 +81,7 @@
                         Review amount <span class="badge badge-light">[[${dto.reviewCnt}]]</span>
                     </button>
 
-                    <button class="btn btn-info addReviewBtn" sec:authorize="isAuthenticated()" th:attr="data-previous-review-status=${previousReviewStatus}"
+                    <button class="btn btn-info addReviewBtn" sec:authorize="isAuthenticated()" th:attr="data-previous-review-status=${previousReviewStatus}, data-previous-ordered-status=${previousOrderedStatus}"
                             type="button">
                         Review Register
                     </button>
@@ -241,11 +241,18 @@
             $(".addReviewBtn").click(function () {
 
                 var previousReviewStatus = $(this).data("previous-review-status");
+                var previousOrderedStatus = $(this).data("previous-ordered-status");
                 console.log("prevReviewStatus" + previousReviewStatus);
+                console.log("prevOrederedStatus" + previousOrderedStatus);
                 if (previousReviewStatus == true) {
 
                     alert("이미 리뷰를 작성했습니다.");
-                } else {
+                }
+                else if (previousOrderedStatus == false) {
+
+                    alert("리뷰 작성 권한이 없습니다. \n 아이템 주문 완료 후 리뷰작성 가능합니다.");
+                }else {
+
 
                     inputEmail.val("");
                     inputTitle.val("");

@@ -2,6 +2,7 @@ package com.example.shopshop.review.controller;
 
 import com.example.shopshop.Item.service.ItemService;
 import com.example.shopshop.member.domain.Member;
+import com.example.shopshop.orders.service.OrdersItemService;
 import com.example.shopshop.review.dto.ReviewDTO;
 import com.example.shopshop.review.service.ReviewService;
 import com.example.shopshop.security.auth.PrincipalDetails;
@@ -22,6 +23,7 @@ public class ReviewApiController {
 
     private final ReviewService reviewService;
     private final ItemService itemService;
+    private final OrdersItemService ordersItemService;
 
     @GetMapping("/{itemId}/all")
     public ResponseEntity<List<ReviewDTO>> getList(@PathVariable Long itemId) {
@@ -34,13 +36,15 @@ public class ReviewApiController {
     public ResponseEntity<Long> register(@PathVariable Long itemId, @RequestBody ReviewDTO reviewDTO, @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
         Member member = principalDetails.getMember();
-        if (principalDetails.isAuthenticated(member.getId()) && !reviewService.previousReviewStatus(member.getId(), itemId)) {
+        if (principalDetails.isAuthenticated(member.getId()) &&  (ordersItemService.previousOrderedStatus(member.getId(), itemId))) {
+            if(!reviewService.previousReviewStatus(member.getId(), itemId)) {
 
-            reviewDTO.setMember(member);
-            reviewDTO.setItem(itemService.findItemById(itemId));
-            Long reviewnum = reviewService.register(reviewDTO);
+                reviewDTO.setMember(member);
+                reviewDTO.setItem(itemService.findItemById(itemId));
+                Long reviewnum = reviewService.register(reviewDTO);
 
-            return new ResponseEntity<>(reviewnum, HttpStatus.OK);
+                return new ResponseEntity<>(reviewnum, HttpStatus.OK);
+            }
         }
 
         return new ResponseEntity(-1, HttpStatus.UNAUTHORIZED);

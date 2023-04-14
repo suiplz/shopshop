@@ -25,4 +25,8 @@ public interface OrdersHistoryRepository extends JpaRepository<OrdersHistory, Lo
             "WHERE m.id = :memberId " +
             "GROUP BY oh.id")
     Page<Object[]> getOrdersHistoryByProviderId(Pageable pageable, @Param("memberId") Long memberId);
+
+    @Query("SELECT CASE WHEN COUNT(oh) > 0 THEN true ELSE false END From OrdersHistory oh " +
+            "WHERE oh.member.id = :memberId AND oh.item.id = :itemId ")
+    boolean previousOrderedStatus(@Param("memberId") Long memberId, @Param("itemId") Long itemId);
 }
