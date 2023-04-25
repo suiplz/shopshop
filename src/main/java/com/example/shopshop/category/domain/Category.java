@@ -13,7 +13,6 @@ import javax.persistence.Id;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = "item")
 public class Category extends BaseEntity {
 
     @Id

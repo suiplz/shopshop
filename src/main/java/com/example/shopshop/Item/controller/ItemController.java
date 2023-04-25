@@ -17,15 +17,22 @@ import com.example.shopshop.page.dto.PageResultDTO;
 import com.example.shopshop.review.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.handler.AbstractUrlHandlerMapping;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 
+import javax.annotation.Resource;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 
 @Controller
@@ -33,6 +40,9 @@ import java.util.List;
 @RequiredArgsConstructor
 @Log4j2
 public class ItemController {
+
+
+    private final ApplicationContext applicationContext;
 
     private final ItemService itemService;
 
@@ -94,6 +104,14 @@ public class ItemController {
 //    public String list(PageRequestDTO pageRequestDTO, Model model) {
 //        categoryAttribute(model);
 //    }
+
+    @GetMapping("/mappingInfo")
+    public String mappingInfo(){
+        SpringResourceTemplateResolver templateResolver = (SpringResourceTemplateResolver) applicationContext.getBean("templateResolver");
+        log.info("Prefixes: " + templateResolver.getPrefix());
+        log.info("Suffixes: " + templateResolver.getSuffix());
+        return "mappingInfo";
+    }
 
     @GetMapping("/list")
     public String list(PageRequestDTO pageRequestDTO, Model model,
@@ -209,7 +227,7 @@ public class ItemController {
             ItemModifyDTO itemModifyDTO = new ItemModifyDTO();
             itemModifyDTO.setId(itemId);
             model.addAttribute("itemModifyDTO", itemModifyDTO);
-            return "/item/modify";
+            return "item/modify";
         }
 
         return "redirect:/item/list";

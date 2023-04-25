@@ -56,7 +56,7 @@ public class CartController {
             model.addAttribute("result", result);
             model.addAttribute("member", member1);
 
-            return "/cart/cartList";
+            return "cart/cartList";
         }
 
         return null;

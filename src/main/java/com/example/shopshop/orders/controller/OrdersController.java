@@ -37,7 +37,7 @@ public class OrdersController {
 
             model.addAttribute("memberId", memberId);
 
-            return "/orders/ordersList";
+            return "orders/ordersList";
         }
         return null;
 
@@ -54,7 +54,7 @@ public class OrdersController {
         model.addAttribute("providerId", providerId);
 
 
-        return "/orders/ordersManage";
+        return "orders/ordersManage";
 
 
     }
@@ -65,7 +65,7 @@ public class OrdersController {
         PageResultDTO<OrdersHistoryListDTO, Object[]> result = ordersItemService.getOrdersHistoryByMember(pageRequestDTO, memberId);
         model.addAttribute("result", result);
 
-        return "/orders/ordersHistory";
+        return "orders/ordersHistory";
 
 
     }
@@ -77,7 +77,7 @@ public class OrdersController {
         log.info("result444  : " + result);
         model.addAttribute("result", result);
 
-        return "/orders/ordersHistoryProvider";
+        return "orders/ordersHistoryProvider";
 
 
     }

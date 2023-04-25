@@ -67,4 +67,11 @@ class MemberRepositoryTest {
         Member member = memberRepository.findByEmail("spade231@naver.com").orElseThrow(() -> new IllegalArgumentException());
         memberRepository.deleteById(member.getId());
     }
+
+    @Test
+    void forAuthTest() {
+        Member member = memberRepository.findById(3L).orElseThrow(() -> new IllegalArgumentException());
+        member.setMemberRole("ROLE_ADMIN");
+        memberRepository.save(member);
+    }
 }

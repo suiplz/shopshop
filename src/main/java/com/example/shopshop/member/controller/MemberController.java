@@ -66,7 +66,7 @@ public class MemberController {
         if (uri != null && !uri.contains("/login")) {
             request.getSession().setAttribute("prevPage", uri);
         }
-        return "/member/login";
+        return "member/login";
     }
 
     @GetMapping("/info/{id}")
@@ -78,7 +78,7 @@ public class MemberController {
             model.addAttribute("dto", memberDTO);
             log.info("dto : " + memberDTO);
 
-            return "/member/info";
+            return "member/info";
         } else {
             return null;
         }
@@ -93,7 +93,7 @@ public class MemberController {
             MemberDTO memberDTO = memberService.get(member.getId());
             log.info("memberDTO.getId() : " + memberDTO.getId());
             model.addAttribute("dto", memberDTO);
-            return "/member/modify";
+            return "member/modify";
         } else {
             return null;
         }
@@ -136,7 +136,7 @@ public class MemberController {
         PageResultDTO<MemberRoleRequestDTO, Object[]> result = memberService.getRequestMemberRoleList(pageRequestDTO);
         model.addAttribute("result", result);
 
-        return "/member/memberRoleManage";
+        return "member/memberRoleManage";
 
     }
 

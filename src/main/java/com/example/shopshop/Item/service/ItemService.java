@@ -38,7 +38,6 @@ public interface ItemService {
 
     void remove(Long id);
 
-
     default Map<String, Object> dtoToEntity(ItemDTO itemDTO) {
         Map<String, Object> entityMap = new HashMap<>();
 

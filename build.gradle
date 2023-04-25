@@ -70,6 +70,8 @@ dependencies {
     testCompileOnly 'org.projectlombok:lombok'
     testAnnotationProcessor 'org.projectlombok:lombok'
     compileOnly(group: "net.coobird", name: "thumbnailator", version: "0.4.12")
+    implementation 'net.coobird:thumbnailator:0.4.12'
+
 
 }
 allprojects {
