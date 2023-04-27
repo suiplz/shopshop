@@ -28,7 +28,6 @@ public class CartApiController {
         Member member = principalDetails.getMember();
 
         if (principalDetails.isAuthenticated(member.getId())) {
-            log.info("!!!!!!!!!item Id : " + itemId);
             cartService.register(member, itemId, cartItemDTO);
 
             return new ResponseEntity<>(HttpStatus.OK);

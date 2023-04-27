@@ -70,7 +70,7 @@ class MemberRepositoryTest {
 
     @Test
     void forAuthTest() {
-        Member member = memberRepository.findById(3L).orElseThrow(() -> new IllegalArgumentException());
+        Member member = memberRepository.findById(1L).orElseThrow(() -> new IllegalArgumentException());
         member.setMemberRole("ROLE_ADMIN");
         memberRepository.save(member);
     }

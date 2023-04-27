@@ -49,22 +49,30 @@ public class CartServiceImpl implements CartService {
             cartRepository.save(cart);
         }
 
+        boolean stockCondition = item.stockCondition(cartItemDTO.getSize(), cartItemDTO.getAmount());
 
-        CartItem cartItem = cartItemRepository.findCartItemByComp(cart.getId(), item.getId(), cartItemDTO.getSize());
+        if (stockCondition == true) {
 
-        if (cartItem == null) {
-            cartItem = CartItem.builder()
-                    .cart(cart)
-                    .item(item)
-                    .amount(cartItemDTO.getAmount())
-                    .size(cartItemDTO.getSize())
-                    .build();
-            item.removeStock(cartItemDTO.getSize(), cartItemDTO.getAmount());
-            cartItemRepository.save(cartItem);
+            CartItem cartItem = cartItemRepository.findCartItemByComp(cart.getId(), item.getId(), cartItemDTO.getSize());
+
+            if (cartItem == null) {
+                cartItem = CartItem.builder()
+                        .cart(cart)
+                        .item(item)
+                        .amount(cartItemDTO.getAmount())
+                        .size(cartItemDTO.getSize())
+                        .build();
+                item.removeStock(cartItemDTO.getSize(), cartItemDTO.getAmount());
+                cartItemRepository.save(cartItem);
+            } else {
+                throw new Exception("이미 장바구니에 담겨있는 상품입니다.");
+                //이미 장바구니에 담겨있는 상품입니다.
+            }
         } else {
-            throw new Exception("이미 장바구니에 담겨있는 상품입니다.");
-            //이미 장바구니에 담겨있는 상품입니다.
+            throw new Exception("수량이 부족하여 카트에 담을 수 없습니다.");
         }
+
+
     }
 
 

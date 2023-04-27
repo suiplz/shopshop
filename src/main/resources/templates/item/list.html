@@ -111,12 +111,19 @@
                                         <td th:text="${dto.getItemName}"></td>
                                     </h5>
                                     <!-- Product price-->
-                                    <h6 class="text-decoration-line-through">가격 :
-                                        <td th:text="${dto.getPrice}"></td>
-                                    </h6>
-                                    <h6 class="fw-light">할인가 :
-                                        <td th:text="${dto.getSalePrice}"></td>
-                                    </h6>
+                                    <th:block th:if="${dto.getPrice() == dto.getSalePrice()}">
+                                        <h6 class="fw-light">가격 :
+                                            <td th:text="${dto.getPrice()}"></td>
+                                        </h6>
+                                    </th:block>
+                                    <th:block th:if="${dto.getPrice() != dto.getSalePrice()}">
+                                        <h6 class="text-decoration-line-through">가격 :
+                                            <td th:text="${dto.getPrice()}"></td>
+                                        </h6>
+                                        <h6 class="fw-light">할인가 :
+                                            <td th:text="${dto.getSalePrice()}"></td>
+                                        </h6>
+                                    </th:block>
                                     <td>평점 :
                                     <td th:text="${dto.avgRate}"></td>
                                     </td>

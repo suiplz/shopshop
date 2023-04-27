@@ -27,13 +27,25 @@
                             <td th:text="${dto.getItemName}">
                         </h1>
                         <div class="fs-5 mb-5">
-                            <span class="text-decoration-line-through">$<td th:text="${dto.getPrice}"></span>
-                            <span>$<td th:text="${dto.getSalePrice}"></span>
+                            <th:block th:if="${dto.getPrice() == dto.getSalePrice()}">
+                                가격 : <td th:text="${dto.getPrice()}"></td>
+                                </h6>
+                            </th:block>
+                            <th:block th:if="${dto.getPrice() != dto.getSalePrice()}">
+                                <h6 class="text-decoration-line-through">가격 :
+                                    <td th:text="${dto.getPrice()}"></td>
+                                </h6>
+                                <h6 class="fw-light">할인가 :
+                                    <td th:text="${dto.getSalePrice()}"></td>
+                                </h6>
+                            </th:block>
+                            <div>수량</div>
+                            <div>S 사이즈 :<td th:text="${dto.getSizeS}"></td></div>
+                            <div>M 사이즈 :<td th:text="${dto.getSizeM}"></td></div>
+                            <div>L 사이즈 :<td th:text="${dto.getSizeL}"></td></div>
                         </div>
 
-                        <p class="lead">Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium at dolorem
-                            quidem modi. Nam sequi consequatur obcaecati excepturi alias magni, accusamus eius
-                            blanditiis delectus ipsam minima ea iste laborum vero?</p>
+
 
                         <div class="d-flex" id="addToCart">
 
@@ -185,12 +197,16 @@
 
             function addCart() {
 
+
+
                 var url = "/api/cart/register/" + itemId;
                 var paramData = {
                     size: $("#size").val(),
                     itemId: $("#itemId").val(),
                     amount: $("#amount").val()
                 };
+
+
 
                 console.log(paramData);
                 var param = JSON.stringify(paramData);
