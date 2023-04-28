@@ -100,8 +100,8 @@ public class ItemServiceImpl implements ItemService {
                 (Item) arr[0],
                 (List<ItemImage>) (Arrays.asList((ItemImage) arr[1])),
                 (Double) arr[2],
-                itemRepository.getReviewCountByItemId(((Item) arr[0]).getId()),
-                itemRepository.getLikesCountByItemId(((Item) arr[0]).getId()))
+                (Long) arr[3],
+                (Long) arr[4])
         );
 
 

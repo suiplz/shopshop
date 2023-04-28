@@ -39,10 +39,6 @@ public class Member extends BaseEntity {
 
     private int point;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @Builder.Default
-    private Set<MemberRole> roleSet = new HashSet<>();
-
 
     public void changePassword(String password) {
         this.password = password;

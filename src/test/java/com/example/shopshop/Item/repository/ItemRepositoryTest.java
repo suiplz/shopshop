@@ -57,8 +57,15 @@ class ItemRepositoryTest {
 
         Page<Object[]> result = itemRepository.getListPage(pageable);
         for (Object[] objects : result.getContent()) {
-            System.out.println(Arrays.toString(objects));
+            System.out.println("LEFT OUTER JOIN : " +Arrays.toString(objects));
         }
+
+
+//        Page<Object[]> result2 = itemRepository.getListPageFetch(pageable);
+//        for (Object[] objects : result2.getContent()) {
+//            System.out.println("JOIN FETCH : " + Arrays.toString(objects));
+//
+//        }
 
 //        List<Object[]> listPage = itemRepository.getListPage2();
 //        for (Object[] objects : listPage) {

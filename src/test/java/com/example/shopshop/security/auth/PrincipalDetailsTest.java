@@ -20,24 +20,24 @@ class PrincipalDetailsTest {
     @Autowired
     private MemberRepository memberRepository;
 
-    @Test
-    void memberRoleSetTest() {
-
-        Optional<Member> result = memberRepository.findByEmail("asd@asd");
-        if (result.isPresent()) {
-            Member member = result.get();
-
-            Set<MemberRole> roleSet = member.getRoleSet();
-            PrincipalDetails principalDetails = new PrincipalDetails(member);
-            Collection<? extends GrantedAuthority> authorities = principalDetails.getAuthorities();
-            for (MemberRole memberRole : roleSet) {
-                log.info("memberRole = " + memberRole);
-            }
-
-            for (GrantedAuthority authority : authorities) {
-                log.info(authority.getAuthority());
-            }
-        }
-    }
+//    @Test
+//    void memberRoleSetTest() {
+//
+//        Optional<Member> result = memberRepository.findByEmail("asd@asd");
+//        if (result.isPresent()) {
+//            Member member = result.get();
+//
+//            Set<MemberRole> roleSet = member.getRoleSet();
+//            PrincipalDetails principalDetails = new PrincipalDetails(member);
+//            Collection<? extends GrantedAuthority> authorities = principalDetails.getAuthorities();
+//            for (MemberRole memberRole : roleSet) {
+//                log.info("memberRole = " + memberRole);
+//            }
+//
+//            for (GrantedAuthority authority : authorities) {
+//                log.info(authority.getAuthority());
+//            }
+//        }
+//    }
 
 }
