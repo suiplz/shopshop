@@ -13,12 +13,10 @@ import java.util.List;
 
 public interface OrdersItemRepository extends JpaRepository<OrdersItem, Long> {
 
-    @EntityGraph(attributePaths = {"buyer"}, type = EntityGraph.EntityGraphType.FETCH)
     @Query("SELECT oi, i.id, i.itemName, ii, oi.regDate From OrdersItem oi " +
             "INNER JOIN Item i ON oi.item.id = i.id " +
             "INNER JOIN ItemImage ii ON ii.item.id = i.id " +
-            "INNER JOIN Member m ON oi.buyer.id = :memberId " +
-            "WHERE m.id = :memberId " +
+            "WHERE oi.buyer.id = :memberId " +
             "GROUP BY oi.id")
     Page<Object[]> getOrdersByMemberId(Pageable pageable, @Param("memberId") Long memberId);
 
@@ -34,7 +32,6 @@ public interface OrdersItemRepository extends JpaRepository<OrdersItem, Long> {
 //    @Query("SELECT o, oi, "
 //    Page<Object[]> getOrdersListByMemberId(Pageable pageable, @Param("memberId") Long memberId);
 
-    //    @EntityGraph(attributePaths = {"item"}, type = EntityGraph.EntityGraphType.FETCH)
     @Query("SELECT oi.buyer.id, i FROM OrdersItem oi " +
             "INNER JOIN Item i ON i.id = oi.item.id " +
             "WHERE oi.buyer.id = :memberId")

@@ -9,11 +9,10 @@ import org.springframework.data.repository.query.Param;
 
 public interface OrdersHistoryRepository extends JpaRepository<OrdersHistory, Long> {
 
-    @Query("SELECT oh, i.id, i.itemName, ii,  m.id, oh.regDate FROM OrdersHistory oh " +
+    @Query("SELECT oh, i.id, i.itemName, ii,  oh.member.id, oh.regDate FROM OrdersHistory oh " +
             "INNER JOIN Item i ON oh.item.id = i.id " +
             "INNER JOIN ItemImage ii ON ii.item.id = i.id " +
-            "INNER JOIN Member m ON oh.member.id = m.id " +
-            "WHERE m.id = :memberId " +
+            "WHERE oh.member.id = :memberId " +
             "GROUP BY oh.id")
     Page<Object[]> getOrdersHistoryByMemberId(Pageable pageable, @Param("memberId") Long memberId);
 

@@ -12,20 +12,19 @@ import java.util.List;
 
 public interface ItemRepository extends JpaRepository<Item, Long> {
 
-    @Query("SELECT i, ii, avg(coalesce(r.grade, 0)), count(r), count(l) FROM Item i " +
-            "LEFT OUTER JOIN ItemImage ii on ii.item = i " +
+    @Query("SELECT i, ii, avg(coalesce(r.grade, 0)), count(distinct r), count(distinct l) FROM Item i " +
+            "INNER JOIN ItemImage ii on ii.item = i " +
             "LEFT OUTER JOIN Review r on r.item = i " +
             "LEFT OUTER JOIN Likes l on l.item = i " +
             "WHERE i.id = :id GROUP BY ii")
     List<Object[]> getItemDetail(@Param("id") Long id);
 
-    @EntityGraph(attributePaths = {"provider"}, type = EntityGraph.EntityGraphType.FETCH)
+
     @Query("SELECT i from Item i " +
             "INNER JOIN Member m ON m.id = i.provider.id " +
             "WHERE m.id = :id")
     List<Item> getItemByMemberId(@Param("id") Long id);
 
-    @EntityGraph(attributePaths = {"provider"}, type = EntityGraph.EntityGraphType.FETCH)
     @Query("SELECT i, ii, avg(coalesce(r.grade, 0)), count(distinct r), count(distinct l)  FROM Item i " +
             "INNER JOIN ItemImage ii on ii.item = i " +
             "LEFT OUTER JOIN Review  r on r.item = i " +
@@ -33,7 +32,8 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
             "GROUP BY i.id")
     Page<Object[]> getListPage(Pageable pageable);
 
-    @EntityGraph(attributePaths = {"provider"}, type = EntityGraph.EntityGraphType.FETCH)
+
+
     @Query("SELECT i, ii, avg(coalesce(r.grade, 0)), count(distinct r), count(distinct l) FROM Item i " +
             "INNER JOIN ItemImage ii on ii.item = i " +
             "LEFT OUTER JOIN Review  r on r.item = i " +
@@ -42,9 +42,9 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
             "ORDER BY avg(coalesce(r.grade,0)) DESC")
     Page<Object[]> getListPageByRating(Pageable pageable);
 
-    @EntityGraph(attributePaths = {"provider"}, type = EntityGraph.EntityGraphType.FETCH)
+
     @Query("SELECT i, ii, avg(coalesce(r.grade, 0)), count(distinct r), count(distinct l) FROM Item i " +
-            "LEFT OUTER JOIN ItemImage ii on ii.item = i " +
+            "INNER JOIN ItemImage ii on ii.item = i " +
             "LEFT OUTER JOIN Review  r on r.item = i " +
             "LEFT OUTER JOIN Likes l on l.item = i " +
             "WHERE i.itemName LIKE %:itemName% " +
@@ -52,10 +52,9 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
     Page<Object[]> getListByItemName(Pageable pageable, @Param("itemName") String itemName);
 
 
-    @EntityGraph(attributePaths = {"category"}, type = EntityGraph.EntityGraphType.FETCH)
     @Query("SELECT i, ii, avg(coalesce(r.grade, 0)), count(distinct r), count(distinct l) FROM Item i " +
             "INNER JOIN Category c ON c.id = i.category.id " +
-            "LEFT OUTER JOIN ItemImage ii on ii.item = i " +
+            "INNER JOIN ItemImage ii on ii.item = i " +
             "LEFT OUTER JOIN Review r on r.item = i " +
             "LEFT OUTER JOIN Likes l on l.item = i " +
             "WHERE (:gender IS NULL OR c.gender = :gender) " +
@@ -65,18 +64,17 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
     Page<Object[]> getItemByComponents(Pageable pageable, @Param("gender") String gender, @Param("season") String season, @Param("clothType") String clothType);
 
 
-    @EntityGraph(attributePaths = {"provider"}, type = EntityGraph.EntityGraphType.FETCH)
     @Query("SELECT i, ii, avg(coalesce(r.grade, 0)), count(distinct r), count(distinct l) FROM Item i " +
-            "LEFT OUTER JOIN ItemImage ii on ii.item = i " +
+            "INNER JOIN ItemImage ii on ii.item = i " +
             "LEFT OUTER JOIN Review  r on r.item = i " +
             "LEFT OUTER JOIN Likes l on l.item = i " +
             "WHERE i.provider.id = :providerId " +
             "GROUP BY i.id")
     Page<Object[]> getListByProviderId(Pageable pageable, @Param("providerId") Long providerId);
 
-    @EntityGraph(attributePaths = {"provider"}, type = EntityGraph.EntityGraphType.FETCH)
+
     @Query("SELECT i, ii, avg(coalesce(r.grade, 0)), count(distinct r), count(distinct l) FROM Item i " +
-            "LEFT OUTER JOIN ItemImage ii on ii.item = i " +
+            "INNER JOIN ItemImage ii on ii.item = i " +
             "LEFT OUTER JOIN Review  r on r.item = i " +
             "INNER JOIN Likes l on l.item.id = i.id " +
             "GROUP BY i.id " +

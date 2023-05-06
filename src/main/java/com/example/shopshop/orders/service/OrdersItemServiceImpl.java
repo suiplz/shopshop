@@ -124,7 +124,7 @@ public class OrdersItemServiceImpl implements OrdersItemService {
 
     @Override
     public PageResultDTO<OrdersHistoryListDTO, Object[]> getOrdersHistoryByMember(PageRequestDTO pageRequestDTO, Long memberId) {
-        Pageable pageable = pageRequestDTO.getPageable(Sort.by("id").ascending());
+        Pageable pageable = pageRequestDTO.getPageable(Sort.by("id").descending());
 
         Page<Object[]> result = ordersHistoryRepository.getOrdersHistoryByMemberId(pageable, memberId);
 
@@ -142,7 +142,7 @@ public class OrdersItemServiceImpl implements OrdersItemService {
 
     @Override
     public PageResultDTO<OrdersHistoryListDTO, Object[]> getOrdersHistoryByProvider(PageRequestDTO pageRequestDTO, Long memberId) {
-        Pageable pageable = pageRequestDTO.getPageable(Sort.by("id").ascending());
+        Pageable pageable = pageRequestDTO.getPageable(Sort.by("id").descending());
 
         Page<Object[]> result = ordersHistoryRepository.getOrdersHistoryByProviderId(pageable, memberId);
 

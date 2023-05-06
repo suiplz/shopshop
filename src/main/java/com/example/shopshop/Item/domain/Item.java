@@ -16,7 +16,6 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@ToString(exclude = "category")
 @Log4j2
 public class Item extends BaseEntity {
 

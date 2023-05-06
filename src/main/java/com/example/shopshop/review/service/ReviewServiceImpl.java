@@ -44,9 +44,9 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public List<ReviewDTO> getListByItemId(Long itemId) {
 
-        Item item = Item.builder().id(itemId).build();
 
-        List<Review> result = reviewRepository.findByItem(item);
+
+        List<Review> result = reviewRepository.findByItemId(itemId);
         return result.stream().map(itemReview -> entityToDTO(itemReview)).collect(Collectors.toList());
 
     }

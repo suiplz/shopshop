@@ -21,15 +21,14 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     @EntityGraph(attributePaths = {"item"}, type = EntityGraph.EntityGraphType.FETCH)
     @Query("SELECT r FROM Review r " +
-            "INNER JOIN Item i ON i.id = r.item.id " +
-            "WHERE i =:item")
-    List<Review> findByItem(@Param("item") Item item);
+            "WHERE r.item.id = :itemId")
+    List<Review> findByItemId(@Param("itemId") Long itemId);
 
-    @Query("SELECT r.reviewId, r.title, r.text, r.grade,i.id, i.itemName, ii FROM Review r " +
-            "INNER JOIN Member m ON m.id = r.member.id " +
+
+    @Query("SELECT r.reviewId, r.title, r.text, r.grade, i.id, i.itemName, ii FROM Review r " +
             "INNER JOIN Item i ON i.id = r.item.id " +
             "INNER JOIN ItemImage ii ON ii.item.id = i.id " +
-            "WHERE m.id = :memberId " +
+            "WHERE r.member.id = :memberId " +
             "GROUP BY r.reviewId")
     Page<Object[]> getReviewListByMemberId(Pageable pageable, @Param("memberId") Long memberId);
 

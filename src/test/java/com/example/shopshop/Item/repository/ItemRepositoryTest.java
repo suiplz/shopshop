@@ -76,7 +76,7 @@ class ItemRepositoryTest {
 
     @Test
     void getItem() {
-        List<Object[]> item = itemRepository.getItemDetail(1L);
+        List<Object[]> item = itemRepository.getItemDetail(23L);
         for (Object[] objects : item) {
 
             System.out.println("objects = " + Arrays.toString(objects));
@@ -85,8 +85,12 @@ class ItemRepositoryTest {
 
     @Test
     void deleteItem() {
-        itemImageRepository.deleteById(10L);
-        itemRepository.deleteById(7L);
+        itemImageRepository.deleteById(77L);
+        itemImageRepository.deleteById(78L);
+        itemImageRepository.deleteById(79L);
+        itemImageRepository.deleteById(80L);
+
+        itemRepository.deleteById(24L);
     }
 
     @Test
