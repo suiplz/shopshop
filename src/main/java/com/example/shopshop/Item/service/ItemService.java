@@ -6,6 +6,7 @@ import com.example.shopshop.Item.domain.ItemImage;
 import com.example.shopshop.Item.dto.ItemDTO;
 import com.example.shopshop.Item.dto.ItemImageDTO;
 import com.example.shopshop.Item.dto.ItemModifyDTO;
+import com.example.shopshop.member.domain.Member;
 import com.example.shopshop.page.dto.PageRequestDTO;
 import com.example.shopshop.page.dto.PageResultDTO;
 
@@ -50,7 +51,7 @@ public interface ItemService {
                 .category(itemDTO.getCategory())
                 .saleRate(itemDTO.getSaleRate())
                 .salePrice(Math.round(itemDTO.getPrice() * (100 - itemDTO.getSaleRate()) / 100))
-                .provider(itemDTO.getProvider())
+                .provider(Member.builder().id(itemDTO.getProviderId()).build())
                 .build();
         entityMap.put("item", item);
 
@@ -85,7 +86,7 @@ public interface ItemService {
                 .sizeL(item.getSizeL())
                 .saleRate(item.getSaleRate())
                 .salePrice(item.getSalePrice())
-                .provider(item.getProvider())
+                .providerId(item.getProvider().getId())
                 .regDate(item.getRegDate())
                 .modDate(item.getModDate())
                 .build();

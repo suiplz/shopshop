@@ -59,7 +59,7 @@ public class ItemDTO {
 
     private Integer salePrice;
 
-    private Member provider;
+    private Long providerId;
 
     private double avgRate;
 

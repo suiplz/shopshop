@@ -72,7 +72,7 @@ public class ItemController {
             Category category = categoryService.getCategory(gender, season, clothType);
             itemDTO.setCategory(category);
             log.info("category : " + category);
-            itemDTO.setProvider(member);
+            itemDTO.setProviderId(member.getId());
 
             //검증에 실패하면 다시 입력 폼으로
             if (bindingResult.hasErrors()) {
