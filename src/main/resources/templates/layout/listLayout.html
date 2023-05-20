@@ -101,6 +101,9 @@
                             <li><a class="dropdown-item"
                                    th:onclick="'window.location.href = \'' + @{/item/listByMemberLikes/{memberId}(memberId=${#authentication.getPrincipal().member.id})} + '\''">좋아요한
                                 아이템</a></li>
+                            <li><a class="dropdown-item"
+                                   th:onclick="'window.location.href = \'' + @{/review/reviewListByMember/{memberId}(memberId=${#authentication.getPrincipal().member.id})} + '\''">내가 작성한 리뷰
+                                </a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown" sec:authorize="hasAuthority('ROLE_PROVIDER')">
