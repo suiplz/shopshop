@@ -64,13 +64,15 @@ class MemberRepositoryTest {
     @Test
     void memberRemove(){
 
-        Member member = memberRepository.findByEmail("spade231@naver.com").orElseThrow(() -> new IllegalArgumentException());
-        memberRepository.deleteById(member.getId());
+//        Member member = memberRepository.findByEmail("spade231@hanmail.net").orElseThrow(() -> new IllegalArgumentException());
+        memberRepository.deleteById(4L);
+        memberRepository.deleteById(5L);
+        memberRepository.deleteById(6L);
     }
 
     @Test
     void forAuthTest() {
-        Member member = memberRepository.findById(1L).orElseThrow(() -> new IllegalArgumentException());
+        Member member = memberRepository.findById(7L).orElseThrow(() -> new IllegalArgumentException());
         member.setMemberRole("ROLE_ADMIN");
         memberRepository.save(member);
     }

@@ -1,212 +1,136 @@
-### 쇼핑몰 구현하기 프로젝트
+##스프링 부트 기반 쇼핑몰 구현 프로젝트 SHOPSHOP
 
-### - SPRING BOOT, SPRING DATA JPA, MYSQL
+### 개요
+- 스프링부트 개인 학습을 위한 가상 쇼핑몰 구현 프로젝트
+- 기본적인 기능을 구현하여 어느정도 개연성 있는 프로젝트롤 목표로 하였음
 
-## TO DO
+### 사용 기술
 
-### userService,Security, item by category, order Implement, review Implement, cart CRUD, Validation, Paging
+####백엔드
+- JAVA 11
+- Spring Boot
+- Spring Security 
+- Spring Data JPA
+- Spring MVC
 
-### 연관관계 테이블 - 하나의 서비스에서 여러개의 엔티티 필요로 할 시 1. 그에 맞는 쿼리 생성 2. 여러 model의 repository 이용 3. 가짜 객체 생성 통합할 것
+###데이터베이스
+- MySQL
 
-# TODO
+###프론트엔드
+- Thymeleaf
+- Bootstrap
+- JQuery
 
-# cart 구현 성공 order 감안하여 로직 보강
+### 배포
+- AWS Lightsail
+- AWS Route53 (도메인 적용)
+- Lightsail Load Balancer  (인증서 이용하여 HTTPS 적용)
 
-# cart 링크, 페이지 구현
+  
+## ERD 설계
+![img.png](showImage/img.png)
 
-# item list에서 review 갯수, 평점
+### 엔티티 역할
+- Member : 회원 정보
+- MemberRoleRequest : 회원 권한 요청 (일반유저, 판매자, 매니저, 어드민)
+- Item : 아이템 정보 (판매자 회원 정보 저장)
+- ItemImage : 아이템 이미지 (아이템과 다대일 매핑)
+- Category : 아이템 카테고리
+- Cart : 장바구니 정보 (멤버와 일대일 매핑)
+- CartItem : 장바구니에 담은 아이템 정보
+- OrdersItem : 장바구니에서 주문한 아이템 정보 (배송준비중, 배송중, 배송완료, 취소요청, 취소, 완료 단계 & 구매자 회원 정보 저장)
+- OrdersHistory : 역대 주문 내역 (취소나 완료가 되었을 때 OrdersItem 정보, 멤버와 다대일 매핑, 구매자 회원정보 저장)
+- Likes : 좋아요 정보 (멤버와 일대일, 아이템과 일대일 매핑)
+- Review : 후기 정보 (멤버와 다대일, 아이템과 다대일 매핑)
+- Board : Q&A 글쓰기 
+- Comment : Q&A 댓글
 
-item list, read에서 like 처리
+### 기능
 
-orders service 에서 delivery status 구현
+메인페이지
+![img_1.png](showImage/img_1.png)
 
-board, comment 완성시키기
 
-비완성 로직 구현 - 아이템에서 리뷰 단 사용자가 같은 아이템에서 리뷰 작성, board도 마찬가지 아이템에서 자신이 쓴 리뷰만 변경, 삭제 할 수 있도록
+회원가입
+![img_2.png](showImage/img_2.png)![img_3.png](showImage/img_3.png)
+이메일을 입력하고 인증번호를 보내면 이메일로 인증번호를 발송
+![img_4.png](showImage/img_4.png)
+인증번호를 올바르게 입력하면 인증 성공 이후 회원가입 폼 제출 가능
 
-Category Repository find Category By ItemId;
+다음 주소 API를 이용한 주소 입력 가능
+![img_8.png](showImage/img_8.png)
 
-find item By Category Component
+틀린 인증 번호를 적으면 회원가입 진행 불가
+![img_9.png](showImage/img_9.png)
+![img_10.png](showImage/img_10.png)
 
-- find item By Category.season
-- find item By Category.clothType
-- find item By Gender
+JAVAMailSender 구현코드
+![img_11.png](showImage/img_11.png)
 
-To do For Category
+![img_12.png](showImage/img_12.png)
 
-- register Item category
-- modify Item category
--
+판매자 권한을 가진 멤버로 로그인하여 아이템 등록
+![img_13.png](showImage/img_13.png)
 
-category Test 추가로 필요 itemDetail, itemList 에서 category 정보 노출시키도록? category 정보를 통한 itemList 페이지 -완-
+조건에 맞지않는 값 입력후 제출시 error label 출력
+![img_14.png](showImage/img_14.png)
 
-category 완료, ItemName으로 item 검색하는 기능 만들기 -완-
+올바른 값 입력후 제출
+![img_15.png](showImage/img_15.png)
 
-user page user가 쓴 리뷰, Q&A, 좋아요, 구매 정보 provider의 경우 자신이 등록한 아이템 -완- board read 구현 comment 구현 이후 like랑
-getItemListByRating? -완- page처리 완료, 공통 오류 핸들러만 하면 진짜 끝난다.
+아이템 입력후 메인페이지 조회 화면
+![img_16.png](showImage/img_16.png)
 
-comment modal로? 백엔드에서는 @LoginCheck 프론트에서는 authentication.principal.member.id 로 조건?
+![gif_1.gif](showImage/gif_1.gif)
 
-likes 완료 OrdersHistory 별도의 테이블? OrdersStatus = Complete 상태에 따른 쿼리? OrdersStatus 완료, 취소 일 때 Orders Entity ->
-OrdersHistory Entity 구매자 판매자 전부 넣을 수 있나? 결제
+라디오 버튼을 통한 카테고리별 검색
+![gif_3.gif](showImage/gif_3.gif)
 
-User Page 주문한 아이템, 좋아요한 아이템, 작성한 리뷰, 작성한 Q&A 보드, 멤버 정보 변경
+![gif_4.gif](showImage/gif_4.gif)
 
-Provider Page 등록한 아이템 -> item modify, remove , item manage(구현완료)
+구현 코드\
+enum 타입의 카테고리 요소들을 DB에 저장
+![img_1.png](showImage/img_19.png)
+![img.png](showImage/img_18.png)
 
-자신이 쓴 글 자신만 지우기 성공 -> comment랑 board도 변경하기 -완-
+기본 페이지에 접근할 때, 검색어의 여부 혹은 카테고리 요소의 여부\
+세가지 조건에 따라 오버로딩을 통해 서비스는 다른 비즈니스 로직을 실행 
+![img_2.png](showImage/img_20.png)
 
-Orders -> OrdersHistory OrdersManage에서 주문 취소 or 주문 완료 Orders -> (OrdersStatus = 취소 or 완료 설정) -> Orders에서 삭제, 데이터 그대로
-OrdersHistory에 insert -완-
+리포지토리의 코드 \
+기본 페이지 접근, 검색어 입력 아이템 조회, 카테고리 입력 아이템 조회 코드
+![img_3.png](showImage/img_21.png)
 
-권한 처리 권한 바꾸기는 완료 권한에 따른 접근 provider -> itemRegister, itemDelete myItem manager -> delete all admin -> 회원 정보 접근 제외한 모든
-기능? member -> memberDelete? provider 권한, manager권한 -> item 삭제 로직 -> itemImage, content, board 등 연관관계 삭제
+아이템 조회, 좋아요, 장바구니 담기
+![gif_5.gif](showImage/gif_5.gif)
 
-Commit하기 전에 apikey, secretkey 변경 필수
+장바구니 주문\
+포인트 사용 후 아임포트 API 기반 결제\
+카드 결제와 카카오 결제 가능
+![gif_7.gif](showImage/gif_7.gif)
 
-memberId 받는 리스트에서 페이지 처리
+현재 주문 상태 \
+하나는 취소할 것  하나는 결제할 것
+![img_4.png](showImage/img_22.png)
 
-결제, 환불 완료 orders -> ordersItem 변경하고 orders 전체 삭제 int amount = paymentService.paymentInfo(ordersItem.getImpUid(), token);
-대신 int amount = ordersItemRepository.sumByImpUid(ordersItem.getImpUid()); 안전한가? 대안은?
+판매자 계정 판매자 페이지에서 주문 관리
 
-Item 제거시 OrdersItem, OrdersItemHistory까지 삭제해야하는 상황 Item 제거 기능 X -> 또 별도의 enum으로 관리?
+![gif_8.gif](showImage/gif_8.gif)
 
-남은거 권한처리 자신이 올린 리뷰-완- 보드, 코멘트, 좋아요 판매자 경우 아이템-완- 삭제 로직, 아이템 판매중지1\
-payment amount issue A 100원 B 50원 A 취소 후 B 취소 -> amount 150 grandTotal 150 ordersPrice 100 -> amount 50 grandTotal 50
-ordersPrice 50 -> 문제 X A 완료 후 B 취소 -> amount 150 granTotal 150 ordersPrice 100 -> amount 150 granTotal 50 ordersPrice 50
--> 문제
+주문 완료 코드\
+주문아이템 객체 정보로 주문내역 객체 생성 후 DB에 적용\
+총 결제 금액의 5% 포인트 적립
+![img_5.png](showImage/img_23.png)
 
-a3 b2 c1
+주문 취소 코드\
+payment 서비스에서 결제 총 금액을 유지 \
+총 금액에서 결제 취소금액 만큼을 빼서 유지\
+주문 취소 상태로 주문 내역에 저장, 아이템 수량 복구\
+![img_8.png](showImage/img_26.png)
 
-a완료 6 6 3 -> 6 3 2
+주문 내역 화면
+![img_9.png](showImage/img_27.png)
 
-일단 취소 취소 O 취소 완료 O 완료 취소 X -> 이경우 iamport 직접 들어가서 환불 -완- (checkSum해제하면서 완료 취소 가능, 보안 고민해볼것)
-
-할인, 적립, 주소
-
-할인 로직
-
-1. 가격 * (100 - (int) 할인율) 할인율 0~100
-2. 원래가격에 할인율 적용한 할인가격 column? 화면에만 출력? 2.1 -> item modify시 할인가격 column 변경 가능 2.2 -> 할인율 변경시 자동으로 화면 변경 가능 3.1 3.2
-   cartList에서 결제 시 calculate에서 적용가능 할인 적립 적립 -> 결제 할 때 금액 일부분 포인트로 들어가도록 로직 완료 ordersRegister에서 point 수정할 때 가격의 일부 감안하면
-   될듯 포인트가 주문금액 넘어설 경우 아직 작동 안됨 마무리할것 환불 시 포인트 반납 안하고 포인트 적립 전 가격으로 환불?
-
-환불 시 로직 A 900 1, B 1600 2, C 1000 1, point 2000 가격 5100 -> 결제가격 3100 환불시 결제가격만큼 아니면 돈으로 환불, 나머지 경우 포인트로 환불 b 2개 환불할 경우
-3200원 환불 결제가격은 3100 3100 환불 후 100포인트 환불, 이후 결제가격 -> 0 a, c 환불시 900포인트, 1000포인트 환불
-
-포인트 적용한 결제, 환불 완료
-
-구현은 전부 완료
-etc, exception, handler 확인
-@Validation member, item에만 적용하면 될 것
-에러 메시지
-보안 로직
-배포
-더 구현필요한 것 있는지 찾아보기
-코드 획일화하기 
-1 Optional<Item> item = itemRepository.findById(itemId)
-  Item item = itemRepository.findById(itemId).orElseThrow(() -> new IllegalArgumentsException());
-2 @LoginCheck
-3 Exception 처리 확실하게 하기 SpringSecurity 권한 OR error-page OR 공통 Exception handler
-@Validation을 DAO 아닌 DTO에 설정하는것으로 변경
-@Logincheck interceptor로 처리 -> 
-member를 모델로 받아야 할 경우, securityConfig 실행이 interceptor prehandle보다 우선인 경우 감안해서 일단 현상태 유지
-
-domain
-주소 api, 이메일 보내기?
-
-이메일 구현 완료
-회원 가입시 -> 이메일 입력창 밑 버튼
-랜덤 문자열 -> 이메일로 보내기
-밑에 문자열 작성창에서 비교 후 맞으면 로직 실행 아니면 취소
-
-비밀 번호 찾기 ->
-이메일 입력하면 이메일로 랜덤한 문자열을 비밀번호로 설정
-
-사이즈표 이미지, 기본설명 이미지 만들어서 백엔드단에서 item Register시 default로 이미지 저장
-
-
-# CRUD / Test
-
-### USER
-
-- [ ] Join
-- [ ] Login
-- [ ] Modify User
-- [ ] Get User Profile
-- [ ] Delete User
-
-### Item
-
-- [ ] Add Item
-- [ ] Get Item List
-- [ ] Get Item Details
-- [ ] Modify Item
-- [ ] Delete Item
-
-### Order
-
-- [ ] Add Order
-- [ ] Modify Order
-- [ ] Delete Order
-
-### Cart
-
-- [ ] Add To Cart
-- [ ] Delete From Cart
-
-### Review
-
-- [ ] Add Review
-- [ ] Modify Review
-- [ ] Delete Review
-
-### Likes
-
-- [ ] Add Likes
-- [ ] Delete Likes
-
-### Paging
-
-### ImageFile
-
-### Category
-
-### User Role
-
-# VIEW
-
-### Header
-
--[ ] Main Page Link
--[ ] Category Link
--[ ] User Page Link
-
-### Main Page
-
-- [ ] Item Detail Link
-
-### Item List Page (by Category)
-
-- [ ] Item Detail Link & Likes
-
-### Item Detail Page
-
-- [ ] Order & Cart Link
-- [ ] Reviews
-- [ ] Likes
-
-### Item Provide Page
-
-### User Page
-
-- [ ] Signup Page
-- [ ] Signin Page
-
-### Order Page
-
-- [ ] 
-
-### Cart Page
-
-= [ ]
+리뷰 등록\
+주문 완료된 아이템만 리뷰 가능, 리뷰 중복 불가능
+![gif_9.gif](showImage/gif_9.gif)

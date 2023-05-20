@@ -33,16 +33,6 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
     Page<Object[]> getListPage(Pageable pageable);
 
 
-
-    @Query("SELECT i, ii, avg(coalesce(r.grade, 0)), count(distinct r), count(distinct l) FROM Item i " +
-            "INNER JOIN ItemImage ii on ii.item = i " +
-            "LEFT OUTER JOIN Review  r on r.item = i " +
-            "LEFT JOIN Likes l ON l.item = i " +
-            "GROUP BY i.id " +
-            "ORDER BY avg(coalesce(r.grade,0)) DESC")
-    Page<Object[]> getListPageByRating(Pageable pageable);
-
-
     @Query("SELECT i, ii, avg(coalesce(r.grade, 0)), count(distinct r), count(distinct l) FROM Item i " +
             "INNER JOIN ItemImage ii on ii.item = i " +
             "LEFT OUTER JOIN Review  r on r.item = i " +
@@ -63,6 +53,13 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
             "GROUP BY i")
     Page<Object[]> getItemByComponents(Pageable pageable, @Param("gender") String gender, @Param("season") String season, @Param("clothType") String clothType);
 
+    @Query("SELECT i, ii, avg(coalesce(r.grade, 0)), count(distinct r), count(distinct l) FROM Item i " +
+            "INNER JOIN ItemImage ii on ii.item = i " +
+            "LEFT OUTER JOIN Review  r on r.item = i " +
+            "LEFT JOIN Likes l ON l.item = i " +
+            "GROUP BY i.id " +
+            "ORDER BY avg(coalesce(r.grade,0)) DESC")
+    Page<Object[]> getListPageByRating(Pageable pageable);
 
     @Query("SELECT i, ii, avg(coalesce(r.grade, 0)), count(distinct r), count(distinct l) FROM Item i " +
             "INNER JOIN ItemImage ii on ii.item = i " +

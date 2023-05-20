@@ -221,7 +221,7 @@ public class OrdersItemServiceImpl implements OrdersItemService {
         OrdersItem ordersItem = ordersItemRepository.findById(ordersItemId).orElseThrow(() -> new IllegalArgumentException());
 
 
-        Item item = Item.builder().id(ordersItem.getItem().getId()).build();
+        Item item = itemRepository.findById(ordersItem.getItem().getId()).orElseThrow(() -> new IllegalArgumentException());
 //        Member member = Member.builder().id(ordersItem.getBuyer().getId()).build();
         Member member = memberRepository.findById(ordersItem.getBuyer().getId()).orElseThrow(() -> new IllegalArgumentException());
         OrdersStatus ordersStatusValue = OrdersStatus.fromValue(ordersStatus);
@@ -241,34 +241,21 @@ public class OrdersItemServiceImpl implements OrdersItemService {
         if (!"".equals(ordersItem.getImpUid())) {
             String token = paymentService.getToken();
             log.info("payment result : " + token + " & " + ordersItem.getImpUid());
-//                int paymentInfoAmount = paymentService.paymentInfo(ordersItem.getImpUid(), token);
-//            int amount = ordersItemRepository.sumByImpUid(ordersItem.getImpUid()) - ordersItem.getUsedPoint();
 
             int amount = ordersItem.getGrandTotal();
             log.info("repository amount : " + amount);
 //                log.info("paymentInfo amount : " + paymentInfoAmount);
             int ordersPrice = ordersItem.getTotalPrice();
 
-            if (ordersPrice > amount) {
-                log.info("member : " + member);
-                int rePoint = ordersPrice - amount;
-                log.info("rePoint value : " + rePoint);
-                member.addPoint(rePoint);
-                log.info("member : " + member);
-                memberRepository.save(member);
-                ordersPrice = amount;
-                amount = 0;
-                ordersItemRepository.updateGranTotalByImpUid(ordersItem.getImpUid(), amount);
-
-            } else {
-                ordersItemRepository.updateGranTotalByImpUid(ordersItem.getImpUid(), amount - ordersPrice);
-            }
+            ordersItemRepository.updateGranTotalByImpUid(ordersItem.getImpUid(), amount - ordersPrice);
             paymentService.paymentCancel(token, ordersItem.getImpUid(), amount, ordersPrice);
         }
+
+        item.addStock(ordersItem.getSize(),ordersItem.getOrdersCount());
+        itemRepository.save(item);
         ordersHistoryRepository.save(ordersHistory);
         ordersItemRepository.deleteById(ordersItem.getId());
 
     }
-
 
 }

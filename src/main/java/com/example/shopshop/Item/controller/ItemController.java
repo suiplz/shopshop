@@ -154,6 +154,7 @@ public class ItemController {
         }
         model.addAttribute("result", result);
         log.info("result : " + result);
+
         return "item/list";
     }
 

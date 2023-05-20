@@ -24,7 +24,6 @@ class CategoryRepositoryTest {
     @Test
     void insertCategories() {
 
-        List<String> categoryList = new ArrayList<>();
 
         for (ClothType c : ClothType.values()) {
             for (Season s : Season.values()) {
