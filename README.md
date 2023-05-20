@@ -137,7 +137,7 @@ payment 서비스에서 결제 총 금액을 유지 \
 
 기타 기능
 평점순 아이템 조회, 좋아요한 아이템, 작성한 리뷰 조회
-![gif_11.gif](showImage/gif_11.gif)
+![gif_12.gif](showImage/gif_12.gif)
 
 ## 기능 정리
 
