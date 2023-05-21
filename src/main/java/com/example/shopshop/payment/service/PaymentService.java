@@ -10,5 +10,4 @@ public interface PaymentService {
 
     void paymentCancel(String access_token, String imp_uid, int amount, int ordersPrice) throws IOException;
 
-    void paymentComplete(String access_token, String imp_uid, int amount, int ordersPrice) throws IOException;
 }
